@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -66,6 +67,7 @@ namespace MapEditor
             {
                 map.Add(clickedButton.Name, new Tile(coords[0], coords[1]));
                 map[clickedButton.Name].damage = true;
+                clickedButton.BackColor = Color.Aquamarine;
             }
             else
             {
@@ -85,7 +87,42 @@ namespace MapEditor
 
         private void button2_Click(object sender, EventArgs e)
         {
+            //Console.WriteLine(DictionaryToJson(map));
+            Console.WriteLine(JsonConvert.SerializeObject(map));
 
+        }
+
+        private void exportButton_Click(object sender, EventArgs e)
+        {
+            string lines = JsonConvert.SerializeObject(map);
+            System.IO.StreamWriter file = new System.IO.StreamWriter("d:\\map.dat");
+            file.WriteLine(lines);
+
+            file.Close();
+        }
+
+        private void importButton_Click(object sender, EventArgs e)
+        {
+            // Read the file as one string.
+            System.IO.StreamReader file = new System.IO.StreamReader("d:\\map.dat");
+            string lines = file.ReadToEnd();
+            file.Close();
+
+            //map = (Dictionary<String, Tile>) JsonConvert.DeserializeObject(lines);
+            map = JsonConvert.DeserializeObject<Dictionary<String, Tile>>(lines);
+            rebuildGUI();
+        }
+
+        private void rebuildGUI()
+        {
+            Button tempButton;
+            foreach(KeyValuePair<string, Tile> a in map)
+            {
+                //Restore imported map here
+                tempButton = (Button) this.Controls.Find(a.Key, false)[0];
+                tempButton.Text = Convert.ToString(map[a.Key].damage);
+                tempButton.BackColor = Color.Aquamarine;
+            }
         }
     }
 
@@ -101,16 +138,6 @@ namespace MapEditor
         {
             this.xCoord = x;
             this.yCoord = y;
-        }
-
-        public long getX()
-        {
-            return xCoord;
-        }
-
-        public long getY()
-        {
-            return yCoord;
         }
     }
 }
