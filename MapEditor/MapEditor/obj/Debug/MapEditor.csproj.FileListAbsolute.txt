@@ -9,3 +9,14 @@ c:\users\john\documents\visual studio 2012\Projects\MapEditor\MapEditor\obj\Debu
 c:\users\john\documents\visual studio 2012\Projects\MapEditor\MapEditor\obj\Debug\MapEditor.Editor.resources
 C:\Users\john\documents\visual studio 2012\Projects\MapEditor\MapEditor\bin\Debug\Newtonsoft.Json.dll
 C:\Users\john\documents\visual studio 2012\Projects\MapEditor\MapEditor\bin\Debug\Newtonsoft.Json.xml
+C:\MINORP1\MapEditor\MapEditor\bin\Debug\MapEditor.exe.config
+C:\MINORP1\MapEditor\MapEditor\obj\Debug\MapEditor.exe
+C:\MINORP1\MapEditor\MapEditor\obj\Debug\MapEditor.pdb
+C:\MINORP1\MapEditor\MapEditor\bin\Debug\MapEditor.exe
+C:\MINORP1\MapEditor\MapEditor\bin\Debug\MapEditor.pdb
+C:\MINORP1\MapEditor\MapEditor\bin\Debug\Newtonsoft.Json.dll
+C:\MINORP1\MapEditor\MapEditor\bin\Debug\Newtonsoft.Json.xml
+C:\MINORP1\MapEditor\MapEditor\obj\Debug\MapEditor.csprojResolveAssemblyReference.cache
+C:\MINORP1\MapEditor\MapEditor\obj\Debug\MapEditor.Editor.resources
+C:\MINORP1\MapEditor\MapEditor\obj\Debug\MapEditor.Properties.Resources.resources
+C:\MINORP1\MapEditor\MapEditor\obj\Debug\MapEditor.csproj.GenerateResource.Cache

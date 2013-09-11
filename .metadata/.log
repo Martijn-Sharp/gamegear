@@ -822,3 +822,623 @@ user global configuration and to define the default location to store repositori
 not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
 EGit might behave differently since they see different configuration options.
 This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+!SESSION 2013-09-06 11:59:26.530 -----------------------------------------------
+eclipse.buildId=v22.0.5-757759
+java.version=1.7.0_25
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=nl_NL
+Framework arguments:  -product com.android.ide.eclipse.adt.package.product
+Command-line arguments:  -os win32 -ws win32 -arch x86 -product com.android.ide.eclipse.adt.package.product
+
+!ENTRY org.eclipse.ui 4 4 2013-09-06 11:59:33.087
+!MESSAGE Unable to find Action Set: com.google.gdt.eclipse.core.actionSet
+
+!ENTRY org.eclipse.ui 4 4 2013-09-06 11:59:33.096
+!MESSAGE Unable to find Action Set: org.eclipse.wb.core.ui.actionset
+
+!ENTRY com.android.ide.eclipse.adt 4 0 2013-09-06 11:59:38.203
+!MESSAGE projectOpenedWithWorkspace: failed to find manifest package for project FirstWing-android
+
+!ENTRY org.eclipse.egit.ui 2 0 2013-09-06 11:59:39.322
+!MESSAGE Warning: EGit couldn't detect the installation path "gitPrefix" of native Git. Hence EGit can't respect system level
+Git settings which might be configured in ${gitPrefix}/etc/gitconfig under the native Git installation directory.
+The most important of these settings is core.autocrlf. Git for Windows by default sets this parameter to true in
+this system level configuration. The Git installation location can be configured on the
+Team > Git > Configuration preference page's 'System Settings' tab.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.eclipse.egit.ui 2 0 2013-09-06 11:59:39.372
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\Martijn'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY com.android.ide.eclipse.adt 4 0 2013-09-06 11:59:41.773
+!MESSAGE fileChanged: failed to find manifest package for project FirstWing-android
+!SESSION 2013-09-06 12:08:30.305 -----------------------------------------------
+eclipse.buildId=v22.0.5-757759
+java.version=1.7.0_25
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=nl_NL
+Framework arguments:  -product com.android.ide.eclipse.adt.package.product
+Command-line arguments:  -os win32 -ws win32 -arch x86 -product com.android.ide.eclipse.adt.package.product
+
+!ENTRY org.eclipse.egit.ui 2 0 2013-09-06 12:08:52.239
+!MESSAGE Warning: EGit couldn't detect the installation path "gitPrefix" of native Git. Hence EGit can't respect system level
+Git settings which might be configured in ${gitPrefix}/etc/gitconfig under the native Git installation directory.
+The most important of these settings is core.autocrlf. Git for Windows by default sets this parameter to true in
+this system level configuration. The Git installation location can be configured on the
+Team > Git > Configuration preference page's 'System Settings' tab.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.eclipse.egit.ui 2 0 2013-09-06 12:08:52.286
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\Martijn'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+!SESSION 2013-09-11 10:37:21.523 -----------------------------------------------
+eclipse.buildId=v22.0.5-757759
+java.version=1.7.0_25
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=nl_NL
+Framework arguments:  -product com.android.ide.eclipse.adt.package.product
+Command-line arguments:  -os win32 -ws win32 -arch x86 -product com.android.ide.eclipse.adt.package.product
+
+!ENTRY org.eclipse.core.resources 2 10035 2013-09-11 10:37:41.276
+!MESSAGE The workspace exited with unsaved changes in the previous session; refreshing workspace to recover changes.
+
+!ENTRY com.google.gdt.eclipse.suite 1 0 2013-09-11 10:37:55.249
+!MESSAGE Registering: com.google.appengine.eclipse.sdkbundle_1.8.4
+
+!ENTRY com.google.gdt.eclipse.suite 1 0 2013-09-11 10:37:57.032
+!MESSAGE Registering: com.google.gwt.eclipse.sdkbundle_2.5.1
+
+!ENTRY com.google.gwt.eclipse.core 4 0 2013-09-11 10:37:57.074
+!MESSAGE Cannot get version of GWT SDK "GWT", ensure it is configured properly
+!STACK 0
+java.lang.ClassNotFoundException: com.google.gwt.dev.About
+	at java.net.URLClassLoader$1.run(Unknown Source)
+	at java.net.URLClassLoader$1.run(Unknown Source)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.net.URLClassLoader.findClass(Unknown Source)
+	at java.lang.ClassLoader.loadClass(Unknown Source)
+	at java.lang.ClassLoader.loadClass(Unknown Source)
+	at com.google.gwt.eclipse.core.runtime.GWTRuntime.getVersion(GWTRuntime.java:508)
+	at com.google.gdt.eclipse.core.sdk.AbstractSdk.toXml(AbstractSdk.java:93)
+	at com.google.gdt.eclipse.core.sdk.SdkSet.toXml(SdkSet.java:110)
+	at com.google.gdt.eclipse.core.sdk.SdkSetSerializer.serialize(SdkSetSerializer.java:75)
+	at com.google.gdt.eclipse.core.sdk.SdkManager.setSdks(SdkManager.java:252)
+	at com.google.gwt.eclipse.core.sdk.GWTSdkRegistrant.registerSdk(GWTSdkRegistrant.java:49)
+	at com.google.gdt.eclipse.suite.preferences.GdtPreferences.registerBundleSdk(GdtPreferences.java:454)
+	at com.google.gdt.eclipse.suite.preferences.GdtPreferences.registerSdks(GdtPreferences.java:246)
+	at com.google.gdt.eclipse.suite.GdtPlugin.start(GdtPlugin.java:326)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl$1.run(BundleContextImpl.java:711)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.startActivator(BundleContextImpl.java:702)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.start(BundleContextImpl.java:683)
+	at org.eclipse.osgi.framework.internal.core.BundleHost.startWorker(BundleHost.java:381)
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.start(AbstractBundle.java:300)
+	at org.eclipse.osgi.framework.util.SecureAction.start(SecureAction.java:440)
+	at org.eclipse.osgi.internal.loader.BundleLoader.setLazyTrigger(BundleLoader.java:263)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseLazyStarter.postFindLocalClass(EclipseLazyStarter.java:107)
+	at org.eclipse.osgi.baseadaptor.loader.ClasspathManager.findLocalClass(ClasspathManager.java:469)
+	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.findLocalClass(DefaultClassLoader.java:216)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findLocalClass(BundleLoader.java:395)
+	at org.eclipse.osgi.internal.loader.SingleSourcePackage.loadClass(SingleSourcePackage.java:35)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClassInternal(BundleLoader.java:461)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:421)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:412)
+	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.loadClass(DefaultClassLoader.java:107)
+	at java.lang.ClassLoader.loadClass(Unknown Source)
+	at com.google.gdt.eclipse.suite.ext.update.FeatureUpdateManager.checkForUpdates(FeatureUpdateManager.java:105)
+	at com.google.gdt.eclipse.suite.ext.builders.UpdateTriggerCompilationParticipant.isActive(UpdateTriggerCompilationParticipant.java:40)
+	at org.eclipse.jdt.internal.core.JavaModelManager$CompilationParticipants.getCompilationParticipants(JavaModelManager.java:328)
+	at org.eclipse.jdt.internal.core.builder.JavaBuilder.initializeBuilder(JavaBuilder.java:587)
+	at org.eclipse.jdt.internal.core.builder.JavaBuilder.build(JavaBuilder.java:167)
+	at org.eclipse.core.internal.events.BuildManager$2.run(BuildManager.java:726)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:199)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:239)
+	at org.eclipse.core.internal.events.BuildManager$1.run(BuildManager.java:292)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:295)
+	at org.eclipse.core.internal.events.BuildManager.basicBuildLoop(BuildManager.java:351)
+	at org.eclipse.core.internal.events.BuildManager.build(BuildManager.java:374)
+	at org.eclipse.core.internal.events.AutoBuildJob.doBuild(AutoBuildJob.java:143)
+	at org.eclipse.core.internal.events.AutoBuildJob.run(AutoBuildJob.java:241)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+
+!ENTRY com.google.gdt.eclipse.core 1 0 2013-09-11 10:37:58.306
+!MESSAGE Scheduled rebuild of project FirstWing-html because of plugin update (current version: 3.4.0.v201309051717-rel-r42)
+
+!ENTRY org.eclipse.egit.ui 2 0 2013-09-11 10:38:08.230
+!MESSAGE Warning: EGit couldn't detect the installation path "gitPrefix" of native Git. Hence EGit can't respect system level
+Git settings which might be configured in ${gitPrefix}/etc/gitconfig under the native Git installation directory.
+The most important of these settings is core.autocrlf. Git for Windows by default sets this parameter to true in
+this system level configuration. The Git installation location can be configured on the
+Team > Git > Configuration preference page's 'System Settings' tab.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.eclipse.egit.ui 2 0 2013-09-11 10:38:08.235
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\Martijn'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.eclipse.equinox.p2.operations 4 0 2013-09-11 10:59:56.393
+!MESSAGE Operation details
+!SUBENTRY 1 org.eclipse.equinox.p2.operations 1 10001 2013-09-11 10:59:56.393
+!MESSAGE Your original request has been modified.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2013-09-11 10:59:56.393
+!MESSAGE "Google App Engine Tools for Android" is already installed, so an update will be performed instead.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2013-09-11 10:59:56.393
+!MESSAGE "GWT Designer Core" is already installed, so an update will be performed instead.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2013-09-11 10:59:56.393
+!MESSAGE "GWT Designer Editor" is already installed, so an update will be performed instead.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2013-09-11 10:59:56.394
+!MESSAGE "GWT Designer GPE" is already installed, so an update will be performed instead.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2013-09-11 10:59:56.394
+!MESSAGE "WindowBuilder Core" is already installed, so an update will be performed instead.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2013-09-11 10:59:56.394
+!MESSAGE "WindowBuilder CSS Support" is already installed, so an update will be performed instead.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2013-09-11 10:59:56.394
+!MESSAGE "WindowBuilder XML Core (requires Eclipse WTP/WST)" is already installed, so an update will be performed instead.
+!SUBENTRY 1 org.eclipse.equinox.p2.director 4 1 2013-09-11 10:59:56.394
+!MESSAGE Cannot complete the install because one or more required items could not be found.
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2013-09-11 10:59:56.394
+!MESSAGE Software being installed: Google Plugin for Eclipse 4.3 3.4.0.v201309051717-rel-r43 (com.google.gdt.eclipse.suite.e43.feature.feature.group 3.4.0.v201309051717-rel-r43)
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2013-09-11 10:59:56.394
+!MESSAGE Missing requirement: Google App Engine Web Tools JPA for Eclipse 4.3 3.4.0.v201309051717-rel-r43 (com.google.appengine.eclipse.wtp.jpa.e43 3.4.0.v201309051717-rel-r43) requires 'bundle org.eclipse.core.runtime 3.9.0' but it could not be found
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 1 2013-09-11 10:59:56.394
+!MESSAGE Cannot satisfy dependency:
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2013-09-11 10:59:56.394
+!MESSAGE From: Google Plugin for Eclipse 4.3 3.4.0.v201309051717-rel-r43 (com.google.gdt.eclipse.suite.e43.feature.feature.group 3.4.0.v201309051717-rel-r43)
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2013-09-11 10:59:56.394
+!MESSAGE To: com.google.appengine.eclipse.wtp.jpa.e43 [3.4.0.v201309051717-rel-r43]
+
+!ENTRY org.eclipse.equinox.p2.operations 4 0 2013-09-11 10:59:56.435
+!MESSAGE Operation details
+!SUBENTRY 1 org.eclipse.equinox.p2.operations 1 10001 2013-09-11 10:59:56.435
+!MESSAGE Your original request has been modified.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2013-09-11 10:59:56.435
+!MESSAGE "Google App Engine Tools for Android" is already installed, so an update will be performed instead.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2013-09-11 10:59:56.435
+!MESSAGE "GWT Designer Core" is already installed, so an update will be performed instead.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2013-09-11 10:59:56.435
+!MESSAGE "GWT Designer Editor" is already installed, so an update will be performed instead.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2013-09-11 10:59:56.435
+!MESSAGE "GWT Designer GPE" is already installed, so an update will be performed instead.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2013-09-11 10:59:56.435
+!MESSAGE "WindowBuilder Core" is already installed, so an update will be performed instead.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2013-09-11 10:59:56.435
+!MESSAGE "WindowBuilder CSS Support" is already installed, so an update will be performed instead.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2013-09-11 10:59:56.435
+!MESSAGE "WindowBuilder XML Core (requires Eclipse WTP/WST)" is already installed, so an update will be performed instead.
+!SUBENTRY 1 org.eclipse.equinox.p2.director 4 1 2013-09-11 10:59:56.436
+!MESSAGE Cannot complete the install because one or more required items could not be found.
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2013-09-11 10:59:56.436
+!MESSAGE Software being installed: Google Plugin for Eclipse 4.3 3.4.0.v201309051717-rel-r43 (com.google.gdt.eclipse.suite.e43.feature.feature.group 3.4.0.v201309051717-rel-r43)
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2013-09-11 10:59:56.436
+!MESSAGE Missing requirement: Google App Engine Web Tools JPA for Eclipse 4.3 3.4.0.v201309051717-rel-r43 (com.google.appengine.eclipse.wtp.jpa.e43 3.4.0.v201309051717-rel-r43) requires 'bundle org.eclipse.core.runtime 3.9.0' but it could not be found
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 1 2013-09-11 10:59:56.436
+!MESSAGE Cannot satisfy dependency:
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2013-09-11 10:59:56.436
+!MESSAGE From: Google Plugin for Eclipse 4.3 3.4.0.v201309051717-rel-r43 (com.google.gdt.eclipse.suite.e43.feature.feature.group 3.4.0.v201309051717-rel-r43)
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2013-09-11 10:59:56.436
+!MESSAGE To: com.google.appengine.eclipse.wtp.jpa.e43 [3.4.0.v201309051717-rel-r43]
+
+!ENTRY org.eclipse.equinox.p2.operations 4 0 2013-09-11 11:00:13.316
+!MESSAGE Operation details
+!SUBENTRY 1 org.eclipse.equinox.p2.operations 1 10001 2013-09-11 11:00:13.316
+!MESSAGE Your original request has been modified.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2013-09-11 11:00:13.316
+!MESSAGE "GWT Designer Editor" is already installed, so an update will be performed instead.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2013-09-11 11:00:13.316
+!MESSAGE "GWT Designer GPE" is already installed, so an update will be performed instead.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2013-09-11 11:00:13.316
+!MESSAGE "WindowBuilder Core" is already installed, so an update will be performed instead.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2013-09-11 11:00:13.316
+!MESSAGE "WindowBuilder CSS Support" is already installed, so an update will be performed instead.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2013-09-11 11:00:13.316
+!MESSAGE "WindowBuilder XML Core (requires Eclipse WTP/WST)" is already installed, so an update will be performed instead.
+!SUBENTRY 1 org.eclipse.equinox.p2.director 4 1 2013-09-11 11:00:13.316
+!MESSAGE Cannot complete the install because of a conflicting dependency.
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2013-09-11 11:00:13.316
+!MESSAGE Software being installed: GWT Designer GPE 3.1.2.r43x201307151506 (com.google.gdt.eclipse.designer.gpe.feature.feature.group 3.1.2.r43x201307151506)
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2013-09-11 11:00:13.316
+!MESSAGE Software currently installed: GWT Designer Core 3.1.2.r42x201307151442 (com.google.gdt.eclipse.designer.hosted.feature.feature.group 3.1.2.r42x201307151442)
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 1 2013-09-11 11:00:13.316
+!MESSAGE Only one of the following can be installed at once: 
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2013-09-11 11:00:13.316
+!MESSAGE GWT Designer IE Support 2.2 3.1.2.r43x201307151442 (com.google.gdt.eclipse.designer.hosted.2_2.ie 3.1.2.r43x201307151442)
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2013-09-11 11:00:13.316
+!MESSAGE GWT Designer IE Support 2.2 3.1.2.r42x201307151442 (com.google.gdt.eclipse.designer.hosted.2_2.ie 3.1.2.r42x201307151442)
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 1 2013-09-11 11:00:13.316
+!MESSAGE Cannot satisfy dependency:
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2013-09-11 11:00:13.316
+!MESSAGE From: GWT Designer Editor 3.1.2.r43x201307151447 (com.google.gdt.eclipse.designer.editor.feature.feature.group 3.1.2.r43x201307151447)
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2013-09-11 11:00:13.316
+!MESSAGE To: com.google.gdt.eclipse.designer.hosted.feature.feature.group 3.1.2.r43x201307151442
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 1 2013-09-11 11:00:13.316
+!MESSAGE Cannot satisfy dependency:
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2013-09-11 11:00:13.316
+!MESSAGE From: GWT Designer GPE 3.1.2.r43x201307151506 (com.google.gdt.eclipse.designer.gpe.feature.feature.group 3.1.2.r43x201307151506)
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2013-09-11 11:00:13.316
+!MESSAGE To: com.google.gdt.eclipse.designer.editor.feature.feature.group 3.1.2.r43x201307151447
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 1 2013-09-11 11:00:13.316
+!MESSAGE Cannot satisfy dependency:
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2013-09-11 11:00:13.316
+!MESSAGE From: GWT Designer Core 3.1.2.r42x201307151442 (com.google.gdt.eclipse.designer.hosted.feature.feature.group 3.1.2.r42x201307151442)
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2013-09-11 11:00:13.316
+!MESSAGE To: com.google.gdt.eclipse.designer.hosted.2_2.ie [3.1.2.r42x201307151442]
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 1 2013-09-11 11:00:13.316
+!MESSAGE Cannot satisfy dependency:
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2013-09-11 11:00:13.316
+!MESSAGE From: GWT Designer Core 3.1.2.r43x201307151442 (com.google.gdt.eclipse.designer.hosted.feature.feature.group 3.1.2.r43x201307151442)
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2013-09-11 11:00:13.316
+!MESSAGE To: com.google.gdt.eclipse.designer.hosted.2_2.ie [3.1.2.r43x201307151442]
+
+!ENTRY org.eclipse.equinox.p2.operations 4 0 2013-09-11 11:00:13.323
+!MESSAGE Operation details
+!SUBENTRY 1 org.eclipse.equinox.p2.operations 1 10001 2013-09-11 11:00:13.323
+!MESSAGE Your original request has been modified.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2013-09-11 11:00:13.323
+!MESSAGE "GWT Designer Editor" is already installed, so an update will be performed instead.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2013-09-11 11:00:13.323
+!MESSAGE "GWT Designer GPE" is already installed, so an update will be performed instead.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2013-09-11 11:00:13.323
+!MESSAGE "WindowBuilder Core" is already installed, so an update will be performed instead.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2013-09-11 11:00:13.323
+!MESSAGE "WindowBuilder CSS Support" is already installed, so an update will be performed instead.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2013-09-11 11:00:13.323
+!MESSAGE "WindowBuilder XML Core (requires Eclipse WTP/WST)" is already installed, so an update will be performed instead.
+!SUBENTRY 1 org.eclipse.equinox.p2.director 4 1 2013-09-11 11:00:13.323
+!MESSAGE Cannot complete the install because of a conflicting dependency.
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2013-09-11 11:00:13.323
+!MESSAGE Software being installed: GWT Designer GPE 3.1.2.r43x201307151506 (com.google.gdt.eclipse.designer.gpe.feature.feature.group 3.1.2.r43x201307151506)
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2013-09-11 11:00:13.323
+!MESSAGE Software currently installed: GWT Designer Core 3.1.2.r42x201307151442 (com.google.gdt.eclipse.designer.hosted.feature.feature.group 3.1.2.r42x201307151442)
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 1 2013-09-11 11:00:13.323
+!MESSAGE Only one of the following can be installed at once: 
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2013-09-11 11:00:13.323
+!MESSAGE GWT Designer IE Support 2.2 3.1.2.r43x201307151442 (com.google.gdt.eclipse.designer.hosted.2_2.ie 3.1.2.r43x201307151442)
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2013-09-11 11:00:13.323
+!MESSAGE GWT Designer IE Support 2.2 3.1.2.r42x201307151442 (com.google.gdt.eclipse.designer.hosted.2_2.ie 3.1.2.r42x201307151442)
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 1 2013-09-11 11:00:13.323
+!MESSAGE Cannot satisfy dependency:
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2013-09-11 11:00:13.324
+!MESSAGE From: GWT Designer Editor 3.1.2.r43x201307151447 (com.google.gdt.eclipse.designer.editor.feature.feature.group 3.1.2.r43x201307151447)
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2013-09-11 11:00:13.324
+!MESSAGE To: com.google.gdt.eclipse.designer.hosted.feature.feature.group 3.1.2.r43x201307151442
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 1 2013-09-11 11:00:13.324
+!MESSAGE Cannot satisfy dependency:
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2013-09-11 11:00:13.324
+!MESSAGE From: GWT Designer GPE 3.1.2.r43x201307151506 (com.google.gdt.eclipse.designer.gpe.feature.feature.group 3.1.2.r43x201307151506)
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2013-09-11 11:00:13.324
+!MESSAGE To: com.google.gdt.eclipse.designer.editor.feature.feature.group 3.1.2.r43x201307151447
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 1 2013-09-11 11:00:13.324
+!MESSAGE Cannot satisfy dependency:
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2013-09-11 11:00:13.324
+!MESSAGE From: GWT Designer Core 3.1.2.r42x201307151442 (com.google.gdt.eclipse.designer.hosted.feature.feature.group 3.1.2.r42x201307151442)
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2013-09-11 11:00:13.324
+!MESSAGE To: com.google.gdt.eclipse.designer.hosted.2_2.ie [3.1.2.r42x201307151442]
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 1 2013-09-11 11:00:13.324
+!MESSAGE Cannot satisfy dependency:
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2013-09-11 11:00:13.324
+!MESSAGE From: GWT Designer Core 3.1.2.r43x201307151442 (com.google.gdt.eclipse.designer.hosted.feature.feature.group 3.1.2.r43x201307151442)
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2013-09-11 11:00:13.324
+!MESSAGE To: com.google.gdt.eclipse.designer.hosted.2_2.ie [3.1.2.r43x201307151442]
+
+!ENTRY org.eclipse.equinox.p2.operations 4 0 2013-09-11 11:00:26.559
+!MESSAGE Operation details
+!SUBENTRY 1 org.eclipse.equinox.p2.operations 1 10001 2013-09-11 11:00:26.559
+!MESSAGE Your original request has been modified.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2013-09-11 11:00:26.559
+!MESSAGE "WindowBuilder Core" is already installed, so an update will be performed instead.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2013-09-11 11:00:26.559
+!MESSAGE "WindowBuilder CSS Support" is already installed, so an update will be performed instead.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2013-09-11 11:00:26.559
+!MESSAGE "WindowBuilder XML Core (requires Eclipse WTP/WST)" is already installed, so an update will be performed instead.
+!SUBENTRY 1 org.eclipse.equinox.p2.director 4 1 2013-09-11 11:00:26.559
+!MESSAGE Cannot complete the install because one or more required items could not be found.
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2013-09-11 11:00:26.559
+!MESSAGE Software being installed: Google Plugin for Eclipse 4.3 3.4.0.v201309051717-rel-r43 (com.google.gdt.eclipse.suite.e43.feature.feature.group 3.4.0.v201309051717-rel-r43)
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2013-09-11 11:00:26.559
+!MESSAGE Missing requirement: Google App Engine Web Tools JPA for Eclipse 4.3 3.4.0.v201309051717-rel-r43 (com.google.appengine.eclipse.wtp.jpa.e43 3.4.0.v201309051717-rel-r43) requires 'bundle org.eclipse.core.runtime 3.9.0' but it could not be found
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 1 2013-09-11 11:00:26.559
+!MESSAGE Cannot satisfy dependency:
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2013-09-11 11:00:26.559
+!MESSAGE From: Google Plugin for Eclipse 4.3 3.4.0.v201309051717-rel-r43 (com.google.gdt.eclipse.suite.e43.feature.feature.group 3.4.0.v201309051717-rel-r43)
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2013-09-11 11:00:26.559
+!MESSAGE To: com.google.appengine.eclipse.wtp.jpa.e43 [3.4.0.v201309051717-rel-r43]
+
+!ENTRY org.eclipse.equinox.p2.operations 4 0 2013-09-11 11:00:26.565
+!MESSAGE Operation details
+!SUBENTRY 1 org.eclipse.equinox.p2.operations 1 10001 2013-09-11 11:00:26.565
+!MESSAGE Your original request has been modified.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2013-09-11 11:00:26.565
+!MESSAGE "WindowBuilder Core" is already installed, so an update will be performed instead.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2013-09-11 11:00:26.565
+!MESSAGE "WindowBuilder CSS Support" is already installed, so an update will be performed instead.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2013-09-11 11:00:26.566
+!MESSAGE "WindowBuilder XML Core (requires Eclipse WTP/WST)" is already installed, so an update will be performed instead.
+!SUBENTRY 1 org.eclipse.equinox.p2.director 4 1 2013-09-11 11:00:26.566
+!MESSAGE Cannot complete the install because one or more required items could not be found.
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2013-09-11 11:00:26.566
+!MESSAGE Software being installed: Google Plugin for Eclipse 4.3 3.4.0.v201309051717-rel-r43 (com.google.gdt.eclipse.suite.e43.feature.feature.group 3.4.0.v201309051717-rel-r43)
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2013-09-11 11:00:26.566
+!MESSAGE Missing requirement: Google App Engine Web Tools JPA for Eclipse 4.3 3.4.0.v201309051717-rel-r43 (com.google.appengine.eclipse.wtp.jpa.e43 3.4.0.v201309051717-rel-r43) requires 'bundle org.eclipse.core.runtime 3.9.0' but it could not be found
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 1 2013-09-11 11:00:26.566
+!MESSAGE Cannot satisfy dependency:
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2013-09-11 11:00:26.566
+!MESSAGE From: Google Plugin for Eclipse 4.3 3.4.0.v201309051717-rel-r43 (com.google.gdt.eclipse.suite.e43.feature.feature.group 3.4.0.v201309051717-rel-r43)
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2013-09-11 11:00:26.566
+!MESSAGE To: com.google.appengine.eclipse.wtp.jpa.e43 [3.4.0.v201309051717-rel-r43]
+
+!ENTRY org.eclipse.equinox.p2.operations 4 0 2013-09-11 11:00:39.468
+!MESSAGE Operation details
+!SUBENTRY 1 org.eclipse.equinox.p2.operations 1 10001 2013-09-11 11:00:39.468
+!MESSAGE Your original request has been modified.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2013-09-11 11:00:39.468
+!MESSAGE "WindowBuilder XML Core (requires Eclipse WTP/WST)" is already installed, so an update will be performed instead.
+!SUBENTRY 1 org.eclipse.equinox.p2.director 4 1 2013-09-11 11:00:39.468
+!MESSAGE Cannot complete the install because one or more required items could not be found.
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2013-09-11 11:00:39.468
+!MESSAGE Software being installed: Google Plugin for Eclipse 4.3 3.4.0.v201309051717-rel-r43 (com.google.gdt.eclipse.suite.e43.feature.feature.group 3.4.0.v201309051717-rel-r43)
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2013-09-11 11:00:39.468
+!MESSAGE Missing requirement: Google App Engine Web Tools JPA for Eclipse 4.3 3.4.0.v201309051717-rel-r43 (com.google.appengine.eclipse.wtp.jpa.e43 3.4.0.v201309051717-rel-r43) requires 'bundle org.eclipse.core.runtime 3.9.0' but it could not be found
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 1 2013-09-11 11:00:39.468
+!MESSAGE Cannot satisfy dependency:
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2013-09-11 11:00:39.468
+!MESSAGE From: Google Plugin for Eclipse 4.3 3.4.0.v201309051717-rel-r43 (com.google.gdt.eclipse.suite.e43.feature.feature.group 3.4.0.v201309051717-rel-r43)
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2013-09-11 11:00:39.468
+!MESSAGE To: com.google.appengine.eclipse.wtp.jpa.e43 [3.4.0.v201309051717-rel-r43]
+
+!ENTRY org.eclipse.equinox.p2.operations 4 0 2013-09-11 11:00:39.474
+!MESSAGE Operation details
+!SUBENTRY 1 org.eclipse.equinox.p2.operations 1 10001 2013-09-11 11:00:39.474
+!MESSAGE Your original request has been modified.
+!SUBENTRY 2 org.eclipse.equinox.p2.operations 1 10003 2013-09-11 11:00:39.474
+!MESSAGE "WindowBuilder XML Core (requires Eclipse WTP/WST)" is already installed, so an update will be performed instead.
+!SUBENTRY 1 org.eclipse.equinox.p2.director 4 1 2013-09-11 11:00:39.474
+!MESSAGE Cannot complete the install because one or more required items could not be found.
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2013-09-11 11:00:39.474
+!MESSAGE Software being installed: Google Plugin for Eclipse 4.3 3.4.0.v201309051717-rel-r43 (com.google.gdt.eclipse.suite.e43.feature.feature.group 3.4.0.v201309051717-rel-r43)
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2013-09-11 11:00:39.474
+!MESSAGE Missing requirement: Google App Engine Web Tools JPA for Eclipse 4.3 3.4.0.v201309051717-rel-r43 (com.google.appengine.eclipse.wtp.jpa.e43 3.4.0.v201309051717-rel-r43) requires 'bundle org.eclipse.core.runtime 3.9.0' but it could not be found
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 1 2013-09-11 11:00:39.474
+!MESSAGE Cannot satisfy dependency:
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2013-09-11 11:00:39.475
+!MESSAGE From: Google Plugin for Eclipse 4.3 3.4.0.v201309051717-rel-r43 (com.google.gdt.eclipse.suite.e43.feature.feature.group 3.4.0.v201309051717-rel-r43)
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2013-09-11 11:00:39.475
+!MESSAGE To: com.google.appengine.eclipse.wtp.jpa.e43 [3.4.0.v201309051717-rel-r43]
+
+!ENTRY org.eclipse.equinox.p2.operations 4 0 2013-09-11 11:00:46.343
+!MESSAGE Operation details
+!SUBENTRY 1 org.eclipse.equinox.p2.director 4 1 2013-09-11 11:00:46.343
+!MESSAGE Cannot complete the install because one or more required items could not be found.
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2013-09-11 11:00:46.343
+!MESSAGE Software being installed: Google Plugin for Eclipse 4.3 3.4.0.v201309051717-rel-r43 (com.google.gdt.eclipse.suite.e43.feature.feature.group 3.4.0.v201309051717-rel-r43)
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2013-09-11 11:00:46.343
+!MESSAGE Missing requirement: Google App Engine Web Tools JPA for Eclipse 4.3 3.4.0.v201309051717-rel-r43 (com.google.appengine.eclipse.wtp.jpa.e43 3.4.0.v201309051717-rel-r43) requires 'bundle org.eclipse.core.runtime 3.9.0' but it could not be found
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 1 2013-09-11 11:00:46.343
+!MESSAGE Cannot satisfy dependency:
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2013-09-11 11:00:46.343
+!MESSAGE From: Google Plugin for Eclipse 4.3 3.4.0.v201309051717-rel-r43 (com.google.gdt.eclipse.suite.e43.feature.feature.group 3.4.0.v201309051717-rel-r43)
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2013-09-11 11:00:46.343
+!MESSAGE To: com.google.appengine.eclipse.wtp.jpa.e43 [3.4.0.v201309051717-rel-r43]
+
+!ENTRY org.eclipse.equinox.p2.operations 4 0 2013-09-11 11:00:46.349
+!MESSAGE Operation details
+!SUBENTRY 1 org.eclipse.equinox.p2.director 4 1 2013-09-11 11:00:46.349
+!MESSAGE Cannot complete the install because one or more required items could not be found.
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2013-09-11 11:00:46.349
+!MESSAGE Software being installed: Google Plugin for Eclipse 4.3 3.4.0.v201309051717-rel-r43 (com.google.gdt.eclipse.suite.e43.feature.feature.group 3.4.0.v201309051717-rel-r43)
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2013-09-11 11:00:46.349
+!MESSAGE Missing requirement: Google App Engine Web Tools JPA for Eclipse 4.3 3.4.0.v201309051717-rel-r43 (com.google.appengine.eclipse.wtp.jpa.e43 3.4.0.v201309051717-rel-r43) requires 'bundle org.eclipse.core.runtime 3.9.0' but it could not be found
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 1 2013-09-11 11:00:46.349
+!MESSAGE Cannot satisfy dependency:
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2013-09-11 11:00:46.349
+!MESSAGE From: Google Plugin for Eclipse 4.3 3.4.0.v201309051717-rel-r43 (com.google.gdt.eclipse.suite.e43.feature.feature.group 3.4.0.v201309051717-rel-r43)
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2013-09-11 11:00:46.349
+!MESSAGE To: com.google.appengine.eclipse.wtp.jpa.e43 [3.4.0.v201309051717-rel-r43]
+!SESSION 2013-09-11 11:07:21.870 -----------------------------------------------
+eclipse.buildId=v22.0.5-757759
+java.version=1.7.0_25
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=nl_NL
+Framework arguments:  -product com.android.ide.eclipse.adt.package.product
+Command-line arguments:  -os win32 -ws win32 -arch x86 -product com.android.ide.eclipse.adt.package.product
+
+!ENTRY org.eclipse.core.resources 4 567 2013-09-11 11:07:28.360
+!MESSAGE Workspace restored, but some problems occurred.
+!SUBENTRY 1 org.eclipse.core.resources 4 567 2013-09-11 11:07:28.360
+!MESSAGE Could not read metadata for 'FirstWing-html'.
+!STACK 1
+org.eclipse.core.internal.resources.ResourceException: The project description file (.project) for 'FirstWing-html' is missing.  This file contains important information about the project.  The project will not function properly until this file is restored.
+	at org.eclipse.core.internal.localstore.FileSystemResourceManager.read(FileSystemResourceManager.java:851)
+	at org.eclipse.core.internal.resources.SaveManager.restoreMetaInfo(SaveManager.java:874)
+	at org.eclipse.core.internal.resources.SaveManager.restoreMetaInfo(SaveManager.java:854)
+	at org.eclipse.core.internal.resources.SaveManager.restore(SaveManager.java:703)
+	at org.eclipse.core.internal.resources.SaveManager.startup(SaveManager.java:1528)
+	at org.eclipse.core.internal.resources.Workspace.startup(Workspace.java:2502)
+	at org.eclipse.core.internal.resources.Workspace.open(Workspace.java:2251)
+	at org.eclipse.core.resources.ResourcesPlugin.start(ResourcesPlugin.java:439)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl$1.run(BundleContextImpl.java:711)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.startActivator(BundleContextImpl.java:702)
+	at org.eclipse.osgi.framework.internal.core.BundleContextImpl.start(BundleContextImpl.java:683)
+	at org.eclipse.osgi.framework.internal.core.BundleHost.startWorker(BundleHost.java:381)
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.start(AbstractBundle.java:300)
+	at org.eclipse.osgi.framework.util.SecureAction.start(SecureAction.java:440)
+	at org.eclipse.osgi.internal.loader.BundleLoader.setLazyTrigger(BundleLoader.java:263)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseLazyStarter.postFindLocalClass(EclipseLazyStarter.java:107)
+	at org.eclipse.osgi.baseadaptor.loader.ClasspathManager.findLocalClass(ClasspathManager.java:469)
+	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.findLocalClass(DefaultClassLoader.java:216)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findLocalClass(BundleLoader.java:395)
+	at org.eclipse.osgi.internal.loader.SingleSourcePackage.loadClass(SingleSourcePackage.java:35)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClassInternal(BundleLoader.java:461)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:421)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:412)
+	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.loadClass(DefaultClassLoader.java:107)
+	at java.lang.ClassLoader.loadClass(Unknown Source)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:125)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:196)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:110)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:79)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:353)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:180)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:629)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:584)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1438)
+!SUBENTRY 2 org.eclipse.core.resources 4 567 2013-09-11 11:07:28.375
+!MESSAGE The project description file (.project) for 'FirstWing-html' is missing.  This file contains important information about the project.  The project will not function properly until this file is restored.
+
+!ENTRY org.eclipse.egit.ui 2 0 2013-09-11 11:08:08.654
+!MESSAGE Warning: EGit couldn't detect the installation path "gitPrefix" of native Git. Hence EGit can't respect system level
+Git settings which might be configured in ${gitPrefix}/etc/gitconfig under the native Git installation directory.
+The most important of these settings is core.autocrlf. Git for Windows by default sets this parameter to true in
+this system level configuration. The Git installation location can be configured on the
+Team > Git > Configuration preference page's 'System Settings' tab.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.eclipse.egit.ui 2 0 2013-09-11 11:08:08.748
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\Martijn'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.eclipse.osgi 2 0 2013-09-11 11:13:01.623
+!MESSAGE While loading class "com.google.gdt.eclipse.suite.preferences.GdtPreferences", thread "Thread[Worker-0,5,main]" timed out waiting (5054ms) for thread "Thread[main,6,main]" to finish starting bundle "com.google.gdt.eclipse.suite_3.4.0.v201309051717-rel-r42 [341]". To avoid deadlock, thread "Thread[Worker-0,5,main]" is proceeding but "com.google.gdt.eclipse.suite.preferences.GdtPreferences" may not be fully initialized.
+!STACK 0
+org.osgi.framework.BundleException: State change in progress for bundle "reference:file:plugins/com.google.gdt.eclipse.suite_3.4.0.v201309051717-rel-r42.jar" by thread "main".
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.beginStateChange(AbstractBundle.java:1088)
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.start(AbstractBundle.java:298)
+	at org.eclipse.osgi.framework.util.SecureAction.start(SecureAction.java:440)
+	at org.eclipse.osgi.internal.loader.BundleLoader.setLazyTrigger(BundleLoader.java:263)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseLazyStarter.postFindLocalClass(EclipseLazyStarter.java:107)
+	at org.eclipse.osgi.baseadaptor.loader.ClasspathManager.findLocalClass(ClasspathManager.java:469)
+	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.findLocalClass(DefaultClassLoader.java:216)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findLocalClass(BundleLoader.java:395)
+	at org.eclipse.osgi.internal.loader.SingleSourcePackage.loadClass(SingleSourcePackage.java:35)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClassInternal(BundleLoader.java:461)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:421)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:412)
+	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.loadClass(DefaultClassLoader.java:107)
+	at java.lang.ClassLoader.loadClass(Unknown Source)
+	at com.google.appengine.eclipse.wtp.runtime.GaeRuntimeConfigurator.startup(GaeRuntimeConfigurator.java:42)
+	at org.eclipse.wst.server.core.internal.ResourceManager.executeStartups(ResourceManager.java:207)
+	at org.eclipse.wst.server.core.internal.ResourceManager.init(ResourceManager.java:245)
+	at org.eclipse.wst.server.core.internal.ResourceManager.getServers(ResourceManager.java:795)
+	at org.eclipse.wst.server.core.ServerCore.getServers(ServerCore.java:316)
+	at org.eclipse.wst.server.ui.internal.InitializeJob.run(InitializeJob.java:34)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+Caused by: org.eclipse.osgi.framework.internal.core.AbstractBundle$BundleStatusException
+	... 21 more
+Root exception:
+org.eclipse.osgi.framework.internal.core.AbstractBundle$BundleStatusException
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.beginStateChange(AbstractBundle.java:1088)
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.start(AbstractBundle.java:298)
+	at org.eclipse.osgi.framework.util.SecureAction.start(SecureAction.java:440)
+	at org.eclipse.osgi.internal.loader.BundleLoader.setLazyTrigger(BundleLoader.java:263)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseLazyStarter.postFindLocalClass(EclipseLazyStarter.java:107)
+	at org.eclipse.osgi.baseadaptor.loader.ClasspathManager.findLocalClass(ClasspathManager.java:469)
+	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.findLocalClass(DefaultClassLoader.java:216)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findLocalClass(BundleLoader.java:395)
+	at org.eclipse.osgi.internal.loader.SingleSourcePackage.loadClass(SingleSourcePackage.java:35)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClassInternal(BundleLoader.java:461)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:421)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:412)
+	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.loadClass(DefaultClassLoader.java:107)
+	at java.lang.ClassLoader.loadClass(Unknown Source)
+	at com.google.appengine.eclipse.wtp.runtime.GaeRuntimeConfigurator.startup(GaeRuntimeConfigurator.java:42)
+	at org.eclipse.wst.server.core.internal.ResourceManager.executeStartups(ResourceManager.java:207)
+	at org.eclipse.wst.server.core.internal.ResourceManager.init(ResourceManager.java:245)
+	at org.eclipse.wst.server.core.internal.ResourceManager.getServers(ResourceManager.java:795)
+	at org.eclipse.wst.server.core.ServerCore.getServers(ServerCore.java:316)
+	at org.eclipse.wst.server.ui.internal.InitializeJob.run(InitializeJob.java:34)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+!SESSION 2013-09-11 11:18:55.284 -----------------------------------------------
+eclipse.buildId=v22.0.5-757759
+java.version=1.7.0_25
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=nl_NL
+Framework arguments:  -product com.android.ide.eclipse.adt.package.product
+Command-line arguments:  -os win32 -ws win32 -arch x86 -product com.android.ide.eclipse.adt.package.product
+
+!ENTRY org.eclipse.egit.ui 2 0 2013-09-11 11:19:19.741
+!MESSAGE Warning: EGit couldn't detect the installation path "gitPrefix" of native Git. Hence EGit can't respect system level
+Git settings which might be configured in ${gitPrefix}/etc/gitconfig under the native Git installation directory.
+The most important of these settings is core.autocrlf. Git for Windows by default sets this parameter to true in
+this system level configuration. The Git installation location can be configured on the
+Team > Git > Configuration preference page's 'System Settings' tab.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.eclipse.egit.ui 2 0 2013-09-11 11:19:19.776
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\Martijn'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.eclipse.osgi 2 0 2013-09-11 11:21:42.547
+!MESSAGE While loading class "com.google.gdt.eclipse.suite.preferences.GdtPreferences", thread "Thread[Worker-8,5,main]" timed out waiting (5045ms) for thread "Thread[Worker-4,5,main]" to finish starting bundle "com.google.gdt.eclipse.suite_3.4.0.v201309051717-rel-r42 [341]". To avoid deadlock, thread "Thread[Worker-8,5,main]" is proceeding but "com.google.gdt.eclipse.suite.preferences.GdtPreferences" may not be fully initialized.
+!STACK 0
+org.osgi.framework.BundleException: State change in progress for bundle "reference:file:plugins/com.google.gdt.eclipse.suite_3.4.0.v201309051717-rel-r42.jar" by thread "Worker-4".
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.beginStateChange(AbstractBundle.java:1088)
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.start(AbstractBundle.java:298)
+	at org.eclipse.osgi.framework.util.SecureAction.start(SecureAction.java:440)
+	at org.eclipse.osgi.internal.loader.BundleLoader.setLazyTrigger(BundleLoader.java:263)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseLazyStarter.postFindLocalClass(EclipseLazyStarter.java:107)
+	at org.eclipse.osgi.baseadaptor.loader.ClasspathManager.findLocalClass(ClasspathManager.java:469)
+	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.findLocalClass(DefaultClassLoader.java:216)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findLocalClass(BundleLoader.java:395)
+	at org.eclipse.osgi.internal.loader.SingleSourcePackage.loadClass(SingleSourcePackage.java:35)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClassInternal(BundleLoader.java:461)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:421)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:412)
+	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.loadClass(DefaultClassLoader.java:107)
+	at java.lang.ClassLoader.loadClass(Unknown Source)
+	at com.google.appengine.eclipse.wtp.runtime.GaeRuntimeConfigurator.startup(GaeRuntimeConfigurator.java:42)
+	at org.eclipse.wst.server.core.internal.ResourceManager.executeStartups(ResourceManager.java:207)
+	at org.eclipse.wst.server.core.internal.ResourceManager.init(ResourceManager.java:245)
+	at org.eclipse.wst.server.core.internal.ResourceManager.getServers(ResourceManager.java:795)
+	at org.eclipse.wst.server.core.ServerCore.getServers(ServerCore.java:316)
+	at org.eclipse.wst.server.ui.internal.InitializeJob.run(InitializeJob.java:34)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+Caused by: org.eclipse.osgi.framework.internal.core.AbstractBundle$BundleStatusException
+	... 21 more
+Root exception:
+org.eclipse.osgi.framework.internal.core.AbstractBundle$BundleStatusException
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.beginStateChange(AbstractBundle.java:1088)
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.start(AbstractBundle.java:298)
+	at org.eclipse.osgi.framework.util.SecureAction.start(SecureAction.java:440)
+	at org.eclipse.osgi.internal.loader.BundleLoader.setLazyTrigger(BundleLoader.java:263)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseLazyStarter.postFindLocalClass(EclipseLazyStarter.java:107)
+	at org.eclipse.osgi.baseadaptor.loader.ClasspathManager.findLocalClass(ClasspathManager.java:469)
+	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.findLocalClass(DefaultClassLoader.java:216)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findLocalClass(BundleLoader.java:395)
+	at org.eclipse.osgi.internal.loader.SingleSourcePackage.loadClass(SingleSourcePackage.java:35)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClassInternal(BundleLoader.java:461)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:421)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:412)
+	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.loadClass(DefaultClassLoader.java:107)
+	at java.lang.ClassLoader.loadClass(Unknown Source)
+	at com.google.appengine.eclipse.wtp.runtime.GaeRuntimeConfigurator.startup(GaeRuntimeConfigurator.java:42)
+	at org.eclipse.wst.server.core.internal.ResourceManager.executeStartups(ResourceManager.java:207)
+	at org.eclipse.wst.server.core.internal.ResourceManager.init(ResourceManager.java:245)
+	at org.eclipse.wst.server.core.internal.ResourceManager.getServers(ResourceManager.java:795)
+	at org.eclipse.wst.server.core.ServerCore.getServers(ServerCore.java:316)
+	at org.eclipse.wst.server.ui.internal.InitializeJob.run(InitializeJob.java:34)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+
+!ENTRY org.eclipse.ui 4 4 2013-09-11 12:36:30.513
+!MESSAGE Referenced part does not exist yet: org.eclipse.ui.views.ProblemView.
