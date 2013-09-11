@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename compilation unit &apos;com.gamegear.firstwing.GameController.java&apos; to &apos;WorldController.java&apos;&#x0D;&#x0A;- Original project: &apos;FirstWing&apos;&#x0D;&#x0A;- Original element: &apos;com.gamegear.firstwing.GameController.java&apos;&#x0D;&#x0A;- Renamed element: &apos;com.gamegear.firstwing.WorldController.java&apos;" description="Rename compilation unit &apos;GameController.java&apos;" flags="2" id="org.eclipse.jdt.ui.rename.compilationunit" input="/src&lt;com.gamegear.firstwing{GameController.java" name="WorldController.java" references="false" stamp="1378896532192" version="1.0"/>
+</session>

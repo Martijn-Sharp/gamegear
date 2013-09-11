@@ -1,2 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<qualifiedTypeNameHistroy/>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="com.badlogic.gdx.graphics.GL10"/>
+<fullyQualifiedTypeName name="com.gamegear.firstwing.world.World"/>
+<fullyQualifiedTypeName name="com.badlogic.gdx.graphics.g2d.Sprite"/>
+<fullyQualifiedTypeName name="com.gamegear.firstwing.WorldRenderer"/>
+<fullyQualifiedTypeName name="com.badlogic.gdx.graphics.Color"/>
+<fullyQualifiedTypeName name="com.badlogic.gdx.InputProcessor"/>
+<fullyQualifiedTypeName name="com.badlogic.gdx.Application.ApplicationType"/>
+<fullyQualifiedTypeName name="com.badlogic.gdx.Input.Keys"/>
+<fullyQualifiedTypeName name="com.badlogic.gdx.graphics.Texture"/>
+<fullyQualifiedTypeName name="com.badlogic.gdx.graphics.g2d.SpriteBatch"/>
+<fullyQualifiedTypeName name="com.badlogic.gdx.Gdx"/>
+<fullyQualifiedTypeName name="com.gamegear.firstwing.WorldController"/>
+</qualifiedTypeNameHistroy>
