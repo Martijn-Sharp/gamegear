@@ -15,19 +15,33 @@ namespace MapEditor
     public partial class Editor : Form
     {
         Dictionary<String, Tile> map;
+        ToolTip toolTip = new ToolTip();
+        Panel mapPanel;
+
+        int xButtonCount = 10;
+        int yButtonCount = 100;
+
         public Editor()
         {
-            int ButtonWidth = 70;
-            int ButtonHeight = 70;
-            int Distance = 20;
-            int start_x = 70;
+            int ButtonWidth = 30;
+            int ButtonHeight = 30;
+            int Distance = 10;
+            int start_x = 0;
             int start_y = 0;
             Button tmpButton;
             map = new Dictionary<string, Tile>();
 
-            for (int x = 0; x < 10; x++)
+            mapPanel = new Panel();
+            mapPanel.Location = new System.Drawing.Point(13, 81);
+            mapPanel.Width = 760;
+            mapPanel.Height = 350;
+            mapPanel.AutoScroll = true;
+            mapPanel.Name = "Map";
+            mapPanel.TabIndex = 0;
+
+            for (int x = 0; x < xButtonCount; x++)
             {
-                for (int y = 0; y < 20; y++)
+                for (int y = 0; y < yButtonCount; y++)
                 {
                     tmpButton = new Button();
                     tmpButton.Top = start_x + (x * ButtonHeight + Distance);
@@ -36,10 +50,13 @@ namespace MapEditor
                     tmpButton.Height = ButtonHeight;
                     tmpButton.Name = x.ToString() + "," + y.ToString();
                     tmpButton.Text = "";
+                    tmpButton.MouseHover += currentButton_MouseHover;
+                    tmpButton.BackColor = Color.Empty;
                     tmpButton.Click += new EventHandler(this.ChangeTile_Click);
-                    this.Controls.Add(tmpButton);
+                    mapPanel.Controls.Add(tmpButton);
                 }
             }
+            this.Controls.Add(mapPanel);
             InitializeComponent();
         }
 
@@ -85,6 +102,25 @@ namespace MapEditor
 
         }
 
+        void currentButton_MouseHover(object sender, EventArgs e)
+        {
+            toolTip.RemoveAll();
+            toolTip.ToolTipIcon = ToolTipIcon.None;
+
+            toolTip.IsBalloon = false;
+            toolTip.ShowAlways = false;
+
+            try
+            {
+                toolTip.SetToolTip((Button)sender, "Damage: " + map[((Button)sender).Name].damage);
+            }
+            catch (Exception)
+            {
+                toolTip.SetToolTip((Button)sender, "Empty");
+            }
+
+        }
+
         private void button2_Click(object sender, EventArgs e)
         {
             //Console.WriteLine(DictionaryToJson(map));
@@ -110,19 +146,38 @@ namespace MapEditor
 
             //map = (Dictionary<String, Tile>) JsonConvert.DeserializeObject(lines);
             map = JsonConvert.DeserializeObject<Dictionary<String, Tile>>(lines);
-            rebuildGUI();
+            rebuildGUI(true);
         }
 
-        private void rebuildGUI()
+        private void rebuildGUI(bool force)
         {
-            Button tempButton;
-            foreach(KeyValuePair<string, Tile> a in map)
+            Button tmpButton;
+            //Clear all buttons
+            for (int x = 0; force && x < xButtonCount; x++)
+            {
+                for (int y = 0; y < yButtonCount; y++)
+                {
+                    tmpButton = (Button) mapPanel.Controls.Find(x + "," + y, true)[0];
+                    tmpButton.Text = "";
+                    tmpButton.BackColor = Color.Empty;
+                    //this.Controls.Add(tmpButton);
+                }
+            }
+
+            foreach (KeyValuePair<string, Tile> a in map)
             {
                 //Restore imported map here
-                tempButton = (Button) this.Controls.Find(a.Key, false)[0];
-                tempButton.Text = Convert.ToString(map[a.Key].damage);
-                tempButton.BackColor = Color.Aquamarine;
+                tmpButton = (Button)mapPanel.Controls.Find(a.Key, false)[0];
+                tmpButton.Text = Convert.ToString(map[a.Key].damage);
+                tmpButton.BackColor = Color.Aquamarine;
             }
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            //Clear map
+            map = new Dictionary<string, Tile>();
+            rebuildGUI(true);
         }
     }
 
@@ -133,6 +188,8 @@ namespace MapEditor
 
         //Properties
         public bool damage, enemy, level, special;
+
+        public int type;
         
         public Tile(int x, int y)
         {

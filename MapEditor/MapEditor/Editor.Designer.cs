@@ -86,6 +86,7 @@
             this.button5.TabIndex = 4;
             this.button5.Text = "Clear";
             this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
             // textBox1
             // 
@@ -117,7 +118,7 @@
             // 
             // exportButton
             // 
-            this.exportButton.Location = new System.Drawing.Point(918, 12);
+            this.exportButton.Location = new System.Drawing.Point(695, 12);
             this.exportButton.Name = "exportButton";
             this.exportButton.Size = new System.Drawing.Size(75, 33);
             this.exportButton.TabIndex = 9;
@@ -127,7 +128,7 @@
             // 
             // importButton
             // 
-            this.importButton.Location = new System.Drawing.Point(837, 12);
+            this.importButton.Location = new System.Drawing.Point(614, 12);
             this.importButton.Name = "importButton";
             this.importButton.Size = new System.Drawing.Size(75, 33);
             this.importButton.TabIndex = 10;
@@ -140,7 +141,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(1005, 519);
+            this.ClientSize = new System.Drawing.Size(782, 453);
             this.Controls.Add(this.importButton);
             this.Controls.Add(this.exportButton);
             this.Controls.Add(this.textBox4);
