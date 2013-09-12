@@ -3,7 +3,7 @@ package com.gamegear.firstwing.actors;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-public class Actor {
+public abstract class Actor {
 	protected Vector2 position = new Vector2();
 	protected Rectangle bounds = new Rectangle();
 	

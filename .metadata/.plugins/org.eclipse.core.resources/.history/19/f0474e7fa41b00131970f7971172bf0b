@@ -1,0 +1,11 @@
+package com.gamegear.firstwing.utils;
+
+import com.badlogic.gdx.tools.imagepacker.TexturePacker;
+import com.badlogic.gdx.tools.imagepacker.TexturePacker.Settings;
+
+public class TextureSetup {
+	public static void main(String[] args) {
+		Settings settings = new Settings();
+		TexturePacker.process(new Settings(), "D:/MINORP1/FirstWing-android/assets/images", "D:/MINORP1/FirstWing-android/assets/textures", "textures.pack");
+	}
+}

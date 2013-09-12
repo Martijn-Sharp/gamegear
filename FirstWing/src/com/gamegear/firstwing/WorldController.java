@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.gamegear.firstwing.actors.Bob;
 import com.gamegear.firstwing.actors.Bob.State;
-import com.gamegear.firstwing.world.World;
+import com.gamegear.firstwing.worlds.World;
 
 public class WorldController {
 
@@ -13,7 +13,7 @@ public class WorldController {
 		LEFT, RIGHT, JUMP, FIRE
 	}
 	
-	private Bob 	bob;
+	private Bob bob;
 	
 	static Map<Keys, Boolean> keys = new HashMap<WorldController.Keys, Boolean>();
 	static {

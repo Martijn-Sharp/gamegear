@@ -1,0 +1,9 @@
+package com.gamegear.firstwing.utils;
+
+import com.badlogic.gdx.tools.imagepacker.TexturePacker;
+
+public class TextureSetup {
+	public static void main(String[] args) {
+		TexturePacker.process(null, "/path-to-star-guard-assets-images/", "path-to-star-guard-assets-images", "textures.pack");
+	}
+}

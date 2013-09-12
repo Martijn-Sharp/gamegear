@@ -1,17 +1,9 @@
 package com.gamegear.firstwing;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
-import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 
 public class Main {
 	public static void main(String[] args) {
-		/*LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
-		cfg.title = "First Wing";
-		cfg.useGL20 = false;
-		cfg.width = 480;
-		cfg.height = 320;
-		
-		new LwjglApplication(new FirstWing(), cfg);*/
 		new LwjglApplication(new FirstWing(), "First Wing", 480, 320, true);
 	}
 }

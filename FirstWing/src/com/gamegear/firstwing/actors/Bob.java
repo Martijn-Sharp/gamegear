@@ -12,10 +12,11 @@ public class Bob extends Actor{
 	public static final float JUMP_VELOCITY = 4f;
 	public static final float SIZE = 0.5f; // half a unit
 	
-	Vector2 	acceleration = new Vector2();
-	Vector2 	velocity = new Vector2();
-	State		state = State.IDLE;
-	boolean		facingLeft = true;
+	Vector2 acceleration = new Vector2();
+	Vector2 velocity = new Vector2();
+	State	state = State.IDLE;
+	boolean	facingLeft = true;
+	float stateTime = 0;
 
 	public Bob(Vector2 position) {
 		this.position = position;
@@ -23,7 +24,6 @@ public class Bob extends Actor{
 		this.bounds.width = SIZE;
 	}
 
-	
 	public boolean isFacingLeft() {
 		return facingLeft;
 	}
@@ -52,7 +52,12 @@ public class Bob extends Actor{
 		this.state = newState;
 	}
 	
+	public float getStateTime(){
+		return stateTime;
+	}
+	
 	public void update(float delta) {
-		position.add(velocity.cpy().mul(delta)); 
+		stateTime += delta;
+		position.add(velocity.tmp().mul(delta)); 
 	}
 }

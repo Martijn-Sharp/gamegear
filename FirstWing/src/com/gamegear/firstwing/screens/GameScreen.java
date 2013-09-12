@@ -8,7 +8,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
 import com.gamegear.firstwing.WorldController;
 import com.gamegear.firstwing.WorldRenderer;
-import com.gamegear.firstwing.world.World;
+import com.gamegear.firstwing.worlds.World;
 
 public class GameScreen implements Screen, InputProcessor {
 

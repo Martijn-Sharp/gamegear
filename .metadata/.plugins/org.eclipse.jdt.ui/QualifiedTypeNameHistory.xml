@@ -12,4 +12,10 @@
 <fullyQualifiedTypeName name="com.badlogic.gdx.graphics.g2d.SpriteBatch"/>
 <fullyQualifiedTypeName name="com.badlogic.gdx.Gdx"/>
 <fullyQualifiedTypeName name="com.gamegear.firstwing.WorldController"/>
+<fullyQualifiedTypeName name="com.badlogic.gdx.tools.imagepacker.TexturePacker.Settings"/>
+<fullyQualifiedTypeName name="com.badlogic.gdx.tools.imagepacker.TexturePacker2"/>
+<fullyQualifiedTypeName name="com.badlogic.gdx.graphics.g2d.TextureRegion"/>
+<fullyQualifiedTypeName name="com.badlogic.gdx.graphics.g2d.Animation"/>
+<fullyQualifiedTypeName name="com.badlogic.gdx.graphics.g2d.TextureAtlas"/>
+<fullyQualifiedTypeName name="com.gamegear.firstwing.actors.Bob.State"/>
 </qualifiedTypeNameHistroy>
