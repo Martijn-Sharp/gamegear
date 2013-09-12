@@ -18,6 +18,8 @@ namespace MapEditor
         ToolTip toolTip = new ToolTip();
         Panel mapPanel;
 
+        int propertySelected = -1;
+
         int xButtonCount = 10;
         int yButtonCount = 100;
 
@@ -79,27 +81,42 @@ namespace MapEditor
             Button clickedButton = (Button)sender;
             int[] coords = getCoordsFromString(clickedButton.Name);
 
+            string tmpName = clickedButton.Name;
+
             //Check if tile exists
-            if (!map.ContainsKey(clickedButton.Name))
+            if (!map.ContainsKey(tmpName))
             {
-                map.Add(clickedButton.Name, new Tile(coords[0], coords[1]));
-                map[clickedButton.Name].damage = true;
-                clickedButton.BackColor = Color.Aquamarine;
+                map.Add(tmpName, new Tile(coords[0], coords[1]));
+                switch(propertySelected)
+                {
+                    case (int)RadioEnum.Damage: map[tmpName].damage = true;
+                        clickedButton.BackColor = Color.Red;
+                        clickedButton.Text = "D";
+                        if (damageBox.Text != "") map[tmpName].type = Convert.ToInt32(damageBox.Text);
+                        break;
+                    case (int)RadioEnum.Enemy: map[tmpName].enemy = true;
+                        clickedButton.BackColor = Color.Blue;
+                        clickedButton.Text = "E";
+                        if (enemyBox.Text != "") map[tmpName].type = Convert.ToInt32(enemyBox.Text);
+                        break;
+                    case (int)RadioEnum.Level: map[tmpName].level = true;
+                        clickedButton.BackColor = Color.Brown;
+                        clickedButton.Text = "L";
+                        if (levelBox.Text != "") map[tmpName].type = Convert.ToInt32(levelBox.Text);
+                        break;
+                    case (int)RadioEnum.Special: map[tmpName].special = true;
+                        clickedButton.BackColor = Color.Green;
+                        clickedButton.Text = "S";
+                        if (specialBox.Text != "") map[tmpName].type = Convert.ToInt32(specialBox.Text);
+                        break;
+                }
             }
             else
             {
-                if (map[clickedButton.Name].damage == true)
-                {
-                    map[clickedButton.Name].damage = false;
-                }
-                else
-                {
-                    map[clickedButton.Name].damage = true;
-                }
+                map.Remove(tmpName);
+                clickedButton.BackColor = Color.Empty;
+                clickedButton.Text = "";
             }
-            
-            clickedButton.Text = Convert.ToString(map[clickedButton.Name].damage);
-
         }
 
         void currentButton_MouseHover(object sender, EventArgs e)
@@ -112,7 +129,7 @@ namespace MapEditor
 
             try
             {
-                toolTip.SetToolTip((Button)sender, "Damage: " + map[((Button)sender).Name].damage);
+                toolTip.SetToolTip((Button)sender, "Value: " + map[((Button)sender).Name].type);
             }
             catch (Exception)
             {
@@ -121,11 +138,26 @@ namespace MapEditor
 
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void radioButtons_CheckedChanged(object sender, EventArgs e)
         {
-            //Console.WriteLine(DictionaryToJson(map));
-            Console.WriteLine(JsonConvert.SerializeObject(map));
+            RadioButton radioButton = sender as RadioButton;
 
+            if (damageButton.Checked)
+            {
+                propertySelected = (int)RadioEnum.Damage;
+            }
+            else if (enemyButton.Checked)
+            {
+                propertySelected = (int)RadioEnum.Enemy;
+            }
+            else if (levelButton.Checked)
+            {
+                propertySelected = (int)RadioEnum.Level;
+            }
+            else if (specialButton.Checked)
+            {
+                propertySelected = (int)RadioEnum.Special;
+            }
         }
 
         private void exportButton_Click(object sender, EventArgs e)
@@ -173,11 +205,48 @@ namespace MapEditor
             }
         }
 
-        private void button5_Click(object sender, EventArgs e)
+        private void clearButton_Click(object sender, EventArgs e)
         {
-            //Clear map
-            map = new Dictionary<string, Tile>();
-            rebuildGUI(true);
+            if (MessageBox.Show("Clear map?", "Confirm delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                //Clear map
+                map = new Dictionary<string, Tile>();
+                rebuildGUI(true);
+            }
+        }
+
+        private void intOnly_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            //This does NOT guarantee safe output, but atleast prevents the accidental mistake
+
+            //Filter all but numeric characters
+            if (!char.IsControl(e.KeyChar)
+                && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+
+
+            //Prevent too big numbers
+            if (((TextBox)sender).Text.Count() > 9)
+            {
+                e.Handled = true;
+            }
+
+            //For floating numbers
+
+            //if (!char.IsControl(e.KeyChar)
+            //    && !char.IsDigit(e.KeyChar)
+            //    && e.KeyChar != '.')
+            //{
+            //    e.Handled = true;
+            //}
+
+            //if (e.KeyChar == '.'
+            //    && (sender as TextBox).Text.IndexOf('.') > -1)
+            //{
+            //    e.Handled = true;
+            //}
         }
     }
 
@@ -196,5 +265,13 @@ namespace MapEditor
             this.xCoord = x;
             this.yCoord = y;
         }
+    }
+
+    public enum RadioEnum
+    {
+        Damage = 1,
+        Enemy = 2,
+        Level = 3,
+        Special = 4,
     }
 }

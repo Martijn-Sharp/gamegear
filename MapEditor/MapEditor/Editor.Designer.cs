@@ -28,93 +28,64 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.clearButton = new System.Windows.Forms.Button();
+            this.damageBox = new System.Windows.Forms.TextBox();
+            this.enemyBox = new System.Windows.Forms.TextBox();
+            this.levelBox = new System.Windows.Forms.TextBox();
+            this.specialBox = new System.Windows.Forms.TextBox();
             this.exportButton = new System.Windows.Forms.Button();
             this.importButton = new System.Windows.Forms.Button();
+            this.damageButton = new System.Windows.Forms.RadioButton();
+            this.enemyButton = new System.Windows.Forms.RadioButton();
+            this.levelButton = new System.Windows.Forms.RadioButton();
+            this.specialButton = new System.Windows.Forms.RadioButton();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // button1
+            // clearButton
             // 
-            this.button1.Location = new System.Drawing.Point(12, 12);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 33);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Damage";
-            this.button1.UseVisualStyleBackColor = true;
+            this.clearButton.Location = new System.Drawing.Point(533, 12);
+            this.clearButton.Name = "clearButton";
+            this.clearButton.Size = new System.Drawing.Size(75, 33);
+            this.clearButton.TabIndex = 4;
+            this.clearButton.Text = "Clear";
+            this.clearButton.UseVisualStyleBackColor = true;
+            this.clearButton.Click += new System.EventHandler(this.clearButton_Click);
             // 
-            // button2
+            // damageBox
             // 
-            this.button2.Location = new System.Drawing.Point(93, 12);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 33);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "Enemy";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.damageBox.Location = new System.Drawing.Point(0, 54);
+            this.damageBox.Name = "damageBox";
+            this.damageBox.Size = new System.Drawing.Size(74, 22);
+            this.damageBox.TabIndex = 5;
+            this.damageBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.intOnly_KeyPress);
             // 
-            // button3
+            // enemyBox
             // 
-            this.button3.Location = new System.Drawing.Point(174, 12);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 33);
-            this.button3.TabIndex = 2;
-            this.button3.Text = "Level";
-            this.button3.UseVisualStyleBackColor = true;
+            this.enemyBox.Location = new System.Drawing.Point(83, 54);
+            this.enemyBox.Name = "enemyBox";
+            this.enemyBox.Size = new System.Drawing.Size(74, 22);
+            this.enemyBox.TabIndex = 6;
+            this.enemyBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.intOnly_KeyPress);
             // 
-            // button4
+            // levelBox
             // 
-            this.button4.Location = new System.Drawing.Point(255, 12);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(75, 33);
-            this.button4.TabIndex = 3;
-            this.button4.Text = "Special";
-            this.button4.UseVisualStyleBackColor = true;
+            this.levelBox.Location = new System.Drawing.Point(163, 54);
+            this.levelBox.Name = "levelBox";
+            this.levelBox.Size = new System.Drawing.Size(74, 22);
+            this.levelBox.TabIndex = 7;
+            this.levelBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.intOnly_KeyPress);
             // 
-            // button5
+            // specialBox
             // 
-            this.button5.Location = new System.Drawing.Point(336, 12);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(75, 33);
-            this.button5.TabIndex = 4;
-            this.button5.Text = "Clear";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(13, 52);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(74, 22);
-            this.textBox1.TabIndex = 5;
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(93, 52);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(74, 22);
-            this.textBox2.TabIndex = 6;
-            // 
-            // textBox3
-            // 
-            this.textBox3.Location = new System.Drawing.Point(175, 51);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(74, 22);
-            this.textBox3.TabIndex = 7;
-            // 
-            // textBox4
-            // 
-            this.textBox4.Location = new System.Drawing.Point(255, 51);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(74, 22);
-            this.textBox4.TabIndex = 8;
+            this.specialBox.Location = new System.Drawing.Point(243, 54);
+            this.specialBox.Name = "specialBox";
+            this.specialBox.Size = new System.Drawing.Size(74, 22);
+            this.specialBox.TabIndex = 8;
+            this.specialBox.Tag = "";
+            this.specialBox.WordWrap = false;
+            this.specialBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.intOnly_KeyPress);
             // 
             // exportButton
             // 
@@ -136,43 +107,107 @@
             this.importButton.UseVisualStyleBackColor = true;
             this.importButton.Click += new System.EventHandler(this.importButton_Click);
             // 
+            // damageButton
+            // 
+            this.damageButton.Appearance = System.Windows.Forms.Appearance.Button;
+            this.damageButton.AutoSize = true;
+            this.damageButton.Location = new System.Drawing.Point(0, 21);
+            this.damageButton.Name = "damageButton";
+            this.damageButton.Size = new System.Drawing.Size(71, 27);
+            this.damageButton.TabIndex = 11;
+            this.damageButton.TabStop = true;
+            this.damageButton.Text = "Damage";
+            this.damageButton.UseVisualStyleBackColor = true;
+            this.damageButton.CheckedChanged += new System.EventHandler(this.radioButtons_CheckedChanged);
+            // 
+            // enemyButton
+            // 
+            this.enemyButton.Appearance = System.Windows.Forms.Appearance.Button;
+            this.enemyButton.AutoSize = true;
+            this.enemyButton.Location = new System.Drawing.Point(83, 21);
+            this.enemyButton.Name = "enemyButton";
+            this.enemyButton.Size = new System.Drawing.Size(61, 27);
+            this.enemyButton.TabIndex = 12;
+            this.enemyButton.TabStop = true;
+            this.enemyButton.Text = "Enemy";
+            this.enemyButton.UseVisualStyleBackColor = true;
+            this.enemyButton.CheckedChanged += new System.EventHandler(this.radioButtons_CheckedChanged);
+            // 
+            // levelButton
+            // 
+            this.levelButton.Appearance = System.Windows.Forms.Appearance.Button;
+            this.levelButton.AutoSize = true;
+            this.levelButton.Location = new System.Drawing.Point(163, 21);
+            this.levelButton.Name = "levelButton";
+            this.levelButton.Size = new System.Drawing.Size(52, 27);
+            this.levelButton.TabIndex = 13;
+            this.levelButton.TabStop = true;
+            this.levelButton.Text = "Level";
+            this.levelButton.UseVisualStyleBackColor = true;
+            this.levelButton.CheckedChanged += new System.EventHandler(this.radioButtons_CheckedChanged);
+            // 
+            // specialButton
+            // 
+            this.specialButton.Appearance = System.Windows.Forms.Appearance.Button;
+            this.specialButton.AutoSize = true;
+            this.specialButton.Location = new System.Drawing.Point(243, 21);
+            this.specialButton.Name = "specialButton";
+            this.specialButton.Size = new System.Drawing.Size(64, 27);
+            this.specialButton.TabIndex = 14;
+            this.specialButton.TabStop = true;
+            this.specialButton.Text = "Special";
+            this.specialButton.UseVisualStyleBackColor = true;
+            this.specialButton.CheckedChanged += new System.EventHandler(this.radioButtons_CheckedChanged);
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.damageButton);
+            this.groupBox1.Controls.Add(this.specialButton);
+            this.groupBox1.Controls.Add(this.damageBox);
+            this.groupBox1.Controls.Add(this.levelButton);
+            this.groupBox1.Controls.Add(this.enemyButton);
+            this.groupBox1.Controls.Add(this.specialBox);
+            this.groupBox1.Controls.Add(this.enemyBox);
+            this.groupBox1.Controls.Add(this.levelBox);
+            this.groupBox1.Location = new System.Drawing.Point(12, 3);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(326, 81);
+            this.groupBox1.TabIndex = 15;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Tile properties";
+            // 
             // Editor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(782, 453);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.importButton);
             this.Controls.Add(this.exportButton);
-            this.Controls.Add(this.textBox4);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.button5);
-            this.Controls.Add(this.button4);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.clearButton);
             this.Name = "Editor";
             this.Text = "Map Editor";
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.Button clearButton;
+        private System.Windows.Forms.TextBox damageBox;
+        private System.Windows.Forms.TextBox enemyBox;
+        private System.Windows.Forms.TextBox levelBox;
+        private System.Windows.Forms.TextBox specialBox;
         private System.Windows.Forms.Button exportButton;
         private System.Windows.Forms.Button importButton;
+        private System.Windows.Forms.RadioButton damageButton;
+        private System.Windows.Forms.RadioButton enemyButton;
+        private System.Windows.Forms.RadioButton levelButton;
+        private System.Windows.Forms.RadioButton specialButton;
+        private System.Windows.Forms.GroupBox groupBox1;
     }
 }
 
