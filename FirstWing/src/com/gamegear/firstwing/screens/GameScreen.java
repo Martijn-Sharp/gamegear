@@ -6,7 +6,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
-import com.gamegear.firstwing.WorldController;
+import com.gamegear.firstwing.BobController;
 import com.gamegear.firstwing.WorldRenderer;
 import com.gamegear.firstwing.worlds.World;
 
@@ -14,7 +14,7 @@ public class GameScreen implements Screen, InputProcessor {
 
 	private World 			world;
 	private WorldRenderer 	renderer;
-	private WorldController	controller;
+	private BobController	controller;
 	
 	private int width, height;
 	
@@ -22,7 +22,7 @@ public class GameScreen implements Screen, InputProcessor {
 	public void show() {
 		world = new World();
 		renderer = new WorldRenderer(world, true);
-		controller = new WorldController(world);
+		controller = new BobController(world);
 		Gdx.input.setInputProcessor(this);
 	}
 

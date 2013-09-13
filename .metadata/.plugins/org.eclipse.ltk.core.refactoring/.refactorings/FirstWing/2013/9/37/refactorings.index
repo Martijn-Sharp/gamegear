@@ -1,3 +1,6 @@
 1378896532192	Rename compilation unit 'GameController.java'
 1378931610086	Rename package 'com.gamegear.firstwing.world'
 1378988575575	Delete element
+1379061961633	Rename type 'WorldRenderer'
+1379062027843	Rename type 'BobRenderer'
+1379062058143	Rename type 'WorldController'
