@@ -7,8 +7,8 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
 import com.gamegear.firstwing.BobController;
+import com.gamegear.firstwing.World;
 import com.gamegear.firstwing.WorldRenderer;
-import com.gamegear.firstwing.worlds.World;
 
 public class GameScreen implements Screen, InputProcessor {
 
@@ -21,7 +21,7 @@ public class GameScreen implements Screen, InputProcessor {
 	@Override
 	public void show() {
 		world = new World();
-		renderer = new WorldRenderer(world, true);
+		renderer = new WorldRenderer(world, false);
 		controller = new BobController(world);
 		Gdx.input.setInputProcessor(this);
 	}
@@ -87,6 +87,8 @@ public class GameScreen implements Screen, InputProcessor {
 			controller.jumpReleased();
 		if (keycode == Keys.X)
 			controller.fireReleased();
+		if (keycode == Keys.D)
+			renderer.setDebug(!renderer.isDebug());
 		return true;
 	}
 
@@ -128,6 +130,11 @@ public class GameScreen implements Screen, InputProcessor {
 		return false;
 	}
 
+	public boolean touchMoved(int x, int y) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 	@Override
 	public boolean scrolled(int amount) {
 		// TODO Auto-generated method stub
@@ -139,4 +146,6 @@ public class GameScreen implements Screen, InputProcessor {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
+
 }

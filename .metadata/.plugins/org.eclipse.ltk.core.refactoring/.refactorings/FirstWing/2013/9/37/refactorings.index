@@ -4,3 +4,7 @@
 1379061961633	Rename type 'WorldRenderer'
 1379062027843	Rename type 'BobRenderer'
 1379062058143	Rename type 'WorldController'
+1379154058969	Move compilation unit
+1379154072509	Rename package 'com.gamegear.firstwing.worlds'
+1379154118933	Rename package 'com.gamegear.firstwing.actors'
+1379154136345	Rename package 'com.gamegear.firstwing.actor'
