@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.gamegear.firstwing.actors.*;
+import com.gamegear.firstwing.levels.JSONLoader;
 import com.gamegear.firstwing.levels.Level;
 
 public class World {
@@ -70,6 +71,7 @@ public class World {
 	private void createDemoWorld() {
 		bob = new Bob(new Vector2(7, 2));
 		level = new Level();
+		JSONLoader LevelLoader = new JSONLoader("D:/map.dat");
 	}
 }
 
