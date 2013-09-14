@@ -6,13 +6,11 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
-import com.badlogic.gdx.input.GestureDetector.GestureListener;
-import com.badlogic.gdx.math.Vector2;
 import com.gamegear.firstwing.BobController;
 import com.gamegear.firstwing.World;
 import com.gamegear.firstwing.WorldRenderer;
 
-public class GameScreen implements Screen, InputProcessor, GestureListener {
+public class GameScreen implements Screen, InputProcessor {
 
 	private World 			world;
 	private WorldRenderer 	renderer;
@@ -168,49 +166,6 @@ public class GameScreen implements Screen, InputProcessor, GestureListener {
 
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean touchDown(float x, float y, int pointer, int button) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean tap(float x, float y, int count, int button) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean longPress(float x, float y) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean fling(float velocityX, float velocityY, int button) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean pan(float x, float y, float deltaX, float deltaY) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean zoom(float initialDistance, float distance) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean pinch(Vector2 initialPointer1, Vector2 initialPointer2,
-			Vector2 pointer1, Vector2 pointer2) {
 		// TODO Auto-generated method stub
 		return false;
 	}

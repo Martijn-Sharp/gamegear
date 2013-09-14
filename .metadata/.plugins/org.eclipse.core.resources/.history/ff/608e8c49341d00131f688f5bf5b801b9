@@ -43,10 +43,14 @@ public class WorldRenderer {
 	private boolean debug = false;
 	private int width;
 	private int height;
+	private float ppuX;	// pixels per unit on the X axis
+	private float ppuY;	// pixels per unit on the Y axis
 	
 	public void setSize (int w, int h) {
 		this.width = w;
 		this.height = h;
+		ppuX = (float)width / CAMERA_WIDTH;
+		ppuY = (float)height / CAMERA_HEIGHT;
 	}
 	public boolean isDebug() {
 		return debug;
@@ -115,7 +119,7 @@ public class WorldRenderer {
 
 	private void drawBlocks() {
 		for (Block block : world.getDrawableBlocks((int)CAMERA_WIDTH, (int)CAMERA_HEIGHT)) {
-			spriteBatch.draw(blockTexture, block.getPosition().x, block.getPosition().y, Block.SIZE, Block.SIZE);
+			spriteBatch.draw(blockTexture, block.getPosition().x * ppuX, block.getPosition().y * ppuY, Block.SIZE * ppuX, Block.SIZE * ppuY);
 		}
 	}
 
@@ -131,7 +135,7 @@ public class WorldRenderer {
 				bobFrame = bob.isFacingLeft() ? bobFallLeft : bobFallRight;
 			}
 		}
-		spriteBatch.draw(bobFrame, bob.getPosition().x, bob.getPosition().y, Bob.SIZE, Bob.SIZE);
+		spriteBatch.draw(bobFrame, bob.getPosition().x * ppuX, bob.getPosition().y * ppuY, Bob.SIZE * ppuX, Bob.SIZE * ppuY);
 	}
 
 	private void drawDebug() {

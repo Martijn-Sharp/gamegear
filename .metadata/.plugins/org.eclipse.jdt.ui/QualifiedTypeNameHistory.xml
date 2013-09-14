@@ -25,4 +25,5 @@
 <fullyQualifiedTypeName name="com.gamegear.firstwing.actors.Block"/>
 <fullyQualifiedTypeName name="com.badlogic.gdx.math.Rectangle"/>
 <fullyQualifiedTypeName name="com.badlogic.gdx.utils.Pool"/>
+<fullyQualifiedTypeName name="com.badlogic.gdx.input.GestureDetector.GestureListener"/>
 </qualifiedTypeNameHistroy>

@@ -68,7 +68,7 @@ public class World {
 	}
 
 	private void createDemoWorld() {
-		bob = new Bob(new Vector2(7, 3));
+		bob = new Bob(new Vector2(7, 1));
 		level = new Level();
 	}
 }
