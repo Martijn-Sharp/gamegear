@@ -5,6 +5,8 @@
 	<classpathentry exported="true" kind="lib" path="libs/gdx.jar" sourcepath="libs/gdx-sources.jar"/>
 	<classpathentry kind="lib" path="libs/gdx-sources.jar"/>
 	<classpathentry kind="lib" path="libs/gdx-tools.jar"/>
-	<classpathentry kind="lib" path="libs/json-simple-1.1.1.jar"/>
+	<classpathentry kind="lib" path="libs/jackson-core-2.2.3.jar"/>
+	<classpathentry kind="lib" path="libs/jackson-databind-2.2.3.jar"/>
+	<classpathentry kind="lib" path="libs/jackson-annotations-2.2.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
