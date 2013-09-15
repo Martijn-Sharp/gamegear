@@ -68,7 +68,7 @@ namespace MapEditor
             int[] temp = new int[2];
             for (int i = 0; i < 2; i++)
             {
-                Convert.ToInt32(coords[i]);
+                temp[i] = Convert.ToInt32(coords[i]);
             }
             return temp;
         }
@@ -86,7 +86,7 @@ namespace MapEditor
             //Check if tile exists
             if (!map.ContainsKey(tmpName))
             {
-                map.Add(tmpName, new Tile(coords[0], coords[1]));
+                map.Add(tmpName, new Tile(coords[1],9 - coords[0]));
                 switch(propertySelected)
                 {
                     case (int)RadioEnum.Damage: map[tmpName].damage = true;
@@ -162,23 +162,48 @@ namespace MapEditor
 
         private void exportButton_Click(object sender, EventArgs e)
         {
+            //Convert map to JSON
             string lines = JsonConvert.SerializeObject(map);
-            System.IO.StreamWriter file = new System.IO.StreamWriter("d:\\map.dat");
-            file.WriteLine(lines);
+            // Displays a SaveFileDialog so the user can save the map
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.Filter = "Map file|*.dat";
+            saveFileDialog1.Title = "Save a Map File";
+            saveFileDialog1.ShowDialog();
 
-            file.Close();
+            // If the file name is not an empty string open it for saving.
+            if (saveFileDialog1.FileName != "")
+            {
+                using (System.IO.StreamWriter sw = new System.IO.StreamWriter(saveFileDialog1.FileName))
+                {
+                    sw.WriteLine(lines);
+                }
+            }
         }
 
         private void importButton_Click(object sender, EventArgs e)
         {
-            // Read the file as one string.
-            System.IO.StreamReader file = new System.IO.StreamReader("d:\\map.dat");
-            string lines = file.ReadToEnd();
-            file.Close();
+            // Displays an OpenFileDialog so the user can select a Cursor.
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+            openFileDialog1.Filter = "Map files|*.dat";
+            openFileDialog1.Title = "Select a Map File";
 
-            //map = (Dictionary<String, Tile>) JsonConvert.DeserializeObject(lines);
-            map = JsonConvert.DeserializeObject<Dictionary<String, Tile>>(lines);
-            rebuildGUI(true);
+            // Show the Dialog.
+            // If the user clicked OK in the dialog and
+            // a .dat file was selected, open it.
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                // Assign the cursor in the Stream to the Form's Cursor property.
+                openFileDialog1.OpenFile();
+                System.IO.StreamReader file = new System.IO.StreamReader(openFileDialog1.FileName);
+                // Read the file as one string.
+                //System.IO.StreamReader file = new System.IO.StreamReader("d:\\map.dat");
+                string lines = file.ReadToEnd();
+                file.Close();
+
+                //map = (Dictionary<String, Tile>) JsonConvert.DeserializeObject(lines);
+                map = JsonConvert.DeserializeObject<Dictionary<String, Tile>>(lines);
+                rebuildGUI(true);
+            }
         }
 
         private void rebuildGUI(bool force)
@@ -233,7 +258,7 @@ namespace MapEditor
                 e.Handled = true;
             }
 
-            //For floating numbers
+            //For non integer numbers
 
             //if (!char.IsControl(e.KeyChar)
             //    && !char.IsDigit(e.KeyChar)
@@ -253,7 +278,7 @@ namespace MapEditor
     public class Tile
     {
         //Coordinates on local map
-        private int xCoord, yCoord;
+        public int xCoord, yCoord;
 
         //Properties
         public bool damage, enemy, level, special;
