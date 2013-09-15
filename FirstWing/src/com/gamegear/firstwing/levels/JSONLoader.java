@@ -3,26 +3,44 @@ package com.gamegear.firstwing.levels;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONValue;
+import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.core.type.TypeReference;
 
 public class JSONLoader {
 	
-	public Map level;
+	private Map<String, Tile> level;
 	
 	public JSONLoader(String mapPath)
 	{
 		String jsonFile = "";
 		try {
 			jsonFile = readFile(mapPath);
-			System.out.println(jsonFile);
 		} catch (IOException e) {
-			System.out.println("Ja dat lukt niet sukkel");
+			System.out.println("File didn't load");
 		}
-		Object obj=JSONValue.parse(jsonFile);
-		JSONArray array=(JSONArray)obj;
+		
+		level = new HashMap<String,Tile>();
+		ObjectMapper mapper = new ObjectMapper();
+	 
+		try {
+	 
+			//convert JSON string to Map
+			level = mapper.readValue(jsonFile, 
+			    new TypeReference<HashMap<String,Tile>>(){});
+	 
+			System.out.println(level);
+	 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public Map<String, Tile> getLevel()
+	{
+		return level;
 	}
 	
 	private String readFile( String file ) throws IOException {
@@ -36,6 +54,8 @@ public class JSONLoader {
 	        stringBuilder.append( ls );
 	    }
 
-	    return stringBuilder.toString();
+	    String s = stringBuilder.toString();
+	    reader.close();
+	    return s;
 	}
 }
