@@ -1,11 +1,9 @@
 package com.gamegear.firstwing.levels;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.badlogic.gdx.files.FileHandle;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.core.type.TypeReference;
 
@@ -13,12 +11,12 @@ public class JSONLoader {
 	
 	private Map<String, Tile> level;
 	
-	public JSONLoader(String mapPath)
+	public JSONLoader(FileHandle mapHandler)
 	{
 		String jsonFile = "";
 		try {
-			jsonFile = readFile(mapPath);
-		} catch (IOException e) {
+			jsonFile = mapHandler.readString();
+		} catch (Exception e) {
 			System.out.println("File didn't load");
 		}
 		
@@ -41,21 +39,5 @@ public class JSONLoader {
 	public Map<String, Tile> getLevel()
 	{
 		return level;
-	}
-	
-	private String readFile( String file ) throws IOException {
-	    BufferedReader reader = new BufferedReader( new FileReader (file));
-	    String         line = null;
-	    StringBuilder  stringBuilder = new StringBuilder();
-	    String         ls = System.getProperty("line.separator");
-
-	    while( ( line = reader.readLine() ) != null ) {
-	        stringBuilder.append( line );
-	        stringBuilder.append( ls );
-	    }
-
-	    String s = stringBuilder.toString();
-	    reader.close();
-	    return s;
 	}
 }

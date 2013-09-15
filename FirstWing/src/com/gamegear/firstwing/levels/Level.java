@@ -1,7 +1,6 @@
 package com.gamegear.firstwing.levels;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
 import com.gamegear.firstwing.actors.Block;
 
 public class Level {
@@ -9,7 +8,6 @@ public class Level {
 	private int width;
 	private int height;
 	private Block[][] blocks;
-	private World world;
 
 	public int getWidth() {
 		return width;
@@ -35,8 +33,7 @@ public class Level {
 		this.blocks = blocks;
 	}
 
-	public Level(World world) {
-		this.world = world;
+	public Level() {
 		loadDemoLevel();
 	}
 	
@@ -55,19 +52,19 @@ public class Level {
 		}
 		
 		for (int col = 0; col < 10; col++) {
-			blocks[col][0] = new Block(new Vector2(col, 0), world);
-			blocks[col][6] = new Block(new Vector2(col, 6), world);
+			blocks[col][0] = new Block(new Vector2(col, 0));
+			blocks[col][6] = new Block(new Vector2(col, 6));
 			if (col > 2) {
-				blocks[col][1] = new Block(new Vector2(col, 1), world);
+				blocks[col][1] = new Block(new Vector2(col, 1));
 			}
 		}
-		blocks[9][2] = new Block(new Vector2(9, 2), world);
-		blocks[9][3] = new Block(new Vector2(9, 3), world);
-		blocks[9][4] = new Block(new Vector2(9, 4), world);
-		blocks[9][5] = new Block(new Vector2(9, 5), world);
+		blocks[9][2] = new Block(new Vector2(9, 2));
+		blocks[9][3] = new Block(new Vector2(9, 3));
+		blocks[9][4] = new Block(new Vector2(9, 4));
+		blocks[9][5] = new Block(new Vector2(9, 5));
 
-		blocks[6][3] = new Block(new Vector2(6, 3), world);
-		blocks[6][4] = new Block(new Vector2(6, 4), world);
-		blocks[6][5] = new Block(new Vector2(6, 5), world);
+		blocks[6][3] = new Block(new Vector2(6, 3));
+		blocks[6][4] = new Block(new Vector2(6, 4));
+		blocks[6][5] = new Block(new Vector2(6, 5));
 	}
 }
