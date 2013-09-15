@@ -57,15 +57,15 @@ public class WorldRenderer {
 		spriteBatch.setProjectionMatrix(cam.combined);
 		spriteBatch.begin();
 			tmpBodies = world.world.getBodies();
-			Body node = tmpBodies.next();
+			Body node;
 			while(tmpBodies.hasNext()){
+				node = tmpBodies.next();
+				
 				if(node.getUserData() != null && node.getUserData() instanceof Actor)
 				{
 					Actor actor = (Actor) node.getUserData();
 					spriteBatch.draw(actor.getTexture(), actor.getBody().getPosition().x - actor.SIZE / 2, actor.getBody().getPosition().y - actor.SIZE / 2, actor.SIZE, actor.SIZE);
 				}
-				
-				node = tmpBodies.next();
 			}
 		spriteBatch.end();
 		

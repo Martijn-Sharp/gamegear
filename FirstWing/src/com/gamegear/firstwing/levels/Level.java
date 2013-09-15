@@ -1,6 +1,12 @@
 package com.gamegear.firstwing.levels;
 
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
 import com.gamegear.firstwing.actors.Block;
 
 public class Level {
@@ -8,6 +14,7 @@ public class Level {
 	private int width;
 	private int height;
 	private Block[][] blocks;
+	private World world;
 
 	public int getWidth() {
 		return width;
@@ -33,7 +40,8 @@ public class Level {
 		this.blocks = blocks;
 	}
 
-	public Level() {
+	public Level(World world) {
+		this.world = world;
 		loadDemoLevel();
 	}
 	
@@ -42,29 +50,26 @@ public class Level {
 	}
 
 	private void loadDemoLevel() {
-		width = 10;
-		height = 7;
+		width = 100;
+		height = 10;
 		blocks = new Block[width][height];
-		for (int col = 0; col < width; col++) {
-			for (int row = 0; row < height; row++) {
-				blocks[col][row] = null;
-			}
-		}
 		
-		for (int col = 0; col < 10; col++) {
-			blocks[col][0] = new Block(new Vector2(col, 0));
-			blocks[col][6] = new Block(new Vector2(col, 6));
-			if (col > 2) {
-				blocks[col][1] = new Block(new Vector2(col, 1));
-			}
-		}
-		blocks[9][2] = new Block(new Vector2(9, 2));
-		blocks[9][3] = new Block(new Vector2(9, 3));
-		blocks[9][4] = new Block(new Vector2(9, 4));
-		blocks[9][5] = new Block(new Vector2(9, 5));
-
-		blocks[6][3] = new Block(new Vector2(6, 3));
-		blocks[6][4] = new Block(new Vector2(6, 4));
-		blocks[6][5] = new Block(new Vector2(6, 5));
+		Map<String, Tile> LevelLoader = new JSONLoader(Gdx.files.internal("levels/map.dat")).getLevel();
+		Iterator<Entry<String, Tile>> it = LevelLoader.entrySet().iterator();
+	    
+		while (it.hasNext()) {
+	        Map.Entry<String, Tile> pairs = (Map.Entry<String, Tile>)it.next();
+	        
+	        //Load tiles into level
+	        if(pairs.getValue().level)
+	        {
+	        	blocks[pairs.getValue().xCoord][pairs.getValue().yCoord] = new Block(new Vector2(pairs.getValue().xCoord, pairs.getValue().yCoord), world);
+	        }
+	        else
+	        {
+	        	System.out.println("Not a level tile");
+	        }
+	        it.remove();
+	    }
 	}
 }

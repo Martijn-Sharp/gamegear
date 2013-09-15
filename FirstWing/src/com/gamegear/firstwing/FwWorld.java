@@ -50,6 +50,5 @@ public class FwWorld {
 	private void createDemoWorld() {
 		bob = new Bob(new Vector2(7, 3), world);
 		level = new Level(this.world);
-		//JSONLoader LevelLoader = new JSONLoader("D:/map.dat");
 	}
 }
