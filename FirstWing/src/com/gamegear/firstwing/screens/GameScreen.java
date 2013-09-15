@@ -9,12 +9,12 @@ import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.input.GestureDetector.GestureListener;
 import com.badlogic.gdx.math.Vector2;
 import com.gamegear.firstwing.BobController;
-import com.gamegear.firstwing.World;
+import com.gamegear.firstwing.FwWorld;
 import com.gamegear.firstwing.WorldRenderer;
 
 public class GameScreen implements Screen, InputProcessor, GestureListener {
 
-	private World 			world;
+	private FwWorld 		world;
 	private WorldRenderer 	renderer;
 	private BobController	controller;
 	
@@ -22,9 +22,9 @@ public class GameScreen implements Screen, InputProcessor, GestureListener {
 	
 	@Override
 	public void show() {
-		world = new World();
+		world = new FwWorld();
 		renderer = new WorldRenderer(world, false);
-		controller = new BobController(world);
+		controller = new BobController(world.getBob());
 		Gdx.input.setInputProcessor(this);
 	}
 
@@ -72,10 +72,12 @@ public class GameScreen implements Screen, InputProcessor, GestureListener {
 			controller.leftPressed();
 		if (keycode == Keys.RIGHT)
 			controller.rightPressed();
-		if (keycode == Keys.Z)
-			controller.jumpPressed();
 		if (keycode == Keys.X)
 			controller.firePressed();
+		if (keycode == Keys.UP)
+			controller.upPressed();
+		if (keycode == Keys.DOWN)
+			controller.downPressed();
 		return true;
 	}
 
@@ -85,12 +87,14 @@ public class GameScreen implements Screen, InputProcessor, GestureListener {
 			controller.leftReleased();
 		if (keycode == Keys.RIGHT)
 			controller.rightReleased();
-		if (keycode == Keys.Z)
-			controller.jumpReleased();
 		if (keycode == Keys.X)
 			controller.fireReleased();
 		if (keycode == Keys.D)
 			renderer.setDebug(!renderer.isDebug());
+		if (keycode == Keys.UP)
+			controller.upReleased();
+		if (keycode == Keys.DOWN)
+			controller.downReleased();
 		return true;
 	}
 
@@ -106,16 +110,20 @@ public class GameScreen implements Screen, InputProcessor, GestureListener {
 			return false;
 		}
 		
-		if (x < width / 2 && y > height / 2) {
+		if (x < width / 2) {
 			controller.leftPressed();
 		}
 		
-		if (x > width / 2 && y > height / 2) {
+		if (x > width / 2) {
 			controller.rightPressed();
 		}
 		
 		if (y < height / 2){
-			controller.jumpPressed();
+			controller.upPressed();
+		}
+		
+		if (y > height / 2){
+			controller.downPressed();
 		}
 		
 		return true;
@@ -136,7 +144,11 @@ public class GameScreen implements Screen, InputProcessor, GestureListener {
 		}
 		
 		if (y < height / 2){
-			controller.jumpReleased();
+			controller.upReleased();
+		}
+		
+		if (y > height / 2){
+			controller.downReleased();
 		}
 		
 		return true;
@@ -144,15 +156,8 @@ public class GameScreen implements Screen, InputProcessor, GestureListener {
 
 	@Override
 	public boolean touchDragged(int x, int y, int pointer) {
-		if (!Gdx.app.getType().equals(ApplicationType.Android))
-			return false;
-		if (x < width / 2 && y > height / 2) {
-			controller.leftPressed();
-		}
-		if (x > width / 2 && y > height / 2) {
-			controller.rightPressed();
-		}
-		return true;
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	public boolean touchMoved(int x, int y) {

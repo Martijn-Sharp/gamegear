@@ -1,0 +1,91 @@
+package com.gamegear.firstwingbox2d;
+
+import java.util.Iterator;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.gamegear.firstwingbox2d.actors.Actor;
+
+public class WorldRenderer {
+	private static final float CAMERA_WIDTH = 10f;
+	private static final float CAMERA_HEIGHT = 7f;
+	private static final float RUNNING_FRAME_DURATION = 0.06f;
+	
+	private FwWorld world;
+	private OrthographicCamera cam;
+
+	/** for debug rendering **/
+	private Box2DDebugRenderer debugRenderer;
+
+	/** Textures **/
+	public static TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("textures/textures.pack"));
+	private SpriteBatch spriteBatch;
+	private boolean debug = false;
+	private int width;
+	private int height;
+	private Iterator<Body> tmpBodies;
+	
+	public void setSize (int w, int h) {
+		this.width = w;
+		this.height = h;
+	}
+	public boolean isDebug() {
+		return debug;
+	}
+	public void setDebug(boolean debug) {
+		this.debug = debug;
+	}
+
+	public WorldRenderer(FwWorld world, boolean debug) {
+		this.world = world;
+		this.cam = new OrthographicCamera(CAMERA_WIDTH, CAMERA_HEIGHT);
+		this.cam.setToOrtho(false, CAMERA_WIDTH, CAMERA_HEIGHT);
+		this.cam.position.set(CAMERA_WIDTH / 2f, CAMERA_HEIGHT / 2f, 0);
+		this.cam.update();
+		this.debug = debug;
+		spriteBatch = new SpriteBatch();
+		this.debugRenderer = new Box2DDebugRenderer();
+	}
+	
+	public void render() {
+		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+		moveCamera(world.getBob().getPosition().x, world.getBob().getPosition().y);
+		spriteBatch.setProjectionMatrix(cam.combined);
+		spriteBatch.begin();
+			tmpBodies = world.world.getBodies();
+			Body node = tmpBodies.next();
+			while(tmpBodies.hasNext()){
+				Body obj = node;
+				node = tmpBodies.next();
+				if(obj.getUserData() != null && obj.getUserData() instanceof Actor)
+				{
+					Actor actor = (Actor) obj.getUserData();
+					//Sprite sprite = new Sprite(actor.getTexture().getTexture());
+					Sprite sprite = new Sprite(new Texture(Gdx.files.internal("images/block2.png")));
+					sprite.setSize(actor.SIZE, actor.SIZE);
+					sprite.setScale(actor.SIZE, actor.SIZE);
+					sprite.setPosition(actor.getBody().getPosition().x, actor.getBody().getPosition().y);
+					//sprite.setScale(actor.SIZE / 2, actor.SIZE / 2);
+					//sprite.setPosition(actor.getBody().getPosition().x, actor.getBody().getPosition().y);
+					//sprite.setRotation(actor.getBody().getAngle() * MathUtils.radiansToDegrees);
+					sprite.draw(spriteBatch);
+				}
+			}
+		spriteBatch.end();
+		
+		debugRenderer.render(world.world, cam.combined);
+		world.world.step(1/60f, 6, 2);
+	}
+	
+	public void moveCamera(float x,float y){
+        cam.position.set(x, y, 0);
+        cam.update();
+	}
+}

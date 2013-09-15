@@ -1,0 +1,11 @@
+package com.gamegear.firstwingbox2d;
+
+import com.badlogic.gdx.Game;
+import com.gamegear.firstwingbox2d.screens.GameScreen;
+
+public class FirstWingBox2D extends Game {
+	@Override
+	public void create() {
+		setScreen(new GameScreen());
+	}
+}

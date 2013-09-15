@@ -1,17 +1,35 @@
 package com.gamegear.firstwing.actors;
 
-import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 
 public abstract class Actor {
-	protected Vector2 position = new Vector2();
-	protected Rectangle bounds = new Rectangle();
+
+	public float SPEED;	// unit per second
+	public float SIZE; // half a unit
+	
+	protected Body body;
+	protected BodyDef bodyDef = new BodyDef();
+	protected Sprite bodySprite;
+	protected TextureRegion texture;
+	
+	public Body getBody(){
+		return this.body;
+	}
 	
 	public Vector2 getPosition() {
-		return position;
+		return body.getPosition();
 	}
 	
-	public Rectangle getBounds() {
-		return bounds;
+	public TextureRegion getTexture(){
+		this.draw();
+		return texture;
 	}
+	
+	protected abstract void loadTextures();
+	
+	protected abstract void draw();
 }

@@ -1,49 +1,45 @@
 package com.gamegear.firstwing.actors;
 
-import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.gamegear.firstwing.WorldRenderer;
+import com.gamegear.firstwing.actors.Actor;
 
-public class Bob extends Actor{
+public class Bob extends Actor {
 
 	public enum State {
-		IDLE, WALKING, JUMPING, DYING
+		IDLE, DYING, ACCELERATING, BREAKING, LIFTING, DESCENDING
 	}
 	
 	public static final float SPEED = 4f;	// unit per second
-	public static final float JUMP_VELOCITY = 4f;
 	public static final float SIZE = 0.5f; // half a unit
+	private static final float RUNNING_FRAME_DURATION = 0.06f;
 	
-	Vector2 acceleration = new Vector2();
-	Vector2 velocity = new Vector2();
-	State	state = State.IDLE;
-	boolean	facingLeft = true;
+	State state = State.IDLE;
 	float stateTime = 0;
-	boolean longJump = false;
+	
+	private TextureRegion bobIdleRight;
+	private TextureRegion bobJumpRight;
+	private TextureRegion bobFallRight;
+	
+	private Animation walkRightAnimation;
 
-	public Bob(Vector2 position) {
-		this.position = position;
-		this.bounds.height = SIZE;
-		this.bounds.width = SIZE;
-	}
-
-	public boolean isFacingLeft() {
-		return facingLeft;
-	}
-
-	public void setFacingLeft(boolean facingLeft) {
-		this.facingLeft = facingLeft;
-	}
-
-	public Vector2 getPosition() {
-		return position;
-	}
-
-	public Vector2 getAcceleration() {
-		return acceleration;
-	}
-
-	public Vector2 getVelocity() {
-		return velocity;
+	public Bob(Vector2 position, World world) {
+		super.SIZE = SIZE;
+		this.loadTextures();
+		this.bodyDef.position.set(position);
+		this.bodyDef.type = BodyType.DynamicBody;
+		this.body = world.createBody(bodyDef);
+		
+		PolygonShape rect = new PolygonShape();
+		rect.setAsBox(SIZE / 2, SIZE / 2);
+		this.body.createFixture(rect, 0f);
+		this.body.setUserData(this);
+		rect.dispose();
 	}
 
 	public State getState() {
@@ -57,39 +53,11 @@ public class Bob extends Actor{
 	public float getStateTime(){
 		return stateTime;
 	}
-	
-	public boolean isLongJump() {
-		return longJump;
-	}
-
-
-	public void setLongJump(boolean longJump) {
-		this.longJump = longJump;
-	}
-
 
 	public void setPosition(Vector2 position) {
-		this.position = position;
-		this.bounds.setX(position.x);
-		this.bounds.setY(position.y);
+		this.bodyDef.position.set(position);
 	}
-
-
-	public void setAcceleration(Vector2 acceleration) {
-		this.acceleration = acceleration;
-	}
-
-
-	public void setVelocity(Vector2 velocity) {
-		this.velocity = velocity;
-	}
-
-
-	public void setBounds(Rectangle bounds) {
-		this.bounds = bounds;
-	}
-
-
+	
 	public void setStateTime(float stateTime) {
 		this.stateTime = stateTime;
 	}
@@ -97,5 +65,35 @@ public class Bob extends Actor{
 	public void update(float delta) {
 		stateTime += delta;
 		//position.add(velocity.tmp().mul(delta)); 
+	}
+
+	@Override
+	protected void loadTextures() {
+		bobIdleRight = WorldRenderer.atlas.findRegion("bob-01");
+		bobIdleRight.flip(true, false);
+		TextureRegion[] walkRightFrames = new TextureRegion[5];
+
+		for (int i = 0; i < 5; i++) {
+			walkRightFrames[i] = WorldRenderer.atlas.findRegion("bob-0" + (i + 2));
+			walkRightFrames[i].flip(true, false);
+		}
+		
+		walkRightAnimation = new Animation(RUNNING_FRAME_DURATION, walkRightFrames);
+		bobJumpRight = WorldRenderer.atlas.findRegion("bob-up");
+		bobJumpRight.flip(true, false);
+		bobFallRight = WorldRenderer.atlas.findRegion("bob-down");
+		bobFallRight.flip(true, false);
+	}
+
+	@Override
+	protected void draw() {
+		this.texture = bobIdleRight;
+		if(this.state.equals(State.ACCELERATING)) {
+			this.texture = walkRightAnimation.getKeyFrame(this.stateTime, true);
+		} else if (this.state.equals(State.LIFTING)) {
+			this.texture = bobJumpRight;
+		} else if (this.state.equals(State.DESCENDING)) {
+			this.texture = bobFallRight;
+		}
 	}
 }
