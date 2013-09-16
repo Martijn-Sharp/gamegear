@@ -7,13 +7,13 @@ import java.util.Map.Entry;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
-import com.gamegear.firstwing.actors.Block;
+import com.gamegear.firstwing.actors.*;
 
 public class Level {
 
 	private int width;
 	private int height;
-	private Block[][] blocks;
+	private Actor[][] blocks;
 	private World world;
 
 	public int getWidth() {
@@ -32,7 +32,7 @@ public class Level {
 		this.height = height;
 	}
 
-	public Block[][] getBlocks() {
+	public Actor[][] getBlocks() {
 		return blocks;
 	}
 
@@ -45,30 +45,35 @@ public class Level {
 		loadDemoLevel();
 	}
 	
-	public Block get(int x, int y) {
+	public Actor get(int x, int y) {
 		return blocks[x][y];
 	}
 
 	private void loadDemoLevel() {
 		width = 100;
 		height = 10;
-		blocks = new Block[width][height];
+		blocks = new Actor[width][height];
 		
-		Map<String, Tile> LevelLoader = new JSONLoader(Gdx.files.internal("levels/map.dat")).getLevel();
+		Map<String, Tile> LevelLoader = new JSONLoader(Gdx.files.internal("levels/map2.dat")).getLevel();
 		Iterator<Entry<String, Tile>> it = LevelLoader.entrySet().iterator();
 	    
 		while (it.hasNext()) {
 	        Map.Entry<String, Tile> pairs = (Map.Entry<String, Tile>)it.next();
+	        Tile tile = pairs.getValue();
 	        
-	        //Load tiles into level
-	        if(pairs.getValue().level)
+	        // Load tiles into level
+	        if(tile.level)
 	        {
-	        	blocks[pairs.getValue().xCoord][pairs.getValue().yCoord] = new Block(new Vector2(pairs.getValue().xCoord, pairs.getValue().yCoord), world);
+	        	blocks[tile.xCoord][tile.yCoord] = new Block(new Vector2(tile.xCoord, tile.yCoord), world);
+	        }
+	        else if (tile.enemy) {
+	        	blocks[tile.xCoord][tile.yCoord] = new Enemy(new Vector2(tile.xCoord, tile.yCoord), world);
 	        }
 	        else
 	        {
 	        	System.out.println("Not a level tile");
 	        }
+	        
 	        it.remove();
 	    }
 	}
