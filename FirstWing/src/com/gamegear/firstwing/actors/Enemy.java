@@ -8,11 +8,14 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.gamegear.firstwing.WorldRenderer;
 
 public class Enemy extends Actor {
+	
+	protected int health;
+	protected int speed;
 
 	private TextureRegion idleLeft;
 	
 	public Enemy(Vector2 position, World world){
-		super.SIZE = 0.5f;
+		this.SIZE = 0.5f;
 		this.loadTextures();
 		this.bodyDef.position.set(position);
 		this.bodyDef.type = BodyType.DynamicBody;
@@ -34,5 +37,4 @@ public class Enemy extends Actor {
 	protected void draw() {
 		this.texture = this.idleLeft;
 	}
-
 }
