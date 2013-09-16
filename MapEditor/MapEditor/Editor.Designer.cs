@@ -29,167 +29,197 @@
         private void InitializeComponent()
         {
             this.clearButton = new System.Windows.Forms.Button();
-            this.damageBox = new System.Windows.Forms.TextBox();
-            this.enemyBox = new System.Windows.Forms.TextBox();
-            this.levelBox = new System.Windows.Forms.TextBox();
-            this.specialBox = new System.Windows.Forms.TextBox();
             this.exportButton = new System.Windows.Forms.Button();
             this.importButton = new System.Windows.Forms.Button();
-            this.damageButton = new System.Windows.Forms.RadioButton();
-            this.enemyButton = new System.Windows.Forms.RadioButton();
-            this.levelButton = new System.Windows.Forms.RadioButton();
-            this.specialButton = new System.Windows.Forms.RadioButton();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.groupBox1.SuspendLayout();
+            this.mapPanel = new System.Windows.Forms.Panel();
+            this.lblButtonValue = new System.Windows.Forms.Label();
+            this.lblButtonY = new System.Windows.Forms.Label();
+            this.lblButtonX = new System.Windows.Forms.Label();
+            this.lblCurrentButton = new System.Windows.Forms.Label();
+            this.lblSelectedType = new System.Windows.Forms.Label();
+            this.pnlInfo = new System.Windows.Forms.GroupBox();
+            this.tabPicker = new System.Windows.Forms.TabControl();
+            this.Damage = new System.Windows.Forms.TabPage();
+            this.Enemy = new System.Windows.Forms.TabPage();
+            this.Level = new System.Windows.Forms.TabPage();
+            this.Special = new System.Windows.Forms.TabPage();
+            this.pnlInfo.SuspendLayout();
+            this.tabPicker.SuspendLayout();
             this.SuspendLayout();
             // 
             // clearButton
             // 
-            this.clearButton.Location = new System.Drawing.Point(533, 12);
+            this.clearButton.Location = new System.Drawing.Point(755, 351);
+            this.clearButton.Margin = new System.Windows.Forms.Padding(2);
             this.clearButton.Name = "clearButton";
-            this.clearButton.Size = new System.Drawing.Size(75, 33);
+            this.clearButton.Size = new System.Drawing.Size(56, 27);
             this.clearButton.TabIndex = 4;
             this.clearButton.Text = "Clear";
             this.clearButton.UseVisualStyleBackColor = true;
-            this.clearButton.Click += new System.EventHandler(this.clearButton_Click);
-            // 
-            // damageBox
-            // 
-            this.damageBox.Location = new System.Drawing.Point(0, 54);
-            this.damageBox.Name = "damageBox";
-            this.damageBox.Size = new System.Drawing.Size(74, 22);
-            this.damageBox.TabIndex = 5;
-            this.damageBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.intOnly_KeyPress);
-            // 
-            // enemyBox
-            // 
-            this.enemyBox.Location = new System.Drawing.Point(83, 54);
-            this.enemyBox.Name = "enemyBox";
-            this.enemyBox.Size = new System.Drawing.Size(74, 22);
-            this.enemyBox.TabIndex = 6;
-            this.enemyBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.intOnly_KeyPress);
-            // 
-            // levelBox
-            // 
-            this.levelBox.Location = new System.Drawing.Point(163, 54);
-            this.levelBox.Name = "levelBox";
-            this.levelBox.Size = new System.Drawing.Size(74, 22);
-            this.levelBox.TabIndex = 7;
-            this.levelBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.intOnly_KeyPress);
-            // 
-            // specialBox
-            // 
-            this.specialBox.Location = new System.Drawing.Point(243, 54);
-            this.specialBox.Name = "specialBox";
-            this.specialBox.Size = new System.Drawing.Size(74, 22);
-            this.specialBox.TabIndex = 8;
-            this.specialBox.Tag = "";
-            this.specialBox.WordWrap = false;
-            this.specialBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.intOnly_KeyPress);
+            this.clearButton.Click += new System.EventHandler(this.ClearButtonClick);
             // 
             // exportButton
             // 
-            this.exportButton.Location = new System.Drawing.Point(695, 12);
+            this.exportButton.Location = new System.Drawing.Point(875, 351);
+            this.exportButton.Margin = new System.Windows.Forms.Padding(2);
             this.exportButton.Name = "exportButton";
-            this.exportButton.Size = new System.Drawing.Size(75, 33);
+            this.exportButton.Size = new System.Drawing.Size(56, 27);
             this.exportButton.TabIndex = 9;
             this.exportButton.Text = "Export";
             this.exportButton.UseVisualStyleBackColor = true;
-            this.exportButton.Click += new System.EventHandler(this.exportButton_Click);
+            this.exportButton.Click += new System.EventHandler(this.ExportButtonClick);
             // 
             // importButton
             // 
-            this.importButton.Location = new System.Drawing.Point(614, 12);
+            this.importButton.Location = new System.Drawing.Point(815, 351);
+            this.importButton.Margin = new System.Windows.Forms.Padding(2);
             this.importButton.Name = "importButton";
-            this.importButton.Size = new System.Drawing.Size(75, 33);
+            this.importButton.Size = new System.Drawing.Size(56, 27);
             this.importButton.TabIndex = 10;
             this.importButton.Text = "Import";
             this.importButton.UseVisualStyleBackColor = true;
-            this.importButton.Click += new System.EventHandler(this.importButton_Click);
+            this.importButton.Click += new System.EventHandler(this.ImportButtonClick);
             // 
-            // damageButton
+            // mapPanel
             // 
-            this.damageButton.Appearance = System.Windows.Forms.Appearance.Button;
-            this.damageButton.AutoSize = true;
-            this.damageButton.Location = new System.Drawing.Point(0, 21);
-            this.damageButton.Name = "damageButton";
-            this.damageButton.Size = new System.Drawing.Size(71, 27);
-            this.damageButton.TabIndex = 11;
-            this.damageButton.TabStop = true;
-            this.damageButton.Text = "Damage";
-            this.damageButton.UseVisualStyleBackColor = true;
-            this.damageButton.CheckedChanged += new System.EventHandler(this.radioButtons_CheckedChanged);
+            this.mapPanel.AutoScroll = true;
+            this.mapPanel.Location = new System.Drawing.Point(173, 12);
+            this.mapPanel.Name = "mapPanel";
+            this.mapPanel.Size = new System.Drawing.Size(760, 334);
+            this.mapPanel.TabIndex = 0;
+            this.mapPanel.TabIndexChanged += new System.EventHandler(this.TabPickerIndexChanged);
             // 
-            // enemyButton
+            // lblButtonValue
             // 
-            this.enemyButton.Appearance = System.Windows.Forms.Appearance.Button;
-            this.enemyButton.AutoSize = true;
-            this.enemyButton.Location = new System.Drawing.Point(83, 21);
-            this.enemyButton.Name = "enemyButton";
-            this.enemyButton.Size = new System.Drawing.Size(61, 27);
-            this.enemyButton.TabIndex = 12;
-            this.enemyButton.TabStop = true;
-            this.enemyButton.Text = "Enemy";
-            this.enemyButton.UseVisualStyleBackColor = true;
-            this.enemyButton.CheckedChanged += new System.EventHandler(this.radioButtons_CheckedChanged);
+            this.lblButtonValue.AutoSize = true;
+            this.lblButtonValue.Location = new System.Drawing.Point(6, 85);
+            this.lblButtonValue.Name = "lblButtonValue";
+            this.lblButtonValue.Size = new System.Drawing.Size(43, 13);
+            this.lblButtonValue.TabIndex = 4;
+            this.lblButtonValue.Text = "Type = ";
             // 
-            // levelButton
+            // lblButtonY
             // 
-            this.levelButton.Appearance = System.Windows.Forms.Appearance.Button;
-            this.levelButton.AutoSize = true;
-            this.levelButton.Location = new System.Drawing.Point(163, 21);
-            this.levelButton.Name = "levelButton";
-            this.levelButton.Size = new System.Drawing.Size(52, 27);
-            this.levelButton.TabIndex = 13;
-            this.levelButton.TabStop = true;
-            this.levelButton.Text = "Level";
-            this.levelButton.UseVisualStyleBackColor = true;
-            this.levelButton.CheckedChanged += new System.EventHandler(this.radioButtons_CheckedChanged);
+            this.lblButtonY.AutoSize = true;
+            this.lblButtonY.Location = new System.Drawing.Point(7, 72);
+            this.lblButtonY.Name = "lblButtonY";
+            this.lblButtonY.Size = new System.Drawing.Size(24, 13);
+            this.lblButtonY.TabIndex = 3;
+            this.lblButtonY.Text = "y = ";
             // 
-            // specialButton
+            // lblButtonX
             // 
-            this.specialButton.Appearance = System.Windows.Forms.Appearance.Button;
-            this.specialButton.AutoSize = true;
-            this.specialButton.Location = new System.Drawing.Point(243, 21);
-            this.specialButton.Name = "specialButton";
-            this.specialButton.Size = new System.Drawing.Size(64, 27);
-            this.specialButton.TabIndex = 14;
-            this.specialButton.TabStop = true;
-            this.specialButton.Text = "Special";
-            this.specialButton.UseVisualStyleBackColor = true;
-            this.specialButton.CheckedChanged += new System.EventHandler(this.radioButtons_CheckedChanged);
+            this.lblButtonX.AutoSize = true;
+            this.lblButtonX.Location = new System.Drawing.Point(6, 59);
+            this.lblButtonX.Name = "lblButtonX";
+            this.lblButtonX.Size = new System.Drawing.Size(21, 13);
+            this.lblButtonX.TabIndex = 2;
+            this.lblButtonX.Text = "x =";
             // 
-            // groupBox1
+            // lblCurrentButton
             // 
-            this.groupBox1.Controls.Add(this.damageButton);
-            this.groupBox1.Controls.Add(this.specialButton);
-            this.groupBox1.Controls.Add(this.damageBox);
-            this.groupBox1.Controls.Add(this.levelButton);
-            this.groupBox1.Controls.Add(this.enemyButton);
-            this.groupBox1.Controls.Add(this.specialBox);
-            this.groupBox1.Controls.Add(this.enemyBox);
-            this.groupBox1.Controls.Add(this.levelBox);
-            this.groupBox1.Location = new System.Drawing.Point(12, 3);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(326, 81);
-            this.groupBox1.TabIndex = 15;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Tile properties";
+            this.lblCurrentButton.AutoSize = true;
+            this.lblCurrentButton.Location = new System.Drawing.Point(6, 46);
+            this.lblCurrentButton.Name = "lblCurrentButton";
+            this.lblCurrentButton.Size = new System.Drawing.Size(86, 13);
+            this.lblCurrentButton.TabIndex = 1;
+            this.lblCurrentButton.Text = "Selected Button:";
+            // 
+            // lblSelectedType
+            // 
+            this.lblSelectedType.AutoSize = true;
+            this.lblSelectedType.Cursor = System.Windows.Forms.Cursors.Default;
+            this.lblSelectedType.Location = new System.Drawing.Point(6, 16);
+            this.lblSelectedType.Name = "lblSelectedType";
+            this.lblSelectedType.Size = new System.Drawing.Size(87, 13);
+            this.lblSelectedType.TabIndex = 0;
+            this.lblSelectedType.Text = "No type selected";
+            // 
+            // pnlInfo
+            // 
+            this.pnlInfo.Controls.Add(this.lblButtonValue);
+            this.pnlInfo.Controls.Add(this.lblSelectedType);
+            this.pnlInfo.Controls.Add(this.lblButtonY);
+            this.pnlInfo.Controls.Add(this.lblCurrentButton);
+            this.pnlInfo.Controls.Add(this.lblButtonX);
+            this.pnlInfo.Location = new System.Drawing.Point(12, 245);
+            this.pnlInfo.Name = "pnlInfo";
+            this.pnlInfo.Size = new System.Drawing.Size(151, 101);
+            this.pnlInfo.TabIndex = 18;
+            this.pnlInfo.TabStop = false;
+            this.pnlInfo.Text = "Info";
+            // 
+            // tabPicker
+            // 
+            this.tabPicker.Controls.Add(this.Damage);
+            this.tabPicker.Controls.Add(this.Enemy);
+            this.tabPicker.Controls.Add(this.Level);
+            this.tabPicker.Controls.Add(this.Special);
+            this.tabPicker.Location = new System.Drawing.Point(13, 12);
+            this.tabPicker.Name = "tabPicker";
+            this.tabPicker.SelectedIndex = 0;
+            this.tabPicker.Size = new System.Drawing.Size(154, 227);
+            this.tabPicker.TabIndex = 19;
+            this.tabPicker.SelectedIndexChanged += new System.EventHandler(this.TabPickerIndexChanged);
+            // 
+            // Damage
+            // 
+            this.Damage.Location = new System.Drawing.Point(4, 22);
+            this.Damage.Name = "Damage";
+            this.Damage.Padding = new System.Windows.Forms.Padding(3);
+            this.Damage.Size = new System.Drawing.Size(146, 201);
+            this.Damage.TabIndex = 0;
+            this.Damage.Text = "Damage";
+            this.Damage.UseVisualStyleBackColor = true;
+            // 
+            // Enemy
+            // 
+            this.Enemy.Location = new System.Drawing.Point(4, 22);
+            this.Enemy.Name = "Enemy";
+            this.Enemy.Padding = new System.Windows.Forms.Padding(3);
+            this.Enemy.Size = new System.Drawing.Size(109, 201);
+            this.Enemy.TabIndex = 1;
+            this.Enemy.Text = "Enemy";
+            this.Enemy.UseVisualStyleBackColor = true;
+            // 
+            // Level
+            // 
+            this.Level.Location = new System.Drawing.Point(4, 22);
+            this.Level.Name = "Level";
+            this.Level.Padding = new System.Windows.Forms.Padding(3);
+            this.Level.Size = new System.Drawing.Size(109, 201);
+            this.Level.TabIndex = 2;
+            this.Level.Text = "Level";
+            this.Level.UseVisualStyleBackColor = true;
+            // 
+            // Special
+            // 
+            this.Special.Location = new System.Drawing.Point(4, 22);
+            this.Special.Name = "Special";
+            this.Special.Padding = new System.Windows.Forms.Padding(3);
+            this.Special.Size = new System.Drawing.Size(109, 201);
+            this.Special.TabIndex = 3;
+            this.Special.Text = "Special";
+            this.Special.UseVisualStyleBackColor = true;
             // 
             // Editor
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(782, 453);
-            this.Controls.Add(this.groupBox1);
+            this.ClientSize = new System.Drawing.Size(945, 384);
+            this.Controls.Add(this.tabPicker);
+            this.Controls.Add(this.pnlInfo);
+            this.Controls.Add(this.mapPanel);
             this.Controls.Add(this.importButton);
             this.Controls.Add(this.exportButton);
             this.Controls.Add(this.clearButton);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Editor";
             this.Text = "Map Editor";
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.pnlInfo.ResumeLayout(false);
+            this.pnlInfo.PerformLayout();
+            this.tabPicker.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -197,17 +227,20 @@
         #endregion
 
         private System.Windows.Forms.Button clearButton;
-        private System.Windows.Forms.TextBox damageBox;
-        private System.Windows.Forms.TextBox enemyBox;
-        private System.Windows.Forms.TextBox levelBox;
-        private System.Windows.Forms.TextBox specialBox;
         private System.Windows.Forms.Button exportButton;
         private System.Windows.Forms.Button importButton;
-        private System.Windows.Forms.RadioButton damageButton;
-        private System.Windows.Forms.RadioButton enemyButton;
-        private System.Windows.Forms.RadioButton levelButton;
-        private System.Windows.Forms.RadioButton specialButton;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Panel mapPanel;
+        private System.Windows.Forms.Label lblCurrentButton;
+        private System.Windows.Forms.Label lblSelectedType;
+        private System.Windows.Forms.Label lblButtonValue;
+        private System.Windows.Forms.Label lblButtonY;
+        private System.Windows.Forms.Label lblButtonX;
+        private System.Windows.Forms.GroupBox pnlInfo;
+        private System.Windows.Forms.TabControl tabPicker;
+        private System.Windows.Forms.TabPage Damage;
+        private System.Windows.Forms.TabPage Enemy;
+        private System.Windows.Forms.TabPage Level;
+        private System.Windows.Forms.TabPage Special;
     }
 }
 
