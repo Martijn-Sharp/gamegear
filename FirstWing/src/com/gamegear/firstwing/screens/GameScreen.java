@@ -1,22 +1,21 @@
 package com.gamegear.firstwing.screens;
 
-import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
-import com.badlogic.gdx.input.GestureDetector.GestureListener;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.input.GestureDetector;
 import com.gamegear.firstwing.BobController;
 import com.gamegear.firstwing.FwWorld;
 import com.gamegear.firstwing.WorldRenderer;
 
-public class GameScreen implements Screen, InputProcessor, GestureListener {
+public class GameScreen implements Screen {
 
 	private FwWorld 		world;
 	private WorldRenderer 	renderer;
 	private BobController	controller;
+	GestureDetector gestureDetector;
+	InputMultiplexer im;
 	
 	private int width, height;
 	
@@ -24,8 +23,11 @@ public class GameScreen implements Screen, InputProcessor, GestureListener {
 	public void show() {
 		world = new FwWorld();
 		renderer = new WorldRenderer(world, false);
-		controller = new BobController(world.getBob());
-		Gdx.input.setInputProcessor(this);
+		controller = new BobController(world.getBob(), width, height);
+		gestureDetector = new GestureDetector(20, 0.5f, 2, 0.15f, controller);
+		im = new InputMultiplexer(gestureDetector, controller); // Order matters here!
+		Gdx.input.setInputProcessor(im);
+		
 	}
 
 	@Override
@@ -42,6 +44,8 @@ public class GameScreen implements Screen, InputProcessor, GestureListener {
 		renderer.setSize(width, height);
 		this.width = width;
 		this.height = height;
+		controller.width = width;
+		controller.height = height;
 	}
 
 	@Override
@@ -62,161 +66,5 @@ public class GameScreen implements Screen, InputProcessor, GestureListener {
 	@Override
 	public void dispose() {
 		Gdx.input.setInputProcessor(null);
-	}
-
-	// * InputProcessor methods ***************************//
-
-	@Override
-	public boolean keyDown(int keycode) {
-		if (keycode == Keys.LEFT)
-			controller.leftPressed();
-		if (keycode == Keys.RIGHT)
-			controller.rightPressed();
-		if (keycode == Keys.X)
-			controller.firePressed();
-		if (keycode == Keys.UP)
-			controller.upPressed();
-		if (keycode == Keys.DOWN)
-			controller.downPressed();
-		return true;
-	}
-
-	@Override
-	public boolean keyUp(int keycode) {
-		if (keycode == Keys.LEFT)
-			controller.leftReleased();
-		if (keycode == Keys.RIGHT)
-			controller.rightReleased();
-		if (keycode == Keys.X)
-			controller.fireReleased();
-		if (keycode == Keys.D)
-			renderer.setDebug(!renderer.isDebug());
-		if (keycode == Keys.UP)
-			controller.upReleased();
-		if (keycode == Keys.DOWN)
-			controller.downReleased();
-		return true;
-	}
-
-	@Override
-	public boolean keyTyped(char character) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean touchDown(int x, int y, int pointer, int button) {
-		if (!Gdx.app.getType().equals(ApplicationType.Android)){
-			return false;
-		}
-		
-		if (x < width / 2) {
-			controller.leftPressed();
-		}
-		
-		if (x > width / 2) {
-			controller.rightPressed();
-		}
-		
-		if (y < height / 2){
-			controller.upPressed();
-		}
-		
-		if (y > height / 2){
-			controller.downPressed();
-		}
-		
-		return true;
-	}
-
-	@Override
-	public boolean touchUp(int x, int y, int pointer, int button) {
-		if (!Gdx.app.getType().equals(ApplicationType.Android)){
-			return false;
-		}
-		
-		if (x < width / 2 && y > height / 2) {
-			controller.leftReleased();
-		}
-		
-		if (x > width / 2 && y > height / 2) {
-			controller.rightReleased();
-		}
-		
-		if (y < height / 2){
-			controller.upReleased();
-		}
-		
-		if (y > height / 2){
-			controller.downReleased();
-		}
-		
-		return true;
-	}
-
-	@Override
-	public boolean touchDragged(int x, int y, int pointer) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public boolean touchMoved(int x, int y) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean scrolled(int amount) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean mouseMoved(int screenX, int screenY) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean touchDown(float x, float y, int pointer, int button) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean tap(float x, float y, int count, int button) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean longPress(float x, float y) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean fling(float velocityX, float velocityY, int button) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean pan(float x, float y, float deltaX, float deltaY) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean zoom(float initialDistance, float distance) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean pinch(Vector2 initialPointer1, Vector2 initialPointer2,
-			Vector2 pointer1, Vector2 pointer2) {
-		// TODO Auto-generated method stub
-		return false;
 	}
 }
