@@ -15,31 +15,31 @@
         private CategoryEnum categorySelected = CategoryEnum.Damage;
 
         private int typeSelected = -1;
-
         private int xButtonCount = 10;
         private int yButtonCount = 100;
+        private int buttonWidth = 30;
+        private int buttonHeight = 30;
+        private int distance = 10;
+        private int startX = 0;
+        private int startY = 0;
 
         public Editor()
         {
-            int ButtonWidth = 30;
-            int ButtonHeight = 30;
-            int Distance = 10;
-            int start_x = 0;
-            int start_y = 0;
             this.map = new Dictionary<string, Tile>();
             this.InitializeComponent();
             this.LoadImages();
+            this.BuildGui(BuildOptions.Build);
 
-            for (int x = 0; x < this.xButtonCount; x++)
+            /*for (int x = 0; x < this.xButtonCount; x++)
             {
                 for (int y = 0; y < this.yButtonCount; y++)
                 {
                     var tmpButton = new Control
                     {
-                        Top = start_x + (x * ButtonHeight + Distance),
-                        Left = start_y + (y * ButtonWidth + Distance),
-                        Width = ButtonWidth,
-                        Height = ButtonHeight,
+                        Top = startX + (x * buttonHeight) + distance,
+                        Left = startY + (y * buttonWidth) + distance,
+                        Width = buttonWidth,
+                        Height = buttonHeight,
                         Name = x + "," + y,
                         Text = string.Empty,
                         BackColor = Color.AliceBlue,
@@ -50,7 +50,7 @@
                     tmpButton.Click += this.ChangeTileClick;
                     this.mapPanel.Controls.Add(tmpButton);
                 }
-            }
+            }*/
         }
 
         private enum CategoryEnum
@@ -62,6 +62,13 @@
             Special = 4,
         }
 
+        private enum BuildOptions
+        {
+            Clear,
+            Build,
+            Import
+        }
+
         /// <summary>
         /// Parses x and y coords from input
         /// </summary>
@@ -70,7 +77,7 @@
         public static int[] GetCoordsFromString(string coordinates)
         {
             string[] coords = coordinates.Split(',');
-            int[] temp = new int[2];
+            var temp = new int[2];
             for (int i = 0; i < 2; i++)
             {
                 temp[i] = Convert.ToInt32(coords[i]);
@@ -105,7 +112,7 @@
         {
             // When the button is clicked,
             // change the button text, and disable it.
-            Control clickedButton = (Control)sender;
+            var clickedButton = (Control)sender;
             int[] coords = GetCoordsFromString(clickedButton.Name);
 
             string tmpName = clickedButton.Name;
@@ -119,47 +126,22 @@
                 {
                     case CategoryEnum.Damage: 
                         this.map[tmpName].damage = true;
-                        clickedButton.Text = "D";
-                        //if (this.damageBox.Text != string.Empty)
-                        //{
-                        //    this.map[tmpName].type = Convert.ToInt32(this.damageBox.Text);
-                        //}
-
                         break;
                     case CategoryEnum.Enemy: 
                         this.map[tmpName].enemy = true;
-                        clickedButton.Text = "E";
-                        //if (this.enemyBox.Text != string.Empty)
-                        //{
-                        //    this.map[tmpName].type = Convert.ToInt32(this.enemyBox.Text);
-                        //}
-
                         break;
                     case CategoryEnum.Level: 
                         this.map[tmpName].level = true;
-                        clickedButton.Text = "L";
-                        //if (this.levelBox.Text != string.Empty)
-                        //{
-                        //    this.map[tmpName].type = Convert.ToInt32(this.levelBox.Text);
-                        //}
-
                         break;
                     case CategoryEnum.Special: 
                         this.map[tmpName].special = true;
-                        clickedButton.Text = "S";
-                        //if (this.specialBox.Text != string.Empty)
-                        //{
-                        //    this.map[tmpName].type = Convert.ToInt32(this.specialBox.Text);
-                        //}
-
                         break;
                 }
             }
             else
             {
                 this.map.Remove(tmpName);
-                clickedButton.BackColor = Color.AliceBlue;
-                clickedButton.Text = string.Empty;
+                clickedButton.BackgroundImage = this.images[CategoryEnum.Default];
             }
         }
 
@@ -207,7 +189,7 @@
             string lines = JsonConvert.SerializeObject(this.map);
 
             // Displays a SaveFileDialog so the user can save the map
-            SaveFileDialog saveFileDialog1 = new SaveFileDialog
+            var saveFileDialog1 = new SaveFileDialog
             {
                 Filter = "Map file|*.dat", 
                 Title = "Save a Map File"
@@ -217,7 +199,7 @@
             // If the file name is not an empty string open it for saving.
             if (saveFileDialog1.FileName != string.Empty)
             {
-                using (StreamWriter sw = new StreamWriter(saveFileDialog1.FileName))
+                using (var sw = new StreamWriter(saveFileDialog1.FileName))
                 {
                     sw.WriteLine(lines);
                 }
@@ -227,7 +209,7 @@
         private void ImportButtonClick(object sender, EventArgs e)
         {
             // Displays an OpenFileDialog so the user can select a Cursor.
-            OpenFileDialog openFileDialog1 = new OpenFileDialog
+            var openFileDialog1 = new OpenFileDialog
             {
                 Filter = "Map files|*.dat",
                 Title = "Select a Map File"
@@ -240,42 +222,79 @@
             {
                 // Assign the cursor in the Stream to the Form's Cursor property.
                 openFileDialog1.OpenFile();
-                StreamReader file = new StreamReader(openFileDialog1.FileName);
+                var file = new StreamReader(openFileDialog1.FileName);
 
                 // Read the file as one string.
                 // System.IO.StreamReader file = new System.IO.StreamReader("d:\\map.dat");
                 string lines = file.ReadToEnd();
                 file.Close();
 
-                // map = (Dictionary<String, Tile>) JsonConvert.DeserializeObject(lines);
+                this.BuildGui(BuildOptions.Clear);
                 this.map = JsonConvert.DeserializeObject<Dictionary<string, Tile>>(lines);
-                this.RebuildGui(true);
+                this.BuildGui(BuildOptions.Import);
             }
         }
 
-        private void RebuildGui(bool force)
+        private void BuildGui(BuildOptions options)
         {
-            Button tmpButton;
-
-            // Clear all buttons
-            for (int x = 0; force && x < this.xButtonCount; x++)
+            switch (options)
             {
-                for (int y = 0; y < this.yButtonCount; y++)
-                {
-                    tmpButton = (Button)this.mapPanel.Controls.Find(x + "," + y, true)[0];
-                    tmpButton.Text = string.Empty;
-                    tmpButton.BackColor = Color.Empty;
+                case BuildOptions.Build:
+                    for (int x = 0; x < this.xButtonCount; x++)
+                    {
+                        for (int y = 0; y < this.yButtonCount; y++)
+                        {
+                            var tmpButton = new Control
+                            {
+                                Top = this.startX + (x * this.buttonHeight) + this.distance,
+                                Left = this.startY + (y * this.buttonWidth) + this.distance,
+                                Width = this.buttonWidth,
+                                Height = this.buttonHeight,
+                                Name = x + "," + y,
+                                BackgroundImage = this.images[CategoryEnum.Default]
+                            };
 
-                    // this.Controls.Add(tmpButton);
-                }
-            }
+                            tmpButton.MouseHover += this.CurrentButtonMouseHover;
+                            tmpButton.Click += this.ChangeTileClick;
+                            this.mapPanel.Controls.Add(tmpButton);
+                        }
+                    }
 
-            foreach (KeyValuePair<string, Tile> a in this.map)
-            {
-                // Restore imported map here
-                tmpButton = (Button)this.mapPanel.Controls.Find(a.Key, false)[0];
-                tmpButton.Text = Convert.ToString(this.map[a.Key].damage);
-                tmpButton.BackColor = Color.Aquamarine;
+                    break;
+                case BuildOptions.Clear:
+                    foreach (KeyValuePair<string, Tile> a in this.map)
+                    {
+                        Control fillButton = this.mapPanel.Controls.Find(a.Key, false)[0];
+                        fillButton.BackgroundImage = this.images[CategoryEnum.Default];
+                    }
+
+                    this.map.Clear();
+                    break;
+                case BuildOptions.Import:
+                    foreach (KeyValuePair<string, Tile> a in this.map)
+                    {
+                        // Restore imported map here
+                        Control fillButton = this.mapPanel.Controls.Find(a.Key, false)[0];
+                        fillButton.Text = Convert.ToString(this.map[a.Key].damage);
+                        if (a.Value.damage)
+                        {
+                            fillButton.BackgroundImage = this.images[CategoryEnum.Damage];
+                        }
+                        else if (a.Value.enemy)
+                        {
+                            fillButton.BackgroundImage = this.images[CategoryEnum.Enemy];
+                        }
+                        else if (a.Value.level)
+                        {
+                            fillButton.BackgroundImage = this.images[CategoryEnum.Level];
+                        }
+                        else if (a.Value.special)
+                        {
+                            fillButton.BackgroundImage = this.images[CategoryEnum.Special];
+                        }
+                    }
+
+                    break;
             }
         }
 
@@ -284,8 +303,7 @@
             if (MessageBox.Show("Clear map?", "Confirm delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 // Clear map
-                this.map = new Dictionary<string, Tile>();
-                this.RebuildGui(true);
+                this.BuildGui(BuildOptions.Clear);
             }
         }
 
@@ -299,7 +317,6 @@
             {
                 e.Handled = true;
             }
-
 
             // Prevent too big numbers
             if (((TextBox)sender).Text.Count() > 9)
