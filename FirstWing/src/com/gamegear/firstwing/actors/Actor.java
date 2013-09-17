@@ -1,34 +1,33 @@
 package com.gamegear.firstwing.actors;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 
 public abstract class Actor {
-
-	public float SPEED;	// unit per second
-	public float SCALE;
-	public float WIDTH;
-	public float HEIGHT;
+	private Body body;
+	private BodyDef bodyDef;
+	private TextureRegion texture;
 	
-	protected Body body;
-	protected BodyDef bodyDef = new BodyDef();
-	protected Sprite bodySprite;
-	protected TextureRegion texture;
-	Shape shape;
+	private float scale;
+	private float width;
+	private float height;
 	
-	public Actor(float speed, float scale, float width, float height, BodyType bodyType, Vector2 position)
+	/** @param Scale
+	 * @param Width
+	 * @param Height
+	 * @param BodyType
+	 * @param Position */
+	public Actor(float scale, float width, float height, BodyType bodyType, Vector2 position)
 	{
-		this.SPEED = speed;
-		this.SCALE = scale;
-		this.WIDTH = width;
-		this.HEIGHT = height;
+		this.scale = scale;
+		this.width = width;
+		this.height = height;
+		this.bodyDef = new BodyDef();
 		this.bodyDef.type = bodyType;
 		this.bodyDef.position.set(position);
 	}
@@ -38,30 +37,43 @@ public abstract class Actor {
 		this.body = world.createBody(bodyDef);
 		this.body.createFixture(shape, 0f);
 		this.body.setUserData(this);
+		shape.dispose();
 	}
 	
 	public Body getBody(){
 		return this.body;
 	}
 	
+	public BodyDef getBodyDef(){
+		return this.bodyDef;
+	}
+	
 	public Vector2 getPosition() {
-		return body.getPosition();
+		return this.body.getPosition();
+	}
+	
+	public float getScale() {
+		return this.scale;
+	}
+	
+	public float getWidth() {
+		return this.width;
+	}
+
+	public float getHeight() {
+		return this.height;
 	}
 	
 	public TextureRegion getTexture(){
 		this.draw();
-		return texture;
+		return this.texture;
+	}
+	
+	public void setTexture(TextureRegion texture){
+		this.texture = texture;
 	}
 	
 	protected abstract void loadTextures();
 	
 	protected abstract void draw();
-	
-	public float getWidth() {
-		return WIDTH;
-	}
-
-	public float getHeight() {
-		return HEIGHT;
-	}
 }

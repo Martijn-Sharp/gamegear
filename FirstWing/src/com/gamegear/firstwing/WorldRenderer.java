@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.gamegear.firstwing.actors.Actor;
@@ -67,21 +68,22 @@ public class WorldRenderer {
 					Actor actor = (Actor) node.getUserData();
 					//spriteBatch.draw(actor.getTexture(), actor.getBody().getPosition().x - actor.SIZE / 2, actor.getBody().getPosition().y - actor.SIZE / 2, actor.SIZE, actor.SIZE);
 					//, actor.getPosition().angle(), false
-					
-					int textureWidth = actor.getTexture().getRegionWidth();
-					int textureHeight = actor.getTexture().getRegionHeight();
 					float rotationAngle = actor.getBody().getAngle() * MathUtils.radiansToDegrees - 90;
+					Vector2 position = actor.getBody().getPosition();
+					float width = actor.getWidth();
+					float height = actor.getHeight();
+					float scale = actor.getScale();
 					
 					spriteBatch.draw(
 							actor.getTexture(), 
-							actor.getBody().getPosition().x - actor.getWidth() /2, 
-							actor.getBody().getPosition().y - actor.getHeight() /2,
-							actor.getWidth() /2, 
-							actor.getHeight() /2, 
-							actor.getWidth(), 
-							actor.getHeight(), 
-							actor.SCALE, 
-							actor.SCALE, 
+							position.x - width /2, 
+							position.y - height /2,
+							width /2, 
+							height /2, 
+							width, 
+							height, 
+							scale, 
+							scale, 
 							rotationAngle, 
 							false);
 					//batch.draw(region, 0, 0, textureWidth / 2f, textureHeight / 2f, textureWidth, textureHeight, 1, 1, rotationAngle, false);

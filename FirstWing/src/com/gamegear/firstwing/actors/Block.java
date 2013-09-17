@@ -5,31 +5,32 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.gamegear.firstwing.WorldRenderer;
+import com.gamegear.firstwing.TextureMgr;
 import com.gamegear.firstwing.actors.Actor;
 
 public class Block extends Actor {
 
 	public float SIZE = 1f;
 	private TextureRegion blockTexture;
+	private String textureName;
 	
-	public Block(Vector2 position, World world) {
-		super(4f, 1, 1f, 1f, BodyType.StaticBody, position);
+	public Block(Vector2 position, World world, String textureName) {
+		super(1, 1f, 1f, BodyType.StaticBody, position);
+		this.textureName = textureName;
 		this.loadTextures();
 		
 		PolygonShape rect = new PolygonShape();
 		rect.setAsBox(SIZE / 2, SIZE / 2);
-		super.setShape(world, rect);
-		rect.dispose();
+		this.setShape(world, rect);
 	}
 
 	@Override
 	protected void loadTextures() {
-		blockTexture = WorldRenderer.atlas.findRegion("block");
+		blockTexture = TextureMgr.getTexture(textureName, true);
 	}
 
 	@Override
 	protected void draw() {
-		this.texture = blockTexture;
+		this.setTexture(blockTexture);
 	}
 }

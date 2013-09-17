@@ -64,7 +64,7 @@ public class Level {
 	        // Load tiles into level
 	        if(tile.level)
 	        {
-	        	blocks[tile.xCoord][tile.yCoord] = new Block(new Vector2(tile.xCoord, tile.yCoord), world);
+	        	blocks[tile.xCoord][tile.yCoord] = new Block(new Vector2(tile.xCoord, tile.yCoord), world, "block");
 	        }
 	        else if (tile.enemy) {
 	        	blocks[tile.xCoord][tile.yCoord] = new Enemy(new Vector2(tile.xCoord, tile.yCoord), world);

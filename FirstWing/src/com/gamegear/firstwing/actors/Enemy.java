@@ -3,35 +3,35 @@ package com.gamegear.firstwing.actors;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.gamegear.firstwing.WorldRenderer;
+import com.gamegear.firstwing.TextureMgr;
 
-public class Enemy extends Actor {
+public class Enemy extends MoveableActor {
+	private static final float SPEED = 4f;
+	private static final float SCALE = 1f;
+	private static final float WIDTH = 0.5f;
+	private static final float HEIGHT = 0.5f;
 	
-	protected int health;
-	protected int speed;
+	private static final float HEALTH = 10f;
 
 	private TextureRegion idleLeft;
 	
 	public Enemy(Vector2 position, World world){
-		super(4f, 1, 0.5f, 0.5f, BodyType.DynamicBody, position);
+		super(SPEED, SCALE, WIDTH, HEIGHT, position);
 		this.loadTextures();
 		
 		CircleShape rect = new CircleShape();
 		rect.setRadius(0.5f / 2);
-		super.setShape(world, rect);
-		rect.dispose();
+		this.setShape(world, rect);
 	}
 	
 	@Override
 	protected void loadTextures() {
-		this.idleLeft = WorldRenderer.atlas.findRegion("bob-01");
+		this.idleLeft = TextureMgr.getTexture("bob-01", false);
 	}
 
 	@Override
 	protected void draw() {
-		this.texture = this.idleLeft;
+		this.setTexture(this.idleLeft);
 	}
 }
