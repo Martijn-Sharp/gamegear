@@ -24,7 +24,7 @@ public class GameScreen implements Screen {
 		world = new FwWorld();
 		renderer = new WorldRenderer(world, false);
 		controller = new BobController(world.getBob(), width, height);
-		gestureDetector = new GestureDetector(20, 0.5f, 2, 0.15f, controller);
+		gestureDetector = new GestureDetector(20, 0.5f, 1, 0.15f, controller);
 		im = new InputMultiplexer(gestureDetector, controller); // Order matters here!
 		Gdx.input.setInputProcessor(im);
 		

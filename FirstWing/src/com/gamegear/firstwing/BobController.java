@@ -23,9 +23,13 @@ public class BobController implements GestureListener, InputProcessor {
 	private static final float ACCELERATION 	= 4f;
 	
 	private Bob bob;
+	Body body;
 	
 	public int width;
 	public int height;
+	
+	public int dpadPointer = -1;
+	public float dpadX, dpadY = 0;
 	
 	static Map<State, Boolean> state = new HashMap<BobController.State, Boolean>();
 	static {
@@ -87,6 +91,7 @@ public class BobController implements GestureListener, InputProcessor {
 	/** The main update method **/
 	public void update(float delta) {
 		// Processing the input - setting the states of Bob
+		body = bob.getBody();
 		processInput();
 		
 		// simply updates the state time
@@ -94,45 +99,38 @@ public class BobController implements GestureListener, InputProcessor {
 	}
 
 	/** Change Bob's state and parameters based on input controls **/
-	private boolean processInput() {
-		Body body = bob.getBody();		
-		if (state.get(State.LEFT)) {
-			// left is pressed
-			bob.setState(Bob.State.BREAKING);
-			if(body.getLinearVelocity().x > -ACCELERATION){
-				body.applyLinearImpulse(-ACCELERATION, 0, body.getPosition().x, body.getPosition().y);
-			}
-		} else if (state.get(State.RIGHT)) {
-			// left is pressed
-			bob.setState(Bob.State.ACCELERATING);
-			if(body.getLinearVelocity().x < ACCELERATION){
-				body.applyLinearImpulse(ACCELERATION, 0, body.getPosition().x, body.getPosition().y);
-			}
-		} else {
-			bob.setState(Bob.State.IDLE);
-			body.setLinearVelocity(0, body.getLinearVelocity().y);
-		}
+	private boolean processInput() {		
+//		if (state.get(State.LEFT)) {
+//			// left is pressed
+//			bob.setState(Bob.State.BREAKING);
+//			if(body.getLinearVelocity().x > -ACCELERATION){
+//				body.applyLinearImpulse(-ACCELERATION, 0, body.getPosition().x, body.getPosition().y);
+//			}
+//		} else if (state.get(State.RIGHT)) {
+//			// left is pressed
+//			bob.setState(Bob.State.ACCELERATING);
+//			if(body.getLinearVelocity().x < ACCELERATION){
+//				body.applyLinearImpulse(ACCELERATION, 0, body.getPosition().x, body.getPosition().y);
+//			}
+//		} else {
+//			bob.setState(Bob.State.IDLE);
+//			body.setLinearVelocity(0, body.getLinearVelocity().y);
+//		}
+//		
+//		if (state.get(State.UP)) {
+//			// UP is pressed
+//			if(body.getLinearVelocity().y < ACCELERATION){
+//				body.applyLinearImpulse(0, ACCELERATION, body.getPosition().x, body.getPosition().y);
+//			}
+//		} else if (state.get(State.DOWN)) {
+//			// DOWN is pressed
+//			if(body.getLinearVelocity().y > -ACCELERATION){
+//				body.applyLinearImpulse(0, -ACCELERATION, body.getPosition().x, body.getPosition().y);
+//			}
+//		} else {
+//			body.setLinearVelocity(body.getLinearVelocity().x, 0);
+//		}
 		
-		if (state.get(State.UP)) {
-			// UP is pressed
-			if(body.getLinearVelocity().y < ACCELERATION){
-				body.applyLinearImpulse(0, ACCELERATION, body.getPosition().x, body.getPosition().y);
-			}
-		} else if (state.get(State.DOWN)) {
-			// DOWN is pressed
-			if(body.getLinearVelocity().y > -ACCELERATION){
-				body.applyLinearImpulse(0, -ACCELERATION, body.getPosition().x, body.getPosition().y);
-			}
-		} else {
-			body.setLinearVelocity(body.getLinearVelocity().x, 0);
-		}
-		
-		return false;
-	}
-
-	@Override
-	public boolean touchDown(float x, float y, int pointer, int button) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -147,6 +145,7 @@ public class BobController implements GestureListener, InputProcessor {
 		// TODO Auto-generated method stub
 		Gdx.app.log("GestureDetectorTest", "Long Press");
 		System.out.println("GestureDetectorTest");
+		body.setAngularVelocity(0);
 		return true;
 	}
 
@@ -157,6 +156,14 @@ public class BobController implements GestureListener, InputProcessor {
 		{
 			Gdx.app.log("GestureDetectorTest", "Fling x: " + velocityX + " y:" + velocityY);
 			System.out.println("GestureDetectorTest");
+			body.setAngularVelocity(-10);
+			return true;
+		}
+		else if(velocityX < -1000 || velocityY < -1000)
+		{
+			Gdx.app.log("GestureDetectorTest", "Fling x: " + velocityX + " y:" + velocityY);
+			System.out.println("GestureDetectorTest");
+			body.setAngularVelocity(10);
 			return true;
 		}
 		return false;
@@ -216,6 +223,22 @@ public class BobController implements GestureListener, InputProcessor {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
+	@Override
+	public boolean touchDown(float x, float y, int pointer, int button) {
+		if (x < width / 3 && y > height - (height/3)) {
+			dpadPointer = pointer;
+			dpadX = x;
+			dpadY = y;
+			Gdx.app.log("Touch", "DPAD x: " + x + " y:" + y);
+		}
+		else
+		{
+			Gdx.app.log("Touch", "Not DPAD x: " + x + " y:" + y);
+		}
+		
+		return false;
+	}
 
 	@Override
 	public boolean touchDown(int x, int y, int pointer, int button) {
@@ -223,23 +246,23 @@ public class BobController implements GestureListener, InputProcessor {
 			return false;
 		}
 		
-		if (x < width / 2) {
-			leftPressed();
-		}
+//		if (x < width / 2) {
+//			leftPressed();
+//		}
+//		
+//		if (x > width / 2) {
+//			rightPressed();
+//		}
+//		
+//		if (y < height / 2){
+//			upPressed();
+//		}
+//		
+//		if (y > height / 2){
+//			downPressed();
+//		}
 		
-		if (x > width / 2) {
-			rightPressed();
-		}
-		
-		if (y < height / 2){
-			upPressed();
-		}
-		
-		if (y > height / 2){
-			downPressed();
-		}
-		
-		return true;
+		return false;
 	}
 
 	@Override
@@ -248,28 +271,46 @@ public class BobController implements GestureListener, InputProcessor {
 			return false;
 		}
 		
-		if (x < width / 2 && y > height / 2) {
-			leftReleased();
+		if(pointer == dpadPointer)
+		{
+			dpadPointer = -1;
+			return true;
 		}
+//		if (x < width / 2 && y > height / 2) {
+//			leftReleased();
+//		}
+//		
+//		if (x > width / 2 && y > height / 2) {
+//			rightReleased();
+//		}
+//		
+//		if (y < height / 2){
+//			upReleased();
+//		}
+//		
+//		if (y > height / 2){
+//			downReleased();
+//		}
 		
-		if (x > width / 2 && y > height / 2) {
-			rightReleased();
-		}
 		
-		if (y < height / 2){
-			upReleased();
-		}
 		
-		if (y > height / 2){
-			downReleased();
-		}
-		
-		return true;
+		return false;
 	}
 
 	@Override
 	public boolean touchDragged(int x, int y, int pointer) {
-		// TODO Auto-generated method stub
+		
+		if(dpadPointer == pointer)
+		{
+			float linImpulseX = -(dpadX - x) / 30;
+			float linImpulseY = (dpadY - y) / 30;
+		
+			body.setLinearVelocity(linImpulseX, linImpulseY);
+			Gdx.app.log("Dragging", "Drag x: " + x + " y:" + y + " pointer:" + pointer + " linearImpulse x:" + linImpulseX + " y:" + linImpulseY);
+			return false;
+		}
+		//body.applyLinearImpulse(linImpulseX, linImpulseY, body.getPosition().x, body.getPosition().y);
+		
 		return false;
 	}
 
