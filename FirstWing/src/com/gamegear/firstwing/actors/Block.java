@@ -13,17 +13,13 @@ public class Block extends Actor {
 	public float SIZE = 1f;
 	private TextureRegion blockTexture;
 	
-	public Block(Vector2 pos, World world) {
-		super.SIZE = SIZE;
+	public Block(Vector2 position, World world) {
+		super(4f, 1, 1f, 1f, BodyType.StaticBody, position);
 		this.loadTextures();
-		this.bodyDef.position.set(pos);
-		this.bodyDef.type = BodyType.StaticBody;
-		this.body = world.createBody(this.bodyDef);
 		
 		PolygonShape rect = new PolygonShape();
 		rect.setAsBox(SIZE / 2, SIZE / 2);
-		this.body.createFixture(rect, 0.0f);
-		this.body.setUserData(this);
+		super.setShape(world, rect);
 		rect.dispose();
 	}
 

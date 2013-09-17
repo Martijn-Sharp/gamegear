@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.gamegear.firstwing.WorldRenderer;
@@ -29,17 +30,22 @@ public class Bob extends Actor {
 	private Animation walkRightAnimation;
 
 	public Bob(Vector2 position, World world) {
-		super.SIZE = SIZE;
+		super(4f, 2, 0.5f, 0.5f, BodyType.DynamicBody, position);
 		this.loadTextures();
-		this.bodyDef.position.set(position);
-		this.bodyDef.type = BodyType.DynamicBody;
-		this.body = world.createBody(bodyDef);
 		
-		PolygonShape rect = new PolygonShape();
-		rect.setAsBox(SIZE / 2, SIZE / 2);
-		this.body.createFixture(rect, 0f);
-		this.body.setUserData(this);
+		CircleShape rect = new CircleShape();
+		//PolygonShape rect = new PolygonShape();
+		rect.setRadius(SIZE);
+		//rect.setAsBox(SIZE / 2, SIZE / 2);
+		super.setShape(world, rect);
 		rect.dispose();
+		
+		//this.bodyDef.position.set(position);
+		//this.bodyDef.type = BodyType.DynamicBody;
+		//this.body = world.createBody(bodyDef);
+		//this.body.createFixture(rect, 0f);
+		//this.body.setUserData(this);
+		
 	}
 
 	public State getState() {
