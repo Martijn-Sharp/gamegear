@@ -12,7 +12,7 @@
     {
         private Dictionary<string, Node> map;
         private Dictionary<CategoryEnum, Bitmap> images; 
-        private CategoryEnum categorySelected = CategoryEnum.Damage;
+        private CategoryEnum categorySelected = CategoryEnum.Enemy;
 
         private int typeSelected = -1;
         private int xButtonCount = 10;
@@ -29,37 +29,14 @@
             this.InitializeComponent();
             this.LoadImages();
             this.BuildGui(BuildOptions.Build);
-
-            /*for (int x = 0; x < this.xButtonCount; x++)
-            {
-                for (int y = 0; y < this.yButtonCount; y++)
-                {
-                    var tmpButton = new Control
-                    {
-                        Top = startX + (x * buttonHeight) + distance,
-                        Left = startY + (y * buttonWidth) + distance,
-                        Width = buttonWidth,
-                        Height = buttonHeight,
-                        Name = x + "," + y,
-                        Text = string.Empty,
-                        BackColor = Color.AliceBlue,
-                        BackgroundImage = this.images[CategoryEnum.Default]
-                    };
-
-                    tmpButton.MouseHover += this.CurrentButtonMouseHover;
-                    tmpButton.Click += this.ChangeTileClick;
-                    this.mapPanel.Controls.Add(tmpButton);
-                }
-            }*/
+            this.lblSelectedType.Text = "Enemy";
         }
 
         private enum CategoryEnum
         {
             Default = 0,
-            Damage = 1,
-            Enemy = 2,
-            Level = 3,
-            Special = 4,
+            Enemy = 1,
+            Level = 2,
         }
 
         private enum BuildOptions
@@ -94,16 +71,10 @@
                     CategoryEnum.Default, new Bitmap("assets/images/default.png")
                 },
                 {
-                    CategoryEnum.Damage, new Bitmap("assets/images/damage.png")
-                },
-                {
                     CategoryEnum.Enemy, new Bitmap("assets/images/enemy.png")
                 },
                 {
                     CategoryEnum.Level, new Bitmap("assets/images/level.png")
-                },
-                {
-                    CategoryEnum.Special, new Bitmap("assets/images/special.png")
                 }
             };
         }
@@ -123,9 +94,6 @@
                 clickedButton.BackgroundImage = this.images[this.categorySelected];
                 switch (this.categorySelected)
                 {
-                    //case CategoryEnum.Damage:
-                    //    this.map[tmpName].damage = true;
-                    //    break;
                     case CategoryEnum.Enemy:
                         this.map.Add(tmpName, new Enemy(coords[1], 9 - coords[0]));
                         break;
@@ -135,9 +103,6 @@
                     default:
                         this.map.Add(tmpName, new Node(coords[1], 9 - coords[0]));
                         break;
-                    //case CategoryEnum.Special:
-                    //    this.map[tmpName].special = true;
-                    //    break;
                 }
             }
             else
@@ -151,17 +116,17 @@
         {
             try
             {
-                Node tile = this.map[((Control)sender).Name];
-                this.lblButtonX.Text = "x = " + tile.xCoord;
-                this.lblButtonY.Text = "y = " + tile.yCoord;
-                //this.lblButtonValue.Text = "Type = " + tile.type;
+                Node node = this.map[((Control)sender).Name];
+                this.lblButtonX.Text = "X = " + node.xCoord;
+                this.lblButtonY.Text = "Y = " + node.yCoord;
+                this.lblButtonValue.Text = "Name = " + node.name;
             }
             catch (KeyNotFoundException)
             {
                 var coords = GetCoordsFromString(((Control)sender).Name);
-                this.lblButtonX.Text = "x = " + coords[1];
-                this.lblButtonY.Text = "y = " + (9 - coords[0]);
-                this.lblButtonValue.Text = "Type = Empty";
+                this.lblButtonX.Text = "X = " + coords[1];
+                this.lblButtonY.Text = "Y = " + (9 - coords[0]);
+                this.lblButtonValue.Text = "Name = ";
             }
         }
 
@@ -170,99 +135,12 @@
             this.lblSelectedType.Text = this.tabPicker.SelectedTab.Name;
             switch (this.tabPicker.SelectedTab.Name)
             {
-                case "Damage":
-                    this.categorySelected = CategoryEnum.Damage;
-                    break;
                 case "Enemy":
                     this.categorySelected = CategoryEnum.Enemy;
                     break;
                 case "Level":
                     this.categorySelected = CategoryEnum.Level;
                     break;
-                case "Special":
-                    this.categorySelected = CategoryEnum.Special;
-                    break;
-            }
-        }
-
-        private void ExportButtonClick(object sender, EventArgs e)
-        {
-            Level level = new MapEditor.Level();
-            level.enemies = new List<Enemy>();
-            level.tiles = new List<Tile>();
-
-            foreach (KeyValuePair<string, Node> a in map)
-            {
-                if (a.Value is Enemy)
-                {
-                    level.enemies.Add((Enemy)a.Value);
-                }
-                else if (a.Value is Tile)
-                {
-                    level.tiles.Add((Tile)a.Value);
-                }
-            }
-
-            // Convert map to JSON
-            string lines = JsonConvert.SerializeObject(level);
-
-            // Displays a SaveFileDialog so the user can save the map
-            var saveFileDialog1 = new SaveFileDialog
-            {
-                Filter = "Map file|*.dat", 
-                Title = "Save a Map File"
-            };
-            saveFileDialog1.ShowDialog();
-
-            // If the file name is not an empty string open it for saving.
-            if (saveFileDialog1.FileName != string.Empty)
-            {
-                using (FileStream f = new FileStream(saveFileDialog1.FileName, FileMode.Create, FileAccess.ReadWrite))
-                {
-                    using (StreamWriter s = new StreamWriter(f))
-                    {
-                        s.WriteLine(lines);
-                    }
-                }
-            }
-        }
-
-        private void ImportButtonClick(object sender, EventArgs e)
-        {
-            // Displays an OpenFileDialog so the user can select a Cursor.
-            var openFileDialog1 = new OpenFileDialog
-            {
-                Filter = "Map files|*.dat",
-                Title = "Select a Map File"
-            };
-
-            // Show the Dialog.
-            // If the user clicked OK in the dialog and
-            // a .dat file was selected, open it.
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                string lines;
-
-
-                using (FileStream f = new FileStream(openFileDialog1.FileName, FileMode.OpenOrCreate, FileAccess.ReadWrite))
-                {
-                    using (StreamReader s = new StreamReader(f))
-                        lines = s.ReadToEnd();
-                }
-
-                this.BuildGui(BuildOptions.Clear);
-                Level level = JsonConvert.DeserializeObject<Level>(lines);
-                foreach (var enemy in level.enemies)
-                {
-                    this.map.Add(9 - enemy.yCoord + "," + enemy.xCoord, enemy);
-                }
-
-                foreach (var tile in level.tiles)
-                {
-                    this.map.Add(9 - tile.yCoord + "," + tile.xCoord, tile);
-                }
-
-                this.BuildGui(BuildOptions.Import);
             }
         }
 
@@ -306,11 +184,11 @@
                     {
                         // Restore imported map here
                         Control fillButton = this.mapPanel.Controls.Find(a.Key, false)[0];
-                        //if (a.Value is Tile)
-                        //{
-                        //    fillButton.BackgroundImage = this.images[CategoryEnum.Damage];
-                        //}
-                        //else 
+                        /*if (a.Value is Tile)
+                        {
+                            fillButton.BackgroundImage = this.images[CategoryEnum.Damage];
+                        }
+                        else*/
                         if (a.Value is Enemy)
                         {
                             fillButton.BackgroundImage = this.images[CategoryEnum.Enemy];
@@ -319,22 +197,13 @@
                         {
                             fillButton.BackgroundImage = this.images[CategoryEnum.Level];
                         }
-                        //else if (a.Value.special)
-                        //{
-                        //    fillButton.BackgroundImage = this.images[CategoryEnum.Special];
-                        //}
+                        /*else if (a.Value.special)
+                        {
+                            fillButton.BackgroundImage = this.images[CategoryEnum.Special];
+                        }*/
                     }
 
                     break;
-            }
-        }
-
-        private void ClearButtonClick(object sender, EventArgs e)
-        {
-            if (MessageBox.Show("Clear map?", "Confirm delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
-            {
-                // Clear map
-                this.BuildGui(BuildOptions.Clear);
             }
         }
 
@@ -369,11 +238,110 @@
                 e.Handled = true;
             }*/
         }
+
+        private void ImportClick(object sender, EventArgs e)
+        {
+            // Displays an OpenFileDialog so the user can select a Cursor.
+            var openFileDialog1 = new OpenFileDialog
+            {
+                Filter = "Map files|*.dat",
+                Title = "Select a Map File"
+            };
+
+            // Show the Dialog.
+            // If the user clicked OK in the dialog and
+            // a .dat file was selected, open it.
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                string lines;
+
+                using (var f = new FileStream(openFileDialog1.FileName, FileMode.OpenOrCreate, FileAccess.ReadWrite))
+                {
+                    using (var s = new StreamReader(f))
+                    {
+                        lines = s.ReadToEnd();
+                    }
+                }
+
+                this.BuildGui(BuildOptions.Clear);
+                var level = JsonConvert.DeserializeObject<Level>(lines);
+                foreach (var enemy in level.enemies)
+                {
+                    this.map.Add(9 - enemy.yCoord + "," + enemy.xCoord, enemy);
+                }
+
+                foreach (var tile in level.tiles)
+                {
+                    this.map.Add(9 - tile.yCoord + "," + tile.xCoord, tile);
+                }
+
+                this.BuildGui(BuildOptions.Import);
+            }
+        }
+
+        private void ExportClick(object sender, EventArgs e)
+        {
+            var level = new Level { enemies = new List<Enemy>(), tiles = new List<Tile>() };
+
+            foreach (KeyValuePair<string, Node> a in this.map)
+            {
+                if (a.Value is Enemy)
+                {
+                    level.enemies.Add((Enemy)a.Value);
+                }
+                else if (a.Value is Tile)
+                {
+                    level.tiles.Add((Tile)a.Value);
+                }
+            }
+
+            // Convert map to JSON
+            string lines = JsonConvert.SerializeObject(level);
+
+            // Displays a SaveFileDialog so the user can save the map
+            var saveFileDialog1 = new SaveFileDialog
+            {
+                Filter = "Map file|*.dat",
+                Title = "Save a Map File"
+            };
+            saveFileDialog1.ShowDialog();
+
+            // If the file name is not an empty string open it for saving.
+            if (saveFileDialog1.FileName != string.Empty)
+            {
+                using (var f = new FileStream(saveFileDialog1.FileName, FileMode.Create, FileAccess.ReadWrite))
+                {
+                    using (var s = new StreamWriter(f))
+                    {
+                        s.WriteLine(lines);
+                    }
+                }
+            }
+        }
+
+        private void CloseClick(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void ClearClick(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Clear map?", "Confirm delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                // Clear map
+                this.BuildGui(BuildOptions.Clear);
+            }
+        }
+
+        private void PropertiesClick(object sender, EventArgs e)
+        {
+
+        }
     }
 
     public class Level
     {
-        //Spawnpoint
+        // Spawnpoint
         public int spawnX, spawnY;
 
         public List<Tile> tiles;
@@ -382,10 +350,10 @@
 
     public class Node
     {
-        //Coordinates on local map
+        // Coordinates on local map
         public int xCoord, yCoord;
 
-        //Properties
+        // Properties
         public int id;
         public string name;
         public int animationLength;
@@ -399,14 +367,14 @@
 
     public class Tile : Node
     {
-        public Tile(int x, int y): base(x, y)
+        public Tile(int x, int y) : base(x, y)
         {
         }
     }
 
     public class Enemy : Node
     {
-        //Properties
+        // Properties
         public bool boss;
         public int additionalHealth;
         public int type;
