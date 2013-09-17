@@ -2,6 +2,7 @@ package com.gamegear.firstwing.actors;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
@@ -15,16 +16,12 @@ public class Enemy extends Actor {
 	private TextureRegion idleLeft;
 	
 	public Enemy(Vector2 position, World world){
-		this.SIZE = 0.5f;
+		super(4f, 1, 0.5f, 0.5f, BodyType.DynamicBody, position);
 		this.loadTextures();
-		this.bodyDef.position.set(position);
-		this.bodyDef.type = BodyType.DynamicBody;
-		this.body = world.createBody(bodyDef);
 		
-		PolygonShape rect = new PolygonShape();
-		rect.setAsBox(SIZE / 2, SIZE / 2);
-		this.body.createFixture(rect, 0f);
-		this.body.setUserData(this);
+		CircleShape rect = new CircleShape();
+		rect.setRadius(0.5f / 2);
+		super.setShape(world, rect);
 		rect.dispose();
 	}
 	
