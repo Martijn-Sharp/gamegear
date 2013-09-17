@@ -48,7 +48,7 @@ public class FwWorld {
 	}
 
 	private void createDemoWorld() {
-		bob = new Bob(new Vector2(7, 7), world);
+		bob = new Bob(new Vector2(3, 2), world);
 		level = new Level(this.world);
 	}
 }
