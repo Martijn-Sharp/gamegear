@@ -10,7 +10,7 @@
 
     public partial class Editor : Form
     {
-        private Dictionary<string, Tile> map;
+        private Dictionary<string, Node> map;
         private Dictionary<CategoryEnum, Bitmap> images; 
         private CategoryEnum categorySelected = CategoryEnum.Damage;
 
@@ -25,7 +25,7 @@
 
         public Editor()
         {
-            this.map = new Dictionary<string, Tile>();
+            this.map = new Dictionary<string, Node>();
             this.InitializeComponent();
             this.LoadImages();
             this.BuildGui(BuildOptions.Build);
@@ -120,22 +120,24 @@
             // Check if tile exists
             if (!this.map.ContainsKey(tmpName))
             {
-                this.map.Add(tmpName, new Tile(coords[1], 9 - coords[0]));
                 clickedButton.BackgroundImage = this.images[this.categorySelected];
                 switch (this.categorySelected)
                 {
-                    case CategoryEnum.Damage: 
-                        this.map[tmpName].damage = true;
+                    //case CategoryEnum.Damage:
+                    //    this.map[tmpName].damage = true;
+                    //    break;
+                    case CategoryEnum.Enemy:
+                        this.map.Add(tmpName, new Enemy(coords[1], 9 - coords[0]));
                         break;
-                    case CategoryEnum.Enemy: 
-                        this.map[tmpName].enemy = true;
+                    case CategoryEnum.Level:
+                        this.map.Add(tmpName, new Tile(coords[1], 9 - coords[0]));
                         break;
-                    case CategoryEnum.Level: 
-                        this.map[tmpName].level = true;
+                    default:
+                        this.map.Add(tmpName, new Node(coords[1], 9 - coords[0]));
                         break;
-                    case CategoryEnum.Special: 
-                        this.map[tmpName].special = true;
-                        break;
+                    //case CategoryEnum.Special:
+                    //    this.map[tmpName].special = true;
+                    //    break;
                 }
             }
             else
@@ -149,10 +151,10 @@
         {
             try
             {
-                Tile tile = this.map[((Control)sender).Name];
+                Node tile = this.map[((Control)sender).Name];
                 this.lblButtonX.Text = "x = " + tile.xCoord;
                 this.lblButtonY.Text = "y = " + tile.yCoord;
-                this.lblButtonValue.Text = "Type = " + tile.type;
+                //this.lblButtonValue.Text = "Type = " + tile.type;
             }
             catch (KeyNotFoundException)
             {
@@ -185,8 +187,24 @@
 
         private void ExportButtonClick(object sender, EventArgs e)
         {
+            Level level = new MapEditor.Level();
+            level.enemies = new List<Enemy>();
+            level.tiles = new List<Tile>();
+
+            foreach (KeyValuePair<string, Node> a in map)
+            {
+                if (a.Value is Enemy)
+                {
+                    level.enemies.Add((Enemy)a.Value);
+                }
+                else if (a.Value is Tile)
+                {
+                    level.tiles.Add((Tile)a.Value);
+                }
+            }
+
             // Convert map to JSON
-            string lines = JsonConvert.SerializeObject(this.map);
+            string lines = JsonConvert.SerializeObject(level);
 
             // Displays a SaveFileDialog so the user can save the map
             var saveFileDialog1 = new SaveFileDialog
@@ -199,9 +217,12 @@
             // If the file name is not an empty string open it for saving.
             if (saveFileDialog1.FileName != string.Empty)
             {
-                using (var sw = new StreamWriter(saveFileDialog1.FileName))
+                using (FileStream f = new FileStream(saveFileDialog1.FileName, FileMode.Create, FileAccess.ReadWrite))
                 {
-                    sw.WriteLine(lines);
+                    using (StreamWriter s = new StreamWriter(f))
+                    {
+                        s.WriteLine(lines);
+                    }
                 }
             }
         }
@@ -220,17 +241,27 @@
             // a .dat file was selected, open it.
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                // Assign the cursor in the Stream to the Form's Cursor property.
-                openFileDialog1.OpenFile();
-                var file = new StreamReader(openFileDialog1.FileName);
+                string lines;
 
-                // Read the file as one string.
-                // System.IO.StreamReader file = new System.IO.StreamReader("d:\\map.dat");
-                string lines = file.ReadToEnd();
-                file.Close();
+
+                using (FileStream f = new FileStream(openFileDialog1.FileName, FileMode.OpenOrCreate, FileAccess.ReadWrite))
+                {
+                    using (StreamReader s = new StreamReader(f))
+                        lines = s.ReadToEnd();
+                }
 
                 this.BuildGui(BuildOptions.Clear);
-                this.map = JsonConvert.DeserializeObject<Dictionary<string, Tile>>(lines);
+                Level level = JsonConvert.DeserializeObject<Level>(lines);
+                foreach (var enemy in level.enemies)
+                {
+                    this.map.Add(9 - enemy.yCoord + "," + enemy.xCoord, enemy);
+                }
+
+                foreach (var tile in level.tiles)
+                {
+                    this.map.Add(9 - tile.yCoord + "," + tile.xCoord, tile);
+                }
+
                 this.BuildGui(BuildOptions.Import);
             }
         }
@@ -262,7 +293,7 @@
 
                     break;
                 case BuildOptions.Clear:
-                    foreach (KeyValuePair<string, Tile> a in this.map)
+                    foreach (KeyValuePair<string, Node> a in this.map)
                     {
                         Control fillButton = this.mapPanel.Controls.Find(a.Key, false)[0];
                         fillButton.BackgroundImage = this.images[CategoryEnum.Default];
@@ -271,27 +302,27 @@
                     this.map.Clear();
                     break;
                 case BuildOptions.Import:
-                    foreach (KeyValuePair<string, Tile> a in this.map)
+                    foreach (KeyValuePair<string, Node> a in this.map)
                     {
                         // Restore imported map here
                         Control fillButton = this.mapPanel.Controls.Find(a.Key, false)[0];
-                        fillButton.Text = Convert.ToString(this.map[a.Key].damage);
-                        if (a.Value.damage)
-                        {
-                            fillButton.BackgroundImage = this.images[CategoryEnum.Damage];
-                        }
-                        else if (a.Value.enemy)
+                        //if (a.Value is Tile)
+                        //{
+                        //    fillButton.BackgroundImage = this.images[CategoryEnum.Damage];
+                        //}
+                        //else 
+                        if (a.Value is Enemy)
                         {
                             fillButton.BackgroundImage = this.images[CategoryEnum.Enemy];
                         }
-                        else if (a.Value.level)
+                        else if (a.Value is Tile)
                         {
                             fillButton.BackgroundImage = this.images[CategoryEnum.Level];
                         }
-                        else if (a.Value.special)
-                        {
-                            fillButton.BackgroundImage = this.images[CategoryEnum.Special];
-                        }
+                        //else if (a.Value.special)
+                        //{
+                        //    fillButton.BackgroundImage = this.images[CategoryEnum.Special];
+                        //}
                     }
 
                     break;
@@ -340,20 +371,49 @@
         }
     }
 
-    public class Tile
+    public class Level
+    {
+        //Spawnpoint
+        public int spawnX, spawnY;
+
+        public List<Tile> tiles;
+        public List<Enemy> enemies;
+    }
+
+    public class Node
     {
         //Coordinates on local map
         public int xCoord, yCoord;
 
         //Properties
-        public bool damage, enemy, level, special;
-
-        public int type;
+        public int id;
+        public string name;
+        public int animationLength;
         
-        public Tile(int x, int y)
+        public Node(int x, int y)
         {
             this.xCoord = x;
             this.yCoord = y;
         }
     }
+
+    public class Tile : Node
+    {
+        public Tile(int x, int y): base(x, y)
+        {
+        }
+    }
+
+    public class Enemy : Node
+    {
+        //Properties
+        public bool boss;
+        public int additionalHealth;
+        public int type;
+
+        public Enemy(int x, int y) : base(x,y)
+        {
+        }
+    }
+
 }
