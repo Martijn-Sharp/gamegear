@@ -14,13 +14,13 @@
         [STAThread]
         public static void Main()
         {
-            HandleActorFile(MapEditor.actors);
+            HandleActorFile();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MapEditor());
         }
 
-        public static void HandleActorFile(ActorFile actorFile)
+        public static void HandleActorFile()
         {
             string lines;
             using (var f = new FileStream("actors.dat", FileMode.OpenOrCreate, FileAccess.ReadWrite))
@@ -33,18 +33,18 @@
 
             if (lines != string.Empty)
             {
-                actorFile = JsonConvert.DeserializeObject<ActorFile>(lines);
+                MapEditor.Actors = JsonConvert.DeserializeObject<ActorFile>(lines);
             }
             else
             {
-                ActorFile file = new ActorFile()
+                var file = new ActorFile
                 {
-                    staticActors = new Dictionary<string, StaticActor>(),
-                    dynamicActors = new Dictionary<string, DynamicActor>(),
-                    lastUpdated = DateTime.Now
+                    StaticActors = new Dictionary<string, StaticActor>(),
+                    DynamicActors = new Dictionary<string, DynamicActor>(),
+                    LastUpdated = DateTime.Now
                 };
 
-                actorFile = file;
+                MapEditor.Actors = file;
                 string newLines = JsonConvert.SerializeObject(file);
                 using (var f = new FileStream("actors.dat", FileMode.Create, FileAccess.ReadWrite))
                 {

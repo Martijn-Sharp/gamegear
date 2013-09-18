@@ -49,10 +49,10 @@
             this.propertiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.clearStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.importStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exportStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.propertiesStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
+            this.importStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlInfo.SuspendLayout();
             this.tabPicker.SuspendLayout();
             this.menuStrip.SuspendLayout();
@@ -213,14 +213,14 @@
             // clearToolStripMenuItem2
             // 
             this.clearToolStripMenuItem2.Name = "clearToolStripMenuItem2";
-            this.clearToolStripMenuItem2.Size = new System.Drawing.Size(152, 22);
+            this.clearToolStripMenuItem2.Size = new System.Drawing.Size(127, 22);
             this.clearToolStripMenuItem2.Text = "Clear";
             this.clearToolStripMenuItem2.Click += new System.EventHandler(this.ClearClick);
             // 
             // propertiesToolStripMenuItem
             // 
             this.propertiesToolStripMenuItem.Name = "propertiesToolStripMenuItem";
-            this.propertiesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.propertiesToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.propertiesToolStripMenuItem.Text = "Properties";
             this.propertiesToolStripMenuItem.Click += new System.EventHandler(this.PropertiesClick);
             // 
@@ -240,36 +240,36 @@
             // clearStripMenuItem
             // 
             this.clearStripMenuItem.Name = "clearStripMenuItem";
-            this.clearStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.clearStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.clearStripMenuItem.Text = "Clear";
             this.clearStripMenuItem.Click += new System.EventHandler(this.ClearClick);
+            // 
+            // propertiesStripMenuItem
+            // 
+            this.propertiesStripMenuItem.Name = "propertiesStripMenuItem";
+            this.propertiesStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.propertiesStripMenuItem.Text = "Properties";
+            // 
+            // toolStripSeparator
+            // 
+            this.toolStripSeparator.Name = "toolStripSeparator";
+            this.toolStripSeparator.Size = new System.Drawing.Size(124, 6);
             // 
             // importStripMenuItem
             // 
             this.importStripMenuItem.Name = "importStripMenuItem";
-            this.importStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.importStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.importStripMenuItem.Text = "Import";
             this.importStripMenuItem.Click += new System.EventHandler(this.ImportClick);
             // 
             // exportStripMenuItem
             // 
             this.exportStripMenuItem.Name = "exportStripMenuItem";
-            this.exportStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exportStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.exportStripMenuItem.Text = "Export";
             this.exportStripMenuItem.Click += new System.EventHandler(this.ExportClick);
             // 
-            // propertiesStripMenuItem
-            // 
-            this.propertiesStripMenuItem.Name = "propertiesStripMenuItem";
-            this.propertiesStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.propertiesStripMenuItem.Text = "Properties";
-            // 
-            // toolStripSeparator
-            // 
-            this.toolStripSeparator.Name = "toolStripSeparator";
-            this.toolStripSeparator.Size = new System.Drawing.Size(177, 6);
-            // 
-            // Editor
+            // MapEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -280,9 +280,10 @@
             this.Controls.Add(this.pnlInfo);
             this.Controls.Add(this.mapPanel);
             this.Controls.Add(this.menuStrip);
+            this.DoubleBuffered = true;
             this.MainMenuStrip = this.menuStrip;
             this.Margin = new System.Windows.Forms.Padding(2);
-            this.Name = "Editor";
+            this.Name = "MapEditor";
             this.Text = "Map Editor";
             this.pnlInfo.ResumeLayout(false);
             this.pnlInfo.PerformLayout();

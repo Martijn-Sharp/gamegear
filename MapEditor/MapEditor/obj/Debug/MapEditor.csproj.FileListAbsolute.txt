@@ -52,7 +52,6 @@ D:\FirstWing\gamegear\MapEditor\MapEditor\bin\Debug\MapEditor.pdb
 D:\FirstWing\gamegear\MapEditor\MapEditor\bin\Debug\Newtonsoft.Json.dll
 D:\FirstWing\gamegear\MapEditor\MapEditor\bin\Debug\Newtonsoft.Json.xml
 D:\FirstWing\gamegear\MapEditor\MapEditor\obj\Debug\MapEditor.csprojResolveAssemblyReference.cache
-D:\FirstWing\gamegear\MapEditor\MapEditor\obj\Debug\MapEditor.Editor.resources
 D:\FirstWing\gamegear\MapEditor\MapEditor\obj\Debug\MapEditor.Properties.Resources.resources
 D:\FirstWing\gamegear\MapEditor\MapEditor\obj\Debug\MapEditor.csproj.GenerateResource.Cache
 C:\MINORP1\MapEditor\MapEditor\bin\Debug\MapEditor.exe.config
@@ -71,3 +70,8 @@ C:\MINORP1\MapEditor\MapEditor\obj\Debug\MapEditor.csproj.GenerateResource.Cache
 C:\MINORP1\MapEditor\MapEditor\obj\Debug\MapEditor.ActorEditor.resources
 C:\MINORP1\MapEditor\MapEditor\obj\Debug\MapEditor.AddActorForm.resources
 C:\MINORP1\MapEditor\MapEditor\obj\Debug\MapEditor.MapEditor.resources
+D:\FirstWing\gamegear\MapEditor\MapEditor\obj\Debug\MapEditor.MapEditor.resources
+D:\FirstWing\gamegear\MapEditor\MapEditor\obj\Debug\MapEditor.PropertiesForm.resources
+D:\FirstWing\gamegear\MapEditor\MapEditor\obj\Debug\MapEditor.AddPolygonDialog.resources
+D:\FirstWing\gamegear\MapEditor\MapEditor\obj\Debug\MapEditor.AddActorDialog.resources
+D:\FirstWing\gamegear\MapEditor\MapEditor\obj\Debug\MapEditor.AddAnimationDialog.resources

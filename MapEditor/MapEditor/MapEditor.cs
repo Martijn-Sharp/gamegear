@@ -10,8 +10,6 @@
 
     public partial class MapEditor : Form
     {
-        public static ActorFile actors;
-
         private Dictionary<string, Node> map;
         private Dictionary<CategoryEnum, Bitmap> images;
         private CategoryEnum categorySelected = CategoryEnum.Enemy;
@@ -47,6 +45,8 @@
             Build,
             Import
         }
+
+        public static ActorFile Actors { get; set; }
 
         /// <summary>
         /// Parses x and y coords from input
@@ -337,7 +337,7 @@
 
         private void PropertiesClick(object sender, EventArgs e)
         {
-            new ActorEditor().Show();
+            new PropertiesForm().Show();
         }
     }
 }

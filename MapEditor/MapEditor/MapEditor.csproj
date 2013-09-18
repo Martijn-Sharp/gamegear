@@ -48,17 +48,29 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actor.cs" />
-    <Compile Include="ActorEditor.cs">
+    <Compile Include="AddAnimationDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ActorEditor.Designer.cs">
-      <DependentUpon>ActorEditor.cs</DependentUpon>
+    <Compile Include="AddAnimationDialog.Designer.cs">
+      <DependentUpon>AddAnimationDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="AddActorForm.cs">
+    <Compile Include="AddPolygonDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AddActorForm.Designer.cs">
-      <DependentUpon>AddActorForm.cs</DependentUpon>
+    <Compile Include="AddPolygonDialog.Designer.cs">
+      <DependentUpon>AddPolygonDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PropertiesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PropertiesForm.Designer.cs">
+      <DependentUpon>PropertiesForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AddActorDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddActorDialog.Designer.cs">
+      <DependentUpon>AddActorDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="MapEditor.cs">
       <SubType>Form</SubType>
@@ -69,11 +81,17 @@
     <Compile Include="Level.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="ActorEditor.resx">
-      <DependentUpon>ActorEditor.cs</DependentUpon>
+    <EmbeddedResource Include="AddAnimationDialog.resx">
+      <DependentUpon>AddAnimationDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AddActorForm.resx">
-      <DependentUpon>AddActorForm.cs</DependentUpon>
+    <EmbeddedResource Include="AddPolygonDialog.resx">
+      <DependentUpon>AddPolygonDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PropertiesForm.resx">
+      <DependentUpon>PropertiesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddActorDialog.resx">
+      <DependentUpon>AddActorDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MapEditor.resx">
       <DependentUpon>MapEditor.cs</DependentUpon>
