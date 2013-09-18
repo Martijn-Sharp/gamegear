@@ -8,10 +8,12 @@
     using System.Windows.Forms;
     using Newtonsoft.Json;
 
-    public partial class Editor : Form
+    public partial class MapEditor : Form
     {
+        public static ActorFile actors;
+
         private Dictionary<string, Node> map;
-        private Dictionary<CategoryEnum, Bitmap> images; 
+        private Dictionary<CategoryEnum, Bitmap> images;
         private CategoryEnum categorySelected = CategoryEnum.Enemy;
 
         private int typeSelected = -1;
@@ -23,7 +25,7 @@
         private int startX = 0;
         private int startY = 0;
 
-        public Editor()
+        public MapEditor()
         {
             this.map = new Dictionary<string, Node>();
             this.InitializeComponent();
@@ -335,53 +337,7 @@
 
         private void PropertiesClick(object sender, EventArgs e)
         {
-
+            new ActorEditor().Show();
         }
     }
-
-    public class Level
-    {
-        // Spawnpoint
-        public int spawnX, spawnY;
-
-        public List<Tile> tiles;
-        public List<Enemy> enemies;
-    }
-
-    public class Node
-    {
-        // Coordinates on local map
-        public int xCoord, yCoord;
-
-        // Properties
-        public int id;
-        public string name;
-        public int animationLength;
-        
-        public Node(int x, int y)
-        {
-            this.xCoord = x;
-            this.yCoord = y;
-        }
-    }
-
-    public class Tile : Node
-    {
-        public Tile(int x, int y) : base(x, y)
-        {
-        }
-    }
-
-    public class Enemy : Node
-    {
-        // Properties
-        public bool boss;
-        public int additionalHealth;
-        public int type;
-
-        public Enemy(int x, int y) : base(x,y)
-        {
-        }
-    }
-
 }
