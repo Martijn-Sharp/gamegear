@@ -17,7 +17,15 @@ public class BobController implements GestureListener, InputProcessor {
 	public int height;
 	
 	public int dpadPointer = -1;
-	public float dpadX, dpadY = 0;
+	public int dpadCenterX, dpadCenterY = -1;
+	public int dpadX, dpadY = -1;
+	
+	//Gesture tracker
+	public boolean gestureTracking = false;
+	
+	public VelocityTracker tracker = new VelocityTracker();
+
+	
 	
 	public BobController(Bob bob, int width, int height) {
 		this.bob = bob;
@@ -43,7 +51,7 @@ public class BobController implements GestureListener, InputProcessor {
 		Gdx.app.log("GestureDetectorTest", "Long Press");
 		System.out.println("GestureDetectorTest");
 		bob.getBody().setAngularVelocity(0);
-		return true;
+		return false;
 	}
 
 	@Override
@@ -75,6 +83,7 @@ public class BobController implements GestureListener, InputProcessor {
 	@Override
 	public boolean zoom(float initialDistance, float distance) {
 		// TODO Auto-generated method stub
+		Gdx.app.log("Zoom", "Distance: " + distance);
 		return false;
 	}
 
@@ -93,16 +102,16 @@ public class BobController implements GestureListener, InputProcessor {
 	
 	@Override
 	public boolean touchDown(float x, float y, int pointer, int button) {
-		if (x < width / 3 && y > height - (height/3)) {
-			dpadPointer = pointer;
-			dpadX = x;
-			dpadY = y;
-			Gdx.app.log("Touch", "DPAD x: " + x + " y:" + y);
-		}
-		else
-		{
-			Gdx.app.log("Touch", "Not DPAD x: " + x + " y:" + y);
-		}
+//		if (x < width / 3 && y > height - (height/3)) {
+//			dpadPointer = pointer;
+//			dpadX = x;
+//			dpadY = y;
+//			Gdx.app.log("Touch", "DPAD x: " + x + " y:" + y);
+//		}
+//		else
+//		{
+//			Gdx.app.log("Touch", "Not DPAD x: " + x + " y:" + y);
+//		}
 		
 		return false;
 	}
@@ -111,6 +120,17 @@ public class BobController implements GestureListener, InputProcessor {
 	public boolean touchDown(int x, int y, int pointer, int button) {
 		if (!Gdx.app.getType().equals(ApplicationType.Android)){
 			return false;
+		}
+		
+		if (x < width / 3 && y > height - (height/3)) {
+			dpadPointer = pointer;
+			dpadCenterX = x;
+			dpadCenterY = y;
+			Gdx.app.log("Touch", "DPAD x: " + x + " y:" + y + " pointer:" + pointer);
+		}
+		else
+		{
+			Gdx.app.log("Touch", "Not DPAD x: " + x + " y:" + y + " pointer:" + pointer);
 		}
 		
 		return false;
@@ -125,26 +145,80 @@ public class BobController implements GestureListener, InputProcessor {
 		if(pointer == dpadPointer)
 		{
 			dpadPointer = -1;
-			return true;
+			dpadCenterX = -1;
+			dpadCenterY = -1;
+			dpadX = -1;
+			dpadY = -1;
+
+			return false;
 		}
 		
 		return false;
 	}
+	
+	public int getPointerCount()
+	{
+		int activeTouch = 0;
+		for (int i = 0; i < 20; i++) {
+			if (Gdx.app.getInput().isTouched(i)) 
+			{
+				activeTouch++;
+			}
+		}
+		return activeTouch;
+	}
 
 	@Override
 	public boolean touchDragged(int x, int y, int pointer) {
-		
-		if(dpadPointer == pointer)
+		if(getPointerCount() >= 2)
 		{
-			float linImpulseX = -(dpadX - x) / 30;
-			float linImpulseY = (dpadY - y) / 30;
+			//CURRENTLY SUPPORTS 2 FINGERS
+			int gesturePointer;
+			if(dpadPointer == 0)
+			{
+				gesturePointer = 1;
+			}
+			else
+			{
+				gesturePointer = 0;
+			}
+			int secondX = Gdx.input.getX(gesturePointer);
+			int secondY = Gdx.input.getY(gesturePointer);
+			if(!gestureTracking && Gdx.input.isTouched(gesturePointer))
+			{
+				tracker.start(secondX, secondY, Gdx.input.getCurrentEventTime());
+				Gdx.app.log("Fling", "Fling start  x:" + secondX + " y:" + secondY);
+				gestureTracking = true;
+				return true;
+			}
+			else if (gestureTracking && Gdx.input.getCurrentEventTime() - tracker.lastTime > 150)
+			{
+				tracker.update(secondX, secondY, Gdx.input.getCurrentEventTime());
+				gestureTracking = false;
+				Gdx.app.log("Fling", "Fling end  xvel:" + tracker.getVelocityX() + " yvel:" + tracker.getVelocityY());
+				fling(tracker.getVelocityX(), tracker.getVelocityY(), 0);
+				return true;
+			}
+			else if (gestureTracking && Gdx.input.isTouched(gesturePointer))
+			{
+				tracker.update(secondX, secondY, Gdx.input.getCurrentEventTime());
+				Gdx.app.log("Fling", "Fling update  x:" + secondX + " y:" + secondY);
+				return true;
+			}
+		}
+		if(dpadPointer == pointer && x < width / 2.5 && y > height - (height/2.5))
+		{
+			dpadX = x; 
+			dpadY = y;
+			
+			float linImpulseX = -(dpadCenterX - x) / 30;
+			float linImpulseY = (dpadCenterY - y) / 30;
 		
 			bob.getBody().setLinearVelocity(linImpulseX, linImpulseY);
-			Gdx.app.log("Dragging", "Drag x: " + x + " y:" + y + " pointer:" + pointer + " linearImpulse x:" + linImpulseX + " y:" + linImpulseY);
-			return false;
+			//Gdx.app.log("Dragging", "Drag x: " + x + " y:" + y + " pointer:" + pointer + " linearImpulse x:" + linImpulseX + " y:" + linImpulseY + " pointer:" + pointer);
+			return true;
 		}
 		//body.applyLinearImpulse(linImpulseX, linImpulseY, body.getPosition().x, body.getPosition().y);
-		
 		return false;
 	}
 
@@ -156,6 +230,7 @@ public class BobController implements GestureListener, InputProcessor {
 	@Override
 	public boolean scrolled(int amount) {
 		// TODO Auto-generated method stub
+		Gdx.app.log("Scroll", "Amount: " + amount);
 		return false;
 	}
 
@@ -175,5 +250,98 @@ public class BobController implements GestureListener, InputProcessor {
 	public boolean keyUp(int keycode) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	
+	public int getDpadCenterX()
+	{
+		return  dpadCenterX;
+	}
+	
+	public int getDpadCenterY()
+	{
+		return height - dpadCenterY;
+	}
+	
+	public int getDpadX()
+	{
+		return dpadX;
+	}
+	
+	public int getDpadY()
+	{
+		return height - dpadY;
+	}
+	
+	static class VelocityTracker {
+		int sampleSize = 10;
+		float lastX, lastY;
+		float deltaX, deltaY;
+		long lastTime;
+		int numSamples;
+		float[] meanX = new float[sampleSize];
+		float[] meanY = new float[sampleSize];
+		long[] meanTime = new long[sampleSize];
+
+		public void start (float x, float y, long timeStamp) {
+			lastX = x;
+			lastY = y;
+			deltaX = 0;
+			deltaY = 0;
+			numSamples = 0;
+			for (int i = 0; i < sampleSize; i++) {
+				meanX[i] = 0;
+				meanY[i] = 0;
+				meanTime[i] = 0;
+			}
+			lastTime = timeStamp;
+		}
+
+		public void update (float x, float y, long timeStamp) {
+			long currTime = timeStamp;
+			deltaX = x - lastX;
+			deltaY = y - lastY;
+			lastX = x;
+			lastY = y;
+			long deltaTime = currTime - lastTime;
+			lastTime = currTime;
+			int index = numSamples % sampleSize;
+			meanX[index] = deltaX;
+			meanY[index] = deltaY;
+			meanTime[index] = deltaTime;
+			numSamples++;
+		}
+
+		public float getVelocityX () {
+			float meanX = getAverage(this.meanX, numSamples);
+			float meanTime = getAverage(this.meanTime, numSamples) / 1000000000.0f;
+			if (meanTime == 0) return 0;
+			return meanX / meanTime;
+		}
+
+		public float getVelocityY () {
+			float meanY = getAverage(this.meanY, numSamples);
+			float meanTime = getAverage(this.meanTime, numSamples) / 1000000000.0f;
+			if (meanTime == 0) return 0;
+			return meanY / meanTime;
+		}
+
+		private float getAverage (float[] values, int numSamples) {
+			numSamples = Math.min(sampleSize, numSamples);
+			float sum = 0;
+			for (int i = 0; i < numSamples; i++) {
+				sum += values[i];
+			}
+			return sum / numSamples;
+		}
+
+		private long getAverage (long[] values, int numSamples) {
+			numSamples = Math.min(sampleSize, numSamples);
+			long sum = 0;
+			for (int i = 0; i < numSamples; i++) {
+				sum += values[i];
+			}
+			if (numSamples == 0) return 0;
+			return sum / numSamples;
+		}
 	}
 }
