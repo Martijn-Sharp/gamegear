@@ -1,8 +1,6 @@
 package com.gamegear.firstwing.levels;
 
 import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
