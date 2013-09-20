@@ -93,12 +93,26 @@ public class WorldRenderer {
 			}
 		spriteBatch.end();
 		
+		world.world.step(Gdx.app.getGraphics().getDeltaTime(), 3, 3);
 		debugRenderer.render(world.world, cam.combined);
-		world.world.step(1/60f, 6, 2);
+		//world.world.step(1/60f, 6, 2);
 	}
 	
 	public void moveCamera(float x,float y){
-        cam.position.set(x, y, 0);
+		float cameraX = 0;
+		float cameraY = 0;
+		
+		//Cap camera at the top and bottom
+		if(y + 4 > 10){cameraY = 6f;}
+		else if(y - 3 < 0) {cameraY = 3;}
+		else{cameraY = y;}
+		
+		cameraX = x;
+		
+		//Gdx.app.log("Camera", "X:" + cameraX + "," + x + " Y:" + cameraY + "," + y);
+		
+		
+        cam.position.set(cameraX, cameraY, 0);
         cam.update();
 	}
 	public OrthographicCamera getCam() {

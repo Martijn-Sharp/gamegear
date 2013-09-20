@@ -1,5 +1,6 @@
 package com.gamegear.firstwing.levels;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import com.badlogic.gdx.Gdx;
@@ -11,7 +12,8 @@ public class Level {
 
 	private int width;
 	private int height;
-	private Actor[][] blocks;
+	private ArrayList<Block> blocks;
+	private ArrayList<Enemy> enemies;
 	private World world;
 
 	public int getWidth() {
@@ -30,11 +32,15 @@ public class Level {
 		this.height = height;
 	}
 
-	public Actor[][] getBlocks() {
+	public ArrayList<Block> getBlocks() {
 		return blocks;
 	}
+	
+	public ArrayList<Enemy> getEnemies() {
+		return enemies;
+	}
 
-	public void setBlocks(Block[][] blocks) {
+	public void setBlocks(ArrayList<Block> blocks) {
 		this.blocks = blocks;
 	}
 
@@ -43,29 +49,30 @@ public class Level {
 		loadDemoLevel();
 	}
 	
-	public Actor get(int x, int y) {
-		return blocks[x][y];
+	public Actor get(int x) {
+		return blocks.get(x);
 	}
 
 	private void loadDemoLevel() {
 		width = 100;
 		height = 10;
-		blocks = new Actor[width][height];
+		blocks = new ArrayList<Block>();
+		enemies = new ArrayList<Enemy>();
 		
-		LoadedLevel LevelLoader = new JSONLoader(Gdx.files.internal("levels/map4.dat")).getLevel();
+		LoadedLevel LevelLoader = new JSONLoader(Gdx.files.internal("levels/map3.dat")).getLevel();
 		Iterator<Tile> tiles = LevelLoader.tiles.iterator();
-		Iterator<EnemySpawner> enemies = LevelLoader.enemies.iterator();
+		Iterator<EnemySpawner> enemiesIt = LevelLoader.enemies.iterator();
 		
 		while(tiles.hasNext()){
 			Tile tile = tiles.next();
-			blocks[tile.xCoord][tile.yCoord] = new Block(new Vector2(tile.xCoord, tile.yCoord), world, "block");
+			blocks.add(new Block(new Vector2(tile.xCoord, tile.yCoord), world, "block"));
 			tiles.remove();
 		}
 		
-		while(enemies.hasNext()){
-			EnemySpawner enemy = enemies.next();
-			blocks[enemy.xCoord][enemy.yCoord] = new Enemy(new Vector2(enemy.xCoord, enemy.yCoord), world);
-			enemies.remove();
+		while(enemiesIt.hasNext()){
+			EnemySpawner enemy = enemiesIt.next();
+			enemies.add(new Enemy(new Vector2(enemy.xCoord, enemy.yCoord), world));
+			enemiesIt.remove();
 		}
 		
 //		Iterator<Entry<String, Tile>> it = LevelLoader.entrySet().iterator();

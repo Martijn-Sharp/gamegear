@@ -5,6 +5,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.input.GestureDetector;
 import com.gamegear.firstwing.BobController;
@@ -19,6 +20,7 @@ public class GameScreen implements Screen {
 	public GestureDetector 	gestureDetector;
 	public Texture 			interfaceTexture;
 	public SpriteBatch 		interfaceBatch;
+	BitmapFont 				font;
 	
 	
 	InputMultiplexer im;
@@ -31,7 +33,7 @@ public class GameScreen implements Screen {
 		//Rendering
 		world = new FwWorld();
 		renderer = new WorldRenderer(world, false);
-		
+		font = new BitmapFont();
 		
 		interfaceTexture = new Texture(Gdx.files.internal("images/dpad.png"));
 		interfaceBatch = new SpriteBatch();
@@ -39,7 +41,7 @@ public class GameScreen implements Screen {
 		//Input
 		controller = new BobController(this, width, height);
 		gestureDetector = new GestureDetector(20, 0.5f, 1, 0.15f, controller);
-		im = new InputMultiplexer(gestureDetector, controller); // Order matters here!
+		im = new InputMultiplexer(controller, gestureDetector); // Order matters here!
 		Gdx.input.setInputProcessor(im);
 		
 	}
@@ -57,6 +59,7 @@ public class GameScreen implements Screen {
 		
 		//Render interface
 		renderInterface();
+		renderFPS();
 	}
 	
 	public void renderInterface()
@@ -69,6 +72,13 @@ public class GameScreen implements Screen {
 			interfaceBatch.end();
 			//Gdx.app.log("Interface", "Dpad center  x:" + controller.getDpadCenterX() + " y:" + controller.getDpadCenterY() + " current x:" + controller.getDpadX() + " y:" + controller.getDpadY());
 		}
+	}
+	
+	public void renderFPS()
+	{
+		interfaceBatch.begin();
+		font.draw(interfaceBatch, "fps:" + Gdx.graphics.getFramesPerSecond(), 0, 20);
+		interfaceBatch.end();
 	}
 	
 	@Override
