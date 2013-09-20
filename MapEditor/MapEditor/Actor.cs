@@ -5,7 +5,7 @@
 
     public enum Animation
     {
-        Left, 
+        Left,
         Up, 
         Down
     }

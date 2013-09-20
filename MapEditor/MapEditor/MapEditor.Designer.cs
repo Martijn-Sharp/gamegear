@@ -38,7 +38,11 @@
             this.pnlInfo = new System.Windows.Forms.GroupBox();
             this.tabPicker = new System.Windows.Forms.TabControl();
             this.Enemy = new System.Windows.Forms.TabPage();
+            this.listEnemies = new System.Windows.Forms.ListView();
+            this.nameEnemyColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Level = new System.Windows.Forms.TabPage();
+            this.listLevels = new System.Windows.Forms.ListView();
+            this.nameLevelColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -55,6 +59,8 @@
             this.exportStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlInfo.SuspendLayout();
             this.tabPicker.SuspendLayout();
+            this.Enemy.SuspendLayout();
+            this.Level.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -66,7 +72,6 @@
             this.mapPanel.Name = "mapPanel";
             this.mapPanel.Size = new System.Drawing.Size(760, 334);
             this.mapPanel.TabIndex = 0;
-            this.mapPanel.TabIndexChanged += new System.EventHandler(this.TabPickerIndexChanged);
             // 
             // lblButtonValue
             // 
@@ -137,10 +142,10 @@
             this.tabPicker.SelectedIndex = 0;
             this.tabPicker.Size = new System.Drawing.Size(154, 227);
             this.tabPicker.TabIndex = 19;
-            this.tabPicker.SelectedIndexChanged += new System.EventHandler(this.TabPickerIndexChanged);
             // 
             // Enemy
             // 
+            this.Enemy.Controls.Add(this.listEnemies);
             this.Enemy.Location = new System.Drawing.Point(4, 22);
             this.Enemy.Name = "Enemy";
             this.Enemy.Padding = new System.Windows.Forms.Padding(3);
@@ -149,8 +154,29 @@
             this.Enemy.Text = "Enemy";
             this.Enemy.UseVisualStyleBackColor = true;
             // 
+            // listEnemies
+            // 
+            this.listEnemies.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.nameEnemyColumnHeader});
+            this.listEnemies.FullRowSelect = true;
+            this.listEnemies.GridLines = true;
+            this.listEnemies.Location = new System.Drawing.Point(0, 0);
+            this.listEnemies.MultiSelect = false;
+            this.listEnemies.Name = "listEnemies";
+            this.listEnemies.Size = new System.Drawing.Size(146, 201);
+            this.listEnemies.TabIndex = 0;
+            this.listEnemies.UseCompatibleStateImageBehavior = false;
+            this.listEnemies.View = System.Windows.Forms.View.Details;
+            this.listEnemies.SelectedIndexChanged += new System.EventHandler(this.ListEnemiesSelectedIndexChanged);
+            // 
+            // nameEnemyColumnHeader
+            // 
+            this.nameEnemyColumnHeader.Text = "Name";
+            this.nameEnemyColumnHeader.Width = 110;
+            // 
             // Level
             // 
+            this.Level.Controls.Add(this.listLevels);
             this.Level.Location = new System.Drawing.Point(4, 22);
             this.Level.Name = "Level";
             this.Level.Padding = new System.Windows.Forms.Padding(3);
@@ -158,6 +184,26 @@
             this.Level.TabIndex = 2;
             this.Level.Text = "Level";
             this.Level.UseVisualStyleBackColor = true;
+            // 
+            // listLevels
+            // 
+            this.listLevels.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.nameLevelColumnHeader});
+            this.listLevels.FullRowSelect = true;
+            this.listLevels.GridLines = true;
+            this.listLevels.Location = new System.Drawing.Point(0, 0);
+            this.listLevels.MultiSelect = false;
+            this.listLevels.Name = "listLevels";
+            this.listLevels.Size = new System.Drawing.Size(150, 201);
+            this.listLevels.TabIndex = 0;
+            this.listLevels.UseCompatibleStateImageBehavior = false;
+            this.listLevels.View = System.Windows.Forms.View.Details;
+            this.listLevels.SelectedIndexChanged += new System.EventHandler(this.ListLevelsSelectedIndexChanged);
+            // 
+            // nameLevelColumnHeader
+            // 
+            this.nameLevelColumnHeader.Text = "Name";
+            this.nameLevelColumnHeader.Width = 110;
             // 
             // menuStrip
             // 
@@ -249,6 +295,7 @@
             this.propertiesStripMenuItem.Name = "propertiesStripMenuItem";
             this.propertiesStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.propertiesStripMenuItem.Text = "Properties";
+            this.propertiesStripMenuItem.Click += new System.EventHandler(this.PropertiesClick);
             // 
             // toolStripSeparator
             // 
@@ -288,6 +335,8 @@
             this.pnlInfo.ResumeLayout(false);
             this.pnlInfo.PerformLayout();
             this.tabPicker.ResumeLayout(false);
+            this.Enemy.ResumeLayout(false);
+            this.Level.ResumeLayout(false);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
             this.contextMenuStrip1.ResumeLayout(false);
@@ -322,6 +371,10 @@
         private System.Windows.Forms.ToolStripMenuItem propertiesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem propertiesStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator;
+        private System.Windows.Forms.ListView listEnemies;
+        private System.Windows.Forms.ColumnHeader nameEnemyColumnHeader;
+        private System.Windows.Forms.ListView listLevels;
+        private System.Windows.Forms.ColumnHeader nameLevelColumnHeader;
     }
 }
 

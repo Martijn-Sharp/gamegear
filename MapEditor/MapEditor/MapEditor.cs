@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Drawing;
     using System.IO;
-    using System.Linq;
     using System.Windows.Forms;
     using Newtonsoft.Json;
 
@@ -14,7 +13,7 @@
         private Dictionary<CategoryEnum, Bitmap> images;
         private CategoryEnum categorySelected = CategoryEnum.Enemy;
 
-        private int typeSelected = -1;
+        private string actorSelected;
         private int xButtonCount = 10;
         private int yButtonCount = 100;
         private int buttonWidth = 30;
@@ -29,6 +28,7 @@
             this.InitializeComponent();
             this.LoadImages();
             this.BuildGui(BuildOptions.Build);
+            this.PopulateLists();
             this.lblSelectedType.Text = "Enemy";
         }
 
@@ -97,13 +97,13 @@
                 switch (this.categorySelected)
                 {
                     case CategoryEnum.Enemy:
-                        this.map.Add(tmpName, new Enemy(coords[1], 9 - coords[0]));
+                        this.map.Add(tmpName, new Enemy(coords[1], 9 - coords[0]) { name = this.actorSelected });
                         break;
                     case CategoryEnum.Level:
-                        this.map.Add(tmpName, new Tile(coords[1], 9 - coords[0]));
+                        this.map.Add(tmpName, new Tile(coords[1], 9 - coords[0]) { name = this.actorSelected });
                         break;
                     default:
-                        this.map.Add(tmpName, new Node(coords[1], 9 - coords[0]));
+                        this.map.Add(tmpName, new Node(coords[1], 9 - coords[0]) { name = this.actorSelected });
                         break;
                 }
             }
@@ -129,20 +129,6 @@
                 this.lblButtonX.Text = "X = " + coords[1];
                 this.lblButtonY.Text = "Y = " + (9 - coords[0]);
                 this.lblButtonValue.Text = "Name = ";
-            }
-        }
-
-        private void TabPickerIndexChanged(object sender, EventArgs e)
-        {
-            this.lblSelectedType.Text = this.tabPicker.SelectedTab.Name;
-            switch (this.tabPicker.SelectedTab.Name)
-            {
-                case "Enemy":
-                    this.categorySelected = CategoryEnum.Enemy;
-                    break;
-                case "Level":
-                    this.categorySelected = CategoryEnum.Level;
-                    break;
             }
         }
 
@@ -209,38 +195,22 @@
             }
         }
 
-        private void IntOnlyKeyPress(object sender, KeyPressEventArgs e)
+        public void PopulateLists()
         {
-            // This does NOT guarantee safe output, but atleast prevents the accidental mistake
-
-            // Filter all but numeric characters
-            if (!char.IsControl(e.KeyChar)
-                && !char.IsDigit(e.KeyChar))
+            this.listEnemies.Items.Clear();
+            foreach (var enemy in Actors.DynamicActors)
             {
-                e.Handled = true;
+                this.listEnemies.Items.Add(new ListViewItem(enemy.Key));
             }
 
-            // Prevent too big numbers
-            if (((TextBox)sender).Text.Count() > 9)
+            this.listLevels.Items.Clear();
+            foreach (var level in Actors.StaticActors)
             {
-                e.Handled = true;
+                this.listLevels.Items.Add(new ListViewItem(level.Key));
             }
-
-            // For non integer numbers
-            /*if (!char.IsControl(e.KeyChar)
-                && !char.IsDigit(e.KeyChar)
-                && e.KeyChar != '.')
-            {
-                e.Handled = true;
-            }
-
-            if (e.KeyChar == '.'
-                && (sender as TextBox).Text.IndexOf('.') > -1)
-            {
-                e.Handled = true;
-            }*/
         }
 
+        #region Import/Export
         private void ImportClick(object sender, EventArgs e)
         {
             // Displays an OpenFileDialog so the user can select a Cursor.
@@ -320,6 +290,7 @@
                 }
             }
         }
+        #endregion
 
         private void CloseClick(object sender, EventArgs e)
         {
@@ -337,7 +308,28 @@
 
         private void PropertiesClick(object sender, EventArgs e)
         {
-            new PropertiesForm().Show();
+            if (new PropertiesForm().ShowDialog() == DialogResult.OK)
+            {
+                this.PopulateLists();
+            }
+        }
+
+        private void ListEnemiesSelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (this.listEnemies.SelectedItems.Count == 1)
+            {
+                this.categorySelected = CategoryEnum.Enemy;
+                this.actorSelected = this.listEnemies.SelectedItems[0].Text;
+            }
+        }
+
+        private void ListLevelsSelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (this.listLevels.SelectedItems.Count == 1)
+            {
+                this.categorySelected = CategoryEnum.Level;
+                this.actorSelected = this.listLevels.SelectedItems[0].Text;
+            }
         }
     }
 }

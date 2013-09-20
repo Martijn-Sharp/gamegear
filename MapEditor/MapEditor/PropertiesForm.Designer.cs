@@ -171,6 +171,7 @@
             this.listEnemies.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.nameEnemyColumnHeader});
             this.listEnemies.FullRowSelect = true;
+            this.listEnemies.GridLines = true;
             this.listEnemies.Location = new System.Drawing.Point(0, 0);
             this.listEnemies.MultiSelect = false;
             this.listEnemies.Name = "listEnemies";

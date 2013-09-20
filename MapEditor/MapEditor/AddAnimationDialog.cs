@@ -22,7 +22,7 @@
 
         public int GetLength()
         {
-            return Convert.ToInt32(this.lengthUpDown.Text);
+            return Convert.ToInt32(this.lengthUpDown.Value);
         }
 
         private void BtnSaveClick(object sender, EventArgs e)

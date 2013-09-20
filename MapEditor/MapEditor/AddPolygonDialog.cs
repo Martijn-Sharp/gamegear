@@ -12,12 +12,12 @@
 
         public float GetXCoord()
         {
-            return Convert.ToSingle(this.xUpDown.Text);
+            return Convert.ToSingle(this.xUpDown.Value);
         }
 
         public float GetYCoord()
         {
-            return Convert.ToSingle(this.yUpDown.Text);
+            return Convert.ToSingle(this.yUpDown.Value);
         }
 
         private void BtnSaveClick(object sender, EventArgs e)

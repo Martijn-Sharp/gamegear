@@ -104,7 +104,9 @@
             {
                 string name = dialog.GetName();
                 MapEditor.Actors.DynamicActors.Add(name, new DynamicActor { Name = name });
-                this.listEnemies.Items.Add(new ListViewItem(name));
+                var item = new ListViewItem(name);
+                this.listEnemies.Items.Add(item);
+                item.Selected = true;
             }
         }
 
@@ -128,7 +130,9 @@
             {
                 string name = dialog.GetName();
                 MapEditor.Actors.StaticActors.Add(name, new StaticActor { Name = name });
-                this.listLevels.Items.Add(new ListViewItem(name));
+                var item = new ListViewItem(name);
+                this.listLevels.Items.Add(item);
+                item.Selected = true;
             }
         }
 
@@ -271,7 +275,7 @@
         {
             if (this.selectedActor != null)
             {
-                this.selectedActor.Scale = Convert.ToSingle(this.scaleUpDown.Text);
+                this.selectedActor.Scale = Convert.ToSingle(this.scaleUpDown.Value);
             }
         }
 
@@ -279,7 +283,7 @@
         {
             if (this.selectedActor != null)
             {
-                this.selectedActor.Width = Convert.ToSingle(this.widthUpDown.Text);
+                this.selectedActor.Width = Convert.ToSingle(this.widthUpDown.Value);
             }
         }
 
@@ -287,7 +291,7 @@
         {
             if (this.selectedActor != null)
             {
-                this.selectedActor.Height = Convert.ToSingle(this.heightUpDown.Text);
+                this.selectedActor.Height = Convert.ToSingle(this.heightUpDown.Value);
             }
         }
 
@@ -295,7 +299,7 @@
         {
             if (this.selectedActor is DynamicActor)
             {
-                ((DynamicActor)this.selectedActor).Speed = Convert.ToSingle(this.speedUpDown.Text);
+                ((DynamicActor)this.selectedActor).Speed = Convert.ToSingle(this.speedUpDown.Value);
             }
         }
 
@@ -303,7 +307,7 @@
         {
             if (this.selectedActor is DynamicActor)
             {
-                ((DynamicActor)this.selectedActor).Health = Convert.ToSingle(this.healthUpDown.Text);
+                ((DynamicActor)this.selectedActor).Health = Convert.ToSingle(this.healthUpDown.Value);
             }
         }
 
