@@ -2,16 +2,20 @@ package com.gamegear.firstwing;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.Application.ApplicationType;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.input.GestureDetector.GestureListener;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.gamegear.firstwing.actors.Bob;
+import com.gamegear.firstwing.screens.GameScreen;
 import com.gamegear.firstwing.BobController;
 
 public class BobController implements GestureListener, InputProcessor {
 
 
+	private GameScreen screen;
 	private Bob bob;
+	OrthographicCamera cam;
 	
 	public int width;
 	public int height;
@@ -22,15 +26,18 @@ public class BobController implements GestureListener, InputProcessor {
 	
 	//Gesture tracker
 	public boolean gestureTracking = false;
+	public long flingDelay = 150 * 1000000l;
 	
 	public VelocityTracker tracker = new VelocityTracker();
 
 	
 	
-	public BobController(Bob bob, int width, int height) {
-		this.bob = bob;
+	public BobController(GameScreen screen, int width, int height) {
+		this.screen = screen;
+		this.bob = screen.world.getBob();
 		this.width = width;
 		this.height = height;
+		this.cam = screen.renderer.getCam();
 	}
 	
 	/** The main update method **/
@@ -83,7 +90,7 @@ public class BobController implements GestureListener, InputProcessor {
 	@Override
 	public boolean zoom(float initialDistance, float distance) {
 		// TODO Auto-generated method stub
-		Gdx.app.log("Zoom", "Distance: " + distance);
+		//Gdx.app.log("Zoom", "Distance: " + distance);
 		return false;
 	}
 
@@ -103,14 +110,14 @@ public class BobController implements GestureListener, InputProcessor {
 	@Override
 	public boolean touchDown(float x, float y, int pointer, int button) {
 //		if (x < width / 3 && y > height - (height/3)) {
-//			dpadPointer = pointer;
-//			dpadX = x;
-//			dpadY = y;
-//			Gdx.app.log("Touch", "DPAD x: " + x + " y:" + y);
+//		dpadPointer = pointer;
+//		dpadCenterX = (int) x;
+//		dpadCenterY = (int) y;
+//		Gdx.app.log("Touch", "DPAD x: " + x + " y:" + y + " pointer:" + pointer);
 //		}
 //		else
 //		{
-//			Gdx.app.log("Touch", "Not DPAD x: " + x + " y:" + y);
+//			Gdx.app.log("Touch", "Not DPAD x: " + x + " y:" + y + " pointer:" + pointer);
 //		}
 		
 		return false;
@@ -118,14 +125,16 @@ public class BobController implements GestureListener, InputProcessor {
 
 	@Override
 	public boolean touchDown(int x, int y, int pointer, int button) {
-		if (!Gdx.app.getType().equals(ApplicationType.Android)){
-			return false;
-		}
+//		if (!Gdx.app.getType().equals(ApplicationType.Android)){
+//			return false;
+//		}
 		
 		if (x < width / 3 && y > height - (height/3)) {
 			dpadPointer = pointer;
 			dpadCenterX = x;
 			dpadCenterY = y;
+			dpadX = x;
+			dpadY = y;
 			Gdx.app.log("Touch", "DPAD x: " + x + " y:" + y + " pointer:" + pointer);
 		}
 		else
@@ -138,9 +147,9 @@ public class BobController implements GestureListener, InputProcessor {
 
 	@Override
 	public boolean touchUp(int x, int y, int pointer, int button) {
-		if (!Gdx.app.getType().equals(ApplicationType.Android)){
-			return false;
-		}
+//		if (!Gdx.app.getType().equals(ApplicationType.Android)){
+//			return false;
+//		}
 		
 		if(pointer == dpadPointer)
 		{
@@ -152,6 +161,8 @@ public class BobController implements GestureListener, InputProcessor {
 
 			return false;
 		}
+		
+		Gdx.app.log("Touch", "Touch up pointer:" + pointer);
 		
 		return false;
 	}
@@ -182,29 +193,41 @@ public class BobController implements GestureListener, InputProcessor {
 			{
 				gesturePointer = 0;
 			}
+			
 			int secondX = Gdx.input.getX(gesturePointer);
 			int secondY = Gdx.input.getY(gesturePointer);
 			if(!gestureTracking && Gdx.input.isTouched(gesturePointer))
 			{
 				tracker.start(secondX, secondY, Gdx.input.getCurrentEventTime());
-				Gdx.app.log("Fling", "Fling start  x:" + secondX + " y:" + secondY);
+				Gdx.app.log("Fling", "Fling start x:" + secondX + " y:" + secondY);
 				gestureTracking = true;
-				return true;
+				return false;
 			}
-			else if (gestureTracking && Gdx.input.getCurrentEventTime() - tracker.lastTime > 150)
+			else if (gestureTracking && Gdx.input.isTouched(gesturePointer) && Gdx.input.getCurrentEventTime() - tracker.lastTime <= flingDelay)
 			{
 				tracker.update(secondX, secondY, Gdx.input.getCurrentEventTime());
+				//Gdx.app.log("Fling", "Fling update  x:" + secondX + " y:" + secondY);
+				
+				//Gdx.app.log("Bob Position", "x:" + bob.getBody().getPosition().x  + " y:" + bob.getBody().getPosition().y);
+				Vector3 worldCoordinates = new Vector3(x, y, 0);
+				cam.unproject(worldCoordinates);
+				//Gdx.app.log("Touch Position", "x:" + worldCoordinates.x  + " y:" + worldCoordinates.y);
+				if(checkCollision(worldCoordinates.x, worldCoordinates.y, bob.getBody().getPosition().x, bob.getBody().getPosition().y, bob.getScale()))
+				{
+					Gdx.app.log("Collision", "You flinged Bob");
+				}
+				return false;
+			}
+			else if (gestureTracking && Gdx.input.isTouched(gesturePointer) && Gdx.input.getCurrentEventTime() - tracker.lastTime > flingDelay)
+			{
+				//tracker.update(secondX, secondY, Gdx.input.getCurrentEventTime());
 				gestureTracking = false;
-				Gdx.app.log("Fling", "Fling end  xvel:" + tracker.getVelocityX() + " yvel:" + tracker.getVelocityY());
+				//Gdx.app.log("Fling", "Fling end  xvel:" + tracker.getVelocityX() + " yvel:" + tracker.getVelocityY());
 				fling(tracker.getVelocityX(), tracker.getVelocityY(), 0);
+				
 				return true;
 			}
-			else if (gestureTracking && Gdx.input.isTouched(gesturePointer))
-			{
-				tracker.update(secondX, secondY, Gdx.input.getCurrentEventTime());
-				Gdx.app.log("Fling", "Fling update  x:" + secondX + " y:" + secondY);
-				return true;
-			}
+			
 		}
 		if(dpadPointer == pointer && x < width / 2.5 && y > height - (height/2.5))
 		{
@@ -270,6 +293,17 @@ public class BobController implements GestureListener, InputProcessor {
 	public int getDpadY()
 	{
 		return height - dpadY;
+	}
+	
+	public static boolean checkCollision(float touchX, float touchY, float objectX, float objectY, float objectSize)
+	{
+		float margin = 0.25f;
+		
+		if(Math.abs(touchX - objectX) < margin && Math.abs(touchY - objectY) < margin + objectSize)
+		{
+			return true;
+		}
+		return false;
 	}
 	
 	static class VelocityTracker {

@@ -13,12 +13,12 @@ import com.gamegear.firstwing.WorldRenderer;
 
 public class GameScreen implements Screen {
 
-	private FwWorld 		world;
-	private WorldRenderer 	renderer;
-	private BobController	controller;
-	GestureDetector gestureDetector;
-	Texture interfaceTexture;
-	SpriteBatch interfaceBatch;
+	public FwWorld 			world;
+	public WorldRenderer 	renderer;
+	public BobController	controller;
+	public GestureDetector 	gestureDetector;
+	public Texture 			interfaceTexture;
+	public SpriteBatch 		interfaceBatch;
 	
 	
 	InputMultiplexer im;
@@ -32,11 +32,12 @@ public class GameScreen implements Screen {
 		world = new FwWorld();
 		renderer = new WorldRenderer(world, false);
 		
+		
 		interfaceTexture = new Texture(Gdx.files.internal("images/dpad.png"));
 		interfaceBatch = new SpriteBatch();
 		
 		//Input
-		controller = new BobController(world.getBob(), width, height);
+		controller = new BobController(this, width, height);
 		gestureDetector = new GestureDetector(20, 0.5f, 1, 0.15f, controller);
 		im = new InputMultiplexer(gestureDetector, controller); // Order matters here!
 		Gdx.input.setInputProcessor(im);
@@ -55,7 +56,11 @@ public class GameScreen implements Screen {
 		renderer.render();
 		
 		//Render interface
-		
+		renderInterface();
+	}
+	
+	public void renderInterface()
+	{
 		if(controller.getDpadCenterX() > 0)
 		{
 			interfaceBatch.begin();

@@ -27,7 +27,9 @@ public class WorldRenderer {
 	public static TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("textures/textures.pack"));
 	private SpriteBatch spriteBatch;
 	private boolean debug = false;
+	@SuppressWarnings("unused")
 	private int width;
+	@SuppressWarnings("unused")
 	private int height;
 	private Iterator<Body> tmpBodies;
 	
@@ -98,5 +100,8 @@ public class WorldRenderer {
 	public void moveCamera(float x,float y){
         cam.position.set(x, y, 0);
         cam.update();
+	}
+	public OrthographicCamera getCam() {
+		return cam;
 	}
 }
