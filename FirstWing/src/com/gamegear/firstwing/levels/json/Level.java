@@ -1,9 +1,9 @@
-package com.gamegear.firstwing.levels;
+package com.gamegear.firstwing.levels.json;
 
 import java.util.List;
 
-public class LoadedLevel {
-	//Spawnpoint
+public class Level {
+	// Spawnpoint
     public int spawnX, spawnY;
 
     public List<Tile> tiles;

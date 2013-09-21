@@ -3,6 +3,90 @@ statextures.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+aliengrass-bottom
+  rotate: false
+  xy: 1, 311
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+aliengrass-center
+  rotate: false
+  xy: 1, 181
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+aliengrass-left-bottom
+  rotate: false
+  xy: 131, 311
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+aliengrass-left-top
+  rotate: false
+  xy: 1, 51
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+aliengrass-left
+  rotate: false
+  xy: 131, 181
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+aliengrass-right-bottom
+  rotate: false
+  xy: 261, 311
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+aliengrass-right-top
+  rotate: false
+  xy: 131, 51
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+aliengrass-right
+  rotate: false
+  xy: 261, 181
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+aliengrass-single
+  rotate: false
+  xy: 391, 311
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+aliengrass-top-bottom-left
+  rotate: false
+  xy: 261, 51
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+aliengrass-top-bottom-right
+  rotate: false
+  xy: 391, 181
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+aliengrass-top
+  rotate: false
+  xy: 521, 311
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
 block
   rotate: false
   xy: 1, 1

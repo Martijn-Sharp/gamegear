@@ -6,7 +6,11 @@ import java.util.Iterator;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import com.gamegear.firstwing.ActorMgr;
 import com.gamegear.firstwing.actors.*;
+import com.gamegear.firstwing.actors.json.DynamicActor;
+import com.gamegear.firstwing.actors.json.StaticActor;
+import com.gamegear.firstwing.levels.json.*;
 
 public class Level {
 
@@ -59,42 +63,20 @@ public class Level {
 		blocks = new ArrayList<Block>();
 		enemies = new ArrayList<Enemy>();
 		
-		LoadedLevel LevelLoader = new JSONLoader(Gdx.files.internal("levels/map3.dat")).getLevel();
+		com.gamegear.firstwing.levels.json.Level LevelLoader = new JSONLoader().getLevel(Gdx.files.internal("levels/map5.dat"));
 		Iterator<Tile> tiles = LevelLoader.tiles.iterator();
 		Iterator<EnemySpawner> enemiesIt = LevelLoader.enemies.iterator();
 		
 		while(tiles.hasNext()){
 			Tile tile = tiles.next();
-			blocks.add(new Block(new Vector2(tile.xCoord, tile.yCoord), world, "block"));
+			blocks.add(new Block(new Vector2(tile.xCoord, tile.yCoord), world, ActorMgr.getProperties(tile.name, new StaticActor())));
 			tiles.remove();
 		}
 		
 		while(enemiesIt.hasNext()){
 			EnemySpawner enemy = enemiesIt.next();
-			enemies.add(new Enemy(new Vector2(enemy.xCoord, enemy.yCoord), world));
+			enemies.add(new Enemy(new Vector2(enemy.xCoord, enemy.yCoord), world, ActorMgr.getProperties(enemy.name, new DynamicActor())));
 			enemiesIt.remove();
 		}
-		
-//		Iterator<Entry<String, Tile>> it = LevelLoader.entrySet().iterator();
-//	    
-//		while (it.hasNext()) {
-//	        Map.Entry<String, Tile> pairs = (Map.Entry<String, Tile>)it.next();
-//	        Tile tile = pairs.getValue();
-//	        
-//	        // Load tiles into level
-//	        if(tile.level)
-//	        {
-//	        	blocks[tile.xCoord][tile.yCoord] = new Block(new Vector2(tile.xCoord, tile.yCoord), world, "block");
-//	        }
-//	        else if (tile.enemy) {
-//	        	blocks[tile.xCoord][tile.yCoord] = new Enemy(new Vector2(tile.xCoord, tile.yCoord), world);
-//	        }
-//	        else
-//	        {
-//	        	System.out.println("Not a level tile");
-//	        }
-//	        
-//	        it.remove();
-//	    }
 	}
 }

@@ -1,4 +1,4 @@
-package com.gamegear.firstwing.levels;
+package com.gamegear.firstwing.levels.json;
 
 public class EnemySpawner extends Node {
 	//Properties

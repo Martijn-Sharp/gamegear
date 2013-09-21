@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.gamegear.firstwing.TextureMgr;
 import com.gamegear.firstwing.actors.Actor;
+import com.gamegear.firstwing.actors.json.StaticActor;
 
 public class Block extends Actor {
 
@@ -14,9 +15,9 @@ public class Block extends Actor {
 	private TextureRegion blockTexture;
 	private String textureName;
 	
-	public Block(Vector2 position, World world, String textureName) {
-		super(1, 1f, 1f, BodyType.StaticBody, position);
-		this.textureName = textureName;
+	public Block(Vector2 position, World world, StaticActor actor) {
+		super(actor.Scale, actor.Width, actor.Height, BodyType.StaticBody, position);
+		this.textureName = actor.Name;
 		this.loadTextures();
 		
 		PolygonShape rect = new PolygonShape();

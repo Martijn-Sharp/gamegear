@@ -40,8 +40,7 @@
                 var file = new ActorFile
                 {
                     StaticActors = new Dictionary<string, StaticActor>(),
-                    DynamicActors = new Dictionary<string, DynamicActor>(),
-                    LastUpdated = DateTime.Now
+                    DynamicActors = new Dictionary<string, DynamicActor>()
                 };
 
                 MapEditor.Actors = file;

@@ -20,14 +20,12 @@
 
     public class ActorFile
     {
-        public DateTime LastUpdated { get; set; }
-
         public Dictionary<string, DynamicActor> DynamicActors { get; set; }
 
         public Dictionary<string, StaticActor> StaticActors { get; set; }
     }
 
-    public class Actor
+    public class ActorProperties
     {
         public string Name { get; set; }
 
@@ -40,7 +38,7 @@
         public List<Polygon> Polygons { get; set; }
     }
 
-    public class DynamicActor : Actor
+    public class DynamicActor : ActorProperties
     {
         public float Speed { get; set; }
 
@@ -53,7 +51,7 @@
         public Dictionary<Animation, int> Animations { get; set; }
     }
 
-    public class StaticActor : Actor
+    public class StaticActor : ActorProperties
     {
     }
 

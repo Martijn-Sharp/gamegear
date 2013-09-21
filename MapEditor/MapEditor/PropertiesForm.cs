@@ -9,7 +9,7 @@
 
     public partial class PropertiesForm : Form
     {
-        private Actor selectedActor;
+        private ActorProperties selectedActor;
 
         public PropertiesForm()
         {
@@ -85,7 +85,6 @@
 
         public void BtnSave(object sender, EventArgs e)
         {
-            MapEditor.Actors.LastUpdated = DateTime.Now;
             string lines = JsonConvert.SerializeObject(MapEditor.Actors);
             using (var f = new FileStream("actors.dat", FileMode.Create, FileAccess.ReadWrite))
             {
