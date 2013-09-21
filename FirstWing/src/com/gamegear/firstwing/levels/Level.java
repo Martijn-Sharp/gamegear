@@ -2,6 +2,8 @@ package com.gamegear.firstwing.levels;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Queue;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
@@ -18,7 +20,9 @@ public class Level {
 	private int height;
 	private ArrayList<Block> blocks;
 	private ArrayList<Enemy> enemies;
+	private Queue<String> speed;
 	private World world;
+	private int currentSpeed = 5;
 
 	public int getWidth() {
 		return width;
@@ -56,12 +60,32 @@ public class Level {
 	public Actor get(int x) {
 		return blocks.get(x);
 	}
+	
+	public int getSpeed(float cameraX)
+	{
+		if(!speed.isEmpty())
+		{
+			String[] tmpSpeed = speed.peek().split(",");
+			if(Integer.parseInt(tmpSpeed[0]) < cameraX)
+			{
+				currentSpeed = Integer.parseInt(tmpSpeed[1]);
+				speed.remove();
+			}
+		}
+		return currentSpeed;
+	}
+	
+	public int getSpeed()
+	{
+		return currentSpeed;
+	}
 
 	private void loadDemoLevel() {
-		width = 100;
 		height = 10;
+		width = 0;
 		blocks = new ArrayList<Block>();
 		enemies = new ArrayList<Enemy>();
+		speed = new LinkedList<String>();
 		
 		com.gamegear.firstwing.levels.json.Level LevelLoader = new JSONLoader().getLevel(Gdx.files.internal("levels/map5.dat"));
 		Iterator<Tile> tiles = LevelLoader.tiles.iterator();
@@ -69,6 +93,13 @@ public class Level {
 		
 		while(tiles.hasNext()){
 			Tile tile = tiles.next();
+			
+			//Check level width
+			if(tile.xCoord > width)
+			{
+				width = tile.xCoord;
+			}
+			
 			blocks.add(new Block(new Vector2(tile.xCoord, tile.yCoord), world, ActorMgr.getProperties(tile.name, new StaticActor())));
 			tiles.remove();
 		}
@@ -78,5 +109,10 @@ public class Level {
 			enemies.add(new Enemy(new Vector2(enemy.xCoord, enemy.yCoord), world, ActorMgr.getProperties(enemy.name, new DynamicActor())));
 			enemiesIt.remove();
 		}
+		
+		//Add demo speeds
+		speed.add("0,1");
+		speed.add("6,2");
+		speed.add("30,0");
 	}
 }

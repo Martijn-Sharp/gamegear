@@ -11,12 +11,14 @@ import com.badlogic.gdx.input.GestureDetector;
 import com.gamegear.firstwing.BobController;
 import com.gamegear.firstwing.FwWorld;
 import com.gamegear.firstwing.WorldRenderer;
+import com.gamegear.firstwing.actors.Bob;
 
 public class GameScreen implements Screen {
 
 	public FwWorld 			world;
 	public WorldRenderer 	renderer;
 	public BobController	controller;
+	public Bob				bob;
 	public GestureDetector 	gestureDetector;
 	public Texture 			interfaceTexture;
 	public SpriteBatch 		interfaceBatch;
@@ -32,6 +34,7 @@ public class GameScreen implements Screen {
 		
 		//Rendering
 		world = new FwWorld();
+		bob = world.getBob();
 		renderer = new WorldRenderer(world, false);
 		font = new BitmapFont();
 		
@@ -53,6 +56,9 @@ public class GameScreen implements Screen {
 
 		//Update input
 		controller.update(delta);
+		
+		//Update Bob speed
+		bob.getBody().setLinearVelocity(controller.linImpulseX + world.getLevel().getSpeed(),controller.linImpulseY);
 		
 		//Render frame
 		renderer.render();

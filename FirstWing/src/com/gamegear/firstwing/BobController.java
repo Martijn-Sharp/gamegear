@@ -10,11 +10,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.QueryCallback;
-import com.badlogic.gdx.physics.box2d.joints.MouseJoint;
-import com.badlogic.gdx.physics.box2d.joints.MouseJointDef;
 import com.gamegear.firstwing.actors.Actor;
 import com.gamegear.firstwing.actors.Bob;
 import com.gamegear.firstwing.actors.Enemy;
@@ -34,31 +29,21 @@ public class BobController implements GestureListener, InputProcessor {
 	///////////////////////
 	protected Body hitBody = null;
     protected Body groundBody;
-    protected MouseJoint mouseJoint = null;
     protected Vector2 target = new Vector2();
     
-    private Iterator collisionIterator;
+    private Iterator<Enemy> collisionIterator;
     
-    Vector3 testPoint = new Vector3();
-    QueryCallback callback = new QueryCallback() {
-            @Override public boolean reportFixture (Fixture fixture) {
-                    // if the hit point is inside the fixture of the body
-                    // we report it
-            	Gdx.app.log("Collision", "Ficture: " + fixture.getBody().getPosition().x + "," + fixture.getBody().getPosition().y);
-                    if (fixture.testPoint(testPoint.x, testPoint.y)) {
-                            hitBody = fixture.getBody();
-                            return false;
-                    } else
-                            return true;
-            }
-    };
-	
 	public int width;
 	public int height;
 	
 	public int dpadPointer = -1;
 	public int dpadCenterX, dpadCenterY = -1;
 	public int dpadX, dpadY = -1;
+	
+	//Bob impulse power
+	public float linImpulseX = 0;
+	public float linImpulseY = 0;
+
 	
 	//Gesture tracker
 	public boolean gestureTracking = false;
@@ -199,6 +184,9 @@ public class BobController implements GestureListener, InputProcessor {
 			dpadCenterY = -1;
 			dpadX = -1;
 			dpadY = -1;
+			
+			linImpulseX = 0;
+			linImpulseY = 0;
 
 			return false;
 		}
@@ -270,19 +258,15 @@ public class BobController implements GestureListener, InputProcessor {
 			}
 			
 		}
-		if (mouseJoint != null) {
-            cam.unproject(testPoint.set(x, y, 0));
-            mouseJoint.setTarget(target.set(testPoint.x, testPoint.y));
-		}
 		if(dpadPointer == pointer && x < width / 2.5 && y > height - (height/2.5))
 		{
 			dpadX = x; 
 			dpadY = y;
 			
-			float linImpulseX = -(dpadCenterX - x) / 30;
-			float linImpulseY = (dpadCenterY - y) / 30;
+			linImpulseX = Gdx.graphics.getDeltaTime() * (-(dpadCenterX - x) * 3);
+			linImpulseY = Gdx.graphics.getDeltaTime() * ((dpadCenterY - y) * 3);
 		
-			bob.getBody().setLinearVelocity(linImpulseX, linImpulseY);
+			//bob.getBody().setLinearVelocity(linImpulseX, linImpulseY);
 			//Gdx.app.log("Dragging", "Drag x: " + x + " y:" + y + " pointer:" + pointer + " linearImpulse x:" + linImpulseX + " y:" + linImpulseY + " pointer:" + pointer);
 			return false;
 		}
@@ -363,46 +347,7 @@ public class BobController implements GestureListener, InputProcessor {
 				//collisionIterator.remove();
 				return true;
 			}
-		}
-		
-//		if(checkCollision(worldCoordinates.x, worldCoordinates.y, bob.getBody().getPosition().x, bob.getBody().getPosition().y, bob.getScale()))
-//		{
-//			Gdx.app.log("Collision", "You flinged Bob");
-//		}
-		
-		
-		////////
-		// Check collisions with Box2d
-		
-//		// translate the mouse coordinates to world coordinates
-//        cam.unproject(testPoint.set(touchX, touchX, 0));
-//        // ask the world which bodies are within the given
-//        // bounding box around the mouse pointer
-//        hitBody = null;
-//        screen.world.world.QueryAABB(callback, testPoint.x - 0.1f, testPoint.y - 0.1f, testPoint.x + 0.1f, testPoint.y + 0.1f);
-//        
-//        Gdx.app.log("Collision", "Testpoint x:" + testPoint.x + " y:" + testPoint.y);
-//        
-//        if (hitBody == groundBody) hitBody = null;
-//
-//        // ignore kinematic bodies, they don't work with the mouse joint
-//        if (hitBody != null && hitBody.getType() == BodyType.KinematicBody) return false;
-//        
-//        if (hitBody != null) {
-////        	MouseJointDef def = new MouseJointDef();
-////            def.bodyA = groundBody;
-////            def.bodyB = hitBody;
-////            def.collideConnected = true;
-////            def.target.set(testPoint.x, testPoint.y);
-////            def.maxForce = 1000.0f * hitBody.getMass();
-//
-//            //mouseJoint = (MouseJoint)screen.world.world.createJoint(def);
-//            //hitBody.setAwake(true);
-//        	
-//        	hitBody.setAngularVelocity(10);
-//        	Gdx.app.log("Collision", "You flinged someone");
-//        }
-		
+		}		
 		return false;
 	}
 	

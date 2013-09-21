@@ -33,6 +33,10 @@ public class WorldRenderer {
 	private int height;
 	private Iterator<Body> tmpBodies;
 	
+	float cameraX = 0;
+	float cameraY = 0;
+
+	
 	public void setSize (int w, int h) {
 		this.width = w;
 		this.height = h;
@@ -48,7 +52,9 @@ public class WorldRenderer {
 		this.world = world;
 		this.cam = new OrthographicCamera(CAMERA_WIDTH, CAMERA_HEIGHT);
 		this.cam.setToOrtho(false, CAMERA_WIDTH, CAMERA_HEIGHT);
-		this.cam.position.set(CAMERA_WIDTH / 2f, CAMERA_HEIGHT / 2f, 0);
+		this.cameraX = CAMERA_WIDTH / 2f;
+		this.cameraY = CAMERA_HEIGHT / 2f;
+		this.cam.position.set(this.cameraX, this.cameraY, 0);
 		this.cam.update();
 		this.debug = debug;
 		spriteBatch = new SpriteBatch();
@@ -57,7 +63,7 @@ public class WorldRenderer {
 	
 	public void render() {
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-		moveCamera(world.getBob().getPosition().x, world.getBob().getPosition().y);
+		moveCamera(world.getBob().getBody().getWorldCenter().x, world.getBob().getBody().getWorldCenter().y, world.level.getSpeed(cameraX));
 		spriteBatch.setProjectionMatrix(cam.combined);
 		spriteBatch.begin();
 			tmpBodies = world.world.getBodies();
@@ -98,16 +104,19 @@ public class WorldRenderer {
 		//world.world.step(1/60f, 6, 2);
 	}
 	
-	public void moveCamera(float x,float y){
-		float cameraX = 0;
-		float cameraY = 0;
-		
+	public void moveCamera(float x,float y, float speed){	
 		//Cap camera at the top and bottom
 		if(y + 4 > 10){cameraY = 6f;}
 		else if(y - 3 < 0) {cameraY = 3;}
 		else{cameraY = y;}
 		
-		cameraX = x;
+		//Cap camera at the sides
+//		if(x + 5 > world.level.getWidth()){cameraX = world.level.getWidth() - 5;}
+//		else if(x - 5 < 0) {cameraX = 5;}
+//		else{cameraX = x;}
+		
+		//Move camera with speed
+		cameraX += Gdx.graphics.getDeltaTime() * speed;		
 		
 		//Gdx.app.log("Camera", "X:" + cameraX + "," + x + " Y:" + cameraY + "," + y);
 		
