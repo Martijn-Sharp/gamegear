@@ -1,5 +1,6 @@
 package com.gamegear.firstwing;
 
+import java.awt.LinearGradientPaint;
 import java.util.Iterator;
 
 import com.badlogic.gdx.Gdx;
@@ -39,6 +40,7 @@ public class BobController implements GestureListener, InputProcessor {
 	public int dpadPointer = -1;
 	public int dpadCenterX, dpadCenterY = -1;
 	public int dpadX, dpadY = -1;
+	public final int dpadSpeed = 3;
 	
 	//Bob impulse power
 	public float linImpulseX = 0;
@@ -66,6 +68,7 @@ public class BobController implements GestureListener, InputProcessor {
 	
 	/** The main update method **/
 	public void update(float delta) {
+		
 		// simply updates the state time
 		bob.update(delta);
 	}
@@ -263,9 +266,35 @@ public class BobController implements GestureListener, InputProcessor {
 			dpadX = x; 
 			dpadY = y;
 			
-			linImpulseX = Gdx.graphics.getDeltaTime() * (-(dpadCenterX - x) * 3);
-			linImpulseY = Gdx.graphics.getDeltaTime() * ((dpadCenterY - y) * 3);
-		
+			linImpulseY = Gdx.graphics.getDeltaTime() * ((dpadCenterY - y) * dpadSpeed);
+			
+			//Check if going out of map
+			if(screen.renderer.cameraX - 4f <= bob.getPosition().x || -(dpadCenterX - x) > 0)
+			{
+				//linImpulseX = Gdx.graphics.getDeltaTime() * (-(dpadCenterX - x) * dpadSpeed);
+			}
+			else
+			{
+				linImpulseX = 0;
+				//bob.getBody().setTransform(screen.renderer.cameraX - 4.5f, bob.getBody().getPosition().y, bob.getBody().getAngle());
+				Gdx.app.log("Edge detection", "Edge left x: " + (screen.renderer.cameraX-5) + " Bob x:" + bob.getPosition().x);
+				return false;
+			}
+			if(screen.renderer.cameraX + 4f >= bob.getPosition().x || -(dpadCenterX - x) < 0)
+			{
+				//linImpulseX = Gdx.graphics.getDeltaTime() * (-(dpadCenterX - x) * dpadSpeed);
+
+			}
+			else
+			{
+				linImpulseX = 0;
+				//bob.getBody().setTransform(screen.renderer.cameraX + 4.5f, bob.getBody().getPosition().y, bob.getBody().getAngle());
+				Gdx.app.log("Edge detection", "Edge right x: " + (screen.renderer.cameraX+5) + " Bob x:" + bob.getPosition().x);
+				return false;
+			}
+			
+			linImpulseX = Gdx.graphics.getDeltaTime() * (-(dpadCenterX - x) * dpadSpeed);
+			
 			//bob.getBody().setLinearVelocity(linImpulseX, linImpulseY);
 			//Gdx.app.log("Dragging", "Drag x: " + x + " y:" + y + " pointer:" + pointer + " linearImpulse x:" + linImpulseX + " y:" + linImpulseY + " pointer:" + pointer);
 			return false;
