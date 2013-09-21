@@ -10,7 +10,7 @@
     public partial class MapEditor : Form
     {
         private Dictionary<string, Node> map;
-        private Dictionary<CategoryEnum, Bitmap> images;
+        private Dictionary<string, Bitmap> images;
         private CategoryEnum categorySelected = CategoryEnum.Enemy;
 
         private string actorSelected;
@@ -25,8 +25,8 @@
         public MapEditor()
         {
             this.map = new Dictionary<string, Node>();
+            this.images = new Dictionary<string, Bitmap>();
             this.InitializeComponent();
-            this.LoadImages();
             this.BuildGui(BuildOptions.Build);
             this.PopulateLists();
             this.lblSelectedType.Text = "Enemy";
@@ -65,22 +65,6 @@
             return temp;
         }
 
-        private void LoadImages()
-        {
-            this.images = new Dictionary<CategoryEnum, Bitmap>
-            {
-                {
-                    CategoryEnum.Default, new Bitmap("assets/images/default.png")
-                },
-                {
-                    CategoryEnum.Enemy, new Bitmap("assets/images/enemy.png")
-                },
-                {
-                    CategoryEnum.Level, new Bitmap("assets/images/level.png")
-                }
-            };
-        }
-
         private void ChangeTileClick(object sender, EventArgs e)
         {
             // When the button is clicked,
@@ -93,24 +77,26 @@
             // Check if tile exists
             if (!this.map.ContainsKey(tmpName))
             {
-                clickedButton.BackgroundImage = this.images[this.categorySelected];
                 switch (this.categorySelected)
                 {
                     case CategoryEnum.Enemy:
                         this.map.Add(tmpName, new Enemy(coords[1], 9 - coords[0]) { name = this.actorSelected });
+                        clickedButton.BackgroundImage = this.GetImage(this.actorSelected, CategoryEnum.Enemy);
                         break;
                     case CategoryEnum.Level:
                         this.map.Add(tmpName, new Tile(coords[1], 9 - coords[0]) { name = this.actorSelected });
+                        clickedButton.BackgroundImage = this.GetImage(this.actorSelected, CategoryEnum.Level);
                         break;
                     default:
                         this.map.Add(tmpName, new Node(coords[1], 9 - coords[0]) { name = this.actorSelected });
+                        clickedButton.BackgroundImage = this.GetImage("default");
                         break;
                 }
             }
             else
             {
                 this.map.Remove(tmpName);
-                clickedButton.BackgroundImage = this.images[CategoryEnum.Default];
+                clickedButton.BackgroundImage = this.GetImage("default");
             }
         }
 
@@ -148,7 +134,7 @@
                                 Width = this.buttonWidth,
                                 Height = this.buttonHeight,
                                 Name = x + "," + y,
-                                BackgroundImage = this.images[CategoryEnum.Default]
+                                BackgroundImage = this.GetImage("default")
                             };
 
                             tmpButton.MouseHover += this.CurrentButtonMouseHover;
@@ -162,7 +148,7 @@
                     foreach (KeyValuePair<string, Node> a in this.map)
                     {
                         Control fillButton = this.mapPanel.Controls.Find(a.Key, false)[0];
-                        fillButton.BackgroundImage = this.images[CategoryEnum.Default];
+                        fillButton.BackgroundImage = this.GetImage("default");
                     }
 
                     this.map.Clear();
@@ -179,11 +165,11 @@
                         else*/
                         if (a.Value is Enemy)
                         {
-                            fillButton.BackgroundImage = this.images[CategoryEnum.Enemy];
+                            fillButton.BackgroundImage = this.GetImage(a.Value.name, CategoryEnum.Enemy);
                         }
                         else if (a.Value is Tile)
                         {
-                            fillButton.BackgroundImage = this.images[CategoryEnum.Level];
+                            fillButton.BackgroundImage = this.GetImage(a.Value.name, CategoryEnum.Level);
                         }
                         /*else if (a.Value.special)
                         {
@@ -330,6 +316,36 @@
                 this.categorySelected = CategoryEnum.Level;
                 this.actorSelected = this.listLevels.SelectedItems[0].Text;
             }
+        }
+
+        private Image GetImage(string name, CategoryEnum category = CategoryEnum.Default)
+        {
+            if (this.images.ContainsKey(name))
+            {
+                return this.images[name];
+            }
+
+            Bitmap image;
+            switch (category)
+            {
+                case CategoryEnum.Enemy:
+                    image = new Bitmap("assets/dynamic/" + name + ".png");
+                    break;
+                case CategoryEnum.Level:
+                    image = new Bitmap("assets/static/" + name + ".png");
+                    break;
+                default:
+                    image = new Bitmap("assets/images/" + name + ".png");
+                    break;
+            }
+
+            if (image.Size.Height != 30)
+            {
+                image = new Bitmap(image, new Size(30, 30));
+            }
+
+            this.images.Add(name, image);
+            return image;
         }
     }
 }

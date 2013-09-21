@@ -75,3 +75,15 @@ D:\FirstWing\gamegear\MapEditor\MapEditor\obj\Debug\MapEditor.PropertiesForm.res
 D:\FirstWing\gamegear\MapEditor\MapEditor\obj\Debug\MapEditor.AddPolygonDialog.resources
 D:\FirstWing\gamegear\MapEditor\MapEditor\obj\Debug\MapEditor.AddActorDialog.resources
 D:\FirstWing\gamegear\MapEditor\MapEditor\obj\Debug\MapEditor.AddAnimationDialog.resources
+D:\FirstWing\gamegear\MapEditor\MapEditor\bin\Debug\assets\static\aliengrass-bottom.png
+D:\FirstWing\gamegear\MapEditor\MapEditor\bin\Debug\assets\static\aliengrass-center.png
+D:\FirstWing\gamegear\MapEditor\MapEditor\bin\Debug\assets\static\aliengrass-left-bottom.png
+D:\FirstWing\gamegear\MapEditor\MapEditor\bin\Debug\assets\static\aliengrass-left-top.png
+D:\FirstWing\gamegear\MapEditor\MapEditor\bin\Debug\assets\static\aliengrass-left.png
+D:\FirstWing\gamegear\MapEditor\MapEditor\bin\Debug\assets\static\aliengrass-right-bottom.png
+D:\FirstWing\gamegear\MapEditor\MapEditor\bin\Debug\assets\static\aliengrass-right-top.png
+D:\FirstWing\gamegear\MapEditor\MapEditor\bin\Debug\assets\static\aliengrass-right.png
+D:\FirstWing\gamegear\MapEditor\MapEditor\bin\Debug\assets\static\aliengrass-single.png
+D:\FirstWing\gamegear\MapEditor\MapEditor\bin\Debug\assets\static\aliengrass-top-bottom-left.png
+D:\FirstWing\gamegear\MapEditor\MapEditor\bin\Debug\assets\static\aliengrass-top-bottom-right.png
+D:\FirstWing\gamegear\MapEditor\MapEditor\bin\Debug\assets\static\aliengrass-top.png
