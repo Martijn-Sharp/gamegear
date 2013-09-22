@@ -1,6 +1,5 @@
 ﻿namespace MapEditor
 {
-    using System;
     using System.Collections.Generic;
 
     public enum Animation

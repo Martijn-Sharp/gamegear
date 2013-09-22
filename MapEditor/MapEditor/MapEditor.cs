@@ -11,7 +11,7 @@
     {
         private Dictionary<string, Node> map;
         private Dictionary<string, Bitmap> images;
-        private CategoryEnum categorySelected = CategoryEnum.Enemy;
+        private CategoryEnum categorySelected = CategoryEnum.Default;
 
         private string actorSelected;
         private int xButtonCount = 10;
@@ -29,7 +29,7 @@
             this.InitializeComponent();
             this.BuildGui(BuildOptions.Build);
             this.PopulateLists();
-            this.lblSelectedType.Text = "Enemy";
+            this.lblSelectedType.Text = "Default";
         }
 
         private enum CategoryEnum
@@ -80,15 +80,14 @@
                 switch (this.categorySelected)
                 {
                     case CategoryEnum.Enemy:
-                        this.map.Add(tmpName, new Enemy(coords[1], 9 - coords[0]) { name = this.actorSelected });
+                        this.map.Add(tmpName, new Node(coords[1], 9 - coords[0]) { Name = this.actorSelected, Type = Node.NodeType.Enemy});
                         clickedButton.BackgroundImage = this.GetImage(this.actorSelected, CategoryEnum.Enemy);
                         break;
                     case CategoryEnum.Level:
-                        this.map.Add(tmpName, new Tile(coords[1], 9 - coords[0]) { name = this.actorSelected });
+                        this.map.Add(tmpName, new Node(coords[1], 9 - coords[0]) { Name = this.actorSelected, Type = Node.NodeType.Tile });
                         clickedButton.BackgroundImage = this.GetImage(this.actorSelected, CategoryEnum.Level);
                         break;
-                    default:
-                        this.map.Add(tmpName, new Node(coords[1], 9 - coords[0]) { name = this.actorSelected });
+                    case CategoryEnum.Default:
                         clickedButton.BackgroundImage = this.GetImage("default");
                         break;
                 }
@@ -105,9 +104,9 @@
             try
             {
                 Node node = this.map[((Control)sender).Name];
-                this.lblButtonX.Text = "X = " + node.xCoord;
-                this.lblButtonY.Text = "Y = " + node.yCoord;
-                this.lblButtonValue.Text = "Name = " + node.name;
+                this.lblButtonX.Text = "X = " + node.X;
+                this.lblButtonY.Text = "Y = " + node.Y;
+                this.lblButtonValue.Text = "Name = " + node.Name;
             }
             catch (KeyNotFoundException)
             {
@@ -163,13 +162,13 @@
                             fillButton.BackgroundImage = this.images[CategoryEnum.Damage];
                         }
                         else*/
-                        if (a.Value is Enemy)
+                        if (a.Value.Type == Node.NodeType.Enemy)
                         {
-                            fillButton.BackgroundImage = this.GetImage(a.Value.name, CategoryEnum.Enemy);
+                            fillButton.BackgroundImage = this.GetImage(a.Value.Name, CategoryEnum.Enemy);
                         }
-                        else if (a.Value is Tile)
+                        else if (a.Value.Type == Node.NodeType.Tile)
                         {
-                            fillButton.BackgroundImage = this.GetImage(a.Value.name, CategoryEnum.Level);
+                            fillButton.BackgroundImage = this.GetImage(a.Value.Name, CategoryEnum.Level);
                         }
                         /*else if (a.Value.special)
                         {
@@ -223,14 +222,14 @@
 
                 this.BuildGui(BuildOptions.Clear);
                 var level = JsonConvert.DeserializeObject<Level>(lines);
-                foreach (var enemy in level.enemies)
+                foreach (var enemy in level.Enemies)
                 {
-                    this.map.Add(9 - enemy.yCoord + "," + enemy.xCoord, enemy);
+                    this.map.Add(9 - enemy.Y + "," + enemy.X, enemy);
                 }
 
-                foreach (var tile in level.tiles)
+                foreach (var tile in level.Tiles)
                 {
-                    this.map.Add(9 - tile.yCoord + "," + tile.xCoord, tile);
+                    this.map.Add(9 - tile.Y + "," + tile.X, tile);
                 }
 
                 this.BuildGui(BuildOptions.Import);
@@ -239,17 +238,17 @@
 
         private void ExportClick(object sender, EventArgs e)
         {
-            var level = new Level { enemies = new List<Enemy>(), tiles = new List<Tile>() };
+            var level = new Level { Enemies = new List<Node>(), Tiles = new List<Node>() };
 
             foreach (KeyValuePair<string, Node> a in this.map)
             {
-                if (a.Value is Enemy)
+                if (a.Value.Type == Node.NodeType.Enemy)
                 {
-                    level.enemies.Add((Enemy)a.Value);
+                    level.Enemies.Add(a.Value);
                 }
-                else if (a.Value is Tile)
+                else if (a.Value.Type == Node.NodeType.Tile)
                 {
-                    level.tiles.Add((Tile)a.Value);
+                    level.Tiles.Add(a.Value);
                 }
             }
 
