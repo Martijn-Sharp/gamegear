@@ -36,6 +36,10 @@ public class FwWorld {
 	public Level getLevel() {
 		return level;
 	}
+	
+	public World getWorld() {
+		return world;
+	}
 
 	// --------------------
 	public FwWorld() {

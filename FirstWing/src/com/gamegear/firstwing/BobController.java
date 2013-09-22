@@ -1,6 +1,5 @@
 package com.gamegear.firstwing;
 
-import java.awt.LinearGradientPaint;
 import java.util.Iterator;
 
 import com.badlogic.gdx.Gdx;
@@ -169,7 +168,7 @@ public class BobController implements GestureListener, InputProcessor {
 			Gdx.app.log("Touch", "Not DPAD x: " + x + " y:" + y + " pointer:" + pointer);
 		}
 		
-		checkCollision(x, y);
+		checkCollision(x, y, false);
 		
 		return true;
 	}
@@ -246,7 +245,7 @@ public class BobController implements GestureListener, InputProcessor {
 				//Gdx.app.log("Fling", "Fling update  x:" + secondX + " y:" + secondY);
 				
 				//Check collisions with all Actors
-				checkCollision(x, y);
+				checkCollision(x, y, false);
 				
 				return false;
 			}
@@ -277,7 +276,7 @@ public class BobController implements GestureListener, InputProcessor {
 			{
 				linImpulseX = 0;
 				//bob.getBody().setTransform(screen.renderer.cameraX - 4.5f, bob.getBody().getPosition().y, bob.getBody().getAngle());
-				Gdx.app.log("Edge detection", "Edge left x: " + (screen.renderer.cameraX-5) + " Bob x:" + bob.getPosition().x);
+				//Gdx.app.log("Edge detection", "Edge left x: " + (screen.renderer.cameraX-5) + " Bob x:" + bob.getPosition().x);
 				return false;
 			}
 			if(screen.renderer.cameraX + 4f >= bob.getPosition().x || -(dpadCenterX - x) < 0)
@@ -289,7 +288,7 @@ public class BobController implements GestureListener, InputProcessor {
 			{
 				linImpulseX = 0;
 				//bob.getBody().setTransform(screen.renderer.cameraX + 4.5f, bob.getBody().getPosition().y, bob.getBody().getAngle());
-				Gdx.app.log("Edge detection", "Edge right x: " + (screen.renderer.cameraX+5) + " Bob x:" + bob.getPosition().x);
+				//Gdx.app.log("Edge detection", "Edge right x: " + (screen.renderer.cameraX+5) + " Bob x:" + bob.getPosition().x);
 				return false;
 			}
 			
@@ -353,13 +352,18 @@ public class BobController implements GestureListener, InputProcessor {
 		return height - dpadY;
 	}
 	
-	public boolean checkCollision(float touchX, float touchY)
+	public boolean checkCollision(float touchX, float touchY, boolean worldCoords)
 	{
 		//Gdx.app.log("Bob Position", "x:" + bob.getBody().getPosition().x  + " y:" + bob.getBody().getPosition().y);
 		//Gdx.app.log("Touch Position", "x:" + worldCoordinates.x  + " y:" + worldCoordinates.y);
 		
 		Vector3 worldCoordinates = new Vector3(touchX, touchY, 0);
-		cam.unproject(worldCoordinates);
+		
+		//If the coordinates are local, unproject them
+		if(!worldCoords)
+		{
+			cam.unproject(worldCoordinates);
+		}
 		
 		collisionIterator = screen.world.level.getEnemies().iterator();
 		
