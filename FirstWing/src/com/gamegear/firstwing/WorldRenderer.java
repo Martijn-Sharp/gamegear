@@ -6,9 +6,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.ParticleEffectPool.PooledEffect;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -36,10 +38,9 @@ public class WorldRenderer {
 	private int height;
 	private Iterator<Body> tmpBodies;
 	
-	ParticleEffect effect;
-	int emitterIndex;
-	Array<ParticleEmitter> emitters;
-	int particleCount = 10;
+	private ParticleEffect prototype;
+	private ParticleEffectPool pool;
+	private Array<PooledEffect> effects;
 
 	
 	float cameraX = 0;
@@ -70,39 +71,26 @@ public class WorldRenderer {
 		this.debugRenderer = new Box2DDebugRenderer();
 		
 		//Particle effect
-		effect = new ParticleEffect();
-		effect.load(Gdx.files.internal("effects/explosion.p"), Gdx.files.internal("effects"));
-		effect.setPosition(world.getBob().getBody().getWorldCenter().x, world.getBob().getBody().getWorldCenter().y);
 		
-//		float pScale = 1f;
-//
-//	    float scaling = effect.getEmitters().get(0).getScale().getHighMax();
-//	    effect.getEmitters().get(0).getScale().setHigh(scaling * pScale);
-//
-//	    scaling = effect.getEmitters().get(0).getScale().getLowMax();
-//	    effect.getEmitters().get(0).getScale().setLow(scaling * pScale);
-//
-//	    scaling = effect.getEmitters().get(0).getVelocity().getHighMax();
-//	    effect.getEmitters().get(0).getVelocity().setHigh(scaling * pScale);
-//
-//	    scaling = effect.getEmitters().get(0).getVelocity().getLowMax();
-//	    effect.getEmitters().get(0).getVelocity().setLow(scaling * pScale);
+		prototype = new ParticleEffect();
+		prototype.load(Gdx.files.internal("effects/explosion.p"), Gdx.files.internal("effects"));
+		prototype.setPosition(world.getBob().getBody().getWorldCenter().x, world.getBob().getBody().getWorldCenter().y);
 		
-		
-		// Of course, a ParticleEffect is normally just used, without messing around with its emitters.
-		//emitters = new Array<ParticleEmitter>(effect.getEmitters());
-		//effect.getEmitters().clear();
-		//effect.getEmitters().add(emitters.get(0));
-		
-		//callParticleSystem();
+		pool = new ParticleEffectPool(prototype, 2, 10);
+		effects = new Array<PooledEffect>();
+		callParticleSystem(world.getBob().getBody().getWorldCenter().x, world.getBob().getBody().getWorldCenter().y);
 	}
 	
-	public void callParticleSystem()
+	public void callParticleSystem(float x, float y)
 	{
-		effect.reset();
-		effect.setPosition(world.getBob().getBody().getWorldCenter().x, world.getBob().getBody().getWorldCenter().y);
-		effect.start();
-		System.out.println("Effect restarting");
+		PooledEffect effect = pool.obtain();
+		effect.setPosition(x, y);
+		
+		effects.add(effect);
+//		prototype.reset();
+//		prototype.setPosition(x,y);
+//		prototype.start();
+//		System.out.println("Effect restarting");
 	}
 	
 	public void render() {
@@ -141,23 +129,30 @@ public class WorldRenderer {
 					//batch.draw(region, 0, 0, textureWidth / 2f, textureHeight / 2f, textureWidth, textureHeight, 1, 1, rotationAngle, false);
 				}
 			}
-		effect.setPosition(world.getBob().getBody().getWorldCenter().x, world.getBob().getBody().getWorldCenter().y);
-		effect.draw(spriteBatch, Gdx.graphics.getDeltaTime());
+			for(PooledEffect effect : effects)
+			{
+				effect.draw(spriteBatch, Gdx.graphics.getDeltaTime());
+				if(effect.isComplete()){
+					effects.removeValue(effect, true);
+					effect.free();
+				}
+			}
 		spriteBatch.end();
+		//Gdx.app.log("Stats", "active: " + effects.size + " | max: " + pool.max);
 		
 		world.world.step(Gdx.app.getGraphics().getDeltaTime(), 3, 3);
 		
-		if(effect.isComplete())
-		{
-			callParticleSystem();
-		}
+//		if(effect.isComplete())
+//		{
+//			callParticleSystem(world.getBob().getBody().getWorldCenter().x, world.getBob().getBody().getWorldCenter().y);
+//		}
 //		debugRenderer.render(world.world, cam.combined);
 //		world.world.step(1/60f, 6, 2);
 	}
 	
 	public void draw(SpriteBatch batch, float parentAlpha){ //what this method is called may differ depending on what 
 		//system you're using; I am using stage/actor
-		effect.draw(batch);
+		prototype.draw(batch);
 	}
 	
 	public void moveCamera(float x,float y, float speed){	

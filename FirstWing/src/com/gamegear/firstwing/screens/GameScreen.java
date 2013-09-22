@@ -8,10 +8,17 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.input.GestureDetector;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.Manifold;
+import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.gamegear.firstwing.BobController;
 import com.gamegear.firstwing.FwWorld;
 import com.gamegear.firstwing.WorldRenderer;
 import com.gamegear.firstwing.actors.Bob;
+import com.gamegear.firstwing.actors.Enemy;
 
 public class GameScreen implements Screen {
 
@@ -22,7 +29,7 @@ public class GameScreen implements Screen {
 	public GestureDetector 	gestureDetector;
 	public Texture 			interfaceTexture;
 	public SpriteBatch 		interfaceBatch;
-	BitmapFont 				font;
+	public BitmapFont 		font;
 	
 	
 	InputMultiplexer im;
@@ -47,6 +54,8 @@ public class GameScreen implements Screen {
 		im = new InputMultiplexer(controller, gestureDetector); // Order matters here!
 		Gdx.input.setInputProcessor(im);
 		
+		//Contact listener
+		createCollisionListener();
 	}
 
 	@Override
@@ -87,6 +96,65 @@ public class GameScreen implements Screen {
 		interfaceBatch.end();
 	}
 	
+	private void createCollisionListener() {
+        world.getWorld().setContactListener(new ContactListener() {
+
+            @Override
+            public void beginContact(Contact contact) {
+                Fixture fixtureA = contact.getFixtureA();
+                Fixture fixtureB = contact.getFixtureB();
+                Enemy collisionEnemy = null;
+                
+                Gdx.app.log("beginContact", "between " + fixtureA.toString() + " and " + fixtureB.toString());
+                
+                for(Enemy en : world.getLevel().getEnemies())
+            	{
+                	if(en.getBody().toString() == contact.getFixtureA().getBody().toString())
+            		{
+                		collisionEnemy = en;
+                		break;
+            		}
+            		if(en.getBody().toString() == contact.getFixtureB().getBody().toString())
+            		{
+            			collisionEnemy = en;
+            			break;
+            		}
+            	}
+                
+                if(contact.getFixtureA().getBody().getType() == BodyType.DynamicBody)
+                {
+                	renderer.callParticleSystem(contact.getFixtureA().getBody().getWorldCenter().x, contact.getFixtureA().getBody().getWorldCenter().y);
+                }
+                else
+                {
+                	renderer.callParticleSystem(contact.getFixtureB().getBody().getWorldCenter().x, contact.getFixtureB().getBody().getWorldCenter().y);
+                }
+                
+                if(collisionEnemy != null)
+                {
+                	world.getWorld().destroyBody(collisionEnemy.getBody());
+                    world.getLevel().getEnemies().remove(collisionEnemy);
+                }
+            }
+
+            @Override
+            public void endContact(Contact contact) {
+                Fixture fixtureA = contact.getFixtureA();
+                Fixture fixtureB = contact.getFixtureB();
+                Gdx.app.log("endContact", "between " + fixtureA.toString() + " and " + fixtureB.toString());
+            }
+
+            @Override
+            public void preSolve(Contact contact, Manifold oldManifold) {
+            }
+
+            @Override
+            public void postSolve(Contact contact, ContactImpulse impulse) {
+            }
+
+        });
+    }
+	
 	@Override
 	public void resize(int width, int height) {
 		renderer.setSize(width, height);
@@ -114,5 +182,6 @@ public class GameScreen implements Screen {
 	@Override
 	public void dispose() {
 		Gdx.input.setInputProcessor(null);
+		interfaceBatch.dispose();
 	}
 }
