@@ -7,9 +7,9 @@ import com.gamegear.firstwing.actors.json.ActorFile;
 
 public class JSONLoader  {
 	
-	public com.gamegear.firstwing.levels.json.Level getLevel(FileHandle mapHandler)
+	public com.gamegear.firstwing.levels.json.LevelProperties getLevel(FileHandle mapHandler)
 	{
-		com.gamegear.firstwing.levels.json.Level level = null;
+		com.gamegear.firstwing.levels.json.LevelProperties level = null;
 		String jsonFile = "";
 		try {
 			jsonFile = mapHandler.readString();
@@ -22,7 +22,7 @@ public class JSONLoader  {
 		try {
 	 
 			//convert JSON string to Map
-			level = mapper.readValue(jsonFile, new TypeReference<com.gamegear.firstwing.levels.json.Level>(){});
+			level = mapper.readValue(jsonFile, new TypeReference<com.gamegear.firstwing.levels.json.LevelProperties>(){});
 	 
 		} catch (Exception e) {
 			e.printStackTrace();

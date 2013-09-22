@@ -221,7 +221,7 @@
                 }
 
                 this.BuildGui(BuildOptions.Clear);
-                var level = JsonConvert.DeserializeObject<Level>(lines);
+                var level = JsonConvert.DeserializeObject<LevelProperties>(lines);
                 foreach (var enemy in level.Enemies)
                 {
                     this.map.Add(9 - enemy.Y + "," + enemy.X, enemy);
@@ -238,7 +238,7 @@
 
         private void ExportClick(object sender, EventArgs e)
         {
-            var level = new Level { Enemies = new List<Node>(), Tiles = new List<Node>() };
+            var level = new LevelProperties { Enemies = new List<Node>(), Tiles = new List<Node>() };
 
             foreach (KeyValuePair<string, Node> a in this.map)
             {

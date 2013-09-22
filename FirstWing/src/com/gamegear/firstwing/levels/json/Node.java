@@ -1,18 +1,27 @@
 package com.gamegear.firstwing.levels.json;
 
 public class Node {
+	public enum NodeType{
+		Enemy,
+		Tile
+	}
+	
 	//Coordinates on local map
-    public int xCoord, yCoord;
+    public int X;
+    
+    public int Y;
 
     //Properties
-    public int id;
-    public String name;
-    public int animationLength;
+    public int Id;
+    
+    public String Name;
+    
+    public NodeType Type;
     
     public Node(int x, int y)
     {
-        this.xCoord = x;
-        this.yCoord = y;
+        this.X = x;
+        this.Y = y;
     }
     
     public Node()

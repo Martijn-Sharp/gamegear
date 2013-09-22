@@ -87,26 +87,26 @@ public class Level {
 		enemies = new ArrayList<Enemy>();
 		speed = new LinkedList<String>();
 		
-		com.gamegear.firstwing.levels.json.Level LevelLoader = new JSONLoader().getLevel(Gdx.files.internal("levels/map5.dat"));
-		Iterator<Tile> tiles = LevelLoader.tiles.iterator();
-		Iterator<EnemySpawner> enemiesIt = LevelLoader.enemies.iterator();
+		com.gamegear.firstwing.levels.json.LevelProperties LevelLoader = new JSONLoader().getLevel(Gdx.files.internal("levels/map6.dat"));
+		Iterator<Node> tiles = LevelLoader.Tiles.iterator();
+		Iterator<Node> enemiesIt = LevelLoader.Enemies.iterator();
 		
 		while(tiles.hasNext()){
-			Tile tile = tiles.next();
+			Node tile = tiles.next();
 			
 			//Check level width
-			if(tile.xCoord > width)
+			if(tile.X > width)
 			{
-				width = tile.xCoord;
+				width = tile.X;
 			}
 			
-			blocks.add(new Block(new Vector2(tile.xCoord, tile.yCoord), world, ActorMgr.getProperties(tile.name, new StaticActor())));
+			blocks.add(new Block(new Vector2(tile.X, tile.Y), world, ActorMgr.getProperties(tile.Name, new StaticActor())));
 			tiles.remove();
 		}
 		
 		while(enemiesIt.hasNext()){
-			EnemySpawner enemy = enemiesIt.next();
-			enemies.add(new Enemy(new Vector2(enemy.xCoord, enemy.yCoord), world, ActorMgr.getProperties(enemy.name, new DynamicActor())));
+			Node enemy = enemiesIt.next();
+			enemies.add(new Enemy(new Vector2(enemy.X, enemy.Y), world, ActorMgr.getProperties(enemy.Name, new DynamicActor())));
 			enemiesIt.remove();
 		}
 		
