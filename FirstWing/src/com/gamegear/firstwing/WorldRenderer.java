@@ -3,6 +3,7 @@ package com.gamegear.firstwing;
 import java.util.Iterator;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
@@ -11,6 +12,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool.PooledEffect;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -28,6 +31,7 @@ public class WorldRenderer {
 	/** for debug rendering **/
 	@SuppressWarnings("unused")
 	private Box2DDebugRenderer debugRenderer;
+	private ShapeRenderer shapeRenderer;
 
 	/** Textures **/
 	public static TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("textures/textures.pack"));
@@ -68,8 +72,9 @@ public class WorldRenderer {
 		this.cam.position.set(this.cameraX, this.cameraY, 0);
 		this.cam.update();
 		this.debug = debug;
-		spriteBatch = new SpriteBatch();
+		this.spriteBatch = new SpriteBatch();
 		this.debugRenderer = new Box2DDebugRenderer();
+		this.shapeRenderer = new ShapeRenderer();
 		
 		//Particle effect
 		
@@ -97,6 +102,12 @@ public class WorldRenderer {
 	public void render() {
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		moveCamera(world.getBob().getBody().getWorldCenter().x, world.getBob().getBody().getWorldCenter().y, world.level.getSpeed(cameraX));
+		
+		shapeRenderer.begin(ShapeType.FilledRectangle);
+	        shapeRenderer.setColor(new Color(0 + (world.getBob().getPosition().x * 0.05f), 0, 0, 1));
+	        shapeRenderer.filledRect(0, 0, 800, 600);
+        shapeRenderer.end();
+        
 		spriteBatch.setProjectionMatrix(cam.combined);
 		spriteBatch.begin();
 			// shitty
