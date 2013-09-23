@@ -3,14 +3,17 @@ package com.gamegear.firstwing.levels.json;
 import java.util.List;
 
 public class LevelProperties {
-	public int FinishX;
+	public float FinishX;
 	
 	public List<SpeedPoint> SpeedPoints;
 	
-    public int SpawnX;
+    public float SpawnX;
     
-    public int SpawnY;
+    public float SpawnY;
 
     public List<Node> Tiles;
+    
     public List<Node> Enemies;
+    
+    public String BackgroundName;
 }
