@@ -23,6 +23,7 @@ public class Level {
 	private Queue<String> speed;
 	private World world;
 	private int currentSpeed = 5;
+	private String levelPath;
 
 	public int getWidth() {
 		return width;
@@ -52,9 +53,10 @@ public class Level {
 		this.blocks = blocks;
 	}
 
-	public Level(World world) {
+	public Level(World world, String levelPath) {
 		this.world = world;
-		loadDemoLevel();
+		this.levelPath = levelPath;
+		loadLevel();
 	}
 	
 	public Actor get(int x) {
@@ -80,16 +82,24 @@ public class Level {
 		return currentSpeed;
 	}
 
-	private void loadDemoLevel() {
+	private void loadLevel() {
 		height = 10;
 		width = 0;
 		blocks = new ArrayList<Block>();
 		enemies = new ArrayList<Enemy>();
 		speed = new LinkedList<String>();
+		LevelProperties levelLoader;
 		
-		com.gamegear.firstwing.levels.json.LevelProperties LevelLoader = new JSONLoader().getLevel(Gdx.files.internal("levels/map6.dat"));
-		Iterator<Node> tiles = LevelLoader.Tiles.iterator();
-		Iterator<Node> enemiesIt = LevelLoader.Enemies.iterator();
+		if(levelPath.isEmpty())
+		{
+			levelLoader = new JSONLoader().getLevel(Gdx.files.internal("levels/map6.dat"));
+		}
+		else
+		{
+			levelLoader = new JSONLoader().getLevel(Gdx.files.internal("levels/" + levelPath));
+		}
+		Iterator<Node> tiles = levelLoader.Tiles.iterator();
+		Iterator<Node> enemiesIt = levelLoader.Enemies.iterator();
 		
 		while(tiles.hasNext()){
 			Node tile = tiles.next();
