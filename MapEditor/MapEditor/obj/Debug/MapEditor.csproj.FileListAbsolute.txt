@@ -103,3 +103,11 @@ D:\FirstWing\gamegear\MapEditor\MapEditor\bin\Debug\assets\static\tron-right.png
 D:\FirstWing\gamegear\MapEditor\MapEditor\bin\Debug\assets\static\tron-top.png
 D:\FirstWing\gamegear\MapEditor\MapEditor\bin\Debug\assets\images\blue-bg.png
 D:\FirstWing\gamegear\MapEditor\MapEditor\obj\Debug\MapEditor.AddSpeedPointDialog.resources
+D:\FirstWing\gamegear\MapEditor\MapEditor\bin\Debug\assets\dynamic\blue_drone.png
+D:\FirstWing\gamegear\MapEditor\MapEditor\bin\Debug\assets\dynamic\bob-down.png
+D:\FirstWing\gamegear\MapEditor\MapEditor\bin\Debug\assets\dynamic\green_drone.png
+D:\FirstWing\gamegear\MapEditor\MapEditor\bin\Debug\assets\dynamic\lightblue_drone.png
+D:\FirstWing\gamegear\MapEditor\MapEditor\bin\Debug\assets\dynamic\orange_drone.png
+D:\FirstWing\gamegear\MapEditor\MapEditor\bin\Debug\assets\dynamic\purple_drone.png
+D:\FirstWing\gamegear\MapEditor\MapEditor\bin\Debug\assets\dynamic\red_drone.png
+D:\FirstWing\gamegear\MapEditor\MapEditor\bin\Debug\assets\dynamic\yellow_drone.png
