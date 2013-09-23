@@ -6,6 +6,8 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.gamegear.firstwing.ActorMgr;
@@ -24,6 +26,7 @@ public class Level {
 	private World world;
 	private int currentSpeed = 5;
 	private String levelPath;
+	private Sprite background;
 
 	public int getWidth() {
 		return width;
@@ -81,6 +84,10 @@ public class Level {
 	{
 		return currentSpeed;
 	}
+	
+	public Sprite getBackground(){
+		return this.background;
+	}
 
 	private void loadLevel() {
 		height = 10;
@@ -98,6 +105,7 @@ public class Level {
 		{
 			levelLoader = new JSONLoader().getLevel(Gdx.files.internal("levels/" + levelPath));
 		}
+		
 		Iterator<Node> tiles = levelLoader.Tiles.iterator();
 		Iterator<Node> enemiesIt = levelLoader.Enemies.iterator();
 		
@@ -119,6 +127,10 @@ public class Level {
 			enemies.add(new Enemy(new Vector2(enemy.X, enemy.Y), world, ActorMgr.getProperties(enemy.Name, new DynamicActor())));
 			enemiesIt.remove();
 		}
+		
+		this.background = new Sprite(new Texture(Gdx.files.internal("images/" + levelLoader.BackgroundName + ".png")));
+		this.background.setSize(24f, 18f);
+		this.background.setScale(1f, 1f);
 		
 		//Add demo speeds
 		speed.add("0,1");

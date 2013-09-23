@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool.PooledEffect;
@@ -98,6 +99,9 @@ public class WorldRenderer {
 		moveCamera(world.getBob().getBody().getWorldCenter().x, world.getBob().getBody().getWorldCenter().y, world.level.getSpeed(cameraX));
 		spriteBatch.setProjectionMatrix(cam.combined);
 		spriteBatch.begin();
+			// shitty
+			world.level.getBackground().draw(spriteBatch);
+			
 			tmpBodies = world.world.getBodies();
 			Body node;
 			while(tmpBodies.hasNext()){
