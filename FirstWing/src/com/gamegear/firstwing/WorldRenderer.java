@@ -78,7 +78,7 @@ public class WorldRenderer {
 		
 		pool = new ParticleEffectPool(prototype, 2, 10);
 		effects = new Array<PooledEffect>();
-		callParticleSystem(world.getBob().getBody().getWorldCenter().x, world.getBob().getBody().getWorldCenter().y);
+		//callParticleSystem(world.getBob().getBody().getWorldCenter().x, world.getBob().getBody().getWorldCenter().y);
 	}
 	
 	public void callParticleSystem(float x, float y)

@@ -112,7 +112,7 @@ public class Level {
 		
 		//Add demo speeds
 		speed.add("0,1");
-		speed.add("6,2");
-		speed.add("30,0");
+		speed.add("6,1");
+		speed.add("15,0");
 	}
 }
