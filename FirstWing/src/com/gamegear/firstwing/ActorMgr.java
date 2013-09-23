@@ -3,6 +3,7 @@ package com.gamegear.firstwing;
 import com.badlogic.gdx.Gdx;
 import com.gamegear.firstwing.actors.json.ActorProperties;
 import com.gamegear.firstwing.actors.json.ActorFile;
+import com.gamegear.firstwing.actors.json.DynamicActor;
 import com.gamegear.firstwing.actors.json.StaticActor;
 import com.gamegear.firstwing.levels.JSONLoader;
 
@@ -20,7 +21,7 @@ public class ActorMgr {
 			if(file.StaticActors != null){
 				return (T) file.StaticActors.get(name);
 			}
-		} else if (type instanceof StaticActor){
+		} else if (type instanceof DynamicActor){
 			if(file.DynamicActors != null){
 				return (T) file.DynamicActors.get(name);
 			}

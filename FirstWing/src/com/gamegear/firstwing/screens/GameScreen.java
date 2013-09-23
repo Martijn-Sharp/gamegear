@@ -1,5 +1,8 @@
 package com.gamegear.firstwing.screens;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
@@ -9,6 +12,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.input.GestureDetector;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactListener;
@@ -32,6 +36,7 @@ public class GameScreen implements Screen {
 	public SpriteBatch 		interfaceBatch;
 	public BitmapFont 		font;
 	public Music			music;
+	public Queue<Enemy>		enemiesForRemoval;
 	
 	
 	InputMultiplexer im;
@@ -57,6 +62,7 @@ public class GameScreen implements Screen {
 		Gdx.input.setInputProcessor(im);
 		
 		//Contact listener
+		enemiesForRemoval = new LinkedList<Enemy>();
 		createCollisionListener();
 		
 		//Play music
@@ -70,6 +76,7 @@ public class GameScreen implements Screen {
 	public void render(float delta) {
 		Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+		removeEnemies();
 
 		//Update input
 		controller.update(delta);
@@ -85,10 +92,10 @@ public class GameScreen implements Screen {
 		renderFPS();
 		
 		//Debug reset
-		if(renderer.cameraX > 14)
-		{
-			loadLevel("");
-		}
+//		if(renderer.cameraX > 14)
+//		{
+//			loadLevel("");
+//		}
 	}
 	
 	public void renderInterface()
@@ -144,12 +151,12 @@ public class GameScreen implements Screen {
                 
                 for(Enemy en : world.getLevel().getEnemies())
             	{
-                	if(en.getBody().toString() == contact.getFixtureA().getBody().toString())
+                	if(en.getBody().equals(contact.getFixtureA().getBody()))
             		{
                 		collisionEnemy = en;
                 		break;
             		}
-            		if(en.getBody().toString() == contact.getFixtureB().getBody().toString())
+            		if(en.getBody().equals(contact.getFixtureB().getBody()))
             		{
             			collisionEnemy = en;
             			break;
@@ -167,8 +174,9 @@ public class GameScreen implements Screen {
                 
                 if(collisionEnemy != null)
                 {
-                	world.getWorld().destroyBody(collisionEnemy.getBody());
-                    world.getLevel().getEnemies().remove(collisionEnemy);
+                	enemiesForRemoval.add(collisionEnemy);
+                	//world.getWorld().destroyBody(collisionEnemy.getBody());
+                    //world.getLevel().getEnemies().remove(collisionEnemy);
                 }
             }
 
@@ -189,6 +197,18 @@ public class GameScreen implements Screen {
 
         });
     }
+	
+	public void removeEnemies()
+	{
+		Enemy e;
+		for(int i = 0; i < enemiesForRemoval.size(); i++)
+		{
+			e = enemiesForRemoval.poll();
+			world.getWorld().destroyBody(e.getBody());
+            world.getLevel().getEnemies().remove(e);
+		}
+		
+	}
 	
 	@Override
 	public void resize(int width, int height) {

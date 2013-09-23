@@ -99,7 +99,7 @@ public class Level {
 		
 		if(levelPath.isEmpty())
 		{
-			levelLoader = new JSONLoader().getLevel(Gdx.files.internal("levels/map6.dat"));
+			levelLoader = new JSONLoader().getLevel(Gdx.files.internal("levels/map7.dat"));
 		}
 		else
 		{

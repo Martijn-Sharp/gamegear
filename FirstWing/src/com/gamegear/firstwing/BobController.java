@@ -374,10 +374,11 @@ public class BobController implements GestureListener, InputProcessor {
 			if(Math.abs(worldCoordinates.x - actor.getBody().getWorldCenter().x) < actor.getWidth()/2 && Math.abs(worldCoordinates.y - actor.getBody().getWorldCenter().y) < actor.getHeight()/2)
 			{
 				Gdx.app.log("Collision", "Collided with enemy");
-				actor.getBody().setAngularVelocity(10);
+				//actor.getBody().setAngularVelocity(10);
 				
-				//screen.world.world.destroyBody(actor.getBody());
-				//collisionIterator.remove();
+				screen.renderer.callParticleSystem(actor.getBody().getWorldCenter().x, actor.getBody().getWorldCenter().y);
+				screen.world.world.destroyBody(actor.getBody());
+				collisionIterator.remove();
 				return true;
 			}
 		}		
