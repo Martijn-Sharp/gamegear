@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
-import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool.PooledEffect;
@@ -26,6 +25,7 @@ public class WorldRenderer {
 	private OrthographicCamera cam;
 
 	/** for debug rendering **/
+	@SuppressWarnings("unused")
 	private Box2DDebugRenderer debugRenderer;
 
 	/** Textures **/
@@ -43,8 +43,8 @@ public class WorldRenderer {
 	private Array<PooledEffect> effects;
 
 	
-	float cameraX = 0;
-	float cameraY = 0;
+	public float cameraX = 0;
+	public float cameraY = 0;
 
 	
 	public void setSize (int w, int h) {
@@ -78,7 +78,7 @@ public class WorldRenderer {
 		
 		pool = new ParticleEffectPool(prototype, 2, 10);
 		effects = new Array<PooledEffect>();
-		callParticleSystem(world.getBob().getBody().getWorldCenter().x, world.getBob().getBody().getWorldCenter().y);
+		//callParticleSystem(world.getBob().getBody().getWorldCenter().x, world.getBob().getBody().getWorldCenter().y);
 	}
 	
 	public void callParticleSystem(float x, float y)

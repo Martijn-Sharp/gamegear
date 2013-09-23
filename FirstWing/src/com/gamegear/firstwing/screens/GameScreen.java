@@ -3,6 +3,7 @@ package com.gamegear.firstwing.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -30,6 +31,7 @@ public class GameScreen implements Screen {
 	public Texture 			interfaceTexture;
 	public SpriteBatch 		interfaceBatch;
 	public BitmapFont 		font;
+	public Music			music;
 	
 	
 	InputMultiplexer im;
@@ -40,7 +42,7 @@ public class GameScreen implements Screen {
 	public void show() {
 		
 		//Rendering
-		world = new FwWorld();
+		world = new FwWorld("");
 		bob = world.getBob();
 		renderer = new WorldRenderer(world, false);
 		font = new BitmapFont();
@@ -56,6 +58,12 @@ public class GameScreen implements Screen {
 		
 		//Contact listener
 		createCollisionListener();
+		
+		//Play music
+		music = Gdx.audio.newMusic(Gdx.files.internal("sounds/BergsmatarenLever.ogg"));
+		music.setVolume(0.1f);
+		music.setLooping(true);
+		music.play();
 	}
 
 	@Override
@@ -75,6 +83,12 @@ public class GameScreen implements Screen {
 		//Render interface
 		renderInterface();
 		renderFPS();
+		
+		//Debug reset
+		if(renderer.cameraX > 14)
+		{
+			loadLevel("");
+		}
 	}
 	
 	public void renderInterface()
@@ -94,6 +108,27 @@ public class GameScreen implements Screen {
 		interfaceBatch.begin();
 		font.draw(interfaceBatch, "fps:" + Gdx.graphics.getFramesPerSecond(), 0, 20);
 		interfaceBatch.end();
+	}
+	
+	public void loadLevel(String levelPath)
+	{		
+		//Rendering
+		world = new FwWorld(levelPath);
+		bob = world.getBob();
+		renderer = new WorldRenderer(world, false);
+		font = new BitmapFont();
+
+		interfaceTexture = new Texture(Gdx.files.internal("images/dpad.png"));
+		interfaceBatch = new SpriteBatch();
+
+		// Input
+		controller = new BobController(this, width, height);
+		gestureDetector = new GestureDetector(20, 0.5f, 1, 0.15f, controller);
+		im = new InputMultiplexer(controller, gestureDetector);
+		Gdx.input.setInputProcessor(im);
+
+		// Contact listener
+		createCollisionListener();
 	}
 	
 	private void createCollisionListener() {
@@ -172,6 +207,11 @@ public class GameScreen implements Screen {
 	@Override
 	public void pause() {
 		// TODO Auto-generated method stub
+		Gdx.input.setInputProcessor(null);
+		interfaceBatch.dispose();
+		music.stop();
+		music.dispose();
+		Gdx.app.exit();
 	}
 
 	@Override
@@ -183,5 +223,8 @@ public class GameScreen implements Screen {
 	public void dispose() {
 		Gdx.input.setInputProcessor(null);
 		interfaceBatch.dispose();
+		music.stop();
+		music.dispose();
+		Gdx.app.exit();
 	}
 }

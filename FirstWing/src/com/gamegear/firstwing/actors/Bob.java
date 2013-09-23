@@ -32,7 +32,7 @@ public class Bob extends MoveableActor {
 	@Override
 	protected void loadTextures() {
 		bobIdleRight = TextureMgr.getTexture("bob-01", false);
-		bobIdleRight.flip(true, false);
+		//bobIdleRight.flip(true, false);
 		TextureRegion[] walkRightFrames = new TextureRegion[5];
 
 		for (int i = 0; i < 5; i++) {

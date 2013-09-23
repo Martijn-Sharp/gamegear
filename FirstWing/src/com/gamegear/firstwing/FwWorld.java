@@ -42,17 +42,17 @@ public class FwWorld {
 	}
 
 	// --------------------
-	public FwWorld() {
+	public FwWorld(String levelPath) {
 		world = new World(new Vector2(0, 0), true);
-		createDemoWorld();
+		createWorld(levelPath);
 	}
 	
 	public float ConvertToBox(float x){
 	    return x * WORLD_TO_BOX;
 	}
-
-	private void createDemoWorld() {
+	
+	private void createWorld(String levelPath) {
 		bob = new Bob(new Vector2(3, 2), world);
-		level = new Level(this.world);
+		level = new Level(this.world, levelPath);
 	}
 }

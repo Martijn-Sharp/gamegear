@@ -10,6 +10,7 @@ public class ActorMgr {
 	
 	private static ActorFile file;
 	
+	@SuppressWarnings("unchecked")
 	public static <T extends ActorProperties> T getProperties(String name, T type){
 		if(file == null){
 			file = LoadActorFile();
