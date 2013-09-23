@@ -105,7 +105,7 @@ public class WorldRenderer {
 		
 		shapeRenderer.begin(ShapeType.FilledRectangle);
 	        shapeRenderer.setColor(new Color(0 + (world.getBob().getPosition().x * 0.05f), 0, 0, 1));
-	        shapeRenderer.filledRect(0, 0, 800, 600);
+	        shapeRenderer.filledRect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         shapeRenderer.end();
         
 		spriteBatch.setProjectionMatrix(cam.combined);
