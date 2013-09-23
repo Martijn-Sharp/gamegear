@@ -15,6 +15,7 @@
         public static void Main()
         {
             HandleActorFile();
+            MapEditor.LevelProps = new LevelProperties();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MapEditor());

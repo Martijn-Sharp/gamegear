@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Drawing;
     using System.IO;
     using System.Linq;
     using System.Windows.Forms;
@@ -30,6 +31,8 @@
             {
                 this.listLevels.Items.Add(new ListViewItem(actor.Key));
             }
+
+            this.FillLevelProperties();
         }
 
         public void FillActorProperties()
@@ -326,5 +329,71 @@
             }
         }
         #endregion Events
+
+        private void FillLevelProperties()
+        {
+            this.txtBackground.Text = MapEditor.LevelProps.BackgroundName;
+            this.TxtBackgroundTextChanged(this, new EventArgs());
+            this.spawnXUpDown.Text = MapEditor.LevelProps.SpawnX.ToString();
+            this.spawnYUpDown.Text = MapEditor.LevelProps.SpawnY.ToString();
+            this.finishXUpDown.Text = MapEditor.LevelProps.FinishX.ToString();
+            if (MapEditor.LevelProps.SpeedPoints != null)
+            {
+                foreach (var speedPoint in MapEditor.LevelProps.SpeedPoints)
+                {
+                    this.listSpeedPoints.Items.Add(new ListViewItem(new[] { speedPoint.X.ToString(), speedPoint.Speed.ToString() }));
+                }
+            }
+        }
+
+        private void TxtBackgroundTextChanged(object sender, EventArgs e)
+        {
+            MapEditor.LevelProps.BackgroundName = this.txtBackground.Text;
+            if (File.Exists("assets/images/" + this.txtBackground.Text + ".png"))
+            {
+                this.picboxPreview.BackgroundImage = new Bitmap("assets/images/" + this.txtBackground.Text + ".png");
+            }
+        }
+
+        private void SpawnXUpDownValueChanged(object sender, EventArgs e)
+        {
+            MapEditor.LevelProps.SpawnX = Convert.ToSingle(this.spawnXUpDown.Value);
+        }
+
+        private void SpawnYUpDownValueChanged(object sender, EventArgs e)
+        {
+            MapEditor.LevelProps.SpawnY = Convert.ToSingle(this.spawnYUpDown.Value);
+        }
+
+        private void FinishXUpDownValueChanged(object sender, EventArgs e)
+        {
+            MapEditor.LevelProps.FinishX = Convert.ToSingle(this.finishXUpDown.Value);
+        }
+
+        private void BtnAddSpeedPointClick(object sender, EventArgs e)
+        {
+            var dialog = new AddSpeedPointDialog();
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                float x = dialog.GetX();
+                float speed = dialog.GetSpeed();
+                if (MapEditor.LevelProps.SpeedPoints == null)
+                {
+                    MapEditor.LevelProps.SpeedPoints = new List<SpeedPoint>();
+                }
+
+                MapEditor.LevelProps.SpeedPoints.Add(new SpeedPoint { X = x, Speed = speed });
+                this.listSpeedPoints.Items.Add(new ListViewItem(new[] { x.ToString(), speed.ToString() }));
+            }
+        }
+
+        private void BtnRemoveSpeedPointClick(object sender, EventArgs e)
+        {
+            if (this.listSpeedPoints.SelectedItems.Count == 1)
+            {
+                MapEditor.LevelProps.SpeedPoints.Remove(MapEditor.LevelProps.SpeedPoints[this.listSpeedPoints.SelectedIndices[0]]);
+                this.listSpeedPoints.Items.Remove(this.listSpeedPoints.SelectedItems[0]);
+            }
+        }
     }
 }

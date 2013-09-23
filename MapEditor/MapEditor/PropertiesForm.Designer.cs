@@ -31,6 +31,23 @@
             this.components = new System.ComponentModel.Container();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabProperties = new System.Windows.Forms.TabPage();
+            this.gboxBackground = new System.Windows.Forms.GroupBox();
+            this.picboxPreview = new System.Windows.Forms.PictureBox();
+            this.btnRemoveSpeedPoint = new System.Windows.Forms.Button();
+            this.btnAddSpeedPoint = new System.Windows.Forms.Button();
+            this.listSpeedPoints = new System.Windows.Forms.ListView();
+            this.xHeaderSpeedPoints = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.speedHeaderSpeedPoints = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.lblSpeedpoints = new System.Windows.Forms.Label();
+            this.finishXUpDown = new System.Windows.Forms.NumericUpDown();
+            this.lblFinishX = new System.Windows.Forms.Label();
+            this.spawnYUpDown = new System.Windows.Forms.NumericUpDown();
+            this.lblSpawnY = new System.Windows.Forms.Label();
+            this.spawnXUpDown = new System.Windows.Forms.NumericUpDown();
+            this.lblSpawnX = new System.Windows.Forms.Label();
+            this.lblSpawn = new System.Windows.Forms.Label();
+            this.txtBackground = new System.Windows.Forms.TextBox();
+            this.lblBackground = new System.Windows.Forms.Label();
             this.tabActors = new System.Windows.Forms.TabPage();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabEnemy = new System.Windows.Forms.TabPage();
@@ -76,6 +93,12 @@
             this.bulletBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.btnSave = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
+            this.tabProperties.SuspendLayout();
+            this.gboxBackground.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picboxPreview)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.finishXUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.spawnYUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.spawnXUpDown)).BeginInit();
             this.tabActors.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.tabEnemy.SuspendLayout();
@@ -102,6 +125,20 @@
             // 
             // tabProperties
             // 
+            this.tabProperties.Controls.Add(this.gboxBackground);
+            this.tabProperties.Controls.Add(this.btnRemoveSpeedPoint);
+            this.tabProperties.Controls.Add(this.btnAddSpeedPoint);
+            this.tabProperties.Controls.Add(this.listSpeedPoints);
+            this.tabProperties.Controls.Add(this.lblSpeedpoints);
+            this.tabProperties.Controls.Add(this.finishXUpDown);
+            this.tabProperties.Controls.Add(this.lblFinishX);
+            this.tabProperties.Controls.Add(this.spawnYUpDown);
+            this.tabProperties.Controls.Add(this.lblSpawnY);
+            this.tabProperties.Controls.Add(this.spawnXUpDown);
+            this.tabProperties.Controls.Add(this.lblSpawnX);
+            this.tabProperties.Controls.Add(this.lblSpawn);
+            this.tabProperties.Controls.Add(this.txtBackground);
+            this.tabProperties.Controls.Add(this.lblBackground);
             this.tabProperties.Location = new System.Drawing.Point(4, 22);
             this.tabProperties.Name = "tabProperties";
             this.tabProperties.Padding = new System.Windows.Forms.Padding(3);
@@ -109,6 +146,160 @@
             this.tabProperties.TabIndex = 0;
             this.tabProperties.Text = "Properties";
             this.tabProperties.UseVisualStyleBackColor = true;
+            // 
+            // gboxBackground
+            // 
+            this.gboxBackground.Controls.Add(this.picboxPreview);
+            this.gboxBackground.Location = new System.Drawing.Point(243, 7);
+            this.gboxBackground.Name = "gboxBackground";
+            this.gboxBackground.Size = new System.Drawing.Size(239, 177);
+            this.gboxBackground.TabIndex = 14;
+            this.gboxBackground.TabStop = false;
+            this.gboxBackground.Text = "Background Preview";
+            // 
+            // picboxPreview
+            // 
+            this.picboxPreview.Location = new System.Drawing.Point(6, 19);
+            this.picboxPreview.Name = "picboxPreview";
+            this.picboxPreview.Size = new System.Drawing.Size(227, 152);
+            this.picboxPreview.TabIndex = 1;
+            this.picboxPreview.TabStop = false;
+            // 
+            // btnRemoveSpeedPoint
+            // 
+            this.btnRemoveSpeedPoint.Location = new System.Drawing.Point(9, 133);
+            this.btnRemoveSpeedPoint.Name = "btnRemoveSpeedPoint";
+            this.btnRemoveSpeedPoint.Size = new System.Drawing.Size(23, 23);
+            this.btnRemoveSpeedPoint.TabIndex = 13;
+            this.btnRemoveSpeedPoint.Text = "-";
+            this.btnRemoveSpeedPoint.UseVisualStyleBackColor = true;
+            this.btnRemoveSpeedPoint.Click += new System.EventHandler(this.BtnRemoveSpeedPointClick);
+            // 
+            // btnAddSpeedPoint
+            // 
+            this.btnAddSpeedPoint.Location = new System.Drawing.Point(9, 103);
+            this.btnAddSpeedPoint.Name = "btnAddSpeedPoint";
+            this.btnAddSpeedPoint.Size = new System.Drawing.Size(23, 23);
+            this.btnAddSpeedPoint.TabIndex = 12;
+            this.btnAddSpeedPoint.Text = "+";
+            this.btnAddSpeedPoint.UseVisualStyleBackColor = true;
+            this.btnAddSpeedPoint.Click += new System.EventHandler(this.BtnAddSpeedPointClick);
+            // 
+            // listSpeedPoints
+            // 
+            this.listSpeedPoints.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.xHeaderSpeedPoints,
+            this.speedHeaderSpeedPoints});
+            this.listSpeedPoints.FullRowSelect = true;
+            this.listSpeedPoints.GridLines = true;
+            this.listSpeedPoints.Location = new System.Drawing.Point(100, 87);
+            this.listSpeedPoints.MultiSelect = false;
+            this.listSpeedPoints.Name = "listSpeedPoints";
+            this.listSpeedPoints.Size = new System.Drawing.Size(136, 97);
+            this.listSpeedPoints.TabIndex = 11;
+            this.listSpeedPoints.UseCompatibleStateImageBehavior = false;
+            this.listSpeedPoints.View = System.Windows.Forms.View.Details;
+            // 
+            // xHeaderSpeedPoints
+            // 
+            this.xHeaderSpeedPoints.Text = "X";
+            this.xHeaderSpeedPoints.Width = 50;
+            // 
+            // speedHeaderSpeedPoints
+            // 
+            this.speedHeaderSpeedPoints.Text = "Speed";
+            this.speedHeaderSpeedPoints.Width = 50;
+            // 
+            // lblSpeedpoints
+            // 
+            this.lblSpeedpoints.AutoSize = true;
+            this.lblSpeedpoints.Location = new System.Drawing.Point(6, 87);
+            this.lblSpeedpoints.Name = "lblSpeedpoints";
+            this.lblSpeedpoints.Size = new System.Drawing.Size(60, 13);
+            this.lblSpeedpoints.TabIndex = 10;
+            this.lblSpeedpoints.Text = "Speed at X";
+            // 
+            // finishXUpDown
+            // 
+            this.finishXUpDown.Location = new System.Drawing.Point(100, 61);
+            this.finishXUpDown.Name = "finishXUpDown";
+            this.finishXUpDown.Size = new System.Drawing.Size(42, 20);
+            this.finishXUpDown.TabIndex = 9;
+            this.finishXUpDown.ValueChanged += new System.EventHandler(this.FinishXUpDownValueChanged);
+            // 
+            // lblFinishX
+            // 
+            this.lblFinishX.AutoSize = true;
+            this.lblFinishX.Location = new System.Drawing.Point(6, 63);
+            this.lblFinishX.Name = "lblFinishX";
+            this.lblFinishX.Size = new System.Drawing.Size(50, 13);
+            this.lblFinishX.TabIndex = 8;
+            this.lblFinishX.Text = "Finishline";
+            // 
+            // spawnYUpDown
+            // 
+            this.spawnYUpDown.Location = new System.Drawing.Point(191, 34);
+            this.spawnYUpDown.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.spawnYUpDown.Name = "spawnYUpDown";
+            this.spawnYUpDown.Size = new System.Drawing.Size(45, 20);
+            this.spawnYUpDown.TabIndex = 7;
+            this.spawnYUpDown.ValueChanged += new System.EventHandler(this.SpawnYUpDownValueChanged);
+            // 
+            // lblSpawnY
+            // 
+            this.lblSpawnY.AutoSize = true;
+            this.lblSpawnY.Location = new System.Drawing.Point(168, 36);
+            this.lblSpawnY.Name = "lblSpawnY";
+            this.lblSpawnY.Size = new System.Drawing.Size(17, 13);
+            this.lblSpawnY.TabIndex = 6;
+            this.lblSpawnY.Text = "Y:";
+            // 
+            // spawnXUpDown
+            // 
+            this.spawnXUpDown.Location = new System.Drawing.Point(120, 34);
+            this.spawnXUpDown.Name = "spawnXUpDown";
+            this.spawnXUpDown.Size = new System.Drawing.Size(42, 20);
+            this.spawnXUpDown.TabIndex = 5;
+            this.spawnXUpDown.ValueChanged += new System.EventHandler(this.SpawnXUpDownValueChanged);
+            // 
+            // lblSpawnX
+            // 
+            this.lblSpawnX.AutoSize = true;
+            this.lblSpawnX.Location = new System.Drawing.Point(97, 36);
+            this.lblSpawnX.Name = "lblSpawnX";
+            this.lblSpawnX.Size = new System.Drawing.Size(17, 13);
+            this.lblSpawnX.TabIndex = 4;
+            this.lblSpawnX.Text = "X:";
+            // 
+            // lblSpawn
+            // 
+            this.lblSpawn.AutoSize = true;
+            this.lblSpawn.Location = new System.Drawing.Point(6, 36);
+            this.lblSpawn.Name = "lblSpawn";
+            this.lblSpawn.Size = new System.Drawing.Size(40, 13);
+            this.lblSpawn.TabIndex = 2;
+            this.lblSpawn.Text = "Spawn";
+            // 
+            // txtBackground
+            // 
+            this.txtBackground.Location = new System.Drawing.Point(100, 6);
+            this.txtBackground.Name = "txtBackground";
+            this.txtBackground.Size = new System.Drawing.Size(136, 20);
+            this.txtBackground.TabIndex = 1;
+            this.txtBackground.TextChanged += new System.EventHandler(this.TxtBackgroundTextChanged);
+            // 
+            // lblBackground
+            // 
+            this.lblBackground.AutoSize = true;
+            this.lblBackground.Location = new System.Drawing.Point(6, 9);
+            this.lblBackground.Name = "lblBackground";
+            this.lblBackground.Size = new System.Drawing.Size(65, 13);
+            this.lblBackground.TabIndex = 0;
+            this.lblBackground.Text = "Background";
             // 
             // tabActors
             // 
@@ -602,6 +793,13 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Properties";
             this.tabControl1.ResumeLayout(false);
+            this.tabProperties.ResumeLayout(false);
+            this.tabProperties.PerformLayout();
+            this.gboxBackground.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.picboxPreview)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.finishXUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.spawnYUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.spawnXUpDown)).EndInit();
             this.tabActors.ResumeLayout(false);
             this.tabControl.ResumeLayout(false);
             this.tabEnemy.ResumeLayout(false);
@@ -668,6 +866,23 @@
         private System.Windows.Forms.ColumnHeader typeAnimationColumnHeader;
         private System.Windows.Forms.ColumnHeader lengthAnimationColumnHeader;
         private System.Windows.Forms.Button btnRemoveAnimation;
+        private System.Windows.Forms.TextBox txtBackground;
+        private System.Windows.Forms.Label lblBackground;
+        private System.Windows.Forms.NumericUpDown spawnYUpDown;
+        private System.Windows.Forms.Label lblSpawnY;
+        private System.Windows.Forms.NumericUpDown spawnXUpDown;
+        private System.Windows.Forms.Label lblSpawnX;
+        private System.Windows.Forms.Label lblSpawn;
+        private System.Windows.Forms.NumericUpDown finishXUpDown;
+        private System.Windows.Forms.Label lblFinishX;
+        private System.Windows.Forms.GroupBox gboxBackground;
+        private System.Windows.Forms.Button btnRemoveSpeedPoint;
+        private System.Windows.Forms.Button btnAddSpeedPoint;
+        private System.Windows.Forms.ListView listSpeedPoints;
+        private System.Windows.Forms.ColumnHeader xHeaderSpeedPoints;
+        private System.Windows.Forms.ColumnHeader speedHeaderSpeedPoints;
+        private System.Windows.Forms.Label lblSpeedpoints;
+        private System.Windows.Forms.PictureBox picboxPreview;
 
     }
 }

@@ -43,10 +43,12 @@
         {
             Clear,
             Build,
-            Import
+            Import,
         }
 
         public static ActorFile Actors { get; set; }
+
+        public static LevelProperties LevelProps { get; set; }
 
         /// <summary>
         /// Parses x and y coords from input
@@ -126,14 +128,15 @@
                     {
                         for (int y = 0; y < this.yButtonCount; y++)
                         {
-                            var tmpButton = new Control
+                            var tmpButton = new Panel
                             {
                                 Top = this.startX + (x * this.buttonHeight) + this.distance,
                                 Left = this.startY + (y * this.buttonWidth) + this.distance,
                                 Width = this.buttonWidth,
                                 Height = this.buttonHeight,
                                 Name = x + "," + y,
-                                BackgroundImage = this.GetImage("default")
+                                BackgroundImage = this.GetImage("default"),
+                                BackColor = Color.Transparent
                             };
 
                             tmpButton.MouseHover += this.CurrentButtonMouseHover;
@@ -157,11 +160,6 @@
                     {
                         // Restore imported map here
                         Control fillButton = this.mapPanel.Controls.Find(a.Key, false)[0];
-                        /*if (a.Value is Tile)
-                        {
-                            fillButton.BackgroundImage = this.images[CategoryEnum.Damage];
-                        }
-                        else*/
                         if (a.Value.Type == Node.NodeType.Enemy)
                         {
                             fillButton.BackgroundImage = this.GetImage(a.Value.Name, CategoryEnum.Enemy);
@@ -170,10 +168,6 @@
                         {
                             fillButton.BackgroundImage = this.GetImage(a.Value.Name, CategoryEnum.Level);
                         }
-                        /*else if (a.Value.special)
-                        {
-                            fillButton.BackgroundImage = this.images[CategoryEnum.Special];
-                        }*/
                     }
 
                     break;
@@ -221,13 +215,13 @@
                 }
 
                 this.BuildGui(BuildOptions.Clear);
-                var level = JsonConvert.DeserializeObject<LevelProperties>(lines);
-                foreach (var enemy in level.Enemies)
+                LevelProps = JsonConvert.DeserializeObject<LevelProperties>(lines);
+                foreach (var enemy in LevelProps.Enemies)
                 {
                     this.map.Add(9 - enemy.Y + "," + enemy.X, enemy);
                 }
 
-                foreach (var tile in level.Tiles)
+                foreach (var tile in LevelProps.Tiles)
                 {
                     this.map.Add(9 - tile.Y + "," + tile.X, tile);
                 }
@@ -238,22 +232,23 @@
 
         private void ExportClick(object sender, EventArgs e)
         {
-            var level = new LevelProperties { Enemies = new List<Node>(), Tiles = new List<Node>() };
+            LevelProps.Enemies = new List<Node>();
+            LevelProps.Tiles = new List<Node>();
 
             foreach (KeyValuePair<string, Node> a in this.map)
             {
                 if (a.Value.Type == Node.NodeType.Enemy)
                 {
-                    level.Enemies.Add(a.Value);
+                    LevelProps.Enemies.Add(a.Value);
                 }
                 else if (a.Value.Type == Node.NodeType.Tile)
                 {
-                    level.Tiles.Add(a.Value);
+                    LevelProps.Tiles.Add(a.Value);
                 }
             }
 
             // Convert map to JSON
-            string lines = JsonConvert.SerializeObject(level);
+            string lines = JsonConvert.SerializeObject(LevelProps);
 
             // Displays a SaveFileDialog so the user can save the map
             var saveFileDialog1 = new SaveFileDialog
@@ -293,7 +288,7 @@
 
         private void PropertiesClick(object sender, EventArgs e)
         {
-            if (new PropertiesForm().ShowDialog() == DialogResult.OK)
+            if (new PropertiesForm().ShowDialog() != DialogResult.Abort)
             {
                 this.PopulateLists();
             }

@@ -4,22 +4,24 @@
 
     public class LevelProperties
     {
-        public int FinishX { get; set; }
+        public float FinishX { get; set; }
 
         public List<SpeedPoint> SpeedPoints { get; set; } 
 
-        public int SpawnX { get; set; }
-            
-        public int SpawnY { get; set; }
+        public float SpawnX { get; set; }
+
+        public float SpawnY { get; set; }
 
         public List<Node> Tiles { get; set; }
 
         public List<Node> Enemies { get; set; }
+
+        public string BackgroundName { get; set; }
     }
 
     public class SpeedPoint
     {
-        public int X;
+        public float X;
 
         public float Speed;
     }
