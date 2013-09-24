@@ -32,10 +32,10 @@ public abstract class Actor {
 		this.bodyDef.position.set(position);
 	}
 	
-	public void setShape(World world, Shape shape)
+	public void setShape(World world, Shape shape, float density)
 	{
 		this.body = world.createBody(bodyDef);
-		this.body.createFixture(shape, 0f);
+		this.body.createFixture(shape, density);
 		this.body.setUserData(this);
 		shape.dispose();
 	}

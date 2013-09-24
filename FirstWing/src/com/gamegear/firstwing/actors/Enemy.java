@@ -23,7 +23,7 @@ public class Enemy extends MoveableActor {
 		
 		CircleShape rect = new CircleShape();
 		rect.setRadius(0.5f / 2);
-		this.setShape(world, rect);
+		this.setShape(world, rect, 2f);
 	}
 	
 	@Override

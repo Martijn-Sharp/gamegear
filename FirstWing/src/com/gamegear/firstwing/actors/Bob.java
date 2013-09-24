@@ -26,7 +26,7 @@ public class Bob extends MoveableActor {
 		
 		CircleShape rect = new CircleShape();
 		rect.setRadius((HEIGHT + WIDTH) / 4);
-		this.setShape(world, rect);
+		this.setShape(world, rect, 0f);
 	}
 
 	@Override

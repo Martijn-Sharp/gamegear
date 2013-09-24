@@ -22,7 +22,7 @@ public class Block extends Actor {
 		
 		PolygonShape rect = new PolygonShape();
 		rect.setAsBox(SIZE / 2, SIZE / 2);
-		this.setShape(world, rect);
+		this.setShape(world, rect, 0f);
 	}
 
 	@Override

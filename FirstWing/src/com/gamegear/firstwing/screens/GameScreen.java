@@ -158,8 +158,11 @@ public class GameScreen implements Screen {
 	public void checkBulletFire()
 	{
 		int maxBullets = 20;
+		
+		//Bullet delay in seconds
+		float bulletDelay = 0.4f;
 		float elapsedTime=(System.nanoTime()-timeSinceLastBullet)/1000000000.0f;
-        if(elapsedTime>0.5f){
+        if(elapsedTime>bulletDelay){
         	timeSinceLastBullet = System.nanoTime();
         	Bullet temp = new Bullet(bob.getBody().getWorldPoint(new Vector2(1,0)), world.getWorld());
         	temp.getBody().setBullet(true);
@@ -167,12 +170,14 @@ public class GameScreen implements Screen {
         	bullets.add(temp);
         }
         
+        //Maximum bullets on screen
         if(bullets.size > maxBullets)
         {
         	bulletsForRemoval.add(bullets.get(0));
         	//bullets.removeIndex(0);
         }
         
+        //Remove bullets off screen
         for(Bullet b : bullets)
         {
         	if(b.getBody().getWorldCenter().x > renderer.cameraX + 6)
