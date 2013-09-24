@@ -1,6 +1,8 @@
 package com.gamegear.firstwing;
 
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Queue;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -20,6 +22,8 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.Array;
 import com.gamegear.firstwing.actors.Actor;
+import com.gamegear.firstwing.actors.Bullet;
+import com.gamegear.firstwing.actors.Enemy;
 
 public class WorldRenderer {
 	private static final float CAMERA_WIDTH = 10f;
@@ -43,10 +47,12 @@ public class WorldRenderer {
 	private int height;
 	private Iterator<Body> tmpBodies;
 	
+	// Particle System
 	private ParticleEffect prototype;
 	private ParticleEffectPool pool;
 	private Array<PooledEffect> effects;
-
+	
+	
 	
 	public float cameraX = 0;
 	public float cameraY = 0;
@@ -84,7 +90,6 @@ public class WorldRenderer {
 		
 		pool = new ParticleEffectPool(prototype, 2, 10);
 		effects = new Array<PooledEffect>();
-		//callParticleSystem(world.getBob().getBody().getWorldCenter().x, world.getBob().getBody().getWorldCenter().y);
 	}
 	
 	public void callParticleSystem(float x, float y)
@@ -156,13 +161,6 @@ public class WorldRenderer {
 		//Gdx.app.log("Stats", "active: " + effects.size + " | max: " + pool.max);
 		
 		world.world.step(Gdx.app.getGraphics().getDeltaTime(), 3, 3);
-		
-//		if(effect.isComplete())
-//		{
-//			callParticleSystem(world.getBob().getBody().getWorldCenter().x, world.getBob().getBody().getWorldCenter().y);
-//		}
-//		debugRenderer.render(world.world, cam.combined);
-//		world.world.step(1/60f, 6, 2);
 	}
 	
 	public void draw(SpriteBatch batch, float parentAlpha){ //what this method is called may differ depending on what 
@@ -185,7 +183,6 @@ public class WorldRenderer {
 		cameraX += Gdx.graphics.getDeltaTime() * speed;		
 		
 		//Gdx.app.log("Camera", "X:" + cameraX + "," + x + " Y:" + cameraY + "," + y);
-		
 		
         cam.position.set(cameraX, cameraY, 0);
         cam.update();

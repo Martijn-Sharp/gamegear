@@ -6,7 +6,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 public abstract class MoveableActor extends Actor {
 
 	public enum State {
-		IDLE, DYING, ACCELERATING, BREAKING, LIFTING, DESCENDING
+		IDLE, DYING, ACCELERATING, BREAKING, LIFTING, DESCENDING, YELLOW, RED, PURPLE
 	}
 	
 	private float speed;

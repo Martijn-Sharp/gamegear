@@ -13,7 +13,7 @@ public class Enemy extends MoveableActor {
 	private static final float WIDTH = 0.5f;
 	private static final float HEIGHT = 0.5f;
 	
-	private static final float HEALTH = 10f;
+	private float health = 10f;
 
 	private TextureRegion idleLeft;
 	
@@ -34,5 +34,13 @@ public class Enemy extends MoveableActor {
 	@Override
 	protected void draw() {
 		this.setTexture(this.idleLeft);
+	}
+
+	public float getHealth() {
+		return health;
+	}
+	
+	public void setHealth(float health) {
+		this.health = health;
 	}
 }
