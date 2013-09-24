@@ -160,11 +160,11 @@ public class GameScreen implements Screen {
 		int maxBullets = 20;
 		
 		//Bullet delay in seconds
-		float bulletDelay = 0.4f;
+		float bulletDelay = 0.2f;
 		float elapsedTime=(System.nanoTime()-timeSinceLastBullet)/1000000000.0f;
         if(elapsedTime>bulletDelay){
         	timeSinceLastBullet = System.nanoTime();
-        	Bullet temp = new Bullet(bob.getBody().getWorldPoint(new Vector2(1,0)), world.getWorld());
+        	Bullet temp = new Bullet(bob.getBody().getWorldPoint(new Vector2(0.8f,0)), world.getWorld());
         	temp.getBody().setBullet(true);
         	temp.getBody().setLinearVelocity(10,0);
         	bullets.add(temp);

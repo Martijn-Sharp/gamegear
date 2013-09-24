@@ -10,12 +10,17 @@ import com.gamegear.firstwing.actors.json.DynamicActor;
 public class Enemy extends MoveableActor {
 	private static final float SPEED = 4f;
 	private static final float SCALE = 1f;
-	private static final float WIDTH = 0.5f;
-	private static final float HEIGHT = 0.5f;
+	private static final float WIDTH = 0.25f;
+	private static final float HEIGHT = 0.25f;
 	
 	private float health = 10f;
 
-	private TextureRegion idleLeft;
+	private TextureRegion droneBlue;
+	private TextureRegion droneGreen;
+	private TextureRegion droneYellow;
+	private TextureRegion droneOrange;
+	
+	private TextureRegion bobShipRight;
 	
 	public Enemy(Vector2 position, World world, DynamicActor actor){
 		super(actor.Speed, actor.Scale, actor.Width, actor.Height, position);
@@ -28,12 +33,16 @@ public class Enemy extends MoveableActor {
 	
 	@Override
 	protected void loadTextures() {
-		this.idleLeft = TextureMgr.getTexture("bob-01", false);
+		//this.idleLeft = TextureMgr.getTexture("bob-01", false);
+		this.droneYellow = TextureMgr.getTexture("drone-yellow", false);
+		//this.droneBlue = TextureMgr.getTexture("drone-blue", false);
+		//bobShipRight = TextureMgr.getTexture("bobSpaceship", false);
 	}
 
 	@Override
 	protected void draw() {
-		this.setTexture(this.idleLeft);
+		this.setTexture(this.droneYellow);
+		//this.setTexture(bobShipRight);
 	}
 
 	public float getHealth() {

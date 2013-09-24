@@ -10,13 +10,15 @@ import com.gamegear.firstwing.TextureMgr;
 public class Bob extends MoveableActor {
 	private static final float SPEED = 4f;
 	private static final float SCALE = 1f;
-	private static final float WIDTH = 0.5f;
-	private static final float HEIGHT = 0.5f;
+	private static final float WIDTH = 0.8f;
+	private static final float HEIGHT = 0.8f;
 	private static final float RUNNING_FRAME_DURATION = 0.06f;
 
 	private TextureRegion bobIdleRight;
 	private TextureRegion bobJumpRight;
 	private TextureRegion bobFallRight;
+	
+	private TextureRegion bobShipRight;
 	
 	private Animation walkRightAnimation;
 
@@ -31,25 +33,26 @@ public class Bob extends MoveableActor {
 
 	@Override
 	protected void loadTextures() {
-		bobIdleRight = TextureMgr.getTexture("bob-01", false);
+//		bobIdleRight = TextureMgr.getTexture("bob-01", false);
+		bobShipRight = TextureMgr.getTexture("bobSpaceship", false);
 		//bobIdleRight.flip(true, false);
-		TextureRegion[] walkRightFrames = new TextureRegion[5];
-
-		for (int i = 0; i < 5; i++) {
-			walkRightFrames[i] = TextureMgr.getTexture("bob-0" + (i + 2), false);
-			walkRightFrames[i].flip(true, false);
-		}
+//		TextureRegion[] walkRightFrames = new TextureRegion[5];
+//
+//		for (int i = 0; i < 5; i++) {
+//			walkRightFrames[i] = TextureMgr.getTexture("bob-0" + (i + 2), false);
+//			walkRightFrames[i].flip(true, false);
+//		}
 		
-		walkRightAnimation = new Animation(RUNNING_FRAME_DURATION, walkRightFrames);
-		bobJumpRight = TextureMgr.getTexture("bob-up", false);
-		bobJumpRight.flip(true, false);
-		bobFallRight = TextureMgr.getTexture("bob-down", false);
-		bobFallRight.flip(true, false);
+//		walkRightAnimation = new Animation(RUNNING_FRAME_DURATION, walkRightFrames);
+//		bobJumpRight = TextureMgr.getTexture("bob-up", false);
+//		bobJumpRight.flip(true, false);
+//		bobFallRight = TextureMgr.getTexture("bob-down", false);
+//		bobFallRight.flip(true, false);
 	}
 
 	@Override
 	protected void draw() {
-		this.setTexture(bobIdleRight);
+		this.setTexture(bobShipRight);
 		if(this.getState().equals(State.ACCELERATING)) {
 			this.setTexture(walkRightAnimation.getKeyFrame(this.getStateTime(), true));
 		} else if (this.getState().equals(State.LIFTING)) {
