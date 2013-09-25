@@ -72,17 +72,18 @@ public class Level {
 		return blocks.get(x);
 	}
 	
-	public int getSpeed(float cameraX)
+	public float getSpeed(float cameraX)
 	{
 		if(!speed.isEmpty())
 		{
 			String[] tmpSpeed = speed.peek().split(",");
-			if(Integer.parseInt(tmpSpeed[0]) < cameraX)
+			if(Float.parseFloat(tmpSpeed[0]) < cameraX)
 			{
 				currentSpeed = Integer.parseInt(tmpSpeed[1]);
 				speed.remove();
 			}
 		}
+		
 		return currentSpeed;
 	}
 	
@@ -149,8 +150,8 @@ public class Level {
 		
 		//Add demo speeds
 		speed.add("0,1");
-		speed.add("6,2");
-		speed.add("20,1");
+		speed.add("10,2");
+		speed.add("30,1");
 		speed.add("100,0");
 	}
 }

@@ -1,8 +1,6 @@
 package com.gamegear.firstwing;
 
 import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Queue;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -22,8 +20,6 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.Array;
 import com.gamegear.firstwing.actors.Actor;
-import com.gamegear.firstwing.actors.Bullet;
-import com.gamegear.firstwing.actors.Enemy;
 
 public class WorldRenderer {
 	private static final float CAMERA_WIDTH = 10f;
@@ -47,19 +43,28 @@ public class WorldRenderer {
 	private int height;
 	private Iterator<Body> tmpBodies;
 	
+	/** Background **/
+	private Color currentBgColor;
+	private Color sourceBgColor;
+	private Color targetBgColor;
+	private float maxtime = 250;
+	private float step = 0;
+	private Boolean changeBackgroundColor = false;
+	
 	// Particle System
 	
-	//Explosion pool
+	// Explosion pool
 	private ParticleEffect prototype;
 	private ParticleEffectPool pool;
 	private Array<PooledEffect> effects;
-	//Afterburner
+	
+	// After burner
 	ParticleEffect p;
 	Vector2 behindShip;
 	
 	public float cameraX = 0;
 	public float cameraY = 0;
-
+	private float currentSpeed = 1;
 	
 	public void setSize (int w, int h) {
 		this.width = w;
@@ -90,7 +95,6 @@ public class WorldRenderer {
 		prototype.load(Gdx.files.internal("effects/explosion.p"), Gdx.files.internal("effects"));
 		prototype.setPosition(world.getBob().getBody().getWorldCenter().x, world.getBob().getBody().getWorldCenter().y);
 		
-		
 		behindShip = world.getBob().getBody().getWorldPoint(new Vector2(-0.3f,0));
 		p = new ParticleEffect();
 		p.load(Gdx.files.internal("effects/afterburner.p"), Gdx.files.internal("effects")); //files.internal loads from the "assets" folder
@@ -99,6 +103,8 @@ public class WorldRenderer {
 		
 		pool = new ParticleEffectPool(prototype, 2, 10);
 		effects = new Array<PooledEffect>();
+		
+		this.currentBgColor = new Color(0f, 0f, 0.4f, 1f);
 	}
 	
 	public void callParticleSystem(float x, float y)
@@ -117,14 +123,17 @@ public class WorldRenderer {
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		moveCamera(world.getBob().getBody().getWorldCenter().x, world.getBob().getBody().getWorldCenter().y, world.level.getSpeed(cameraX));
 		
+		if(this.changeBackgroundColor){
+			this.changeBackground();
+		}
+		
 		shapeRenderer.begin(ShapeType.FilledRectangle);
-	        shapeRenderer.setColor(new Color(0 + (world.getBob().getPosition().x * 0.05f), 0, 0, 1));
+	        shapeRenderer.setColor(this.currentBgColor);
 	        shapeRenderer.filledRect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         shapeRenderer.end();
         
 		spriteBatch.setProjectionMatrix(cam.combined);
 		spriteBatch.begin();
-			// shitty
 			for(Sprite bg : world.level.getBackground()){
 				bg.draw(spriteBatch);
 			}
@@ -186,11 +195,19 @@ public class WorldRenderer {
 		p.draw(batch);
 	}
 	
-	public void moveCamera(float x,float y, float speed){	
+	public void moveCamera(float x,float y, float speed){
+		if(this.currentSpeed != speed){
+			this.changeBackgroundColor = true;
+			this.sourceBgColor = this.currentBgColor;
+			this.targetBgColor = this.getColor(speed);
+		}
+		
+		this.currentSpeed = speed;
+		
 		//Cap camera at the top and bottom
-		if(y + 4 > 10){cameraY = 6f;}
-		else if(y - 3 < 0) {cameraY = 3;}
-		else{cameraY = y;}
+		if(y + 4 > 10) { cameraY = 6f; }
+		else if(y - 3 < 0) { cameraY = 3f; }
+		else { cameraY = y; }
 		
 		//Cap camera at the sides
 //		if(x + 5 > world.level.getWidth()){cameraX = world.level.getWidth() - 5;}
@@ -198,13 +215,41 @@ public class WorldRenderer {
 //		else{cameraX = x;}
 		
 		//Move camera with speed
-		cameraX += Gdx.graphics.getDeltaTime() * speed;		
+		cameraX += Gdx.graphics.getDeltaTime() * currentSpeed;		
 		
 		//Gdx.app.log("Camera", "X:" + cameraX + "," + x + " Y:" + cameraY + "," + y);
 		
         cam.position.set(cameraX, cameraY, 0);
         cam.update();
 	}
+	
+	private Color getColor(float speed){
+		if(Math.round(speed) == 2){
+			return new Color(0.4f, 0f, 0f, 1f);
+		} else {
+			return new Color(0f, 0f, 0.4f, 1f);
+		}
+	}
+	
+	private void changeBackground()
+	{
+	    if(this.step >= this.maxtime){
+	    	this.step = 0;
+	    	this.changeBackgroundColor = false;
+	        return;
+	    }
+	    
+	    this.step += Gdx.graphics.getDeltaTime() * 100;
+	    float percentComplete = this.step / this.maxtime;
+	    float percentGone = 1 - percentComplete;
+	    float red = this.sourceBgColor.r * percentGone + this.targetBgColor.r * percentComplete;
+	    float green = this.sourceBgColor.g * percentGone + this.targetBgColor.g * percentComplete;
+	    float blue = this.sourceBgColor.b * percentGone + this.targetBgColor.b * percentComplete;
+	    float alpha = this.sourceBgColor.a * percentGone + this.targetBgColor.a * percentComplete;
+	    
+	    this.currentBgColor = new Color(red, green, blue, alpha);
+	}
+	
 	public OrthographicCamera getCam() {
 		return cam;
 	}
