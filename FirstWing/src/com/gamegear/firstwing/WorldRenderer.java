@@ -125,7 +125,9 @@ public class WorldRenderer {
 		spriteBatch.setProjectionMatrix(cam.combined);
 		spriteBatch.begin();
 			// shitty
-			world.level.getBackground().draw(spriteBatch);
+			for(Sprite bg : world.level.getBackground()){
+				bg.draw(spriteBatch);
+			}
 			
 			tmpBodies = world.world.getBodies();
 			Body node;

@@ -26,7 +26,7 @@ public class Level {
 	private World world;
 	private int currentSpeed = 5;
 	private String levelPath;
-	private Sprite background;
+	private ArrayList<Sprite> background;
 
 	public int getWidth() {
 		return width;
@@ -85,21 +85,22 @@ public class Level {
 		return currentSpeed;
 	}
 	
-	public Sprite getBackground(){
+	public ArrayList<Sprite> getBackground(){
 		return this.background;
 	}
 
 	private void loadLevel() {
-		height = 10;
-		width = 0;
-		blocks = new ArrayList<Block>();
-		enemies = new ArrayList<Enemy>();
-		speed = new LinkedList<String>();
+		this.height = 10;
+		this.width = 0;
+		this.blocks = new ArrayList<Block>();
+		this.enemies = new ArrayList<Enemy>();
+		this.speed = new LinkedList<String>();
+		this.background = new ArrayList<Sprite>();
 		LevelProperties levelLoader;
 		
 		if(levelPath.isEmpty())
 		{
-			levelLoader = new JSONLoader().getLevel(Gdx.files.internal("levels/map7.dat"));
+			levelLoader = new JSONLoader().getLevel(Gdx.files.internal("levels/map10.dat"));
 		}
 		else
 		{
@@ -128,13 +129,20 @@ public class Level {
 			enemiesIt.remove();
 		}
 		
-		this.background = new Sprite(new Texture(Gdx.files.internal("images/" + levelLoader.BackgroundName + ".png")));
-		this.background.setSize(24f, 18f);
-		this.background.setScale(1f, 1f);
+		for(int x = 0; x < 25; x++){
+			for(int y = 0; y < 3; y++){
+				Sprite tempBg = new Sprite(new Texture(Gdx.files.internal("images/" + levelLoader.BackgroundName + ".png")));
+				tempBg.setSize(4f, 4f);
+				tempBg.setScale(1f);
+				tempBg.setPosition(x * 4f - 2f, y * 4f - 2f);
+				this.background.add(tempBg);
+			}
+		}
 		
 		//Add demo speeds
 		speed.add("0,1");
 		speed.add("6,1");
-		speed.add("15,0");
+		speed.add("15,1");
+		speed.add("100,0");
 	}
 }
