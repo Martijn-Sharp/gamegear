@@ -82,7 +82,7 @@
                 switch (this.categorySelected)
                 {
                     case CategoryEnum.Enemy:
-                        this.map.Add(tmpName, new Node(coords[1], 9 - coords[0]) { Name = this.actorSelected, Type = Node.NodeType.Enemy});
+                        this.map.Add(tmpName, new Node(coords[1], 9 - coords[0]) { Name = this.actorSelected, Type = Node.NodeType.Spawner});
                         clickedButton.BackgroundImage = this.GetImage(this.actorSelected, CategoryEnum.Enemy);
                         break;
                     case CategoryEnum.Level:
@@ -160,9 +160,9 @@
                     {
                         // Restore imported map here
                         Control fillButton = this.mapPanel.Controls.Find(a.Key, false)[0];
-                        if (a.Value.Type == Node.NodeType.Enemy)
+                        if (a.Value.Type == Node.NodeType.Spawner)
                         {
-                            fillButton.BackgroundImage = this.GetImage(a.Value.Name, CategoryEnum.Enemy);
+                            fillButton.BackgroundImage = this.GetImage("spawner", CategoryEnum.Enemy);
                         }
                         else if (a.Value.Type == Node.NodeType.Tile)
                         {
@@ -177,10 +177,11 @@
         public void PopulateLists()
         {
             this.listEnemies.Items.Clear();
-            foreach (var enemy in Actors.DynamicActors)
-            {
-                this.listEnemies.Items.Add(new ListViewItem(enemy.Key));
-            }
+            //foreach (var enemy in Actors.DynamicActors)
+            //{
+            //    this.listEnemies.Items.Add(new ListViewItem(enemy.Key));
+            //}
+            this.listEnemies.Items.Add(new ListViewItem("drone"));
 
             this.listLevels.Items.Clear();
             foreach (var level in Actors.StaticActors)
@@ -237,7 +238,7 @@
 
             foreach (KeyValuePair<string, Node> a in this.map)
             {
-                if (a.Value.Type == Node.NodeType.Enemy)
+                if (a.Value.Type == Node.NodeType.Spawner)
                 {
                     LevelProps.Enemies.Add(a.Value);
                 }
@@ -323,7 +324,7 @@
             switch (category)
             {
                 case CategoryEnum.Enemy:
-                    image = new Bitmap("assets/dynamic/" + name + ".png");
+                    image = new Bitmap("assets/images/spawner.png");
                     break;
                 case CategoryEnum.Level:
                     image = new Bitmap("assets/static/" + name + ".png");

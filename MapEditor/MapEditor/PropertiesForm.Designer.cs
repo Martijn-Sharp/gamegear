@@ -92,6 +92,11 @@
             this.lblSpeed = new System.Windows.Forms.Label();
             this.bulletBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.btnSave = new System.Windows.Forms.Button();
+            this.lblColors = new System.Windows.Forms.Label();
+            this.listColours = new System.Windows.Forms.ListView();
+            this.colorColorHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.btnAddColor = new System.Windows.Forms.Button();
+            this.btnRemoveColor = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabProperties.SuspendLayout();
             this.gboxBackground.SuspendLayout();
@@ -125,6 +130,10 @@
             // 
             // tabProperties
             // 
+            this.tabProperties.Controls.Add(this.btnRemoveColor);
+            this.tabProperties.Controls.Add(this.btnAddColor);
+            this.tabProperties.Controls.Add(this.listColours);
+            this.tabProperties.Controls.Add(this.lblColors);
             this.tabProperties.Controls.Add(this.gboxBackground);
             this.tabProperties.Controls.Add(this.btnRemoveSpeedPoint);
             this.tabProperties.Controls.Add(this.btnAddSpeedPoint);
@@ -779,6 +788,54 @@
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.BtnSave);
             // 
+            // lblColors
+            // 
+            this.lblColors.AutoSize = true;
+            this.lblColors.Location = new System.Drawing.Point(6, 196);
+            this.lblColors.Name = "lblColors";
+            this.lblColors.Size = new System.Drawing.Size(36, 13);
+            this.lblColors.TabIndex = 16;
+            this.lblColors.Text = "Colors";
+            // 
+            // listColours
+            // 
+            this.listColours.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.colorColorHeader});
+            this.listColours.FullRowSelect = true;
+            this.listColours.GridLines = true;
+            this.listColours.Location = new System.Drawing.Point(100, 190);
+            this.listColours.MultiSelect = false;
+            this.listColours.Name = "listColours";
+            this.listColours.Size = new System.Drawing.Size(136, 97);
+            this.listColours.TabIndex = 17;
+            this.listColours.UseCompatibleStateImageBehavior = false;
+            this.listColours.View = System.Windows.Forms.View.Details;
+            // 
+            // colorColorHeader
+            // 
+            this.colorColorHeader.Text = "Color";
+            this.colorColorHeader.Width = 101;
+            // 
+            // btnAddColor
+            // 
+            this.btnAddColor.Location = new System.Drawing.Point(9, 212);
+            this.btnAddColor.Name = "btnAddColor";
+            this.btnAddColor.Size = new System.Drawing.Size(23, 23);
+            this.btnAddColor.TabIndex = 18;
+            this.btnAddColor.Text = "+";
+            this.btnAddColor.UseVisualStyleBackColor = true;
+            this.btnAddColor.Click += new System.EventHandler(this.BtnAddColorClick);
+            // 
+            // btnRemoveColor
+            // 
+            this.btnRemoveColor.Location = new System.Drawing.Point(9, 242);
+            this.btnRemoveColor.Name = "btnRemoveColor";
+            this.btnRemoveColor.Size = new System.Drawing.Size(23, 23);
+            this.btnRemoveColor.TabIndex = 19;
+            this.btnRemoveColor.Text = "-";
+            this.btnRemoveColor.UseVisualStyleBackColor = true;
+            this.btnRemoveColor.Click += new System.EventHandler(this.BtnRemoveColorClick);
+            // 
             // PropertiesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -883,6 +940,11 @@
         private System.Windows.Forms.ColumnHeader speedHeaderSpeedPoints;
         private System.Windows.Forms.Label lblSpeedpoints;
         private System.Windows.Forms.PictureBox picboxPreview;
+        private System.Windows.Forms.ListView listColours;
+        private System.Windows.Forms.ColumnHeader colorColorHeader;
+        private System.Windows.Forms.Label lblColors;
+        private System.Windows.Forms.Button btnRemoveColor;
+        private System.Windows.Forms.Button btnAddColor;
 
     }
 }

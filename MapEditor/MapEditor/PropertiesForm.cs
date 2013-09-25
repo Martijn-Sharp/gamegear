@@ -344,6 +344,14 @@
                     this.listSpeedPoints.Items.Add(new ListViewItem(new[] { speedPoint.X.ToString(), speedPoint.Speed.ToString() }));
                 }
             }
+
+            if (MapEditor.LevelProps.Colors != null)
+            {
+                foreach (var color in MapEditor.LevelProps.Colors)
+                {
+                    this.listColours.Items.Add(new ListViewItem(color.ToString()));
+                }
+            }
         }
 
         private void TxtBackgroundTextChanged(object sender, EventArgs e)
@@ -370,6 +378,7 @@
             MapEditor.LevelProps.FinishX = Convert.ToSingle(this.finishXUpDown.Value);
         }
 
+        #region SpeedPoint
         private void BtnAddSpeedPointClick(object sender, EventArgs e)
         {
             var dialog = new AddSpeedPointDialog();
@@ -395,5 +404,43 @@
                 this.listSpeedPoints.Items.Remove(this.listSpeedPoints.SelectedItems[0]);
             }
         }
+        #endregion
+
+        #region Color
+        private void BtnAddColorClick(object sender, EventArgs e)
+        {
+            var availableColors = Enum.GetValues(typeof(LevelProperties.ColorEnum)).Cast<LevelProperties.ColorEnum>().ToList();
+            if (MapEditor.LevelProps.Colors != null)
+            {
+                foreach (var color in MapEditor.LevelProps.Colors)
+                {
+                    availableColors.Remove(color);
+                }
+            }
+
+            var dialog = new AddColorDialog(availableColors);
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                LevelProperties.ColorEnum color = dialog.GetColor();
+                if (MapEditor.LevelProps.Colors == null)
+                {
+                    MapEditor.LevelProps.Colors = new List<LevelProperties.ColorEnum>();
+                }
+
+                MapEditor.LevelProps.Colors.Add(color);
+                this.listColours.Items.Add(new ListViewItem(color.ToString()));
+            }
+
+        }
+
+        private void BtnRemoveColorClick(object sender, EventArgs e)
+        {
+            if (this.listColours.SelectedItems.Count == 1)
+            {
+                MapEditor.LevelProps.Colors.Remove((LevelProperties.ColorEnum)Enum.Parse(typeof(LevelProperties.ColorEnum), this.listColours.SelectedItems[0].Text));
+                this.listColours.Items.Remove(this.listColours.SelectedItems[0]);
+            }
+        }
+        #endregion Color
     }
 }

@@ -4,19 +4,32 @@
 
     public class LevelProperties
     {
-        public float FinishX { get; set; }
+        public enum ColorEnum
+        {
+            Blue,
+            Green,
+            LightBlue,
+            Orange,
+            Purple,
+            Red,
+            Yellow
+        }
 
-        public List<SpeedPoint> SpeedPoints { get; set; } 
+        public float FinishX { get; set; }
 
         public float SpawnX { get; set; }
 
         public float SpawnY { get; set; }
 
+        public string BackgroundName { get; set; }
+
+        public List<SpeedPoint> SpeedPoints { get; set; } 
+
+        public List<ColorEnum> Colors { get; set; } 
+
         public List<Node> Tiles { get; set; }
 
         public List<Node> Enemies { get; set; }
-
-        public string BackgroundName { get; set; }
     }
 
     public class SpeedPoint
@@ -30,7 +43,7 @@
     {
         public enum NodeType
         {
-            Enemy,
+            Spawner,
             Tile
         }
 
