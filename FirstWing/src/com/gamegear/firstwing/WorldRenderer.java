@@ -48,11 +48,14 @@ public class WorldRenderer {
 	private Iterator<Body> tmpBodies;
 	
 	// Particle System
+	
+	//Explosion pool
 	private ParticleEffect prototype;
 	private ParticleEffectPool pool;
 	private Array<PooledEffect> effects;
-	
-	
+	//Afterburner
+	ParticleEffect p;
+	Vector2 behindShip;
 	
 	public float cameraX = 0;
 	public float cameraY = 0;
@@ -83,10 +86,16 @@ public class WorldRenderer {
 		this.shapeRenderer = new ShapeRenderer();
 		
 		//Particle effect
-		
 		prototype = new ParticleEffect();
 		prototype.load(Gdx.files.internal("effects/explosion.p"), Gdx.files.internal("effects"));
 		prototype.setPosition(world.getBob().getBody().getWorldCenter().x, world.getBob().getBody().getWorldCenter().y);
+		
+		
+		behindShip = world.getBob().getBody().getWorldPoint(new Vector2(-0.3f,0));
+		p = new ParticleEffect();
+		p.load(Gdx.files.internal("effects/afterburner.p"), Gdx.files.internal("effects")); //files.internal loads from the "assets" folder
+		p.setPosition(behindShip.x, behindShip.y);
+		p.start();
 		
 		pool = new ParticleEffectPool(prototype, 2, 10);
 		effects = new Array<PooledEffect>();
@@ -149,6 +158,9 @@ public class WorldRenderer {
 					//batch.draw(region, 0, 0, textureWidth / 2f, textureHeight / 2f, textureWidth, textureHeight, 1, 1, rotationAngle, false);
 				}
 			}
+			
+			//Render particle effects
+			
 			for(PooledEffect effect : effects)
 			{
 				effect.draw(spriteBatch, Gdx.graphics.getDeltaTime());
@@ -157,15 +169,19 @@ public class WorldRenderer {
 					effect.free();
 				}
 			}
+			behindShip = world.getBob().getBody().getWorldPoint(new Vector2(-0.3f,0));
+			p.setPosition(behindShip.x, behindShip.y);
+			p.update(Gdx.graphics.getDeltaTime());
+			p.draw(spriteBatch, Gdx.graphics.getDeltaTime());
 		spriteBatch.end();
 		//Gdx.app.log("Stats", "active: " + effects.size + " | max: " + pool.max);
 		
 		world.world.step(Gdx.app.getGraphics().getDeltaTime(), 3, 3);
 	}
 	
-	public void draw(SpriteBatch batch, float parentAlpha){ //what this method is called may differ depending on what 
-		//system you're using; I am using stage/actor
-		prototype.draw(batch);
+	public void draw(SpriteBatch batch, float parentAlpha){
+		//prototype.draw(batch);
+		p.draw(batch);
 	}
 	
 	public void moveCamera(float x,float y, float speed){	
