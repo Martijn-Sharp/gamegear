@@ -14,16 +14,15 @@ public class Enemy extends MoveableActor {
 	private static final float HEIGHT = 0.25f;
 	
 	private float health = 10f;
+	private String type;
 
-	private TextureRegion droneBlue;
-	private TextureRegion droneGreen;
-	private TextureRegion droneYellow;
-	private TextureRegion droneOrange;
+	private TextureRegion drone;
 	
 	private TextureRegion bobShipRight;
 	
-	public Enemy(Vector2 position, World world, DynamicActor actor){
+	public Enemy(Vector2 position, World world, DynamicActor actor, String type){
 		super(actor.Speed, actor.Scale, actor.Width, actor.Height, position);
+		this.type = type;
 		this.loadTextures();
 		
 		CircleShape rect = new CircleShape();
@@ -34,14 +33,14 @@ public class Enemy extends MoveableActor {
 	@Override
 	protected void loadTextures() {
 		//this.idleLeft = TextureMgr.getTexture("bob-01", false);
-		this.droneYellow = TextureMgr.getTexture("drone-yellow", false);
+		this.drone = TextureMgr.getTexture(type, false);
 		//this.droneBlue = TextureMgr.getTexture("drone-blue", false);
 		//bobShipRight = TextureMgr.getTexture("bobSpaceship", false);
 	}
 
 	@Override
 	protected void draw() {
-		this.setTexture(this.droneYellow);
+		this.setTexture(this.drone);
 		//this.setTexture(bobShipRight);
 	}
 

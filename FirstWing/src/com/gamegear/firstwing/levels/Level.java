@@ -15,6 +15,7 @@ import com.gamegear.firstwing.actors.*;
 import com.gamegear.firstwing.actors.json.DynamicActor;
 import com.gamegear.firstwing.actors.json.StaticActor;
 import com.gamegear.firstwing.levels.json.*;
+import com.gamegear.firstwing.levels.json.LevelProperties.ColorEnum;
 
 public class Level {
 
@@ -22,6 +23,7 @@ public class Level {
 	private int height;
 	private ArrayList<Block> blocks;
 	private ArrayList<Enemy> enemies;
+	private ArrayList<Spawner> spawners;
 	private Queue<String> speed;
 	private World world;
 	private int currentSpeed = 5;
@@ -50,6 +52,10 @@ public class Level {
 	
 	public ArrayList<Enemy> getEnemies() {
 		return enemies;
+	}
+	
+	public void AddEnemy(Enemy enemy){
+		this.enemies.add(enemy);
 	}
 
 	public void setBlocks(ArrayList<Block> blocks) {
@@ -94,6 +100,7 @@ public class Level {
 		this.width = 0;
 		this.blocks = new ArrayList<Block>();
 		this.enemies = new ArrayList<Enemy>();
+		this.spawners = new ArrayList<Spawner>();
 		this.speed = new LinkedList<String>();
 		this.background = new ArrayList<Sprite>();
 		LevelProperties levelLoader;
@@ -125,7 +132,8 @@ public class Level {
 		
 		while(enemiesIt.hasNext()){
 			Node enemy = enemiesIt.next();
-			enemies.add(new Enemy(new Vector2(enemy.X, enemy.Y), world, ActorMgr.getProperties(enemy.Name, new DynamicActor())));
+			//enemies.add(new Enemy(new Vector2(enemy.X, enemy.Y), world, ActorMgr.getProperties(enemy.Name, new DynamicActor())));
+			this.spawners.add(new Spawner(new Vector2(enemy.X, enemy.Y), this.world, enemy.Name, (ArrayList<ColorEnum>) levelLoader.Colors, this));
 			enemiesIt.remove();
 		}
 		

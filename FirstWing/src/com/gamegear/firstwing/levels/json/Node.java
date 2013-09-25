@@ -2,7 +2,7 @@ package com.gamegear.firstwing.levels.json;
 
 public class Node {
 	public enum NodeType{
-		Enemy,
+		Spawner,
 		Tile
 	}
 	
