@@ -22,8 +22,11 @@ import com.badlogic.gdx.utils.Array;
 import com.gamegear.firstwing.actors.Actor;
 
 public class WorldRenderer {
-	private static final float CAMERA_WIDTH = 10f;
-	private static final float CAMERA_HEIGHT = 7f;
+//	private static final float CAMERA_WIDTH = 10f;
+//	private static final float CAMERA_HEIGHT = 7f;
+	
+	private static final float CAMERA_WIDTH = 30f;
+	private static final float CAMERA_HEIGHT = 21f;
 	
 	private FwWorld world;
 	private OrthographicCamera cam;
@@ -93,7 +96,7 @@ public class WorldRenderer {
 		//Particle effect
 		prototype = new ParticleEffect();
 		prototype.load(Gdx.files.internal("effects/explosion.p"), Gdx.files.internal("effects"));
-		prototype.setPosition(world.getBob().getBody().getWorldCenter().x, world.getBob().getBody().getWorldCenter().y);
+		//prototype.setPosition(world.getBob().getBody().getWorldCenter().x, world.getBob().getBody().getWorldCenter().y);
 		
 		behindShip = world.getBob().getBody().getWorldPoint(new Vector2(-0.3f,0));
 		p = new ParticleEffect();
@@ -101,7 +104,7 @@ public class WorldRenderer {
 		p.setPosition(behindShip.x, behindShip.y);
 		p.start();
 		
-		pool = new ParticleEffectPool(prototype, 2, 10);
+		pool = new ParticleEffectPool(prototype, 2, 50);
 		effects = new Array<PooledEffect>();
 		
 		this.currentBgColor = new Color(0f, 0f, 0.4f, 1f);
@@ -111,6 +114,7 @@ public class WorldRenderer {
 	{
 		PooledEffect effect = pool.obtain();
 		effect.setPosition(x, y);
+		effect.update(Gdx.graphics.getDeltaTime());
 		
 		effects.add(effect);
 //		prototype.reset();
@@ -185,6 +189,7 @@ public class WorldRenderer {
 			p.update(Gdx.graphics.getDeltaTime());
 			p.draw(spriteBatch, Gdx.graphics.getDeltaTime());
 		spriteBatch.end();
+		debugRenderer.render(world.getWorld(), cam.combined);
 		//Gdx.app.log("Stats", "active: " + effects.size + " | max: " + pool.max);
 		
 		world.world.step(Gdx.app.getGraphics().getDeltaTime(), 3, 3);

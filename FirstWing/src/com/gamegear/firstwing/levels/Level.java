@@ -151,7 +151,7 @@ public class Level {
 		//Add demo speeds
 		speed.add("0,1");
 		speed.add("10,2");
-		speed.add("30,1");
-		speed.add("100,0");
+		//speed.add("30,1");
+		speed.add("95,0");
 	}
 }

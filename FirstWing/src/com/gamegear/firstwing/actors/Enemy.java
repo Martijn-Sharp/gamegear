@@ -26,7 +26,7 @@ public class Enemy extends MoveableActor {
 		this.loadTextures();
 		
 		CircleShape rect = new CircleShape();
-		rect.setRadius(0.5f / 2);
+		rect.setRadius(actor.Width / 2);
 		this.setShape(world, rect, 2f);
 	}
 	
