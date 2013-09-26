@@ -1,8 +1,5 @@
 package com.gamegear.firstwing.screens;
 
-import java.util.LinkedList;
-import java.util.Queue;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
@@ -322,8 +319,8 @@ public class GameScreen implements Screen {
 			for(int i = 0; i < enemiesForRemoval.size; i++)
 			{
 				e = enemiesForRemoval.pop();
-				world.getWorld().destroyBody(e.getBody());
 				world.getLevel().getEnemies().remove(e);
+				world.getWorld().destroyBody(e.getBody());
 			}
 		
 			Bullet b;

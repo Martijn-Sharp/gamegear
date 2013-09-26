@@ -1,4 +1,4 @@
-Untitled
+afterburner
 - Delay -
 active: false
 - Duration - 
@@ -10,8 +10,8 @@ max: 50
 - Emission - 
 lowMin: 0.0
 lowMax: 0.0
-highMin: 55.0
-highMax: 55.0
+highMin: 30.0
+highMax: 30.0
 relative: false
 scalingCount: 1
 scaling0: 1.0
@@ -73,8 +73,8 @@ timeline0: 0.0
 active: true
 lowMin: 0.0
 lowMax: 0.0
-highMin: 0.1
-highMax: 0.1
+highMin: 0.5
+highMax: 0.5
 relative: false
 scalingCount: 1
 scaling0: 1.0
@@ -102,12 +102,16 @@ active: false
 - Gravity - 
 active: false
 - Tint - 
-colorsCount: 3
-colors0: 1.0
-colors1: 0.047058824
-colors2: 0.047058824
-timelineCount: 1
+colorsCount: 6
+colors0: 0.74509805
+colors1: 0.0
+colors2: 0.7490196
+colors3: 0.5411765
+colors4: 0.0
+colors5: 1.0
+timelineCount: 2
 timeline0: 0.0
+timeline1: 1.0
 - Transparency - 
 lowMin: 0.0
 lowMax: 0.0
@@ -128,7 +132,7 @@ timeline3: 1.0
 attached: false
 continuous: true
 aligned: false
-additive: true
+additive: false
 behind: false
 - Image Path -
 particle.png

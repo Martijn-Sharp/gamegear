@@ -1,4 +1,4 @@
-Untitled
+afterburner-red
 - Delay -
 active: false
 - Duration - 
@@ -10,8 +10,8 @@ max: 50
 - Emission - 
 lowMin: 0.0
 lowMax: 0.0
-highMin: 55.0
-highMax: 55.0
+highMin: 30.0
+highMax: 30.0
 relative: false
 scalingCount: 1
 scaling0: 1.0
@@ -73,8 +73,8 @@ timeline0: 0.0
 active: true
 lowMin: 0.0
 lowMax: 0.0
-highMin: 0.1
-highMax: 0.1
+highMin: 0.5
+highMax: 0.5
 relative: false
 scalingCount: 1
 scaling0: 1.0

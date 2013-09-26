@@ -52,15 +52,16 @@ public class WorldRenderer {
 	private Boolean changeBackgroundColor = false;
 	
 	// Particle System
-	
 	// Explosion pool
 	private ParticleEffect prototype;
 	private ParticleEffectPool pool;
 	private Array<PooledEffect> effects;
 	
 	// After burner
-	ParticleEffect p;
+	ParticleEffect[] p;
 	Vector2 behindShip;
+	int activeAfterburner = 7;
+	String[] particleFiles = {"effects/afterburner-red.p","effects/afterburner-yellow.p","effects/afterburner-blue.p","effects/afterburner-lightblue.p", "effects/afterburner-orange.p", "effects/afterburner-purple.p","effects/afterburner-green.p","effects/afterburner.p"};
 	
 	public float cameraX = 0;
 	public float cameraY = 0;
@@ -96,15 +97,48 @@ public class WorldRenderer {
 		//prototype.setPosition(world.getBob().getBody().getWorldCenter().x, world.getBob().getBody().getWorldCenter().y);
 		
 		behindShip = world.getBob().getBody().getWorldPoint(new Vector2(-0.3f,0));
-		p = new ParticleEffect();
-		p.load(Gdx.files.internal("effects/afterburner.p"), Gdx.files.internal("effects")); //files.internal loads from the "assets" folder
-		p.setPosition(behindShip.x, behindShip.y);
-		p.start();
 		
-		pool = new ParticleEffectPool(prototype, 2, 50);
+		changeColor(0);
+		
+		pool = new ParticleEffectPool(prototype, 2, 20);
 		effects = new Array<PooledEffect>();
 		
 		this.currentBgColor = new Color(0f, 0f, 0.4f, 1f);
+	}
+	
+	public void changeColor(int color)
+	{
+		if(p == null)
+		{
+			p = new ParticleEffect[8];
+			
+			for(int i = 0; i < 8; i++)
+			{
+				p[i] = new ParticleEffect();
+				p[i].load(Gdx.files.internal(particleFiles[i]), Gdx.files.internal("effects")); //files.internal loads from the "assets" folder
+				p[i].setPosition(behindShip.x, behindShip.y);
+			}
+		}
+		
+		if(activeAfterburner == color)
+		{
+			return;
+		}
+		
+		activeAfterburner = color;
+		
+		for(int i = 0; i < 8; i++)
+		{
+			if(i != activeAfterburner)
+			{
+				p[i].reset();
+			}else
+			{
+				p[activeAfterburner].setPosition(behindShip.x, behindShip.y);
+				p[activeAfterburner].start();
+			}
+		}
+		//p.update(Gdx.graphics.getDeltaTime());
 	}
 	
 	public void callParticleSystem(float x, float y)
@@ -126,11 +160,12 @@ public class WorldRenderer {
 		
 		if(this.changeBackgroundColor){
 			this.changeBackground();
+			changeColor(3);
 		}
 		
 		shapeRenderer.begin(ShapeType.FilledRectangle);
 	        shapeRenderer.setColor(this.currentBgColor);
-	        shapeRenderer.filledRect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+	        shapeRenderer.filledRect(cam.position.x, cam.position.y, cam.viewportWidth, cam.viewportHeight);
         shapeRenderer.end();
         
 		spriteBatch.setProjectionMatrix(cam.combined);
@@ -182,9 +217,9 @@ public class WorldRenderer {
 				}
 			}
 			behindShip = world.getBob().getBody().getWorldPoint(new Vector2(-0.3f,0));
-			p.setPosition(behindShip.x, behindShip.y);
-			p.update(Gdx.graphics.getDeltaTime());
-			p.draw(spriteBatch, Gdx.graphics.getDeltaTime());
+			p[activeAfterburner].setPosition(behindShip.x, behindShip.y);
+			p[activeAfterburner].update(Gdx.graphics.getDeltaTime());
+			p[activeAfterburner].draw(spriteBatch, Gdx.graphics.getDeltaTime());
 		spriteBatch.end();
 		//debugRenderer.render(world.getWorld(), cam.combined);
 		//Gdx.app.log("Stats", "active: " + effects.size + " | max: " + pool.max);
@@ -194,7 +229,7 @@ public class WorldRenderer {
 	
 	public void draw(SpriteBatch batch, float parentAlpha){
 		//prototype.draw(batch);
-		p.draw(batch);
+		p[activeAfterburner].draw(batch);
 	}
 	
 	public void moveCamera(float x,float y, float speed){
