@@ -22,11 +22,8 @@ import com.badlogic.gdx.utils.Array;
 import com.gamegear.firstwing.actors.Actor;
 
 public class WorldRenderer {
-//	private static final float CAMERA_WIDTH = 10f;
-//	private static final float CAMERA_HEIGHT = 7f;
-	
-	private static final float CAMERA_WIDTH = 30f;
-	private static final float CAMERA_HEIGHT = 21f;
+	private static final float CAMERA_WIDTH = 10f;
+	private static final float CAMERA_HEIGHT = 7f;
 	
 	private FwWorld world;
 	private OrthographicCamera cam;
@@ -189,7 +186,7 @@ public class WorldRenderer {
 			p.update(Gdx.graphics.getDeltaTime());
 			p.draw(spriteBatch, Gdx.graphics.getDeltaTime());
 		spriteBatch.end();
-		debugRenderer.render(world.getWorld(), cam.combined);
+		//debugRenderer.render(world.getWorld(), cam.combined);
 		//Gdx.app.log("Stats", "active: " + effects.size + " | max: " + pool.max);
 		
 		world.world.step(Gdx.app.getGraphics().getDeltaTime(), 3, 3);

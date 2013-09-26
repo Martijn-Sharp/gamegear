@@ -38,7 +38,7 @@ public class GameScreen implements Screen {
 	public SpriteBatch 		interfaceBatch;
 	public BitmapFont 		font;
 	public Music			music;
-	public Queue<Enemy>		enemiesForRemoval;
+	public Array<Enemy>		enemiesForRemoval;
 	
 	// Bullets
 	private Array<Bullet> 	bullets;
@@ -74,7 +74,7 @@ public class GameScreen implements Screen {
 		
 		//Contact listener
 		createCollisionListener();
-		enemiesForRemoval = new LinkedList<Enemy>();
+		enemiesForRemoval = new Array<Enemy>();
 		
 		
 		//Play music
@@ -88,7 +88,7 @@ public class GameScreen implements Screen {
 	public void render(float delta) {
 		Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-		//removeBodies();
+		removeBodies();
 		
 		//Update input
 		controller.update(delta);
@@ -161,20 +161,20 @@ public class GameScreen implements Screen {
 		int maxBullets = 10;
 		
 		//Maximum bullets on screen
-//        if(bullets.size > maxBullets)
-//        {
-//        	bulletsForRemoval.add(bullets.get(0));
-//        	//bullets.removeIndex(0);
-//        }
-//        
-//        //Remove bullets off screen
-//        for(Bullet b : bullets)
-//        {
-//        	if(b.getBody().getWorldCenter().x > renderer.cameraX + 6)
-//        	{
-//        		bulletsForRemoval.add(b);
-//        	}
-//        }
+        if(bullets.size > maxBullets)
+        {
+        	bulletsForRemoval.add(bullets.get(0));
+        	//bullets.removeIndex(0);
+        }
+        
+        //Remove bullets off screen
+        for(Bullet b : bullets)
+        {
+        	if(b.getBody().getWorldCenter().x > renderer.cameraX + 6)
+        	{
+        		bulletsForRemoval.add(b);
+        	}
+        }
 		
 		//Bullet delay in seconds
 		float bulletDelay = 0.5f;
@@ -260,14 +260,20 @@ public class GameScreen implements Screen {
                 {
                 	if(collisionEnemy.getHealth() <= 0)
                 	{
-                		//enemiesForRemoval.add(collisionEnemy);
+                		if(!enemiesForRemoval.contains(collisionEnemy, true))
+                    	{
+                			enemiesForRemoval.add(collisionEnemy);
+                    	}
                 	}
                 	//world.getWorld().destroyBody(collisionEnemy.getBody());
                     //world.getLevel().getEnemies().remove(collisionEnemy);
                 }
                 if(collisionBullet != null)
                 {
-                	//bulletsForRemoval.add(collisionBullet);
+                	if(!bulletsForRemoval.contains(collisionBullet, true))
+                	{
+                		bulletsForRemoval.add(collisionBullet);
+                	}
                 }
             }
 
@@ -313,9 +319,9 @@ public class GameScreen implements Screen {
 		if(!world.getWorld().isLocked())
 		{
 			Enemy e;
-			for(int i = 0; i < enemiesForRemoval.size(); i++)
+			for(int i = 0; i < enemiesForRemoval.size; i++)
 			{
-				e = enemiesForRemoval.poll();
+				e = enemiesForRemoval.pop();
 				world.getWorld().destroyBody(e.getBody());
 				world.getLevel().getEnemies().remove(e);
 			}
