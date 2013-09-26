@@ -90,6 +90,7 @@ public class WorldRenderer {
 		this.spriteBatch = new SpriteBatch();
 		this.debugRenderer = new Box2DDebugRenderer();
 		this.shapeRenderer = new ShapeRenderer();
+		shapeRenderer.setProjectionMatrix(cam.combined);
 		
 		//Particle effect
 		prototype = new ParticleEffect();
@@ -163,9 +164,11 @@ public class WorldRenderer {
 			changeColor(3);
 		}
 		
+		//shapeRenderer.setProjectionMatrix(cam.combined);
 		shapeRenderer.begin(ShapeType.FilledRectangle);
 	        shapeRenderer.setColor(this.currentBgColor);
-	        shapeRenderer.filledRect(cam.position.x, cam.position.y, cam.viewportWidth, cam.viewportHeight);
+	        //shapeRenderer.filledRect(cam.position.x - (cam.viewportWidth / 2), cam.position.y - (cam.viewportHeight / 2), cam.viewportWidth, cam.viewportHeight);
+	        shapeRenderer.filledRect(0, 0, cam.viewportWidth, cam.viewportHeight);
         shapeRenderer.end();
         
 		spriteBatch.setProjectionMatrix(cam.combined);
