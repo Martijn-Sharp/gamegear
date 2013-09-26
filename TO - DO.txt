@@ -1,0 +1,5 @@
+- Boss
+- Menu Scherm
+- Player death
+- Spaceship moet kapot gaan als hij achter de camera is dankzij een block
+- Spaceship mag niet door de zijkanten van de camera heen
