@@ -29,7 +29,6 @@ public class WorldRenderer {
 	private OrthographicCamera cam;
 
 	/** for debug rendering **/
-	@SuppressWarnings("unused")
 	private Box2DDebugRenderer debugRenderer;
 	private ShapeRenderer shapeRenderer;
 
@@ -99,7 +98,7 @@ public class WorldRenderer {
 		
 		behindShip = world.getBob().getBody().getWorldPoint(new Vector2(-0.3f,0));
 		
-		changeColor(0);
+		this.changeAfterBurnerColor(0);
 		
 		pool = new ParticleEffectPool(prototype, 2, 20);
 		effects = new Array<PooledEffect>();
@@ -107,7 +106,7 @@ public class WorldRenderer {
 		this.currentBgColor = new Color(0f, 0f, 0.5f, 1f);
 	}
 	
-	public void changeColor(int color)
+	public void changeAfterBurnerColor(int color)
 	{
 		if(p == null)
 		{
@@ -160,8 +159,7 @@ public class WorldRenderer {
 		moveCamera(world.getBob().getBody().getWorldCenter().x, world.getBob().getBody().getWorldCenter().y, world.level.getSpeed(cameraX));
 		
 		if(this.changeBackgroundColor){
-			this.changeBackground();
-			changeColor(3);
+			this.changeBackgroundColor();
 		}
 		
 		shapeRenderer.begin(ShapeType.FilledRectangle);
@@ -218,7 +216,7 @@ public class WorldRenderer {
 			p[activeAfterburner].update(Gdx.graphics.getDeltaTime());
 			p[activeAfterburner].draw(spriteBatch, Gdx.graphics.getDeltaTime());
 		spriteBatch.end();
-		//debugRenderer.render(world.getWorld(), cam.combined);
+		debugRenderer.render(world.getWorld(), cam.combined);
 		//Gdx.app.log("Stats", "active: " + effects.size + " | max: " + pool.max);
 		
 		world.world.step(Gdx.app.getGraphics().getDeltaTime(), 3, 3);
@@ -231,9 +229,11 @@ public class WorldRenderer {
 	
 	public void moveCamera(float x,float y, float speed){
 		if(this.currentSpeed != speed){
+			int rounded = Math.round(speed);
 			this.changeBackgroundColor = true;
 			this.sourceBgColor = this.currentBgColor;
-			this.targetBgColor = this.getColor(speed);
+			this.targetBgColor = this.getColor(rounded);
+			this.changeAfterBurnerColor(rounded);
 		}
 		
 		this.currentSpeed = speed;
@@ -257,18 +257,17 @@ public class WorldRenderer {
         cam.update();
 	}
 	
-	private Color getColor(float speed){
-		int rounded = Math.round(speed);
-		if(rounded == 3){
+	private Color getColor(int speed){
+		if(speed == 3){
 			return new Color(0.5f, 0f, 0f, 1f);
-		} else if(rounded == 2) {
+		} else if(speed == 2) {
 			return new Color(0.5f, 0.25f, 0f, 1f);
 		} else{
 			return new Color(0f, 0f, 0.5f, 1f);
 		}
 	}
 	
-	private void changeBackground()
+	private void changeBackgroundColor()
 	{
 	    if(this.step >= this.maxtime){
 	    	this.step = 0;

@@ -4,13 +4,13 @@ import java.util.List;
 
 public class LevelProperties {
 	public enum ColorEnum{
-		Blue,
-		Green,
-		LightBlue,
-		Orange,
-		Purple,
-		Red,
-		Yellow
+		blue,
+		green,
+		lightblue,
+		orange,
+		purple,
+		red,
+		yellow
 	}
 	
 	public float FinishX;

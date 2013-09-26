@@ -31,6 +31,11 @@
             this.components = new System.ComponentModel.Container();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabProperties = new System.Windows.Forms.TabPage();
+            this.btnRemoveColor = new System.Windows.Forms.Button();
+            this.btnAddColor = new System.Windows.Forms.Button();
+            this.listColours = new System.Windows.Forms.ListView();
+            this.colorColorHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.lblColors = new System.Windows.Forms.Label();
             this.gboxBackground = new System.Windows.Forms.GroupBox();
             this.picboxPreview = new System.Windows.Forms.PictureBox();
             this.btnRemoveSpeedPoint = new System.Windows.Forms.Button();
@@ -92,11 +97,6 @@
             this.lblSpeed = new System.Windows.Forms.Label();
             this.bulletBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.btnSave = new System.Windows.Forms.Button();
-            this.lblColors = new System.Windows.Forms.Label();
-            this.listColours = new System.Windows.Forms.ListView();
-            this.colorColorHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.btnAddColor = new System.Windows.Forms.Button();
-            this.btnRemoveColor = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabProperties.SuspendLayout();
             this.gboxBackground.SuspendLayout();
@@ -155,6 +155,54 @@
             this.tabProperties.TabIndex = 0;
             this.tabProperties.Text = "Properties";
             this.tabProperties.UseVisualStyleBackColor = true;
+            // 
+            // btnRemoveColor
+            // 
+            this.btnRemoveColor.Location = new System.Drawing.Point(9, 242);
+            this.btnRemoveColor.Name = "btnRemoveColor";
+            this.btnRemoveColor.Size = new System.Drawing.Size(23, 23);
+            this.btnRemoveColor.TabIndex = 19;
+            this.btnRemoveColor.Text = "-";
+            this.btnRemoveColor.UseVisualStyleBackColor = true;
+            this.btnRemoveColor.Click += new System.EventHandler(this.BtnRemoveColorClick);
+            // 
+            // btnAddColor
+            // 
+            this.btnAddColor.Location = new System.Drawing.Point(9, 212);
+            this.btnAddColor.Name = "btnAddColor";
+            this.btnAddColor.Size = new System.Drawing.Size(23, 23);
+            this.btnAddColor.TabIndex = 18;
+            this.btnAddColor.Text = "+";
+            this.btnAddColor.UseVisualStyleBackColor = true;
+            this.btnAddColor.Click += new System.EventHandler(this.BtnAddColorClick);
+            // 
+            // listColours
+            // 
+            this.listColours.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.colorColorHeader});
+            this.listColours.FullRowSelect = true;
+            this.listColours.GridLines = true;
+            this.listColours.Location = new System.Drawing.Point(100, 190);
+            this.listColours.MultiSelect = false;
+            this.listColours.Name = "listColours";
+            this.listColours.Size = new System.Drawing.Size(136, 97);
+            this.listColours.TabIndex = 17;
+            this.listColours.UseCompatibleStateImageBehavior = false;
+            this.listColours.View = System.Windows.Forms.View.Details;
+            // 
+            // colorColorHeader
+            // 
+            this.colorColorHeader.Text = "Color";
+            this.colorColorHeader.Width = 101;
+            // 
+            // lblColors
+            // 
+            this.lblColors.AutoSize = true;
+            this.lblColors.Location = new System.Drawing.Point(6, 196);
+            this.lblColors.Name = "lblColors";
+            this.lblColors.Size = new System.Drawing.Size(36, 13);
+            this.lblColors.TabIndex = 16;
+            this.lblColors.Text = "Colors";
             // 
             // gboxBackground
             // 
@@ -463,14 +511,10 @@
             // 
             // heightUpDown
             // 
-            this.heightUpDown.Increment = new decimal(new int[] {
-            4,
-            0,
-            0,
-            0});
+            this.heightUpDown.DecimalPlaces = 1;
             this.heightUpDown.Location = new System.Drawing.Point(210, 126);
             this.heightUpDown.Maximum = new decimal(new int[] {
-            1024,
+            256,
             0,
             0,
             0});
@@ -501,14 +545,10 @@
             // 
             // widthUpDown
             // 
-            this.widthUpDown.Increment = new decimal(new int[] {
-            4,
-            0,
-            0,
-            0});
+            this.widthUpDown.DecimalPlaces = 1;
             this.widthUpDown.Location = new System.Drawing.Point(210, 97);
             this.widthUpDown.Maximum = new decimal(new int[] {
-            1024,
+            256,
             0,
             0,
             0});
@@ -787,54 +827,6 @@
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.BtnSave);
-            // 
-            // lblColors
-            // 
-            this.lblColors.AutoSize = true;
-            this.lblColors.Location = new System.Drawing.Point(6, 196);
-            this.lblColors.Name = "lblColors";
-            this.lblColors.Size = new System.Drawing.Size(36, 13);
-            this.lblColors.TabIndex = 16;
-            this.lblColors.Text = "Colors";
-            // 
-            // listColours
-            // 
-            this.listColours.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.colorColorHeader});
-            this.listColours.FullRowSelect = true;
-            this.listColours.GridLines = true;
-            this.listColours.Location = new System.Drawing.Point(100, 190);
-            this.listColours.MultiSelect = false;
-            this.listColours.Name = "listColours";
-            this.listColours.Size = new System.Drawing.Size(136, 97);
-            this.listColours.TabIndex = 17;
-            this.listColours.UseCompatibleStateImageBehavior = false;
-            this.listColours.View = System.Windows.Forms.View.Details;
-            // 
-            // colorColorHeader
-            // 
-            this.colorColorHeader.Text = "Color";
-            this.colorColorHeader.Width = 101;
-            // 
-            // btnAddColor
-            // 
-            this.btnAddColor.Location = new System.Drawing.Point(9, 212);
-            this.btnAddColor.Name = "btnAddColor";
-            this.btnAddColor.Size = new System.Drawing.Size(23, 23);
-            this.btnAddColor.TabIndex = 18;
-            this.btnAddColor.Text = "+";
-            this.btnAddColor.UseVisualStyleBackColor = true;
-            this.btnAddColor.Click += new System.EventHandler(this.BtnAddColorClick);
-            // 
-            // btnRemoveColor
-            // 
-            this.btnRemoveColor.Location = new System.Drawing.Point(9, 242);
-            this.btnRemoveColor.Name = "btnRemoveColor";
-            this.btnRemoveColor.Size = new System.Drawing.Size(23, 23);
-            this.btnRemoveColor.TabIndex = 19;
-            this.btnRemoveColor.Text = "-";
-            this.btnRemoveColor.UseVisualStyleBackColor = true;
-            this.btnRemoveColor.Click += new System.EventHandler(this.BtnRemoveColorClick);
             // 
             // PropertiesForm
             // 

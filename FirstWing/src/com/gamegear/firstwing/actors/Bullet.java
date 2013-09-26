@@ -20,12 +20,12 @@ public class Bullet extends MoveableActor {
 	private boolean hit = false;
 
 	public Bullet(Vector2 position, World world) {
-		super(SPEED, SCALE, WIDTH, HEIGHT, position);
+		super(SPEED, SCALE, WIDTH, HEIGHT, position, world);
 		this.loadTextures();
 		
 		CircleShape rect = new CircleShape();
 		rect.setRadius((HEIGHT + WIDTH) / 4);
-		this.setShape(world, rect, 0.1f);
+		this.setShape(rect, 0.1f);
 	}
 
 	@Override

@@ -20,9 +20,10 @@ public class Level {
 
 	private int width;
 	private int height;
-	private ArrayList<Block> blocks;
-	private ArrayList<Enemy> enemies;
+	private ArrayList<Actor> staticActors;
+	private ArrayList<MoveableActor> dynamicActors;
 	private ArrayList<Spawner> spawners;
+	private ArrayList<Orb> collectables;
 	private Queue<String> speed;
 	private World world;
 	private int currentSpeed = 5;
@@ -45,30 +46,42 @@ public class Level {
 		this.height = height;
 	}
 
-	public ArrayList<Block> getBlocks() {
-		return blocks;
+	public ArrayList<Actor> getStaticActors() {
+		return staticActors;
 	}
 	
-	public ArrayList<Enemy> getEnemies() {
-		return enemies;
+	public void addStaticActor(Actor actor){
+		this.staticActors.add(actor);
 	}
 	
-	public void AddEnemy(Enemy enemy){
-		this.enemies.add(enemy);
+	public ArrayList<MoveableActor> getMoveableActors() {
+		return this.dynamicActors;
 	}
-
-	public void setBlocks(ArrayList<Block> blocks) {
-		this.blocks = blocks;
+	
+	public void addMoveableActor(MoveableActor enemy){
+		this.dynamicActors.add(enemy);
+	}
+	
+	public ArrayList<Orb> getCollectables(){
+		return this.collectables;
+	}
+	
+	public void addCollectable(Orb orb){
+		this.collectables.add(orb);
+	}
+	
+	public void setBlocks(ArrayList<Actor> blocks) {
+		this.staticActors = blocks;
 	}
 
 	public Level(World world, String levelPath) {
 		this.world = world;
 		this.levelPath = levelPath;
-		loadLevel();
+		this.loadLevel();
 	}
 	
 	public Actor get(int x) {
-		return blocks.get(x);
+		return staticActors.get(x);
 	}
 	
 	public float getSpeed(float cameraX)
@@ -98,16 +111,17 @@ public class Level {
 	private void loadLevel() {
 		this.height = 10;
 		this.width = 0;
-		this.blocks = new ArrayList<Block>();
-		this.enemies = new ArrayList<Enemy>();
+		this.staticActors = new ArrayList<Actor>();
+		this.dynamicActors = new ArrayList<MoveableActor>();
 		this.spawners = new ArrayList<Spawner>();
+		this.collectables = new ArrayList<Orb>();
 		this.speed = new LinkedList<String>();
 		this.background = new ArrayList<Sprite>();
 		LevelProperties levelLoader;
 		
 		if(levelPath.isEmpty())
 		{
-			levelLoader = new JSONLoader().getLevel(Gdx.files.internal("levels/map10.dat"));
+			levelLoader = new JSONLoader().getLevel(Gdx.files.internal("levels/map12.dat"));
 		}
 		else
 		{
@@ -126,7 +140,7 @@ public class Level {
 				width = tile.X;
 			}
 			
-			blocks.add(new Block(new Vector2(tile.X, tile.Y), world, ActorMgr.getProperties(tile.Name, new StaticActor())));
+			staticActors.add(new Block(new Vector2(tile.X, tile.Y), world, ActorMgr.getProperties(tile.Name, new StaticActor())));
 			tiles.remove();
 		}
 		
