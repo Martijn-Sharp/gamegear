@@ -10,8 +10,8 @@ import com.gamegear.firstwing.TextureMgr;
 public class Bob extends MoveableActor {
 	private static final float SPEED = 4f;
 	private static final float SCALE = 1f;
-	private static final float WIDTH = 0.8f;
-	private static final float HEIGHT = 0.8f;
+	private static final float WIDTH = 1f;
+	private static final float HEIGHT = 1f;
 	private static final float RUNNING_FRAME_DURATION = 0.06f;
 
 	private TextureRegion bobIdleRight;

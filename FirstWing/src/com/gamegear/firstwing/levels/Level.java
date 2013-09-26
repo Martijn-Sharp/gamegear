@@ -12,7 +12,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.gamegear.firstwing.ActorMgr;
 import com.gamegear.firstwing.actors.*;
-import com.gamegear.firstwing.actors.json.DynamicActor;
 import com.gamegear.firstwing.actors.json.StaticActor;
 import com.gamegear.firstwing.levels.json.*;
 import com.gamegear.firstwing.levels.json.LevelProperties.ColorEnum;
@@ -121,7 +120,7 @@ public class Level {
 		while(tiles.hasNext()){
 			Node tile = tiles.next();
 			
-			//Check level width
+			// Check level width
 			if(tile.X > width)
 			{
 				width = tile.X;
@@ -133,7 +132,6 @@ public class Level {
 		
 		while(enemiesIt.hasNext()){
 			Node enemy = enemiesIt.next();
-			//enemies.add(new Enemy(new Vector2(enemy.X, enemy.Y), world, ActorMgr.getProperties(enemy.Name, new DynamicActor())));
 			this.spawners.add(new Spawner(new Vector2(enemy.X, enemy.Y), this.world, enemy.Name, (ArrayList<ColorEnum>) levelLoader.Colors, this));
 			enemiesIt.remove();
 		}
@@ -143,15 +141,17 @@ public class Level {
 				Sprite tempBg = new Sprite(new Texture(Gdx.files.internal("images/" + levelLoader.BackgroundName + ".png")));
 				tempBg.setSize(4f, 4f);
 				tempBg.setScale(1f);
-				tempBg.setPosition(x * 4f - 2f, y * 4f - 2f);
+				tempBg.setPosition(x * 4f - 0.5f, y * 4f - 0.5f);
 				this.background.add(tempBg);
 			}
 		}
 		
-		//Add demo speeds
+		// Add demo speeds
 		speed.add("0,1");
 		speed.add("10,2");
-		//speed.add("30,1");
-		speed.add("95,0");
+		speed.add("20,3");
+		speed.add("40,2");
+		speed.add("50,1");
+		speed.add("94,0");
 	}
 }

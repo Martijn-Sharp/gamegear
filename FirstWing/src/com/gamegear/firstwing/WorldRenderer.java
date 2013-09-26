@@ -104,7 +104,7 @@ public class WorldRenderer {
 		pool = new ParticleEffectPool(prototype, 2, 20);
 		effects = new Array<PooledEffect>();
 		
-		this.currentBgColor = new Color(0f, 0f, 0.4f, 1f);
+		this.currentBgColor = new Color(0f, 0f, 0.5f, 1f);
 	}
 	
 	public void changeColor(int color)
@@ -164,10 +164,8 @@ public class WorldRenderer {
 			changeColor(3);
 		}
 		
-		//shapeRenderer.setProjectionMatrix(cam.combined);
 		shapeRenderer.begin(ShapeType.FilledRectangle);
 	        shapeRenderer.setColor(this.currentBgColor);
-	        //shapeRenderer.filledRect(cam.position.x - (cam.viewportWidth / 2), cam.position.y - (cam.viewportHeight / 2), cam.viewportWidth, cam.viewportHeight);
 	        shapeRenderer.filledRect(0, 0, cam.viewportWidth, cam.viewportHeight);
         shapeRenderer.end();
         
@@ -185,8 +183,6 @@ public class WorldRenderer {
 				if(node.getUserData() != null && node.getUserData() instanceof Actor)
 				{
 					Actor actor = (Actor) node.getUserData();
-					//spriteBatch.draw(actor.getTexture(), actor.getBody().getPosition().x - actor.SIZE / 2, actor.getBody().getPosition().y - actor.SIZE / 2, actor.SIZE, actor.SIZE);
-					//, actor.getPosition().angle(), false
 					float rotationAngle = actor.getBody().getAngle() * MathUtils.radiansToDegrees - 90;
 					Vector2 position = actor.getBody().getPosition();
 					float width = actor.getWidth();
@@ -205,12 +201,10 @@ public class WorldRenderer {
 							scale, 
 							rotationAngle, 
 							false);
-					//batch.draw(region, 0, 0, textureWidth / 2f, textureHeight / 2f, textureWidth, textureHeight, 1, 1, rotationAngle, false);
 				}
 			}
 			
-			//Render particle effects
-			
+			// Render particle effects
 			for(PooledEffect effect : effects)
 			{
 				effect.draw(spriteBatch, Gdx.graphics.getDeltaTime());
@@ -264,10 +258,13 @@ public class WorldRenderer {
 	}
 	
 	private Color getColor(float speed){
-		if(Math.round(speed) == 2){
-			return new Color(0.4f, 0f, 0f, 1f);
-		} else {
-			return new Color(0f, 0f, 0.4f, 1f);
+		int rounded = Math.round(speed);
+		if(rounded == 3){
+			return new Color(0.5f, 0f, 0f, 1f);
+		} else if(rounded == 2) {
+			return new Color(0.5f, 0.25f, 0f, 1f);
+		} else{
+			return new Color(0f, 0f, 0.5f, 1f);
 		}
 	}
 	
