@@ -2,6 +2,7 @@ package com.gamegear.firstwing.actors;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.World;
 import com.gamegear.firstwing.TextureMgr;
 import com.gamegear.firstwing.actors.json.DynamicActor;
@@ -14,8 +15,8 @@ public class Enemy extends MoveableActor {
 	private ColorEnum color;
 	private World world;
 	
-	public Enemy(Vector2 position, World world, DynamicActor actor, String type){
-		super(actor.Speed, actor.Scale, actor.Width, actor.Height, position, world);
+	public Enemy(Vector2 position, World world, DynamicActor actor, String type, Filter filter){
+		super(actor.Speed, actor.Scale, actor.Width, actor.Height, position, world, filter);
 		this.health = actor.Health;
 		this.type = type;
 		this.color = ColorEnum.valueOf(this.type.split("-")[1]);

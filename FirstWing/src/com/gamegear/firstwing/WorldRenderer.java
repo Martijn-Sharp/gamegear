@@ -216,7 +216,7 @@ public class WorldRenderer {
 			p[activeAfterburner].update(Gdx.graphics.getDeltaTime());
 			p[activeAfterburner].draw(spriteBatch, Gdx.graphics.getDeltaTime());
 		spriteBatch.end();
-		debugRenderer.render(world.getWorld(), cam.combined);
+		//debugRenderer.render(world.getWorld(), cam.combined);
 		//Gdx.app.log("Stats", "active: " + effects.size + " | max: " + pool.max);
 		
 		world.world.step(Gdx.app.getGraphics().getDeltaTime(), 3, 3);

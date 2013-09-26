@@ -16,6 +16,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
@@ -45,7 +46,8 @@ public class GameScreen implements Screen {
 	public Music			music;
 	public Array<Enemy>		enemiesForRemoval;
 	public Array<Orb>		orbForRemoval;
-	public long				score = 0;
+	public long				score;
+	public Filter			filter = new Filter();
 	
 	// Bullets
 	private Array<Bullet> 	bullets;
@@ -85,11 +87,45 @@ public class GameScreen implements Screen {
 		enemiesForRemoval = new Array<Enemy>();
 		orbForRemoval = new Array<Orb>();
 		
+		//Score
+		score = 0;
+		
 		//Play music
 		music = Gdx.audio.newMusic(Gdx.files.internal("sounds/BergsmatarenLever.ogg"));
 		music.setVolume(0.1f);
 		music.setLooping(true);
 		//music.play();
+	}
+	
+	public void loadLevel(String levelPath)
+	{		
+		// Bullet array
+		bullets = new Array<Bullet>();
+		bulletsForRemoval = new Array<Bullet>();
+
+		// Rendering
+		world = new FwWorld(levelPath);
+		bob = world.getBob();
+		renderer = new WorldRenderer(world, false);
+		font = new BitmapFont();
+
+		interfaceTexture = new Texture(Gdx.files.internal("images/dpad.png"));
+		interfaceBatch = new SpriteBatch();
+		interfaceRenderer = new ShapeRenderer();
+
+		// Input
+		controller = new BobController(this, width, height);
+		gestureDetector = new GestureDetector(20, 0.5f, 1, 0.15f, controller);
+		im = new InputMultiplexer(controller, gestureDetector);
+		Gdx.input.setInputProcessor(im);
+		
+		//Score
+		score = 0;
+
+		// Contact listener
+		createCollisionListener();
+		enemiesForRemoval = new Array<Enemy>();
+		orbForRemoval = new Array<Orb>();
 	}
 
 	@Override
@@ -106,6 +142,7 @@ public class GameScreen implements Screen {
 		
 		//Update bullets
 		checkBulletFire();
+		moveEnemies();
 		
 		//Render frame
 		renderer.render();
@@ -121,6 +158,19 @@ public class GameScreen implements Screen {
 //		}
 	}
 	
+	public void moveEnemies()
+	{
+		for(MoveableActor en : world.getLevel().getMoveableActors())
+    	{
+        	if(en instanceof Enemy){
+        		if(en.getPosition().x - 6 < renderer.cameraX)
+        		{
+        			en.getBody().setLinearVelocity(-1, 0);
+        		}
+        	}
+    	}
+	}
+	
 	public void renderInterface(boolean showFPS)
 	{
 		interfaceRenderer.begin(ShapeType.FilledRectangle);
@@ -130,6 +180,7 @@ public class GameScreen implements Screen {
 		interfaceBatch.begin();
 		font.setScale(1);
 		font.draw(interfaceBatch, "Score:" + score, 10, height -10);
+		font.draw(interfaceBatch, "Health:" + (int)bob.getHealth()*10 + "%", 100, height -10);
 		
 		if(showFPS)
 		{
@@ -152,29 +203,7 @@ public class GameScreen implements Screen {
 		interfaceBatch.end();
 	}
 	
-	public void loadLevel(String levelPath)
-	{		
-		//Bullet array
-		bullets = new Array<Bullet>();
-		
-		//Rendering
-		world = new FwWorld(levelPath);
-		bob = world.getBob();
-		renderer = new WorldRenderer(world, false);
-		font = new BitmapFont();
-
-		interfaceTexture = new Texture(Gdx.files.internal("images/dpad.png"));
-		interfaceBatch = new SpriteBatch();
-
-		// Input
-		controller = new BobController(this, width, height);
-		gestureDetector = new GestureDetector(20, 0.5f, 1, 0.15f, controller);
-		im = new InputMultiplexer(controller, gestureDetector);
-		Gdx.input.setInputProcessor(im);
-
-		// Contact listener
-		createCollisionListener();
-	}
+	
 	
 	public void checkBulletFire()
 	{
@@ -198,10 +227,13 @@ public class GameScreen implements Screen {
 		
 		//Bullet delay in seconds
 		float bulletDelay = 0.5f;
+		
+		filter.groupIndex = -8;
+		
 		float elapsedTime = (System.nanoTime() - timeSinceLastBullet) / 1000000000.0f;
         if(elapsedTime>bulletDelay){
         	timeSinceLastBullet = System.nanoTime();
-        	Bullet temp = new Bullet(bob.getBody().getWorldPoint(new Vector2(0.8f,0)), world.getWorld());
+        	Bullet temp = new Bullet(bob.getBody().getWorldPoint(new Vector2(0.8f,0)), world.getWorld(), new Filter());
         	temp.getBody().setBullet(true);
         	temp.getBody().setLinearVelocity(10,0);
         	bullets.add(temp);
@@ -262,6 +294,15 @@ public class GameScreen implements Screen {
                 		break;
                 	}
             	}
+                
+				// Tja daar ga je
+				if ((fixtureA.getBody().equals(bob.getBody())
+						|| fixtureB.getBody().equals(bob.getBody())) && collisionOrb == null) {
+					bob.setHealth(bob.getHealth() - 5);
+					if (bob.getHealth() <= 0) {
+						loadLevel("");
+					}
+				}
                 
 //                if(fixtureA.getBody().getType() == BodyType.DynamicBody && !fixtureA.getBody().isBullet())
 //                {
@@ -390,10 +431,16 @@ public class GameScreen implements Screen {
 			for(int i = 0; i < enemiesForRemoval.size; i++)
 			{
 				Enemy e = enemiesForRemoval.pop();
-				Orb toDrop = new Orb(e.getPosition(), e.getWorld(), ActorMgr.getProperties("orb", new StaticActor()), e.getColor());
-				world.getLevel().getMoveableActors().remove(e);
-				world.getWorld().destroyBody(e.getBody());
-				world.getLevel().addCollectable(toDrop);
+				Orb toDrop = new Orb(e.getPosition(), e.getWorld(), ActorMgr.getProperties("orb", new StaticActor()), e.getColor(), filter);
+				try
+				{
+					world.getLevel().getMoveableActors().remove(e);
+					world.getWorld().destroyBody(e.getBody());
+					world.getLevel().addCollectable(toDrop);
+				}catch(NullPointerException ex)
+				{
+					return;
+				}
 			}
 		
 			for(int i = 0; i < bulletsForRemoval.size; i++)
@@ -427,9 +474,9 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void pause() {
-		// TODO Auto-generated method stub
 		Gdx.input.setInputProcessor(null);
 		interfaceBatch.dispose();
+		interfaceRenderer.dispose();
 		music.stop();
 		music.dispose();
 		Gdx.app.exit();
@@ -437,13 +484,13 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void resume() {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void dispose() {
 		Gdx.input.setInputProcessor(null);
 		interfaceBatch.dispose();
+		interfaceRenderer.dispose();
 		music.stop();
 		music.dispose();
 		Gdx.app.exit();

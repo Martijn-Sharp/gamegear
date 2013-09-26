@@ -2,6 +2,7 @@ package com.gamegear.firstwing;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.gamegear.firstwing.actors.*;
@@ -52,7 +53,7 @@ public class FwWorld {
 	}
 	
 	private void createWorld(String levelPath) {
-		bob = new Bob(new Vector2(3, 2), world);
+		bob = new Bob(new Vector2(3, 2), world, new Filter());
 		level = new Level(this.world, levelPath);
 	}
 }

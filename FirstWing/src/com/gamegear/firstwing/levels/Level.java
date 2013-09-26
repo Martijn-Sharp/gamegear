@@ -9,6 +9,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.World;
 import com.gamegear.firstwing.ActorMgr;
 import com.gamegear.firstwing.actors.*;
@@ -130,6 +131,7 @@ public class Level {
 		
 		Iterator<Node> tiles = levelLoader.Tiles.iterator();
 		Iterator<Node> enemiesIt = levelLoader.Enemies.iterator();
+		Filter filter = new Filter();
 		
 		while(tiles.hasNext()){
 			Node tile = tiles.next();
@@ -140,7 +142,7 @@ public class Level {
 				width = tile.X;
 			}
 			
-			staticActors.add(new Block(new Vector2(tile.X, tile.Y), world, ActorMgr.getProperties(tile.Name, new StaticActor())));
+			staticActors.add(new Block(new Vector2(tile.X, tile.Y), world, ActorMgr.getProperties(tile.Name, new StaticActor()),filter));
 			tiles.remove();
 		}
 		

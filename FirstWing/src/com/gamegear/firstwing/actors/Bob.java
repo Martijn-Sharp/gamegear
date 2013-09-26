@@ -1,8 +1,8 @@
 package com.gamegear.firstwing.actors;
 
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.gamegear.firstwing.TextureMgr;
@@ -12,18 +12,13 @@ public class Bob extends MoveableActor {
 	private static final float SCALE = 1f;
 	private static final float WIDTH = 1f;
 	private static final float HEIGHT = 1f;
-	private static final float RUNNING_FRAME_DURATION = 0.06f;
-
-	private TextureRegion bobIdleRight;
-	private TextureRegion bobJumpRight;
-	private TextureRegion bobFallRight;
 	
 	private TextureRegion bobShipRight;
+	private float health = 10;
 	
-	private Animation walkRightAnimation;
 
-	public Bob(Vector2 position, World world) {
-		super(SPEED, SCALE, WIDTH, HEIGHT, position, world);
+	public Bob(Vector2 position, World world, Filter filter) {
+		super(SPEED, SCALE, WIDTH, HEIGHT, position, world, filter);
 		this.loadTextures();
 		
 		PolygonShape rect = new PolygonShape();
@@ -55,16 +50,17 @@ public class Bob extends MoveableActor {
 //		bobFallRight = TextureMgr.getTexture("bob-down", false);
 //		bobFallRight.flip(true, false);
 	}
+	
+	public float getHealth() {
+		return health;
+	}
+	
+	public void setHealth(float health) {
+		this.health = health;
+	}
 
 	@Override
 	protected void draw() {
 		this.setTexture(bobShipRight);
-		if(this.getState().equals(State.ACCELERATING)) {
-			this.setTexture(walkRightAnimation.getKeyFrame(this.getStateTime(), true));
-		} else if (this.getState().equals(State.LIFTING)) {
-			this.setTexture(bobJumpRight);
-		} else if (this.getState().equals(State.DESCENDING)) {
-			this.setTexture(bobFallRight);
-		}
 	}
 }

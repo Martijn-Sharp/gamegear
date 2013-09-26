@@ -3,6 +3,7 @@ package com.gamegear.firstwing.actors;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.World;
 import com.gamegear.firstwing.TextureMgr;
 
@@ -19,8 +20,8 @@ public class Bullet extends MoveableActor {
 	
 	private boolean hit = false;
 
-	public Bullet(Vector2 position, World world) {
-		super(SPEED, SCALE, WIDTH, HEIGHT, position, world);
+	public Bullet(Vector2 position, World world, Filter filter) {
+		super(SPEED, SCALE, WIDTH, HEIGHT, position, world, filter);
 		this.loadTextures();
 		
 		CircleShape rect = new CircleShape();

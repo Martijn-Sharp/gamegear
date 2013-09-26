@@ -2,6 +2,7 @@ package com.gamegear.firstwing.actors;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.World;
 
 public abstract class MoveableActor extends Actor {
@@ -19,8 +20,8 @@ public abstract class MoveableActor extends Actor {
 	 * @param Width
 	 * @param Height
 	 * @param Position */
-	public MoveableActor(float speed, float scale, float width, float height, Vector2 position, World world) {
-		super(scale, width, height, BodyType.DynamicBody, position, world);
+	public MoveableActor(float speed, float scale, float width, float height, Vector2 position, World world, Filter filter) {
+		super(scale, width, height, BodyType.DynamicBody, position, world, filter);
 		this.speed = speed;
 	}
 	

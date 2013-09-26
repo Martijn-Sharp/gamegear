@@ -2,6 +2,7 @@ package com.gamegear.firstwing.actors;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.gamegear.firstwing.TextureMgr;
@@ -13,8 +14,8 @@ public class Orb extends Actor {
 	private ColorEnum color;
 	private final static int POINTS = 10;
 
-	public Orb(Vector2 position, World world, StaticActor actor, ColorEnum color) {
-		super(actor.Scale, actor.Width, actor.Height, BodyType.StaticBody, position, world);
+	public Orb(Vector2 position, World world, StaticActor actor, ColorEnum color, Filter filter) {
+		super(actor.Scale, actor.Width, actor.Height, BodyType.StaticBody, position, world, filter);
 		this.color = color;
 		this.loadTextures();
 		this.setShape(this.createShape(actor, false), 0f);

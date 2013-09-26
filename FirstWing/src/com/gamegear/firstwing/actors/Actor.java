@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Shape;
@@ -18,6 +19,7 @@ public abstract class Actor {
 	private Body body;
 	private BodyDef bodyDef;
 	private TextureRegion texture;
+	private Filter filter;
 	
 	private float scale;
 	private float width;
@@ -30,7 +32,7 @@ public abstract class Actor {
 	 * @param Height
 	 * @param BodyType
 	 * @param Position */
-	public Actor(float scale, float width, float height, BodyType bodyType, Vector2 position, World world)
+	public Actor(float scale, float width, float height, BodyType bodyType, Vector2 position, World world, Filter filter)
 	{
 		this.scale = scale;
 		this.width = width;
@@ -39,12 +41,14 @@ public abstract class Actor {
 		this.bodyDef = new BodyDef();
 		this.bodyDef.type = bodyType;
 		this.bodyDef.position.set(position);
+		this.filter = filter;
 	}
 	
 	protected void setShape(Shape shape, float density)
 	{
 		this.body = this.world.createBody(bodyDef);
 		this.body.createFixture(shape, density);
+		this.body.getFixtureList().get(0).setFilterData(filter);
 		this.body.setUserData(this);
 		shape.dispose();
 	}
