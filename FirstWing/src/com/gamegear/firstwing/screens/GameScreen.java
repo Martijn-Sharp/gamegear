@@ -4,10 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
@@ -33,9 +36,11 @@ public class GameScreen implements Screen {
 	public GestureDetector 	gestureDetector;
 	public Texture 			interfaceTexture;
 	public SpriteBatch 		interfaceBatch;
+	public ShapeRenderer 	interfaceRenderer;
 	public BitmapFont 		font;
 	public Music			music;
 	public Array<Enemy>		enemiesForRemoval;
+	public long				score = 0;
 	
 	// Bullets
 	private Array<Bullet> 	bullets;
@@ -62,6 +67,7 @@ public class GameScreen implements Screen {
 		
 		interfaceTexture = new Texture(Gdx.files.internal("images/dpad.png"));
 		interfaceBatch = new SpriteBatch();
+		interfaceRenderer = new ShapeRenderer();
 		
 		//Input
 		controller = new BobController(this, width, height);
@@ -100,7 +106,7 @@ public class GameScreen implements Screen {
 		renderer.render();
 		
 		//Render interface
-		renderInterface();
+		renderInterface(true);
 		renderFPS();
 		
 		//Debug reset
@@ -110,21 +116,33 @@ public class GameScreen implements Screen {
 //		}
 	}
 	
-	public void renderInterface()
+	public void renderInterface(boolean showFPS)
 	{
+		interfaceRenderer.begin(ShapeType.FilledRectangle);
+			interfaceRenderer.setColor(Color.DARK_GRAY);
+			interfaceRenderer.filledRect(0, height -30, width, height);
+		interfaceRenderer.end();
+		interfaceBatch.begin();
+		font.setScale(1);
+		font.draw(interfaceBatch, "Score:" + score, 10, height -10);
+		
+		if(showFPS)
+		{
+			font.draw(interfaceBatch, "FPS:" + Gdx.graphics.getFramesPerSecond(), width - 50, height -10);
+		}
+		
 		if(controller.getDpadCenterX() > 0)
 		{
-			interfaceBatch.begin();
 			interfaceBatch.draw(interfaceTexture, controller.getDpadCenterX() - interfaceTexture.getWidth()/4, controller.getDpadCenterY() - interfaceTexture.getHeight()/4, interfaceTexture.getWidth()/2, interfaceTexture.getHeight()/2);
 			interfaceBatch.draw(interfaceTexture, controller.getDpadX() - interfaceTexture.getWidth()/2, controller.getDpadY() - interfaceTexture.getHeight()/2, interfaceTexture.getWidth(), interfaceTexture.getHeight());
-			interfaceBatch.end();
-			//Gdx.app.log("Interface", "Dpad center  x:" + controller.getDpadCenterX() + " y:" + controller.getDpadCenterY() + " current x:" + controller.getDpadX() + " y:" + controller.getDpadY());
 		}
+		interfaceBatch.end();
 	}
 	
 	public void renderFPS()
 	{
 		interfaceBatch.begin();
+		font.setScale(1);
 		font.draw(interfaceBatch, "fps:" + Gdx.graphics.getFramesPerSecond(), 0, 20);
 		interfaceBatch.end();
 	}
@@ -259,6 +277,7 @@ public class GameScreen implements Screen {
                 	{
                 		if(!enemiesForRemoval.contains(collisionEnemy, true))
                     	{
+                			renderer.callParticleSystem(collisionEnemy.getBody().getWorldCenter().x, collisionEnemy.getBody().getWorldCenter().y);
                 			enemiesForRemoval.add(collisionEnemy);
                     	}
                 	}
@@ -304,7 +323,7 @@ public class GameScreen implements Screen {
 			else if(a.getBody().equals(enemy.getBody()))
 			{
 				enemy.setHealth(enemy.getHealth() - 5);
-        		renderer.callParticleSystem(a.getBody().getWorldCenter().x, a.getBody().getWorldCenter().y);
+        		//renderer.callParticleSystem(a.getBody().getWorldCenter().x, a.getBody().getWorldCenter().y);
         		return true;
 			}
         }
