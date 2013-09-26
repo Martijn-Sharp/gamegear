@@ -89,7 +89,7 @@ public class WorldRenderer {
 		this.spriteBatch = new SpriteBatch();
 		this.debugRenderer = new Box2DDebugRenderer();
 		this.shapeRenderer = new ShapeRenderer();
-		shapeRenderer.setProjectionMatrix(cam.combined);
+		this.shapeRenderer.setProjectionMatrix(cam.combined);
 		
 		//Particle effect
 		prototype = new ParticleEffect();
@@ -170,7 +170,9 @@ public class WorldRenderer {
 		spriteBatch.setProjectionMatrix(cam.combined);
 		spriteBatch.begin();
 			for(Sprite bg : world.level.getBackground()){
-				bg.draw(spriteBatch);
+				if(bg.getX() - cam.position.x < (int)CAMERA_WIDTH && bg.getX() - cam.position.x > -(int)CAMERA_WIDTH){
+					bg.draw(spriteBatch);
+				}
 			}
 			
 			tmpBodies = world.world.getBodies();
@@ -211,6 +213,7 @@ public class WorldRenderer {
 					effect.free();
 				}
 			}
+			
 			behindShip = world.getBob().getBody().getWorldPoint(new Vector2(-0.3f,0));
 			p[activeAfterburner].setPosition(behindShip.x, behindShip.y);
 			p[activeAfterburner].update(Gdx.graphics.getDeltaTime());

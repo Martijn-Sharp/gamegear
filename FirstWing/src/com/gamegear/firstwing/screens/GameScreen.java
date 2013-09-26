@@ -13,7 +13,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Filter;
@@ -25,11 +24,7 @@ import com.gamegear.firstwing.ActorMgr;
 import com.gamegear.firstwing.BobController;
 import com.gamegear.firstwing.FwWorld;
 import com.gamegear.firstwing.WorldRenderer;
-import com.gamegear.firstwing.actors.Bob;
-import com.gamegear.firstwing.actors.Bullet;
-import com.gamegear.firstwing.actors.Enemy;
-import com.gamegear.firstwing.actors.MoveableActor;
-import com.gamegear.firstwing.actors.Orb;
+import com.gamegear.firstwing.actors.*;
 import com.gamegear.firstwing.actors.json.StaticActor;
 
 public class GameScreen implements Screen {
@@ -37,7 +32,6 @@ public class GameScreen implements Screen {
 	public FwWorld 			world;
 	public WorldRenderer 	renderer;
 	public BobController	controller;
-	public Bob				bob;
 	public GestureDetector 	gestureDetector;
 	public Texture 			interfaceTexture;
 	public SpriteBatch 		interfaceBatch;
@@ -54,7 +48,6 @@ public class GameScreen implements Screen {
 	public Array<Bullet>	bulletsForRemoval;
 	long					timeSinceLastBullet;
 	
-	
 	InputMultiplexer im;
 	
 	private int width, height;
@@ -68,7 +61,6 @@ public class GameScreen implements Screen {
 		
 		//Rendering
 		world = new FwWorld("");
-		bob = world.getBob();
 		renderer = new WorldRenderer(world, false);
 		font = new BitmapFont();
 		
@@ -105,7 +97,6 @@ public class GameScreen implements Screen {
 
 		// Rendering
 		world = new FwWorld(levelPath);
-		bob = world.getBob();
 		renderer = new WorldRenderer(world, false);
 		font = new BitmapFont();
 
@@ -138,18 +129,18 @@ public class GameScreen implements Screen {
 		controller.update(delta);
 		
 		//Update Bob speed
-		bob.getBody().setLinearVelocity(controller.linImpulseX + world.getLevel().getSpeed(),controller.linImpulseY);
+		this.world.getBob().getBody().setLinearVelocity(controller.linImpulseX + world.getLevel().getSpeed(),controller.linImpulseY);
 		
 		//Update bullets
-		checkBulletFire();
-		moveEnemies();
+		this.checkBulletFire();
+		this.moveEnemies();
 		
 		//Render frame
 		renderer.render();
 		
 		//Render interface
 		renderInterface(true);
-		renderFPS();
+		//renderFPS();
 		
 		//Debug reset
 //		if(renderer.cameraX > 14)
@@ -180,7 +171,7 @@ public class GameScreen implements Screen {
 		interfaceBatch.begin();
 		font.setScale(1);
 		font.draw(interfaceBatch, "Score:" + score, 10, height -10);
-		font.draw(interfaceBatch, "Health:" + (int)bob.getHealth()*10 + "%", 100, height -10);
+		font.draw(interfaceBatch, "Health:" + (int)this.world.getBob().getHealth()*10 + "%", 100, height -10);
 		
 		if(showFPS)
 		{
@@ -202,8 +193,6 @@ public class GameScreen implements Screen {
 		font.draw(interfaceBatch, "fps:" + Gdx.graphics.getFramesPerSecond(), 0, 20);
 		interfaceBatch.end();
 	}
-	
-	
 	
 	public void checkBulletFire()
 	{
@@ -233,7 +222,7 @@ public class GameScreen implements Screen {
 		float elapsedTime = (System.nanoTime() - timeSinceLastBullet) / 1000000000.0f;
         if(elapsedTime>bulletDelay){
         	timeSinceLastBullet = System.nanoTime();
-        	Bullet temp = new Bullet(bob.getBody().getWorldPoint(new Vector2(0.8f,0)), world.getWorld(), new Filter());
+        	Bullet temp = new Bullet(this.world.getBob().getBody().getWorldPoint(new Vector2(0.8f,0)), world.getWorld(), new Filter());
         	temp.getBody().setBullet(true);
         	temp.getBody().setLinearVelocity(10,0);
         	bullets.add(temp);
@@ -249,92 +238,41 @@ public class GameScreen implements Screen {
                 Enemy collisionEnemy = null;
                 Bullet collisionBullet = null;
                 Orb collisionOrb = null;
+                Bob collisionBob = null;
+                
+                Actor actorA = (Actor)fixtureA.getBody().getUserData();
+                Actor actorB = (Actor)fixtureB.getBody().getUserData();
+                if(actorA instanceof Enemy){
+                	collisionEnemy = (Enemy)actorA;
+                } else if (actorB instanceof Enemy){
+                	collisionEnemy = (Enemy)actorB;
+                }
+                
+                if(actorA instanceof Orb){
+                	collisionOrb = (Orb)actorA;
+                } else if (actorB instanceof Orb){
+                	collisionOrb = (Orb)actorB;
+                }
+                
+                if(actorA instanceof Bullet){
+                	collisionBullet = (Bullet)actorA;
+                } else if (actorB instanceof Bullet){
+                	collisionBullet = (Bullet)actorB;
+                }
+                
+                if(actorA instanceof Bob){
+                	collisionBob = (Bob)actorA;
+                } else if(actorB instanceof Bob){
+                	collisionBob = (Bob)actorB;
+                }
                 
                 //Gdx.app.log("beginContact", "between " + fixtureA.toString() + " and " + fixtureB.toString());
                 
-                for(MoveableActor en : world.getLevel().getMoveableActors())
-            	{
-                	if(en instanceof Enemy){
-	                	if(en.getBody().equals(fixtureA.getBody()))
-	            		{
-	                		collisionEnemy = (Enemy)en;
-	                		break;
-	            		}
-	            		if(en.getBody().equals(fixtureB.getBody()))
-	            		{
-	            			collisionEnemy = (Enemy)en;
-	            			break;
-	            		}
-	            	}
-            	}
-                
-                for(Orb o : world.getLevel().getCollectables()){
-                	if(o.getBody().equals(fixtureA.getBody()))
-                	{
-                		collisionOrb = o;
-                		break;
-                	}
-                	
-                	if(o.getBody().equals(fixtureB.getBody())){
-                		collisionOrb = o;
-                		break;
-                	}
-                }
-                
-                for(Bullet b : bullets)
-            	{
-                	if(b.getBody().equals(fixtureA.getBody()))
-                	{
-                		collisionBullet = b;
-                		break;
-                	}
-                	else if(b.getBody().equals(fixtureB.getBody()))
-                	{
-                		collisionBullet = b;
-                		break;
-                	}
-            	}
-                
-				// Tja daar ga je
-				if ((fixtureA.getBody().equals(bob.getBody())
-						|| fixtureB.getBody().equals(bob.getBody())) && collisionOrb == null) {
-					bob.setHealth(bob.getHealth() - 5);
-					if (bob.getHealth() <= 0) {
-						loadLevel("");
-					}
-				}
-                
-//                if(fixtureA.getBody().getType() == BodyType.DynamicBody && !fixtureA.getBody().isBullet())
-//                {
-//                	if(fixtureB.getBody().isBullet() && collisionEnemy != null)
-//                	{
-//                		collisionEnemy.setHealth(collisionEnemy.getHealth() - 5);
-//                		renderer.callParticleSystem(contact.getFixtureA().getBody().getWorldCenter().x, contact.getFixtureA().getBody().getWorldCenter().y);
-//                	}
-//                	if(fixtureA.getBody().equals(bob.getBody()))
-//                	{
-//                		renderer.callParticleSystem(contact.getFixtureA().getBody().getWorldCenter().x, contact.getFixtureA().getBody().getWorldCenter().y);
-//                	}
-//                }
-//                else if (fixtureB.getBody().getType() == BodyType.DynamicBody && !fixtureB.getBody().isBullet())
-//                {
-//                	if(fixtureA.getBody().isBullet()  && collisionEnemy != null)
-//                	{
-//                		collisionEnemy.setHealth(collisionEnemy.getHealth() - 5);
-//                		renderer.callParticleSystem(contact.getFixtureB().getBody().getWorldCenter().x, contact.getFixtureB().getBody().getWorldCenter().y);
-//                	}
-//                	if(fixtureB.getBody().equals(bob.getBody()))
-//                	{
-//                		renderer.callParticleSystem(contact.getFixtureB().getBody().getWorldCenter().x, contact.getFixtureB().getBody().getWorldCenter().y);
-//                	}
-//                }
-                
                 if(collisionEnemy != null)
                 {
-                	if(!doDamageEnemy(fixtureA, fixtureB, collisionEnemy))
-                    {
-                    	doDamageEnemy(fixtureB, fixtureA, collisionEnemy);
-                    }
+                	if(collisionBullet != null){
+                		collisionEnemy.setHealth(collisionEnemy.getHealth() - 5);
+                	}
                 	
                 	if(collisionEnemy.getHealth() <= 0)
                 	{
@@ -344,15 +282,12 @@ public class GameScreen implements Screen {
                 			enemiesForRemoval.add(collisionEnemy);
                     	}
                 	}
-                	//world.getWorld().destroyBody(collisionEnemy.getBody());
-                    //world.getLevel().getEnemies().remove(collisionEnemy);
                 }
                                 
                 if(collisionOrb != null && collisionBullet == null){
-                	if(!addScorePoints(fixtureA, fixtureB, collisionOrb))
-                    {
-                    	addScorePoints(fixtureB, fixtureA, collisionOrb);
-                    }
+                	if(collisionBob != null){
+                		score += collisionOrb.getPoints();
+                	}
                 	
                 	if(!orbForRemoval.contains(collisionOrb, true)){
                 		orbForRemoval.add(collisionOrb);
@@ -364,6 +299,16 @@ public class GameScreen implements Screen {
                 	if(!bulletsForRemoval.contains(collisionBullet, true))
                 	{
                 		bulletsForRemoval.add(collisionBullet);
+                	}
+                }
+                
+                if(collisionBob != null){
+                	if(collisionOrb == null){
+                		collisionBob.setHealth(collisionBob.getHealth() - 5);
+                	}
+                	
+                	if(collisionBob.getHealth() <= 0){
+                		loadLevel("");
                 	}
                 }
             }
@@ -385,44 +330,6 @@ public class GameScreen implements Screen {
 
         });
     }
-	
-	public boolean doDamageEnemy(Fixture a, Fixture b, Enemy enemy)
-	{
-		if(a.getBody().getType() == BodyType.DynamicBody)
-        {
-			if(a.getBody().equals(bob.getBody()))
-        	{
-        		renderer.callParticleSystem(a.getBody().getWorldCenter().x, a.getBody().getWorldCenter().y);
-        		return true;
-        	}
-			else if(a.getBody().equals(enemy.getBody()))
-			{
-				enemy.setHealth(enemy.getHealth() - 5);
-        		//renderer.callParticleSystem(a.getBody().getWorldCenter().x, a.getBody().getWorldCenter().y);
-        		return true;
-			}
-        }
-		
-		return false;
-	}
-	
-	public boolean addScorePoints(Fixture a, Fixture b, Orb orb)
-	{
-		if(a.getBody().getType() == BodyType.StaticBody)
-        {
-			if(a.getBody().equals(bob.getBody()))
-        	{
-        		return true;
-        	}
-			else if(a.getBody().equals(orb.getBody()))
-			{
-				this.score += orb.getPoints();
-        		return true;
-			}
-        }
-		
-		return false;
-	}
 	
 	public void removeBodies()
 	{
@@ -447,13 +354,25 @@ public class GameScreen implements Screen {
 			{
 				Bullet b = bulletsForRemoval.pop();
 				bullets.removeValue(b, true);
-				world.getWorld().destroyBody(b.getBody());
+				try
+				{
+					world.getWorld().destroyBody(b.getBody());
+				}catch(NullPointerException ex)
+				{
+					return;
+				}
 			}
 			
 			for(int i = 0; i < orbForRemoval.size; i++){
 				Orb o = orbForRemoval.pop();
-				world.getLevel().getCollectables().remove(o);
-				world.getWorld().destroyBody(o.getBody());
+				try
+				{
+					world.getLevel().getCollectables().remove(o);
+					world.getWorld().destroyBody(o.getBody());
+				}catch(NullPointerException ex)
+				{
+					return;
+				}
 			}
 		}
 	}

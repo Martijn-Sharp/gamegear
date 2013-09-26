@@ -31,7 +31,7 @@ public class Orb extends Actor {
 
 	@Override
 	protected void loadTextures() {
-		this.orbTexture = TextureMgr.getTexture("orb", true);
+		this.orbTexture = TextureMgr.getTexture("orb-" + this.color.toString(), true);
 	}
 
 	@Override
