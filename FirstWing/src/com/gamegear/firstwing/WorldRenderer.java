@@ -46,7 +46,7 @@ public class WorldRenderer {
 	private Color currentBgColor;
 	private Color sourceBgColor;
 	private Color targetBgColor;
-	private float maxtime = 250;
+	private float maxtime = 5;
 	private float step = 0;
 	private Boolean changeBackgroundColor = false;
 	
@@ -111,7 +111,6 @@ public class WorldRenderer {
 		if(p == null)
 		{
 			p = new ParticleEffect[8];
-			
 			for(int i = 0; i < 8; i++)
 			{
 				p[i] = new ParticleEffect();
@@ -190,16 +189,16 @@ public class WorldRenderer {
 					float scale = actor.getScale();
 					
 					spriteBatch.draw(
-							actor.getTexture(), 
-							position.x - width /2, 
-							position.y - height /2,
-							width /2, 
-							height /2, 
-							width, 
-							height, 
-							scale, 
-							scale, 
-							rotationAngle, 
+							actor.getTexture(),
+							position.x - width / 2,
+							position.y - height / 2,
+							width / 2,
+							height / 2,
+							width,
+							height,
+							scale,
+							scale,
+							rotationAngle,
 							false);
 				}
 			}
@@ -252,7 +251,7 @@ public class WorldRenderer {
 //		else{cameraX = x;}
 		
 		//Move camera with speed
-		cameraX += Gdx.graphics.getDeltaTime() * currentSpeed;		
+		cameraX += Gdx.graphics.getDeltaTime() * currentSpeed;
 		
 		//Gdx.app.log("Camera", "X:" + cameraX + "," + x + " Y:" + cameraY + "," + y);
 		
@@ -278,7 +277,7 @@ public class WorldRenderer {
 	        return;
 	    }
 	    
-	    this.step += Gdx.graphics.getDeltaTime() * 100;
+	    this.step += Gdx.graphics.getDeltaTime();
 	    float percentComplete = this.step / this.maxtime;
 	    float percentGone = 1 - percentComplete;
 	    float red = this.sourceBgColor.r * percentGone + this.targetBgColor.r * percentComplete;

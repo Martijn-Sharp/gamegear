@@ -156,7 +156,7 @@ public class GameScreen implements Screen {
         	if(en instanceof Enemy){
         		if(en.getPosition().x - 6 < renderer.cameraX)
         		{
-        			en.getBody().setLinearVelocity(-1, 0);
+        			en.getBody().setLinearVelocity(-0.5f, 0);
         		}
         	}
     	}
