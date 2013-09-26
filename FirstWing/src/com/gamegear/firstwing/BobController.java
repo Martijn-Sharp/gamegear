@@ -13,6 +13,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.gamegear.firstwing.actors.Actor;
 import com.gamegear.firstwing.actors.Bob;
 import com.gamegear.firstwing.actors.Enemy;
+import com.gamegear.firstwing.actors.MoveableActor;
 import com.gamegear.firstwing.screens.GameScreen;
 import com.gamegear.firstwing.BobController;
 
@@ -31,7 +32,7 @@ public class BobController implements GestureListener, InputProcessor {
     protected Body groundBody;
     protected Vector2 target = new Vector2();
     
-    private Iterator<Enemy> collisionIterator;
+    private Iterator<MoveableActor> collisionIterator;
     
 	public int width;
 	public int height;
@@ -365,7 +366,7 @@ public class BobController implements GestureListener, InputProcessor {
 			cam.unproject(worldCoordinates);
 		}
 		
-		collisionIterator = screen.world.level.getEnemies().iterator();
+		collisionIterator = screen.world.level.getMoveableActors().iterator();
 		
 		Actor actor;
 		while(collisionIterator.hasNext())

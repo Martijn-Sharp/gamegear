@@ -28,7 +28,7 @@ public class Spawner {
 	
 	public void Spawn(){
 		ColorEnum color = this.colors.get(new Random().nextInt(this.colors.size()));
-		this.level.AddEnemy(new Enemy(this.position, this.world, ActorMgr.getProperties(this.type, new DynamicActor()), this.type + "-" + color.toString().toLowerCase()));
+		this.level.addMoveableActor(new Enemy(this.position, this.world, ActorMgr.getProperties(this.type, new DynamicActor()), this.type + "-" + color.toString()));
 	}
 	
 	public Vector2 getPosition(){

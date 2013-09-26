@@ -91,3 +91,4 @@ D:\FirstWing\gamegear\MapEditor\MapEditor\bin\Debug\assets\images\blue-bg.png
 D:\FirstWing\gamegear\MapEditor\MapEditor\obj\Debug\MapEditor.AddSpeedPointDialog.resources
 D:\FirstWing\gamegear\MapEditor\MapEditor\obj\Debug\MapEditor.AddColorDialog.resources
 D:\FirstWing\gamegear\MapEditor\MapEditor\bin\Debug\assets\images\spawner.png
+D:\FirstWing\gamegear\MapEditor\MapEditor\bin\Debug\assets\static\orb.png
