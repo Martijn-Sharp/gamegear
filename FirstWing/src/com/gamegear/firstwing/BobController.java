@@ -156,20 +156,15 @@ public class BobController implements GestureListener, InputProcessor {
 //			return false;
 //		}
 		
-		if (x < width / 4 && y > height - (height/3)) {
-			dpadPointer = pointer;
-			dpadCenterX = x;
-			dpadCenterY = y;
-			dpadX = x;
-			dpadY = y;
-			Gdx.app.log("Touch", "DPAD x: " + x + " y:" + y + " pointer:" + pointer);
-		}
-		else
-		{
-			Gdx.app.log("Touch", "Not DPAD x: " + x + " y:" + y + " pointer:" + pointer);
-		}
+		//if (x < width / 4 && y > height - (height/3)) {
+		dpadPointer = pointer;
+		dpadCenterX = x;
+		dpadCenterY = y;
+		dpadX = x;
+		dpadY = y;
+		Gdx.app.log("Touch", "DPAD x: " + x + " y:" + y + " pointer:" + pointer);
 		
-		checkCollision(x, y, false);
+		//checkCollision(x, y, false);
 		
 		return true;
 	}
@@ -246,7 +241,7 @@ public class BobController implements GestureListener, InputProcessor {
 				//Gdx.app.log("Fling", "Fling update  x:" + secondX + " y:" + secondY);
 				
 				//Check collisions with all Actors
-				checkCollision(x, y, false);
+				//checkCollision(x, y, false);
 				
 				return false;
 			}
@@ -261,45 +256,38 @@ public class BobController implements GestureListener, InputProcessor {
 			}
 			
 		}
-		if(dpadPointer == pointer && x < width / 2.5 && y > height - (height/2.5))
+//		if(dpadPointer == pointer && x < width / 2.5 && y > height - (height/2.5))
+//		{
+		dpadX = x; 
+		dpadY = y;
+			
+		linImpulseY = Gdx.graphics.getDeltaTime() * ((dpadCenterY - y) * dpadSpeed);
+			
+		//Check if going out of map
+		if(screen.renderer.cameraX - 4f <= bob.getPosition().x || -(dpadCenterX - x) > 0)
 		{
-			dpadX = x; 
-			dpadY = y;
-			
-			linImpulseY = Gdx.graphics.getDeltaTime() * ((dpadCenterY - y) * dpadSpeed);
-			
-			//Check if going out of map
-			if(screen.renderer.cameraX - 4f <= bob.getPosition().x || -(dpadCenterX - x) > 0)
-			{
-				//linImpulseX = Gdx.graphics.getDeltaTime() * (-(dpadCenterX - x) * dpadSpeed);
-			}
-			else
-			{
-				linImpulseX = 0;
-				//bob.getBody().setTransform(screen.renderer.cameraX - 4.5f, bob.getBody().getPosition().y, bob.getBody().getAngle());
-				//Gdx.app.log("Edge detection", "Edge left x: " + (screen.renderer.cameraX-5) + " Bob x:" + bob.getPosition().x);
-				return false;
-			}
-			if(screen.renderer.cameraX + 4f >= bob.getPosition().x || -(dpadCenterX - x) < 0)
-			{
-				//linImpulseX = Gdx.graphics.getDeltaTime() * (-(dpadCenterX - x) * dpadSpeed);
-
-			}
-			else
-			{
-				linImpulseX = 0;
-				//bob.getBody().setTransform(screen.renderer.cameraX + 4.5f, bob.getBody().getPosition().y, bob.getBody().getAngle());
-				//Gdx.app.log("Edge detection", "Edge right x: " + (screen.renderer.cameraX+5) + " Bob x:" + bob.getPosition().x);
-				return false;
-			}
-			
-			linImpulseX = Gdx.graphics.getDeltaTime() * (-(dpadCenterX - x) * dpadSpeed);
-			
-			//bob.getBody().setLinearVelocity(linImpulseX, linImpulseY);
-			//Gdx.app.log("Dragging", "Drag x: " + x + " y:" + y + " pointer:" + pointer + " linearImpulse x:" + linImpulseX + " y:" + linImpulseY + " pointer:" + pointer);
+			//linImpulseX = Gdx.graphics.getDeltaTime() * (-(dpadCenterX - x) * dpadSpeed);
+		}
+		else
+		{
+			linImpulseX = 0;
+			//bob.getBody().setTransform(screen.renderer.cameraX - 4.5f, bob.getBody().getPosition().y, bob.getBody().getAngle());
+			//Gdx.app.log("Edge detection", "Edge left x: " + (screen.renderer.cameraX-5) + " Bob x:" + bob.getPosition().x);
 			return false;
 		}
-		//body.applyLinearImpulse(linImpulseX, linImpulseY, body.getPosition().x, body.getPosition().y);
+		if(screen.renderer.cameraX + 4f >= bob.getPosition().x || -(dpadCenterX - x) < 0)
+		{
+			//linImpulseX = Gdx.graphics.getDeltaTime() * (-(dpadCenterX - x) * dpadSpeed);
+		}
+		else
+		{
+			linImpulseX = 0;
+			//bob.getBody().setTransform(screen.renderer.cameraX + 4.5f, bob.getBody().getPosition().y, bob.getBody().getAngle());
+			//Gdx.app.log("Edge detection", "Edge right x: " + (screen.renderer.cameraX+5) + " Bob x:" + bob.getPosition().x);
+			return false;
+		}
+			
+		linImpulseX = Gdx.graphics.getDeltaTime() * (-(dpadCenterX - x) * dpadSpeed);
 		return false;
 	}
 

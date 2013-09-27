@@ -30,7 +30,7 @@ public class Spawner {
 	public void Spawn(){
 		ColorEnum color = this.colors.get(new Random().nextInt(this.colors.size()));
 		Filter filter = new Filter();
-		filter.groupIndex = -8;
+		filter.maskBits = ~4;
 		this.level.addMoveableActor(new Enemy(this.position, this.world, ActorMgr.getProperties(this.type, new DynamicActor()), this.type + "-" + color.toString(), filter));
 	}
 	

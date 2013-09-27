@@ -140,6 +140,14 @@ public class WorldRenderer {
 		//p.update(Gdx.graphics.getDeltaTime());
 	}
 	
+	public void reset(FwWorld world)
+	{
+		cameraX = cam.viewportWidth/2;
+		cameraY = 0;
+		currentSpeed = 1;
+		this.world = world;
+	}
+	
 	public void callParticleSystem(float x, float y)
 	{
 		PooledEffect effect = pool.obtain();
@@ -187,7 +195,6 @@ public class WorldRenderer {
 					float width = actor.getWidth();
 					float height = actor.getHeight();
 					float scale = actor.getScale();
-					
 					spriteBatch.draw(
 							actor.getTexture(),
 							position.x - width / 2,

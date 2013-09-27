@@ -41,7 +41,6 @@ public class GameScreen implements Screen {
 	public Array<Enemy>		enemiesForRemoval;
 	public Array<Orb>		orbForRemoval;
 	public long				score;
-	public Filter			filter = new Filter();
 	
 	// Bullets
 	private Array<Bullet> 	bullets;
@@ -90,33 +89,25 @@ public class GameScreen implements Screen {
 	}
 	
 	public void loadLevel(String levelPath)
-	{		
+	{
 		// Bullet array
 		bullets = new Array<Bullet>();
 		bulletsForRemoval = new Array<Bullet>();
+		enemiesForRemoval = new Array<Enemy>();
+		orbForRemoval = new Array<Orb>();
 
 		// Rendering
+		world = null;
 		world = new FwWorld(levelPath);
-		renderer = new WorldRenderer(world, false);
-		font = new BitmapFont();
+		renderer.reset(world);
+		//renderer = new WorldRenderer(world, false);
 
-		interfaceTexture = new Texture(Gdx.files.internal("images/dpad.png"));
-		interfaceBatch = new SpriteBatch();
-		interfaceRenderer = new ShapeRenderer();
-
-		// Input
-		controller = new BobController(this, width, height);
-		gestureDetector = new GestureDetector(20, 0.5f, 1, 0.15f, controller);
-		im = new InputMultiplexer(controller, gestureDetector);
-		Gdx.input.setInputProcessor(im);
-		
 		//Score
 		score = 0;
 
 		// Contact listener
 		createCollisionListener();
-		enemiesForRemoval = new Array<Enemy>();
-		orbForRemoval = new Array<Orb>();
+		System.gc();
 	}
 
 	@Override
@@ -217,12 +208,14 @@ public class GameScreen implements Screen {
 		//Bullet delay in seconds
 		float bulletDelay = 0.5f;
 		
-		filter.groupIndex = -8;
+		Filter filter = new Filter();
+		filter.categoryBits = 1;
+		filter.groupIndex = -2;
 		
 		float elapsedTime = (System.nanoTime() - timeSinceLastBullet) / 1000000000.0f;
         if(elapsedTime>bulletDelay){
         	timeSinceLastBullet = System.nanoTime();
-        	Bullet temp = new Bullet(this.world.getBob().getBody().getWorldPoint(new Vector2(0.8f,0)), world.getWorld(), new Filter());
+        	Bullet temp = new Bullet(this.world.getBob().getBody().getWorldPoint(new Vector2(0.8f,0)), world.getWorld(), filter);
         	temp.getBody().setBullet(true);
         	temp.getBody().setLinearVelocity(10,0);
         	bullets.add(temp);
@@ -338,6 +331,9 @@ public class GameScreen implements Screen {
 			for(int i = 0; i < enemiesForRemoval.size; i++)
 			{
 				Enemy e = enemiesForRemoval.pop();
+				Filter filter = new Filter();
+				filter.categoryBits = 4;
+				filter.groupIndex = -2;
 				Orb toDrop = new Orb(e.getPosition(), e.getWorld(), ActorMgr.getProperties("orb", new StaticActor()), e.getColor(), filter);
 				try
 				{
@@ -388,21 +384,17 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void hide() {
-		Gdx.input.setInputProcessor(null);
+		Gdx.app.exit();
 	}
 
 	@Override
 	public void pause() {
-		Gdx.input.setInputProcessor(null);
-		interfaceBatch.dispose();
-		interfaceRenderer.dispose();
-		music.stop();
-		music.dispose();
 		Gdx.app.exit();
 	}
 
 	@Override
 	public void resume() {
+		loadLevel("");
 	}
 
 	@Override
