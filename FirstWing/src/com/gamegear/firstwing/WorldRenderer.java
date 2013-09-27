@@ -142,8 +142,9 @@ public class WorldRenderer {
 	
 	public void reset(FwWorld world)
 	{
-		cameraX = cam.viewportWidth/2;
-		cameraY = 0;
+		this.cameraX = CAMERA_WIDTH / 2f;
+		this.cameraY = CAMERA_HEIGHT / 2f;
+		this.cam.position.set(this.cameraX, this.cameraY, 0);
 		currentSpeed = 1;
 		this.world = world;
 	}

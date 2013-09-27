@@ -41,6 +41,7 @@ public class GameScreen implements Screen {
 	public Array<Enemy>		enemiesForRemoval;
 	public Array<Orb>		orbForRemoval;
 	public long				score;
+	public boolean			markedForRestart = false;
 	
 	// Bullets
 	private Array<Bullet> 	bullets;
@@ -97,7 +98,7 @@ public class GameScreen implements Screen {
 		orbForRemoval = new Array<Orb>();
 
 		// Rendering
-		world = null;
+		world.getWorld().dispose();
 		world = new FwWorld(levelPath);
 		renderer.reset(world);
 		//renderer = new WorldRenderer(world, false);
@@ -115,9 +116,15 @@ public class GameScreen implements Screen {
 		Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		removeBodies();
+		if(markedForRestart)
+		{
+			loadLevel("");
+			markedForRestart = false;
+		}
 		
 		//Update input
 		controller.update(delta);
+		checkPlayerBounds();
 		
 		//Update Bob speed
 		this.world.getBob().getBody().setLinearVelocity(controller.linImpulseX + world.getLevel().getSpeed(),controller.linImpulseY);
@@ -151,6 +158,28 @@ public class GameScreen implements Screen {
         		}
         	}
     	}
+	}
+	
+	public void checkPlayerBounds()
+	{
+		if(renderer.cameraX - 4f >= world.getBob().getPosition().x && -(controller.dpadCenterX - controller.dpadX) < 0){ 
+			controller.linImpulseX = 0;
+		}
+		else if(renderer.cameraX - 5f >= world.getBob().getPosition().x){
+			markedForRestart = true;
+		}
+		else{
+			//controller.linImpulseX = 0;
+		}
+		if(renderer.cameraX + 4f <= world.getBob().getPosition().x && -(controller.dpadCenterX - controller.dpadX) > 0){
+			controller.linImpulseX = 0;
+		}
+		else if(renderer.cameraX + 5f <= world.getBob().getPosition().x){
+			markedForRestart = true;
+		}
+		else{
+			//controller.linImpulseX = 0;
+		}
 	}
 	
 	public void renderInterface(boolean showFPS)
@@ -296,12 +325,12 @@ public class GameScreen implements Screen {
                 }
                 
                 if(collisionBob != null){
-                	if(collisionOrb == null){
+                	if(collisionOrb == null && collisionBullet == null){
                 		collisionBob.setHealth(collisionBob.getHealth() - 5);
                 	}
                 	
                 	if(collisionBob.getHealth() <= 0){
-                		loadLevel("");
+                		markedForRestart = true;
                 	}
                 }
             }

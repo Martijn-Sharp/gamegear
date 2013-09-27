@@ -264,7 +264,7 @@ public class BobController implements GestureListener, InputProcessor {
 		linImpulseY = Gdx.graphics.getDeltaTime() * ((dpadCenterY - y) * dpadSpeed);
 			
 		//Check if going out of map
-		if(screen.renderer.cameraX - 4f <= bob.getPosition().x || -(dpadCenterX - x) > 0)
+		if(screen.renderer.cameraX - 4f <= screen.world.bob.getPosition().x || -(dpadCenterX - x) > 0)
 		{
 			//linImpulseX = Gdx.graphics.getDeltaTime() * (-(dpadCenterX - x) * dpadSpeed);
 		}
@@ -275,7 +275,7 @@ public class BobController implements GestureListener, InputProcessor {
 			//Gdx.app.log("Edge detection", "Edge left x: " + (screen.renderer.cameraX-5) + " Bob x:" + bob.getPosition().x);
 			return false;
 		}
-		if(screen.renderer.cameraX + 4f >= bob.getPosition().x || -(dpadCenterX - x) < 0)
+		if(screen.renderer.cameraX + 4f >= screen.world.bob.getPosition().x || -(dpadCenterX - x) < 0)
 		{
 			//linImpulseX = Gdx.graphics.getDeltaTime() * (-(dpadCenterX - x) * dpadSpeed);
 		}
