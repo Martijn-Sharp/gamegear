@@ -10,7 +10,8 @@ public class LevelProperties {
 		orange,
 		purple,
 		red,
-		yellow
+		yellow,
+		none
 	}
 	
 	public float FinishX;
