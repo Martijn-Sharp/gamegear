@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.input.GestureDetector;
@@ -43,6 +44,7 @@ public class GameScreen implements Screen {
 	public Array<Orb>		orbForRemoval;
 	public Stats			stats;
 	public boolean			markedForRestart = false;
+	public FreeTypeFontGenerator 	fontGenerator;
 	
 	// Bullets
 	private Array<Bullet> 	bullets;
@@ -63,7 +65,12 @@ public class GameScreen implements Screen {
 		//Rendering
 		world = new FwWorld("");
 		renderer = new WorldRenderer(world, false);
-		font = new BitmapFont();
+		
+		fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/TiresiasScreenfont.ttf"));
+		//font = fontGenerator.generateFont(30, "abcdefghijklmnopqrstuvwxyz:1234567890", true);
+		font = fontGenerator.generateFont(16);
+		fontGenerator.dispose();
+
 		
 		interfaceTexture = new Texture(Gdx.files.internal("images/dpad.png"));
 		interfaceBatch = new SpriteBatch();
