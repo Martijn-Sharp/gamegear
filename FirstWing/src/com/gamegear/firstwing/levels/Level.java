@@ -168,6 +168,8 @@ public class Level {
 		speed.add("20,3");
 		speed.add("40,2");
 		speed.add("50,1");
+		speed.add("70,2");
+		speed.add("80,1");
 		speed.add("94,0");
 	}
 }

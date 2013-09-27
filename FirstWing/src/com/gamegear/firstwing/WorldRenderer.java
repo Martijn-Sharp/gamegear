@@ -46,7 +46,7 @@ public class WorldRenderer {
 	private Color currentBgColor;
 	private Color sourceBgColor;
 	private Color targetBgColor;
-	private float maxtime = 5;
+	private float maxtime = 2.5f;
 	private float step = 0;
 	private Boolean changeBackgroundColor = false;
 	
@@ -231,11 +231,10 @@ public class WorldRenderer {
 	
 	public void moveCamera(float x,float y, float speed){
 		if(this.currentSpeed != speed){
-			int rounded = Math.round(speed);
-			this.changeBackgroundColor = true;
 			this.sourceBgColor = this.currentBgColor;
-			this.targetBgColor = this.getColor(rounded);
-			this.changeAfterBurnerColor(rounded);
+			this.targetBgColor = this.getColor((int)speed);
+			this.changeBackgroundColor = true;
+			this.changeAfterBurnerColor((int)speed);
 		}
 		
 		this.currentSpeed = speed;
