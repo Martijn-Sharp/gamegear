@@ -51,6 +51,8 @@ public class GameScreen implements Screen {
 	public Array<Bullet>	bulletsForRemoval;
 	long					timeSinceLastBullet;
 	
+	long					timeSinceDamage = 0;
+	
 	InputMultiplexer im;
 	
 	private int width, height;
@@ -60,6 +62,7 @@ public class GameScreen implements Screen {
 		
 		//Bullet array
 		bullets = new Array<Bullet>();
+		bullets.ensureCapacity(20);
 		bulletsForRemoval = new Array<Bullet>();
 		
 		//Rendering
@@ -101,6 +104,7 @@ public class GameScreen implements Screen {
 	{
 		// Bullet array
 		bullets = new Array<Bullet>();
+		bullets.ensureCapacity(20);
 		bulletsForRemoval = new Array<Bullet>();
 		enemiesForRemoval = new Array<Enemy>();
 		orbForRemoval = new Array<Orb>();
@@ -218,13 +222,12 @@ public class GameScreen implements Screen {
 	
 	public void checkBulletFire()
 	{
-		int maxBullets = 10;
-		
+		int maxBullets = 20;
 		//Maximum bullets on screen
         if(bullets.size > maxBullets)
         {
         	bulletsForRemoval.add(bullets.get(0));
-        	//bullets.removeIndex(0);
+        	bullets.removeIndex(0);
         }
         
         //Remove bullets off screen
@@ -233,11 +236,12 @@ public class GameScreen implements Screen {
         	if(b.getBody().getWorldCenter().x > renderer.cameraX + 6)
         	{
         		bulletsForRemoval.add(b);
+        		bullets.removeValue(b, true);
         	}
         }
 		
 		//Bullet delay in seconds
-		float bulletDelay = 0.5f;
+		float bulletDelay = 0.2f;
 		
 		Filter filter = new Filter();
 		filter.categoryBits = 1;
@@ -331,7 +335,8 @@ public class GameScreen implements Screen {
                 }
                 
                 if(collisionBob != null){
-                	if(collisionOrb == null && collisionBullet == null){
+                	if(collisionOrb == null && collisionBullet == null && timeSinceDamage + 1000 < System.currentTimeMillis()){
+                		timeSinceDamage = System.currentTimeMillis();
                 		collisionBob.setHealth(collisionBob.getHealth() - 5);
                 	}
                 	
@@ -405,6 +410,13 @@ public class GameScreen implements Screen {
 					return;
 				}
 			}
+		}
+		else
+		{
+			try {
+				Thread.sleep(5);
+				removeBodies();
+			} catch (InterruptedException e) {}
 		}
 	}
 	
