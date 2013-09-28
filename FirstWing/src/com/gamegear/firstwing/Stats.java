@@ -2,9 +2,12 @@ package com.gamegear.firstwing;
 
 import java.util.HashMap;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.gamegear.firstwing.levels.json.LevelProperties.ColorEnum;
 
 public class Stats {
+	private Preferences prefs;
 	public long currentScore;
 	private long highScore;
 	
@@ -18,14 +21,18 @@ public class Stats {
 	{
 		this.currentScore = 0;
 		this.modifier = 1.0f;
-		this.setHighScore(0);
-		this.currentColor = ColorEnum.blue;
+		
+		//Get preferences
+		prefs = Gdx.app.getPreferences("ColorExpress");
+		loadHighscore();
+		
+		this.currentColor = ColorEnum.none;
 		collectedOrbsColor = new HashMap<ColorEnum, Long>();
 	}
 	
 	public void loadHighscore()
 	{
-		//TODO load highscore
+		this.setHighScore(prefs.getLong("highscore", 0l));
 	}
 	
 	public boolean addScore(ColorEnum colorEnum, float enemyScore)
@@ -73,7 +80,9 @@ public class Stats {
 	{
 		if(getHighScore() < currentScore)
 		{
+			prefs.putLong("highscore", currentScore);
 			setHighScore(currentScore);
+			prefs.flush();
 		}
 		
 		currentScore = 0;
