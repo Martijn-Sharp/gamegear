@@ -13,6 +13,8 @@
         private Dictionary<string, Bitmap> images;
         private CategoryEnum categorySelected = CategoryEnum.Default;
 
+        private Spawner currentSelectedSpawner;
+
         private string actorSelected;
         private int xButtonCount = 10;
         private int yButtonCount = 100;
@@ -29,13 +31,12 @@
             this.InitializeComponent();
             this.BuildGui(BuildOptions.Build);
             this.PopulateLists();
-            this.lblSelectedType.Text = "Default";
         }
 
         private enum CategoryEnum
         {
             Default = 0,
-            Enemy = 1,
+            Spawner = 1,
             Level = 2,
         }
 
@@ -43,7 +44,7 @@
         {
             Clear,
             Build,
-            Import,
+            Import
         }
 
         public static ActorFile Actors { get; set; }
@@ -81,9 +82,9 @@
             {
                 switch (this.categorySelected)
                 {
-                    case CategoryEnum.Enemy:
-                        this.map.Add(tmpName, new Node(coords[1], 9 - coords[0]) { Name = this.actorSelected, Type = Node.NodeType.Spawner});
-                        clickedButton.BackgroundImage = this.GetImage(this.actorSelected, CategoryEnum.Enemy);
+                    case CategoryEnum.Spawner:
+                        this.map.Add(tmpName, new Spawner(coords[1], 9 - coords[0]) { Name = this.actorSelected, Type = Node.NodeType.Spawner, SpawnedActorSpeed = 1f });
+                        clickedButton.BackgroundImage = this.GetImage(this.actorSelected, CategoryEnum.Spawner);
                         break;
                     case CategoryEnum.Level:
                         this.map.Add(tmpName, new Node(coords[1], 9 - coords[0]) { Name = this.actorSelected, Type = Node.NodeType.Tile });
@@ -96,8 +97,22 @@
             }
             else
             {
-                this.map.Remove(tmpName);
-                clickedButton.BackgroundImage = this.GetImage("default");
+                if (this.chkDelete.Checked)
+                {
+                    this.map.Remove(tmpName);
+                    clickedButton.BackgroundImage = this.GetImage("default");
+                    this.pnlSpawnerProps.Visible = false;
+                }
+                else if (this.map[tmpName] is Spawner)
+                {
+                    this.currentSelectedSpawner = (Spawner)this.map[tmpName];
+                    this.pnlSpawnerProps.Visible = true;
+                    this.FillSpawnProperties(this.currentSelectedSpawner);
+                }
+                else
+                {
+                    this.pnlSpawnerProps.Visible = false;
+                }
             }
         }
 
@@ -162,7 +177,7 @@
                         Control fillButton = this.mapPanel.Controls.Find(a.Key, false)[0];
                         if (a.Value.Type == Node.NodeType.Spawner)
                         {
-                            fillButton.BackgroundImage = this.GetImage("spawner", CategoryEnum.Enemy);
+                            fillButton.BackgroundImage = this.GetImage("spawner", CategoryEnum.Spawner);
                         }
                         else if (a.Value.Type == Node.NodeType.Tile)
                         {
@@ -217,7 +232,7 @@
 
                 this.BuildGui(BuildOptions.Clear);
                 LevelProps = JsonConvert.DeserializeObject<LevelProperties>(lines);
-                foreach (var enemy in LevelProps.Enemies)
+                foreach (var enemy in LevelProps.Spawners)
                 {
                     this.map.Add(9 - enemy.Y + "," + enemy.X, enemy);
                 }
@@ -233,14 +248,14 @@
 
         private void ExportClick(object sender, EventArgs e)
         {
-            LevelProps.Enemies = new List<Node>();
+            LevelProps.Spawners = new List<Spawner>();
             LevelProps.Tiles = new List<Node>();
 
             foreach (KeyValuePair<string, Node> a in this.map)
             {
                 if (a.Value.Type == Node.NodeType.Spawner)
                 {
-                    LevelProps.Enemies.Add(a.Value);
+                    LevelProps.Spawners.Add((Spawner)a.Value);
                 }
                 else if (a.Value.Type == Node.NodeType.Tile)
                 {
@@ -299,7 +314,7 @@
         {
             if (this.listEnemies.SelectedItems.Count == 1)
             {
-                this.categorySelected = CategoryEnum.Enemy;
+                this.categorySelected = CategoryEnum.Spawner;
                 this.actorSelected = this.listEnemies.SelectedItems[0].Text;
             }
         }
@@ -323,7 +338,7 @@
             Bitmap image;
             switch (category)
             {
-                case CategoryEnum.Enemy:
+                case CategoryEnum.Spawner:
                     image = new Bitmap("assets/images/spawner.png");
                     break;
                 case CategoryEnum.Level:
@@ -341,6 +356,74 @@
 
             this.images.Add(name, image);
             return image;
+        }
+
+        private void FillSpawnProperties(Spawner spawner)
+        {
+            this.ddlColors.Items.Clear();
+            this.ddlColors.Items.Add("All");
+            if (LevelProps.Colors != null)
+            {
+                foreach (var color in LevelProps.Colors)
+                {
+                    this.ddlColors.Items.Add(color);
+                }
+            }
+
+            if (spawner.SpawnColor != null)
+            {
+                if (spawner.SpawnColor.Count > 1)
+                {
+                    this.ddlColors.SelectedItem = "All";
+                }
+                else
+                {
+                    this.ddlColors.SelectedItem = spawner.SpawnColor[0];
+                }
+            }
+
+            this.speedUpDown.Value = Convert.ToDecimal(spawner.SpawnedActorSpeed);
+            this.intervalUpDown.Value = Convert.ToDecimal(spawner.SpawnInterval);
+            this.chkMultiple.Checked = spawner.Multiple;
+            this.lblInterval.Visible = spawner.Multiple;
+            this.intervalUpDown.Visible = spawner.Multiple;
+        }
+
+        private void ddlColors_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (this.currentSelectedSpawner.SpawnColor == null)
+            {
+                this.currentSelectedSpawner.SpawnColor = new List<LevelProperties.ColorEnum>();
+            }
+
+            if (this.ddlColors.SelectedItem == "All")
+            {
+                foreach (var color in Enum.GetValues(typeof(LevelProperties.ColorEnum)))
+                {
+                    this.currentSelectedSpawner.SpawnColor.Add((LevelProperties.ColorEnum)color);
+                }
+            }
+            else
+            {
+                this.currentSelectedSpawner.SpawnColor.Add((LevelProperties.ColorEnum)this.ddlColors.SelectedItem);
+            }
+        }
+
+        private void speedUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            this.currentSelectedSpawner.SpawnedActorSpeed = Convert.ToSingle(this.speedUpDown.Value);
+        }
+
+        private void chkMultiple_CheckedChanged(object sender, EventArgs e)
+        {
+            this.currentSelectedSpawner.Multiple = this.chkMultiple.Checked;
+            this.lblInterval.Visible = this.chkMultiple.Checked;
+            this.intervalUpDown.Visible = this.chkMultiple.Checked;
+        }
+
+        private void intervalUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            this.currentSelectedSpawner.SpawnInterval = Convert.ToSingle(this.intervalUpDown.Value);
         }
     }
 }

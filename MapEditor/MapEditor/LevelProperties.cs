@@ -29,7 +29,7 @@
 
         public List<Node> Tiles { get; set; }
 
-        public List<Node> Enemies { get; set; }
+        public List<Spawner> Spawners { get; set; }
     }
 
     public class SpeedPoint
@@ -63,6 +63,21 @@
         {
             this.X = x;
             this.Y = y;
+        }
+    }
+
+    public class Spawner : Node
+    {
+        public List<LevelProperties.ColorEnum> SpawnColor { get; set; }
+
+        public float SpawnedActorSpeed { get; set; }
+
+        public bool Multiple { get; set; }
+
+        public float SpawnInterval { get; set; }
+
+        public Spawner(int x, int y) : base(x, y)
+        {
         }
     }
 }
