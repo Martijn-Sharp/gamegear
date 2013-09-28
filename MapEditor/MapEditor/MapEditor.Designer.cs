@@ -34,7 +34,6 @@
             this.lblButtonY = new System.Windows.Forms.Label();
             this.lblButtonX = new System.Windows.Forms.Label();
             this.lblCurrentButton = new System.Windows.Forms.Label();
-            this.lblSelectedType = new System.Windows.Forms.Label();
             this.pnlInfo = new System.Windows.Forms.GroupBox();
             this.tabPicker = new System.Windows.Forms.TabControl();
             this.Enemy = new System.Windows.Forms.TabPage();
@@ -51,24 +50,36 @@
             this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.propertiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.clearStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.propertiesStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.importStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pnlSpawnerProps = new System.Windows.Forms.Panel();
+            this.lblColors = new System.Windows.Forms.Label();
+            this.ddlColors = new System.Windows.Forms.ComboBox();
+            this.lblSpeed = new System.Windows.Forms.Label();
+            this.speedUpDown = new System.Windows.Forms.NumericUpDown();
+            this.lblInterval = new System.Windows.Forms.Label();
+            this.intervalUpDown = new System.Windows.Forms.NumericUpDown();
+            this.chkMultiple = new System.Windows.Forms.CheckBox();
+            this.chkDelete = new System.Windows.Forms.CheckBox();
             this.pnlInfo.SuspendLayout();
             this.tabPicker.SuspendLayout();
             this.Enemy.SuspendLayout();
             this.Level.SuspendLayout();
             this.menuStrip.SuspendLayout();
-            this.contextMenuStrip1.SuspendLayout();
+            this.contextMenuStrip.SuspendLayout();
+            this.pnlSpawnerProps.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.speedUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.intervalUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // mapPanel
             // 
             this.mapPanel.AutoScroll = true;
-            this.mapPanel.Location = new System.Drawing.Point(172, 27);
+            this.mapPanel.Location = new System.Drawing.Point(179, 59);
             this.mapPanel.Name = "mapPanel";
             this.mapPanel.Size = new System.Drawing.Size(760, 334);
             this.mapPanel.TabIndex = 0;
@@ -76,7 +87,7 @@
             // lblButtonValue
             // 
             this.lblButtonValue.AutoSize = true;
-            this.lblButtonValue.Location = new System.Drawing.Point(6, 79);
+            this.lblButtonValue.Location = new System.Drawing.Point(6, 121);
             this.lblButtonValue.Name = "lblButtonValue";
             this.lblButtonValue.Size = new System.Drawing.Size(43, 13);
             this.lblButtonValue.TabIndex = 4;
@@ -85,7 +96,7 @@
             // lblButtonY
             // 
             this.lblButtonY.AutoSize = true;
-            this.lblButtonY.Location = new System.Drawing.Point(6, 66);
+            this.lblButtonY.Location = new System.Drawing.Point(66, 108);
             this.lblButtonY.Name = "lblButtonY";
             this.lblButtonY.Size = new System.Drawing.Size(26, 13);
             this.lblButtonY.TabIndex = 3;
@@ -94,7 +105,7 @@
             // lblButtonX
             // 
             this.lblButtonX.AutoSize = true;
-            this.lblButtonX.Location = new System.Drawing.Point(6, 53);
+            this.lblButtonX.Location = new System.Drawing.Point(6, 108);
             this.lblButtonX.Name = "lblButtonX";
             this.lblButtonX.Size = new System.Drawing.Size(23, 13);
             this.lblButtonX.TabIndex = 2;
@@ -103,32 +114,22 @@
             // lblCurrentButton
             // 
             this.lblCurrentButton.AutoSize = true;
-            this.lblCurrentButton.Location = new System.Drawing.Point(6, 40);
+            this.lblCurrentButton.Location = new System.Drawing.Point(6, 95);
             this.lblCurrentButton.Name = "lblCurrentButton";
             this.lblCurrentButton.Size = new System.Drawing.Size(86, 13);
             this.lblCurrentButton.TabIndex = 1;
             this.lblCurrentButton.Text = "Selected Button:";
             // 
-            // lblSelectedType
-            // 
-            this.lblSelectedType.AutoSize = true;
-            this.lblSelectedType.Cursor = System.Windows.Forms.Cursors.Default;
-            this.lblSelectedType.Location = new System.Drawing.Point(6, 16);
-            this.lblSelectedType.Name = "lblSelectedType";
-            this.lblSelectedType.Size = new System.Drawing.Size(87, 13);
-            this.lblSelectedType.TabIndex = 0;
-            this.lblSelectedType.Text = "No type selected";
-            // 
             // pnlInfo
             // 
+            this.pnlInfo.Controls.Add(this.pnlSpawnerProps);
             this.pnlInfo.Controls.Add(this.lblButtonValue);
-            this.pnlInfo.Controls.Add(this.lblSelectedType);
             this.pnlInfo.Controls.Add(this.lblButtonY);
             this.pnlInfo.Controls.Add(this.lblCurrentButton);
             this.pnlInfo.Controls.Add(this.lblButtonX);
-            this.pnlInfo.Location = new System.Drawing.Point(11, 260);
+            this.pnlInfo.Location = new System.Drawing.Point(0, 256);
             this.pnlInfo.Name = "pnlInfo";
-            this.pnlInfo.Size = new System.Drawing.Size(151, 101);
+            this.pnlInfo.Size = new System.Drawing.Size(173, 137);
             this.pnlInfo.TabIndex = 18;
             this.pnlInfo.TabStop = false;
             this.pnlInfo.Text = "Info";
@@ -140,7 +141,7 @@
             this.tabPicker.Location = new System.Drawing.Point(12, 27);
             this.tabPicker.Name = "tabPicker";
             this.tabPicker.SelectedIndex = 0;
-            this.tabPicker.Size = new System.Drawing.Size(154, 227);
+            this.tabPicker.Size = new System.Drawing.Size(154, 223);
             this.tabPicker.TabIndex = 19;
             // 
             // Enemy
@@ -149,7 +150,7 @@
             this.Enemy.Location = new System.Drawing.Point(4, 22);
             this.Enemy.Name = "Enemy";
             this.Enemy.Padding = new System.Windows.Forms.Padding(3);
-            this.Enemy.Size = new System.Drawing.Size(146, 201);
+            this.Enemy.Size = new System.Drawing.Size(146, 197);
             this.Enemy.TabIndex = 1;
             this.Enemy.Text = "Enemy";
             this.Enemy.UseVisualStyleBackColor = true;
@@ -180,7 +181,7 @@
             this.Level.Location = new System.Drawing.Point(4, 22);
             this.Level.Name = "Level";
             this.Level.Padding = new System.Windows.Forms.Padding(3);
-            this.Level.Size = new System.Drawing.Size(146, 201);
+            this.Level.Size = new System.Drawing.Size(146, 197);
             this.Level.TabIndex = 2;
             this.Level.Text = "Level";
             this.Level.UseVisualStyleBackColor = true;
@@ -270,18 +271,18 @@
             this.propertiesToolStripMenuItem.Text = "Properties";
             this.propertiesToolStripMenuItem.Click += new System.EventHandler(this.PropertiesClick);
             // 
-            // contextMenuStrip1
+            // contextMenuStrip
             // 
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.clearStripMenuItem,
             this.propertiesStripMenuItem,
             this.toolStripSeparator,
             this.importStripMenuItem,
             this.exportStripMenuItem});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.ShowCheckMargin = true;
-            this.contextMenuStrip1.ShowImageMargin = false;
-            this.contextMenuStrip1.Size = new System.Drawing.Size(128, 98);
+            this.contextMenuStrip.Name = "contextMenuStrip1";
+            this.contextMenuStrip.ShowCheckMargin = true;
+            this.contextMenuStrip.ShowImageMargin = false;
+            this.contextMenuStrip.Size = new System.Drawing.Size(128, 98);
             // 
             // clearStripMenuItem
             // 
@@ -316,13 +317,125 @@
             this.exportStripMenuItem.Text = "Export";
             this.exportStripMenuItem.Click += new System.EventHandler(this.ExportClick);
             // 
+            // pnlSpawnerProps
+            // 
+            this.pnlSpawnerProps.Controls.Add(this.chkMultiple);
+            this.pnlSpawnerProps.Controls.Add(this.intervalUpDown);
+            this.pnlSpawnerProps.Controls.Add(this.lblInterval);
+            this.pnlSpawnerProps.Controls.Add(this.speedUpDown);
+            this.pnlSpawnerProps.Controls.Add(this.lblSpeed);
+            this.pnlSpawnerProps.Controls.Add(this.ddlColors);
+            this.pnlSpawnerProps.Controls.Add(this.lblColors);
+            this.pnlSpawnerProps.Location = new System.Drawing.Point(7, 20);
+            this.pnlSpawnerProps.Name = "pnlSpawnerProps";
+            this.pnlSpawnerProps.Size = new System.Drawing.Size(155, 72);
+            this.pnlSpawnerProps.TabIndex = 5;
+            this.pnlSpawnerProps.Visible = false;
+            // 
+            // lblColors
+            // 
+            this.lblColors.AutoSize = true;
+            this.lblColors.Location = new System.Drawing.Point(2, 7);
+            this.lblColors.Name = "lblColors";
+            this.lblColors.Size = new System.Drawing.Size(36, 13);
+            this.lblColors.TabIndex = 0;
+            this.lblColors.Text = "Colors";
+            // 
+            // ddlColors
+            // 
+            this.ddlColors.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ddlColors.FormattingEnabled = true;
+            this.ddlColors.Location = new System.Drawing.Point(44, 4);
+            this.ddlColors.Name = "ddlColors";
+            this.ddlColors.Size = new System.Drawing.Size(108, 21);
+            this.ddlColors.TabIndex = 1;
+            this.ddlColors.SelectedIndexChanged += new System.EventHandler(this.ddlColors_SelectedIndexChanged);
+            // 
+            // lblSpeed
+            // 
+            this.lblSpeed.AutoSize = true;
+            this.lblSpeed.Location = new System.Drawing.Point(2, 28);
+            this.lblSpeed.Name = "lblSpeed";
+            this.lblSpeed.Size = new System.Drawing.Size(38, 13);
+            this.lblSpeed.TabIndex = 2;
+            this.lblSpeed.Text = "Speed";
+            // 
+            // speedUpDown
+            // 
+            this.speedUpDown.DecimalPlaces = 1;
+            this.speedUpDown.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            65536});
+            this.speedUpDown.Location = new System.Drawing.Point(44, 26);
+            this.speedUpDown.Maximum = new decimal(new int[] {
+            4,
+            0,
+            0,
+            0});
+            this.speedUpDown.Name = "speedUpDown";
+            this.speedUpDown.Size = new System.Drawing.Size(39, 20);
+            this.speedUpDown.TabIndex = 3;
+            this.speedUpDown.ValueChanged += new System.EventHandler(this.speedUpDown_ValueChanged);
+            // 
+            // lblInterval
+            // 
+            this.lblInterval.AutoSize = true;
+            this.lblInterval.Location = new System.Drawing.Point(2, 49);
+            this.lblInterval.Name = "lblInterval";
+            this.lblInterval.Size = new System.Drawing.Size(42, 13);
+            this.lblInterval.TabIndex = 4;
+            this.lblInterval.Text = "Interval";
+            // 
+            // intervalUpDown
+            // 
+            this.intervalUpDown.DecimalPlaces = 1;
+            this.intervalUpDown.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            65536});
+            this.intervalUpDown.Location = new System.Drawing.Point(44, 49);
+            this.intervalUpDown.Maximum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.intervalUpDown.Name = "intervalUpDown";
+            this.intervalUpDown.Size = new System.Drawing.Size(39, 20);
+            this.intervalUpDown.TabIndex = 5;
+            this.intervalUpDown.ValueChanged += new System.EventHandler(this.intervalUpDown_ValueChanged);
+            // 
+            // chkMultiple
+            // 
+            this.chkMultiple.AutoSize = true;
+            this.chkMultiple.Location = new System.Drawing.Point(86, 27);
+            this.chkMultiple.Name = "chkMultiple";
+            this.chkMultiple.Size = new System.Drawing.Size(62, 17);
+            this.chkMultiple.TabIndex = 6;
+            this.chkMultiple.Text = "Multiple";
+            this.chkMultiple.UseVisualStyleBackColor = true;
+            this.chkMultiple.CheckedChanged += new System.EventHandler(this.chkMultiple_CheckedChanged);
+            // 
+            // chkDelete
+            // 
+            this.chkDelete.AutoSize = true;
+            this.chkDelete.Location = new System.Drawing.Point(179, 28);
+            this.chkDelete.Name = "chkDelete";
+            this.chkDelete.Size = new System.Drawing.Size(86, 17);
+            this.chkDelete.TabIndex = 21;
+            this.chkDelete.Text = "Delete mode";
+            this.chkDelete.UseVisualStyleBackColor = true;
+            // 
             // MapEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(945, 369);
-            this.ContextMenuStrip = this.contextMenuStrip1;
+            this.ClientSize = new System.Drawing.Size(945, 405);
+            this.ContextMenuStrip = this.contextMenuStrip;
+            this.Controls.Add(this.chkDelete);
             this.Controls.Add(this.tabPicker);
             this.Controls.Add(this.pnlInfo);
             this.Controls.Add(this.mapPanel);
@@ -339,7 +452,11 @@
             this.Level.ResumeLayout(false);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
-            this.contextMenuStrip1.ResumeLayout(false);
+            this.contextMenuStrip.ResumeLayout(false);
+            this.pnlSpawnerProps.ResumeLayout(false);
+            this.pnlSpawnerProps.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.speedUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.intervalUpDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -349,7 +466,6 @@
 
         private System.Windows.Forms.Panel mapPanel;
         private System.Windows.Forms.Label lblCurrentButton;
-        private System.Windows.Forms.Label lblSelectedType;
         private System.Windows.Forms.Label lblButtonValue;
         private System.Windows.Forms.Label lblButtonY;
         private System.Windows.Forms.Label lblButtonX;
@@ -363,7 +479,7 @@
         private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem clearToolStripMenuItem;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem clearStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem importStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportStripMenuItem;
@@ -375,6 +491,15 @@
         private System.Windows.Forms.ColumnHeader nameEnemyColumnHeader;
         private System.Windows.Forms.ListView listLevels;
         private System.Windows.Forms.ColumnHeader nameLevelColumnHeader;
+        private System.Windows.Forms.Panel pnlSpawnerProps;
+        private System.Windows.Forms.CheckBox chkMultiple;
+        private System.Windows.Forms.NumericUpDown intervalUpDown;
+        private System.Windows.Forms.Label lblInterval;
+        private System.Windows.Forms.NumericUpDown speedUpDown;
+        private System.Windows.Forms.Label lblSpeed;
+        private System.Windows.Forms.ComboBox ddlColors;
+        private System.Windows.Forms.Label lblColors;
+        private System.Windows.Forms.CheckBox chkDelete;
     }
 }
 
