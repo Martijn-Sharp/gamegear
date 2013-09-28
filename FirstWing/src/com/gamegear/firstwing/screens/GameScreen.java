@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.input.GestureDetector;
@@ -23,6 +24,7 @@ import com.badlogic.gdx.utils.Array;
 import com.gamegear.firstwing.ActorMgr;
 import com.gamegear.firstwing.BobController;
 import com.gamegear.firstwing.FwWorld;
+import com.gamegear.firstwing.Stats;
 import com.gamegear.firstwing.WorldRenderer;
 import com.gamegear.firstwing.actors.*;
 import com.gamegear.firstwing.actors.json.StaticActor;
@@ -40,8 +42,9 @@ public class GameScreen implements Screen {
 	public Music			music;
 	public Array<Enemy>		enemiesForRemoval;
 	public Array<Orb>		orbForRemoval;
-	public long				score;
+	public Stats			stats;
 	public boolean			markedForRestart = false;
+	public FreeTypeFontGenerator 	fontGenerator;
 	
 	// Bullets
 	private Array<Bullet> 	bullets;
@@ -62,7 +65,12 @@ public class GameScreen implements Screen {
 		//Rendering
 		world = new FwWorld("");
 		renderer = new WorldRenderer(world, false);
-		font = new BitmapFont();
+		
+		fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/TiresiasScreenfont.ttf"));
+		//font = fontGenerator.generateFont(30, "abcdefghijklmnopqrstuvwxyz:1234567890", true);
+		font = fontGenerator.generateFont(16);
+		fontGenerator.dispose();
+
 		
 		interfaceTexture = new Texture(Gdx.files.internal("images/dpad.png"));
 		interfaceBatch = new SpriteBatch();
@@ -80,7 +88,7 @@ public class GameScreen implements Screen {
 		orbForRemoval = new Array<Orb>();
 		
 		//Score
-		score = 0;
+		stats = new Stats();
 		
 		//Play music
 		music = Gdx.audio.newMusic(Gdx.files.internal("sounds/BergsmatarenLever.ogg"));
@@ -104,7 +112,7 @@ public class GameScreen implements Screen {
 		//renderer = new WorldRenderer(world, false);
 
 		//Score
-		score = 0;
+		stats.resetScore();
 
 		// Contact listener
 		createCollisionListener();
@@ -190,8 +198,10 @@ public class GameScreen implements Screen {
 		interfaceRenderer.end();
 		interfaceBatch.begin();
 		font.setScale(1);
-		font.draw(interfaceBatch, "Score:" + score, 10, height -10);
-		font.draw(interfaceBatch, "Health:" + (int)this.world.getBob().getHealth()*10 + "%", 100, height -10);
+		font.draw(interfaceBatch, "Score:" + stats.getScore(), 10, height -10);
+		font.draw(interfaceBatch, "Highscore:" + stats.getHighScore(), 100, height -10);
+		font.draw(interfaceBatch, "Health:" + (int)this.world.getBob().getHealth()*10 + "%", 200, height -10);
+		font.draw(interfaceBatch, "Combo:" + stats.getComboOrbs() + "x", 300, height -10);
 		
 		if(showFPS)
 		{
@@ -203,14 +213,6 @@ public class GameScreen implements Screen {
 			interfaceBatch.draw(interfaceTexture, controller.getDpadCenterX() - interfaceTexture.getWidth()/4, controller.getDpadCenterY() - interfaceTexture.getHeight()/4, interfaceTexture.getWidth()/2, interfaceTexture.getHeight()/2);
 			interfaceBatch.draw(interfaceTexture, controller.getDpadX() - interfaceTexture.getWidth()/2, controller.getDpadY() - interfaceTexture.getHeight()/2, interfaceTexture.getWidth(), interfaceTexture.getHeight());
 		}
-		interfaceBatch.end();
-	}
-	
-	public void renderFPS()
-	{
-		interfaceBatch.begin();
-		font.setScale(1);
-		font.draw(interfaceBatch, "fps:" + Gdx.graphics.getFramesPerSecond(), 0, 20);
 		interfaceBatch.end();
 	}
 	
@@ -244,7 +246,7 @@ public class GameScreen implements Screen {
 		float elapsedTime = (System.nanoTime() - timeSinceLastBullet) / 1000000000.0f;
         if(elapsedTime>bulletDelay){
         	timeSinceLastBullet = System.nanoTime();
-        	Bullet temp = new Bullet(this.world.getBob().getBody().getWorldPoint(new Vector2(0.8f,0)), world.getWorld(), filter);
+        	Bullet temp = new Bullet(this.world.getBob().getBody().getWorldPoint(new Vector2(0.8f,0)), world.getWorld(), filter, stats.currentColor);
         	temp.getBody().setBullet(true);
         	temp.getBody().setLinearVelocity(10,0);
         	bullets.add(temp);
@@ -308,7 +310,11 @@ public class GameScreen implements Screen {
                                 
                 if(collisionOrb != null && collisionBullet == null){
                 	if(collisionBob != null){
-                		score += collisionOrb.getPoints();
+                		//Add points, true means color has changed
+                		if(stats.addScore(collisionOrb.getColor(), collisionOrb.getPoints()))
+                		{
+                			renderer.changeAfterBurnerColor(collisionOrb.getColor());
+                		}
                 	}
                 	
                 	if(!orbForRemoval.contains(collisionOrb, true)){
