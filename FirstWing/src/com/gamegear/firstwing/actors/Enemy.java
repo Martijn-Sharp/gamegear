@@ -15,14 +15,15 @@ public class Enemy extends MoveableActor {
 	private ColorEnum color;
 	private World world;
 	
-	public Enemy(Vector2 position, World world, DynamicActor actor, String type, Filter filter){
-		super(actor.Speed, actor.Scale, actor.Width, actor.Height, position, world, filter);
+	public Enemy(Vector2 position, World world, DynamicActor actor, String type, Filter filter, float speed){
+		super(actor, position, world, filter);
 		this.health = actor.Health;
 		this.type = type;
 		this.color = ColorEnum.valueOf(this.type.split("-")[1]);
 		this.world = world;
 		this.loadTextures();
 		this.setShape(this.createShape(actor, false), 2f);
+		this.setSpeed(speed);
 	}
 	
 	@Override
@@ -49,5 +50,9 @@ public class Enemy extends MoveableActor {
 	
 	public World getWorld(){
 		return this.world;
+	}
+	
+	public float getSpeed(){
+		return this.getSpeed();
 	}
 }

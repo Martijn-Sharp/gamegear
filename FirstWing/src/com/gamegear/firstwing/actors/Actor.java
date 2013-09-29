@@ -27,16 +27,19 @@ public abstract class Actor {
 	
 	private World world;
 	
+	private ActorProperties actor;
+	
 	/** @param Scale
 	 * @param Width
 	 * @param Height
 	 * @param BodyType
 	 * @param Position */
-	public Actor(float scale, float width, float height, BodyType bodyType, Vector2 position, World world, Filter filter)
+	public Actor(ActorProperties actor, BodyType bodyType, Vector2 position, World world, Filter filter)
 	{
-		this.scale = scale;
-		this.width = width;
-		this.height = height;
+		this.actor = actor;
+		this.scale = actor.Scale;
+		this.width = actor.Width;
+		this.height = actor.Height;
 		this.world = world;
 		this.bodyDef = new BodyDef();
 		this.bodyDef.type = bodyType;
@@ -103,6 +106,10 @@ public abstract class Actor {
 	public TextureRegion getTexture(){
 		this.draw();
 		return this.texture;
+	}
+	
+	public ActorProperties getProperties(){
+		return this.actor;
 	}
 	
 	protected void setTexture(TextureRegion texture){

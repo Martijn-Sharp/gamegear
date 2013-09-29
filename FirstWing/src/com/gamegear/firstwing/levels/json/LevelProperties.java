@@ -28,5 +28,5 @@ public class LevelProperties {
 
     public List<Node> Tiles;
     
-    public List<Node> Enemies;
+    public List<Spawner> Spawners;
 }

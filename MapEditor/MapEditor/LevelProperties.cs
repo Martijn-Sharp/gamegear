@@ -76,8 +76,9 @@
 
         public float SpawnInterval { get; set; }
 
-        public Spawner(int x, int y) : base(x, y)
+        public Spawner(int x, int y, List<LevelProperties.ColorEnum> colors ) : base(x, y)
         {
+            this.SpawnColor = colors;
         }
     }
 }

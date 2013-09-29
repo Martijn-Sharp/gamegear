@@ -16,7 +16,7 @@ public class Block extends Actor {
 	private String textureName;
 	
 	public Block(Vector2 position, World world, StaticActor actor, Filter filter) {
-		super(actor.Scale, actor.Width, actor.Height, BodyType.StaticBody, position, world, filter);
+		super(actor, BodyType.StaticBody, position, world, filter);
 		this.textureName = actor.Name;
 		this.loadTextures();
 		this.setShape(this.createShape(actor, true), 0f);

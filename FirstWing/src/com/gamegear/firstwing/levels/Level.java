@@ -15,7 +15,6 @@ import com.gamegear.firstwing.ActorMgr;
 import com.gamegear.firstwing.actors.*;
 import com.gamegear.firstwing.actors.json.StaticActor;
 import com.gamegear.firstwing.levels.json.*;
-import com.gamegear.firstwing.levels.json.LevelProperties.ColorEnum;
 
 public class Level {
 
@@ -122,7 +121,7 @@ public class Level {
 		
 		if(levelPath.isEmpty())
 		{
-			levelLoader = new JSONLoader().getLevel(Gdx.files.internal("levels/map12.dat"));
+			levelLoader = new JSONLoader().getLevel(Gdx.files.internal("levels/map13.dat"));
 		}
 		else
 		{
@@ -130,7 +129,7 @@ public class Level {
 		}
 		
 		Iterator<Node> tiles = levelLoader.Tiles.iterator();
-		Iterator<Node> enemiesIt = levelLoader.Enemies.iterator();
+		Iterator<com.gamegear.firstwing.levels.json.Spawner> spawnerIt = levelLoader.Spawners.iterator();
 		Filter filter = new Filter();
 		
 		while(tiles.hasNext()){
@@ -146,10 +145,10 @@ public class Level {
 			tiles.remove();
 		}
 		
-		while(enemiesIt.hasNext()){
-			Node enemy = enemiesIt.next();
-			this.spawners.add(new Spawner(new Vector2(enemy.X, enemy.Y), this.world, enemy.Name, (ArrayList<ColorEnum>) levelLoader.Colors, this));
-			enemiesIt.remove();
+		while(spawnerIt.hasNext()){
+			com.gamegear.firstwing.levels.json.Spawner spawner = spawnerIt.next();
+			this.spawners.add(new Spawner(spawner, this.world, this));
+			spawnerIt.remove();
 		}
 		
 		for(int x = 0; x < 25; x++){

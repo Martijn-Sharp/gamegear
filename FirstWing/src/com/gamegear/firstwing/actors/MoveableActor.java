@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.World;
+import com.gamegear.firstwing.actors.json.DynamicActor;
 
 public abstract class MoveableActor extends Actor {
 
@@ -20,13 +21,17 @@ public abstract class MoveableActor extends Actor {
 	 * @param Width
 	 * @param Height
 	 * @param Position */
-	public MoveableActor(float speed, float scale, float width, float height, Vector2 position, World world, Filter filter) {
-		super(scale, width, height, BodyType.DynamicBody, position, world, filter);
-		this.speed = speed;
+	public MoveableActor(DynamicActor actor, Vector2 position, World world, Filter filter) {
+		super(actor, BodyType.DynamicBody, position, world, filter);
+		this.speed = actor.Speed;
 	}
 	
 	public float getSpeed() {
 		return this.speed;
+	}
+	
+	public void setSpeed(float speed){
+		this.speed = speed;
 	}
 	
 	@Override
@@ -55,5 +60,4 @@ public abstract class MoveableActor extends Actor {
 		stateTime += delta;
 		//position.add(velocity.tmp().mul(delta)); 
 	}
-
 }

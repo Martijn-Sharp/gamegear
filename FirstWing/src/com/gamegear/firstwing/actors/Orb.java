@@ -15,7 +15,7 @@ public class Orb extends Actor {
 	private final static int POINTS = 10;
 
 	public Orb(Vector2 position, World world, StaticActor actor, ColorEnum color, Filter filter) {
-		super(actor.Scale, actor.Width, actor.Height, BodyType.StaticBody, position, world, filter);
+		super(actor, BodyType.StaticBody, position, world, filter);
 		this.color = color;
 		this.loadTextures();
 		this.setShape(this.createShape(actor, false), 0f);

@@ -17,13 +17,15 @@ public class Spawner {
 	private ArrayList<ColorEnum> colors;
 	private Vector2 position;
 	private Level level;
+	private float speed;
 	
-	public Spawner(Vector2 position, World world, String type, ArrayList<ColorEnum> colors, Level level){
-		this.position = position;
+	public Spawner(com.gamegear.firstwing.levels.json.Spawner spawner, World world, Level level){
+		this.position = new Vector2(spawner.X, spawner.Y);
+		this.colors = (ArrayList<ColorEnum>) spawner.SpawnColor;
+		this.type = spawner.Name;
 		this.world = world;
-		this.colors = colors;
 		this.level = level;
-		this.type = type;
+		this.speed = spawner.SpawnedActorSpeed;
 		this.Spawn();
 	}
 	
@@ -31,7 +33,7 @@ public class Spawner {
 		ColorEnum color = this.colors.get(new Random().nextInt(this.colors.size()));
 		Filter filter = new Filter();
 		filter.maskBits = ~4;
-		this.level.addMoveableActor(new Enemy(this.position, this.world, ActorMgr.getProperties(this.type, new DynamicActor()), this.type + "-" + color.toString(), filter));
+		this.level.addMoveableActor(new Enemy(this.position, this.world, ActorMgr.getProperties(this.type, new DynamicActor()), this.type + "-" + color.toString(), filter, this.speed));
 	}
 	
 	public Vector2 getPosition(){

@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.gamegear.firstwing.TextureMgr;
+import com.gamegear.firstwing.actors.json.DynamicActor;
 
 public class Bob extends MoveableActor {
 	private static final float SPEED = 4f;
@@ -14,11 +15,9 @@ public class Bob extends MoveableActor {
 	private static final float HEIGHT = 1f;
 	
 	private TextureRegion bobShipRight;
-	private float health = 10;
 	
-
 	public Bob(Vector2 position, World world, Filter filter) {
-		super(SPEED, SCALE, WIDTH, HEIGHT, position, world, filter);
+		super(new DynamicActor(SPEED, 10f, "bob", SCALE, WIDTH, HEIGHT, null), position, world, filter);
 		this.loadTextures();
 		
 		PolygonShape rect = new PolygonShape();
@@ -30,6 +29,14 @@ public class Bob extends MoveableActor {
 		polygons[4] = new Vector2(0.2f,-0.2f);
 		rect.set(polygons);
 		this.setShape(rect, 0f);
+	}
+	
+	public float getHealth(){
+		return ((DynamicActor)this.getProperties()).Health;
+	}
+	
+	public void setHealth(float health){
+		((DynamicActor)this.getProperties()).Health = health;
 	}
 
 	@Override
@@ -49,14 +56,6 @@ public class Bob extends MoveableActor {
 //		bobJumpRight.flip(true, false);
 //		bobFallRight = TextureMgr.getTexture("bob-down", false);
 //		bobFallRight.flip(true, false);
-	}
-	
-	public float getHealth() {
-		return health;
-	}
-	
-	public void setHealth(float health) {
-		this.health = health;
 	}
 
 	@Override

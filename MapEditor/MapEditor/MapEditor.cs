@@ -83,7 +83,7 @@
                 switch (this.categorySelected)
                 {
                     case CategoryEnum.Spawner:
-                        this.map.Add(tmpName, new Spawner(coords[1], 9 - coords[0]) { Name = this.actorSelected, Type = Node.NodeType.Spawner, SpawnedActorSpeed = 1f });
+                        this.map.Add(tmpName, new Spawner(coords[1], 9 - coords[0], LevelProps.Colors) { Name = this.actorSelected, Type = Node.NodeType.Spawner, SpawnedActorSpeed = 0.5f });
                         clickedButton.BackgroundImage = this.GetImage(this.actorSelected, CategoryEnum.Spawner);
                         break;
                     case CategoryEnum.Level:
