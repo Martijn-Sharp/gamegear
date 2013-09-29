@@ -31,6 +31,7 @@ public class WorldRenderer {
 	private OrthographicCamera cam;
 
 	/** for debug rendering **/
+	@SuppressWarnings("unused")
 	private Box2DDebugRenderer debugRenderer;
 	private ShapeRenderer shapeRenderer;
 
@@ -261,8 +262,15 @@ public class WorldRenderer {
 		cameraX += Gdx.graphics.getDeltaTime() * currentSpeed;
 		
 		//Gdx.app.log("Camera", "X:" + cameraX + "," + x + " Y:" + cameraY + "," + y);
-		
-        cam.position.set(cameraX, cameraY, 0);
+		if(speed >= 3)
+		{
+			cam.position.set(cameraX, cameraY + (float)(Math.random() - 0.5)/25, 0);
+		}
+		else
+		{
+			cam.position.set(cameraX, cameraY, 0);
+		}
+        
         cam.update();
 	}
 	
