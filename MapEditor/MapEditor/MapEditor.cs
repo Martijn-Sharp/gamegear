@@ -4,29 +4,31 @@
     using System.Collections.Generic;
     using System.Drawing;
     using System.IO;
+    using System.Linq;
     using System.Windows.Forms;
     using Newtonsoft.Json;
 
     public partial class MapEditor : Form
     {
-        private Dictionary<string, Node> map;
+        private Dictionary<Point, Node> map;
         private Dictionary<string, Bitmap> images;
         private CategoryEnum categorySelected = CategoryEnum.Default;
 
         private Spawner currentSelectedSpawner;
 
         private string actorSelected;
-        private int xButtonCount = 10;
-        private int yButtonCount = 100;
+        private int yButtonCount = 10;
         private int buttonWidth = 30;
         private int buttonHeight = 30;
         private int distance = 10;
         private int startX = 0;
         private int startY = 0;
+        private int guiLeftX = 0;
+        private int guiRightX = 24;
 
         public MapEditor()
         {
-            this.map = new Dictionary<string, Node>();
+            this.map = new Dictionary<Point, Node>();
             this.images = new Dictionary<string, Bitmap>();
             this.InitializeComponent();
             this.BuildGui(BuildOptions.Build);
@@ -44,7 +46,8 @@
         {
             Clear,
             Build,
-            Import
+            Import,
+            ChangeView
         }
 
         public static ActorFile Actors { get; set; }
@@ -73,21 +76,19 @@
             // When the button is clicked,
             // change the button text, and disable it.
             var clickedButton = (Control)sender;
-            int[] coords = GetCoordsFromString(clickedButton.Name);
-
-            string tmpName = clickedButton.Name;
+            var tmpPoint = (Point)clickedButton.Tag;
 
             // Check if tile exists
-            if (!this.map.ContainsKey(tmpName))
+            if (!this.map.ContainsKey(tmpPoint))
             {
                 switch (this.categorySelected)
                 {
                     case CategoryEnum.Spawner:
-                        this.map.Add(tmpName, new Spawner(coords[1], 9 - coords[0], LevelProps.Colors) { Name = this.actorSelected, Type = Node.NodeType.Spawner, SpawnedActorSpeed = 0.5f });
+                        this.map.Add(tmpPoint, new Spawner(tmpPoint.X + this.guiLeftX, 9 - tmpPoint.Y, LevelProps.Colors) { Name = this.actorSelected, Type = Node.NodeType.Spawner, SpawnedActorSpeed = 0.5f });
                         clickedButton.BackgroundImage = this.GetImage(this.actorSelected, CategoryEnum.Spawner);
                         break;
                     case CategoryEnum.Level:
-                        this.map.Add(tmpName, new Node(coords[1], 9 - coords[0]) { Name = this.actorSelected, Type = Node.NodeType.Tile });
+                        this.map.Add(tmpPoint, new Node(tmpPoint.X + this.guiLeftX, 9 - tmpPoint.Y) { Name = this.actorSelected, Type = Node.NodeType.Tile });
                         clickedButton.BackgroundImage = this.GetImage(this.actorSelected, CategoryEnum.Level);
                         break;
                     case CategoryEnum.Default:
@@ -99,13 +100,13 @@
             {
                 if (this.chkDelete.Checked)
                 {
-                    this.map.Remove(tmpName);
+                    this.map.Remove(tmpPoint);
                     clickedButton.BackgroundImage = this.GetImage("default");
                     this.pnlSpawnerProps.Visible = false;
                 }
-                else if (this.map[tmpName] is Spawner)
+                else if (this.map[tmpPoint] is Spawner)
                 {
-                    this.currentSelectedSpawner = (Spawner)this.map[tmpName];
+                    this.currentSelectedSpawner = (Spawner)this.map[tmpPoint];
                     this.pnlSpawnerProps.Visible = true;
                     this.FillSpawnProperties(this.currentSelectedSpawner);
                 }
@@ -120,16 +121,16 @@
         {
             try
             {
-                Node node = this.map[((Control)sender).Name];
-                this.lblButtonX.Text = "X = " + node.X;
+                Node node = this.map[(Point)((Control)sender).Tag];
+                this.lblButtonX.Text = "X = " + (node.X + this.guiLeftX);
                 this.lblButtonY.Text = "Y = " + node.Y;
                 this.lblButtonValue.Text = "Name = " + node.Name;
             }
             catch (KeyNotFoundException)
             {
-                var coords = GetCoordsFromString(((Control)sender).Name);
-                this.lblButtonX.Text = "X = " + coords[1];
-                this.lblButtonY.Text = "Y = " + (9 - coords[0]);
+                var point = (Point)((Control)sender).Tag;
+                this.lblButtonX.Text = "X = " + (point.X + this.guiLeftX);
+                this.lblButtonY.Text = "Y = " + (9 - point.Y);
                 this.lblButtonValue.Text = "Name = ";
             }
         }
@@ -139,19 +140,19 @@
             switch (options)
             {
                 case BuildOptions.Build:
-                    for (int x = 0; x < this.xButtonCount; x++)
+                    this.mapPanel.Controls.Clear();
+                    for (int x = 0; x < 25; x++)
                     {
                         for (int y = 0; y < this.yButtonCount; y++)
                         {
                             var tmpButton = new Panel
                             {
-                                Top = this.startX + (x * this.buttonHeight) + this.distance,
-                                Left = this.startY + (y * this.buttonWidth) + this.distance,
+                                Top = this.startY + (y * this.buttonHeight) + this.distance,
+                                Left = this.startX + (x * this.buttonWidth) + this.distance,
                                 Width = this.buttonWidth,
                                 Height = this.buttonHeight,
-                                Name = x + "," + y,
-                                BackgroundImage = this.GetImage("default"),
-                                BackColor = Color.Transparent
+                                Tag = new Point(x, y),
+                                BackgroundImage = this.GetImage("default")
                             };
 
                             tmpButton.MouseHover += this.CurrentButtonMouseHover;
@@ -162,31 +163,72 @@
 
                     break;
                 case BuildOptions.Clear:
-                    foreach (KeyValuePair<string, Node> a in this.map)
+                    foreach (var button in this.mapPanel.Controls.OfType<Panel>())
                     {
-                        Control fillButton = this.mapPanel.Controls.Find(a.Key, false)[0];
-                        fillButton.BackgroundImage = this.GetImage("default");
+                        button.BackgroundImage = this.GetImage("default");
                     }
 
                     this.map.Clear();
                     break;
                 case BuildOptions.Import:
-                    foreach (KeyValuePair<string, Node> a in this.map)
+                    foreach (KeyValuePair<Point, Node> a in this.map.Where(x => x.Key.X >= this.guiLeftX && x.Key.X <= this.guiRightX))
                     {
                         // Restore imported map here
-                        Control fillButton = this.mapPanel.Controls.Find(a.Key, false)[0];
-                        if (a.Value.Type == Node.NodeType.Spawner)
+                        //Control fillButton = this.mapPanel.Controls.Find(a.Key, false)[0];
+                        var position = a.Key;
+                        position.X -= this.guiLeftX;
+                        Control fillButton = this.mapPanel.Controls.OfType<Panel>().FirstOrDefault(x => (Point)x.Tag == position);
+                        if (fillButton != null)
                         {
-                            fillButton.BackgroundImage = this.GetImage("spawner", CategoryEnum.Spawner);
+                            if (a.Value.Type == Node.NodeType.Spawner)
+                            {
+                                fillButton.BackgroundImage = this.GetImage("spawner", CategoryEnum.Spawner);
+                            }
+                            else if (a.Value.Type == Node.NodeType.Tile)
+                            {
+                                fillButton.BackgroundImage = this.GetImage(a.Value.Name, CategoryEnum.Level);
+                            }
                         }
-                        else if (a.Value.Type == Node.NodeType.Tile)
+                    }
+
+                    break;
+                case BuildOptions.ChangeView:
+                    for (int x = 0; x < 25; x++)
+                    {
+                        for (int y = 0; y < this.yButtonCount; y++)
                         {
-                            fillButton.BackgroundImage = this.GetImage(a.Value.Name, CategoryEnum.Level);
+                            var button = this.mapPanel.Controls.OfType<Panel>().FirstOrDefault(z => (Point)z.Tag == new Point(x, y));
+                            if (button != null)
+                            {
+                                var node = this.map.FirstOrDefault(mapNode => mapNode.Key == new Point(x + this.guiLeftX, y));
+                                button.BackgroundImage = 
+                                    node.Value != null ?
+                                    this.GetImage(node.Value.Name, node.Value is Spawner ? CategoryEnum.Spawner : CategoryEnum.Level) 
+                                    : this.GetImage("default");
+                            }
                         }
                     }
 
                     break;
             }
+        }
+
+        public void ChangeGuiPosition(int step)
+        {
+            int newGuiLeftX = this.guiLeftX + step;
+            if (newGuiLeftX >= 0 && newGuiLeftX < int.MaxValue)
+            {
+                this.guiLeftX = newGuiLeftX;
+                this.guiRightX = this.guiRightX + step;
+            }
+            else
+            {
+                this.guiLeftX = 0;
+                this.guiRightX = 24;
+            }
+
+            this.lblPageStretch.Text = string.Format("{0} - {1}", this.guiLeftX, this.guiRightX);
+            this.BuildGui(BuildOptions.ChangeView);
         }
 
         public void PopulateLists()
@@ -234,12 +276,12 @@
                 LevelProps = JsonConvert.DeserializeObject<LevelProperties>(lines);
                 foreach (var enemy in LevelProps.Spawners)
                 {
-                    this.map.Add(9 - enemy.Y + "," + enemy.X, enemy);
+                    this.map.Add(new Point(enemy.X, 9 - enemy.Y), enemy);
                 }
 
                 foreach (var tile in LevelProps.Tiles)
                 {
-                    this.map.Add(9 - tile.Y + "," + tile.X, tile);
+                    this.map.Add(new Point(tile.X, 9 - tile.Y), tile);
                 }
 
                 this.BuildGui(BuildOptions.Import);
@@ -251,7 +293,7 @@
             LevelProps.Spawners = new List<Spawner>();
             LevelProps.Tiles = new List<Node>();
 
-            foreach (KeyValuePair<string, Node> a in this.map)
+            foreach (KeyValuePair<Point, Node> a in this.map)
             {
                 if (a.Value.Type == Node.NodeType.Spawner)
                 {
@@ -389,7 +431,7 @@
             this.intervalUpDown.Visible = spawner.Multiple;
         }
 
-        private void ddlColors_SelectedIndexChanged(object sender, EventArgs e)
+        private void DdlColorsSelectedIndexChanged(object sender, EventArgs e)
         {
             if (this.currentSelectedSpawner.SpawnColor == null)
             {
@@ -409,21 +451,51 @@
             }
         }
 
-        private void speedUpDown_ValueChanged(object sender, EventArgs e)
+        private void SpeedUpDownValueChanged(object sender, EventArgs e)
         {
             this.currentSelectedSpawner.SpawnedActorSpeed = Convert.ToSingle(this.speedUpDown.Value);
         }
 
-        private void chkMultiple_CheckedChanged(object sender, EventArgs e)
+        private void ChkMultipleCheckedChanged(object sender, EventArgs e)
         {
             this.currentSelectedSpawner.Multiple = this.chkMultiple.Checked;
             this.lblInterval.Visible = this.chkMultiple.Checked;
             this.intervalUpDown.Visible = this.chkMultiple.Checked;
         }
 
-        private void intervalUpDown_ValueChanged(object sender, EventArgs e)
+        private void IntervalUpDownValueChanged(object sender, EventArgs e)
         {
             this.currentSelectedSpawner.SpawnInterval = Convert.ToSingle(this.intervalUpDown.Value);
+        }
+
+        private void BtnFasterBackwardClick(object sender, EventArgs e)
+        {
+            this.ChangeGuiPosition(-25);
+        }
+
+        private void BtnFastBackwardClick(object sender, EventArgs e)
+        {
+            this.ChangeGuiPosition(-10);
+        }
+
+        private void BtnBackwardClick(object sender, EventArgs e)
+        {
+            this.ChangeGuiPosition(-1);
+        }
+
+        private void BtnForwardClick(object sender, EventArgs e)
+        {
+            this.ChangeGuiPosition(1);
+        }
+
+        private void BtnFastForwardClick(object sender, EventArgs e)
+        {
+            this.ChangeGuiPosition(10);
+        }
+
+        private void BtnFasterForwardClick(object sender, EventArgs e)
+        {
+            this.ChangeGuiPosition(25);
         }
     }
 }

@@ -35,6 +35,14 @@
             this.lblButtonX = new System.Windows.Forms.Label();
             this.lblCurrentButton = new System.Windows.Forms.Label();
             this.pnlInfo = new System.Windows.Forms.GroupBox();
+            this.pnlSpawnerProps = new System.Windows.Forms.Panel();
+            this.chkMultiple = new System.Windows.Forms.CheckBox();
+            this.intervalUpDown = new System.Windows.Forms.NumericUpDown();
+            this.lblInterval = new System.Windows.Forms.Label();
+            this.speedUpDown = new System.Windows.Forms.NumericUpDown();
+            this.lblSpeed = new System.Windows.Forms.Label();
+            this.ddlColors = new System.Windows.Forms.ComboBox();
+            this.lblColors = new System.Windows.Forms.Label();
             this.tabPicker = new System.Windows.Forms.TabControl();
             this.Enemy = new System.Windows.Forms.TabPage();
             this.listEnemies = new System.Windows.Forms.ListView();
@@ -56,24 +64,23 @@
             this.toolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.importStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pnlSpawnerProps = new System.Windows.Forms.Panel();
-            this.lblColors = new System.Windows.Forms.Label();
-            this.ddlColors = new System.Windows.Forms.ComboBox();
-            this.lblSpeed = new System.Windows.Forms.Label();
-            this.speedUpDown = new System.Windows.Forms.NumericUpDown();
-            this.lblInterval = new System.Windows.Forms.Label();
-            this.intervalUpDown = new System.Windows.Forms.NumericUpDown();
-            this.chkMultiple = new System.Windows.Forms.CheckBox();
             this.chkDelete = new System.Windows.Forms.CheckBox();
+            this.btnFasterForward = new System.Windows.Forms.Button();
+            this.btnFastForward = new System.Windows.Forms.Button();
+            this.btnForward = new System.Windows.Forms.Button();
+            this.lblPageStretch = new System.Windows.Forms.Label();
+            this.btnBackward = new System.Windows.Forms.Button();
+            this.btnFastBackward = new System.Windows.Forms.Button();
+            this.btnFasterBackward = new System.Windows.Forms.Button();
             this.pnlInfo.SuspendLayout();
+            this.pnlSpawnerProps.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.intervalUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.speedUpDown)).BeginInit();
             this.tabPicker.SuspendLayout();
             this.Enemy.SuspendLayout();
             this.Level.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.contextMenuStrip.SuspendLayout();
-            this.pnlSpawnerProps.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.speedUpDown)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.intervalUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // mapPanel
@@ -133,6 +140,107 @@
             this.pnlInfo.TabIndex = 18;
             this.pnlInfo.TabStop = false;
             this.pnlInfo.Text = "Info";
+            // 
+            // pnlSpawnerProps
+            // 
+            this.pnlSpawnerProps.Controls.Add(this.chkMultiple);
+            this.pnlSpawnerProps.Controls.Add(this.intervalUpDown);
+            this.pnlSpawnerProps.Controls.Add(this.lblInterval);
+            this.pnlSpawnerProps.Controls.Add(this.speedUpDown);
+            this.pnlSpawnerProps.Controls.Add(this.lblSpeed);
+            this.pnlSpawnerProps.Controls.Add(this.ddlColors);
+            this.pnlSpawnerProps.Controls.Add(this.lblColors);
+            this.pnlSpawnerProps.Location = new System.Drawing.Point(7, 20);
+            this.pnlSpawnerProps.Name = "pnlSpawnerProps";
+            this.pnlSpawnerProps.Size = new System.Drawing.Size(155, 72);
+            this.pnlSpawnerProps.TabIndex = 5;
+            this.pnlSpawnerProps.Visible = false;
+            // 
+            // chkMultiple
+            // 
+            this.chkMultiple.AutoSize = true;
+            this.chkMultiple.Location = new System.Drawing.Point(86, 27);
+            this.chkMultiple.Name = "chkMultiple";
+            this.chkMultiple.Size = new System.Drawing.Size(62, 17);
+            this.chkMultiple.TabIndex = 6;
+            this.chkMultiple.Text = "Multiple";
+            this.chkMultiple.UseVisualStyleBackColor = true;
+            this.chkMultiple.CheckedChanged += new System.EventHandler(this.ChkMultipleCheckedChanged);
+            // 
+            // intervalUpDown
+            // 
+            this.intervalUpDown.DecimalPlaces = 1;
+            this.intervalUpDown.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            65536});
+            this.intervalUpDown.Location = new System.Drawing.Point(44, 49);
+            this.intervalUpDown.Maximum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.intervalUpDown.Name = "intervalUpDown";
+            this.intervalUpDown.Size = new System.Drawing.Size(39, 20);
+            this.intervalUpDown.TabIndex = 5;
+            this.intervalUpDown.ValueChanged += new System.EventHandler(this.IntervalUpDownValueChanged);
+            // 
+            // lblInterval
+            // 
+            this.lblInterval.AutoSize = true;
+            this.lblInterval.Location = new System.Drawing.Point(2, 49);
+            this.lblInterval.Name = "lblInterval";
+            this.lblInterval.Size = new System.Drawing.Size(42, 13);
+            this.lblInterval.TabIndex = 4;
+            this.lblInterval.Text = "Interval";
+            // 
+            // speedUpDown
+            // 
+            this.speedUpDown.DecimalPlaces = 1;
+            this.speedUpDown.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            65536});
+            this.speedUpDown.Location = new System.Drawing.Point(44, 26);
+            this.speedUpDown.Maximum = new decimal(new int[] {
+            4,
+            0,
+            0,
+            0});
+            this.speedUpDown.Name = "speedUpDown";
+            this.speedUpDown.Size = new System.Drawing.Size(39, 20);
+            this.speedUpDown.TabIndex = 3;
+            this.speedUpDown.ValueChanged += new System.EventHandler(this.SpeedUpDownValueChanged);
+            // 
+            // lblSpeed
+            // 
+            this.lblSpeed.AutoSize = true;
+            this.lblSpeed.Location = new System.Drawing.Point(2, 28);
+            this.lblSpeed.Name = "lblSpeed";
+            this.lblSpeed.Size = new System.Drawing.Size(38, 13);
+            this.lblSpeed.TabIndex = 2;
+            this.lblSpeed.Text = "Speed";
+            // 
+            // ddlColors
+            // 
+            this.ddlColors.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ddlColors.FormattingEnabled = true;
+            this.ddlColors.Location = new System.Drawing.Point(44, 4);
+            this.ddlColors.Name = "ddlColors";
+            this.ddlColors.Size = new System.Drawing.Size(108, 21);
+            this.ddlColors.TabIndex = 1;
+            this.ddlColors.SelectedIndexChanged += new System.EventHandler(this.DdlColorsSelectedIndexChanged);
+            // 
+            // lblColors
+            // 
+            this.lblColors.AutoSize = true;
+            this.lblColors.Location = new System.Drawing.Point(2, 7);
+            this.lblColors.Name = "lblColors";
+            this.lblColors.Size = new System.Drawing.Size(36, 13);
+            this.lblColors.TabIndex = 0;
+            this.lblColors.Text = "Colors";
             // 
             // tabPicker
             // 
@@ -317,116 +425,84 @@
             this.exportStripMenuItem.Text = "Export";
             this.exportStripMenuItem.Click += new System.EventHandler(this.ExportClick);
             // 
-            // pnlSpawnerProps
-            // 
-            this.pnlSpawnerProps.Controls.Add(this.chkMultiple);
-            this.pnlSpawnerProps.Controls.Add(this.intervalUpDown);
-            this.pnlSpawnerProps.Controls.Add(this.lblInterval);
-            this.pnlSpawnerProps.Controls.Add(this.speedUpDown);
-            this.pnlSpawnerProps.Controls.Add(this.lblSpeed);
-            this.pnlSpawnerProps.Controls.Add(this.ddlColors);
-            this.pnlSpawnerProps.Controls.Add(this.lblColors);
-            this.pnlSpawnerProps.Location = new System.Drawing.Point(7, 20);
-            this.pnlSpawnerProps.Name = "pnlSpawnerProps";
-            this.pnlSpawnerProps.Size = new System.Drawing.Size(155, 72);
-            this.pnlSpawnerProps.TabIndex = 5;
-            this.pnlSpawnerProps.Visible = false;
-            // 
-            // lblColors
-            // 
-            this.lblColors.AutoSize = true;
-            this.lblColors.Location = new System.Drawing.Point(2, 7);
-            this.lblColors.Name = "lblColors";
-            this.lblColors.Size = new System.Drawing.Size(36, 13);
-            this.lblColors.TabIndex = 0;
-            this.lblColors.Text = "Colors";
-            // 
-            // ddlColors
-            // 
-            this.ddlColors.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.ddlColors.FormattingEnabled = true;
-            this.ddlColors.Location = new System.Drawing.Point(44, 4);
-            this.ddlColors.Name = "ddlColors";
-            this.ddlColors.Size = new System.Drawing.Size(108, 21);
-            this.ddlColors.TabIndex = 1;
-            this.ddlColors.SelectedIndexChanged += new System.EventHandler(this.ddlColors_SelectedIndexChanged);
-            // 
-            // lblSpeed
-            // 
-            this.lblSpeed.AutoSize = true;
-            this.lblSpeed.Location = new System.Drawing.Point(2, 28);
-            this.lblSpeed.Name = "lblSpeed";
-            this.lblSpeed.Size = new System.Drawing.Size(38, 13);
-            this.lblSpeed.TabIndex = 2;
-            this.lblSpeed.Text = "Speed";
-            // 
-            // speedUpDown
-            // 
-            this.speedUpDown.DecimalPlaces = 1;
-            this.speedUpDown.Increment = new decimal(new int[] {
-            5,
-            0,
-            0,
-            65536});
-            this.speedUpDown.Location = new System.Drawing.Point(44, 26);
-            this.speedUpDown.Maximum = new decimal(new int[] {
-            4,
-            0,
-            0,
-            0});
-            this.speedUpDown.Name = "speedUpDown";
-            this.speedUpDown.Size = new System.Drawing.Size(39, 20);
-            this.speedUpDown.TabIndex = 3;
-            this.speedUpDown.ValueChanged += new System.EventHandler(this.speedUpDown_ValueChanged);
-            // 
-            // lblInterval
-            // 
-            this.lblInterval.AutoSize = true;
-            this.lblInterval.Location = new System.Drawing.Point(2, 49);
-            this.lblInterval.Name = "lblInterval";
-            this.lblInterval.Size = new System.Drawing.Size(42, 13);
-            this.lblInterval.TabIndex = 4;
-            this.lblInterval.Text = "Interval";
-            // 
-            // intervalUpDown
-            // 
-            this.intervalUpDown.DecimalPlaces = 1;
-            this.intervalUpDown.Increment = new decimal(new int[] {
-            5,
-            0,
-            0,
-            65536});
-            this.intervalUpDown.Location = new System.Drawing.Point(44, 49);
-            this.intervalUpDown.Maximum = new decimal(new int[] {
-            2,
-            0,
-            0,
-            0});
-            this.intervalUpDown.Name = "intervalUpDown";
-            this.intervalUpDown.Size = new System.Drawing.Size(39, 20);
-            this.intervalUpDown.TabIndex = 5;
-            this.intervalUpDown.ValueChanged += new System.EventHandler(this.intervalUpDown_ValueChanged);
-            // 
-            // chkMultiple
-            // 
-            this.chkMultiple.AutoSize = true;
-            this.chkMultiple.Location = new System.Drawing.Point(86, 27);
-            this.chkMultiple.Name = "chkMultiple";
-            this.chkMultiple.Size = new System.Drawing.Size(62, 17);
-            this.chkMultiple.TabIndex = 6;
-            this.chkMultiple.Text = "Multiple";
-            this.chkMultiple.UseVisualStyleBackColor = true;
-            this.chkMultiple.CheckedChanged += new System.EventHandler(this.chkMultiple_CheckedChanged);
-            // 
             // chkDelete
             // 
             this.chkDelete.AutoSize = true;
-            this.chkDelete.Location = new System.Drawing.Point(179, 28);
+            this.chkDelete.Location = new System.Drawing.Point(179, 31);
             this.chkDelete.Name = "chkDelete";
             this.chkDelete.Size = new System.Drawing.Size(86, 17);
             this.chkDelete.TabIndex = 21;
             this.chkDelete.Text = "Delete mode";
             this.chkDelete.UseVisualStyleBackColor = true;
+            // 
+            // btnFasterForward
+            // 
+            this.btnFasterForward.Location = new System.Drawing.Point(897, 27);
+            this.btnFasterForward.Name = "btnFasterForward";
+            this.btnFasterForward.Size = new System.Drawing.Size(40, 23);
+            this.btnFasterForward.TabIndex = 22;
+            this.btnFasterForward.Text = ">>>";
+            this.btnFasterForward.UseVisualStyleBackColor = true;
+            this.btnFasterForward.Click += new System.EventHandler(this.BtnFasterForwardClick);
+            // 
+            // btnFastForward
+            // 
+            this.btnFastForward.Location = new System.Drawing.Point(851, 27);
+            this.btnFastForward.Name = "btnFastForward";
+            this.btnFastForward.Size = new System.Drawing.Size(40, 23);
+            this.btnFastForward.TabIndex = 23;
+            this.btnFastForward.Text = ">>";
+            this.btnFastForward.UseVisualStyleBackColor = true;
+            this.btnFastForward.Click += new System.EventHandler(this.BtnFastForwardClick);
+            // 
+            // btnForward
+            // 
+            this.btnForward.Location = new System.Drawing.Point(805, 27);
+            this.btnForward.Name = "btnForward";
+            this.btnForward.Size = new System.Drawing.Size(40, 23);
+            this.btnForward.TabIndex = 24;
+            this.btnForward.Text = ">";
+            this.btnForward.UseVisualStyleBackColor = true;
+            this.btnForward.Click += new System.EventHandler(this.BtnForwardClick);
+            // 
+            // lblPageStretch
+            // 
+            this.lblPageStretch.Location = new System.Drawing.Point(726, 32);
+            this.lblPageStretch.Name = "lblPageStretch";
+            this.lblPageStretch.Size = new System.Drawing.Size(73, 13);
+            this.lblPageStretch.TabIndex = 25;
+            this.lblPageStretch.Text = "0 - 24";
+            this.lblPageStretch.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // btnBackward
+            // 
+            this.btnBackward.Location = new System.Drawing.Point(680, 27);
+            this.btnBackward.Name = "btnBackward";
+            this.btnBackward.Size = new System.Drawing.Size(40, 23);
+            this.btnBackward.TabIndex = 26;
+            this.btnBackward.Text = "<";
+            this.btnBackward.UseVisualStyleBackColor = true;
+            this.btnBackward.Click += new System.EventHandler(this.BtnBackwardClick);
+            // 
+            // btnFastBackward
+            // 
+            this.btnFastBackward.Location = new System.Drawing.Point(634, 27);
+            this.btnFastBackward.Name = "btnFastBackward";
+            this.btnFastBackward.Size = new System.Drawing.Size(40, 23);
+            this.btnFastBackward.TabIndex = 27;
+            this.btnFastBackward.Text = "<<";
+            this.btnFastBackward.UseVisualStyleBackColor = true;
+            this.btnFastBackward.Click += new System.EventHandler(this.BtnFastBackwardClick);
+            // 
+            // btnFasterBackward
+            // 
+            this.btnFasterBackward.Location = new System.Drawing.Point(588, 27);
+            this.btnFasterBackward.Name = "btnFasterBackward";
+            this.btnFasterBackward.Size = new System.Drawing.Size(40, 23);
+            this.btnFasterBackward.TabIndex = 28;
+            this.btnFasterBackward.Text = "<<<";
+            this.btnFasterBackward.UseVisualStyleBackColor = true;
+            this.btnFasterBackward.Click += new System.EventHandler(this.BtnFasterBackwardClick);
             // 
             // MapEditor
             // 
@@ -435,6 +511,13 @@
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(945, 405);
             this.ContextMenuStrip = this.contextMenuStrip;
+            this.Controls.Add(this.btnFasterBackward);
+            this.Controls.Add(this.btnFastBackward);
+            this.Controls.Add(this.btnBackward);
+            this.Controls.Add(this.lblPageStretch);
+            this.Controls.Add(this.btnForward);
+            this.Controls.Add(this.btnFastForward);
+            this.Controls.Add(this.btnFasterForward);
             this.Controls.Add(this.chkDelete);
             this.Controls.Add(this.tabPicker);
             this.Controls.Add(this.pnlInfo);
@@ -447,16 +530,16 @@
             this.Text = "Map Editor";
             this.pnlInfo.ResumeLayout(false);
             this.pnlInfo.PerformLayout();
+            this.pnlSpawnerProps.ResumeLayout(false);
+            this.pnlSpawnerProps.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.intervalUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.speedUpDown)).EndInit();
             this.tabPicker.ResumeLayout(false);
             this.Enemy.ResumeLayout(false);
             this.Level.ResumeLayout(false);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
             this.contextMenuStrip.ResumeLayout(false);
-            this.pnlSpawnerProps.ResumeLayout(false);
-            this.pnlSpawnerProps.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.speedUpDown)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.intervalUpDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -500,6 +583,13 @@
         private System.Windows.Forms.ComboBox ddlColors;
         private System.Windows.Forms.Label lblColors;
         private System.Windows.Forms.CheckBox chkDelete;
+        private System.Windows.Forms.Button btnFasterForward;
+        private System.Windows.Forms.Button btnFastForward;
+        private System.Windows.Forms.Button btnForward;
+        private System.Windows.Forms.Label lblPageStretch;
+        private System.Windows.Forms.Button btnBackward;
+        private System.Windows.Forms.Button btnFastBackward;
+        private System.Windows.Forms.Button btnFasterBackward;
     }
 }
 
