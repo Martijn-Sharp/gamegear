@@ -1,0 +1,80 @@
+package com.gamegear.firstwing.screens;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.gamegear.firstwing.FirstWing;
+
+public abstract class MenuScreen implements Screen {
+
+    protected Stage stage;
+    FirstWing firstwing;
+
+    private Table table;
+    private Skin skin;
+
+    public MenuScreen(FirstWing firstwing) {
+            this.firstwing = firstwing;
+            stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
+    }
+
+    @Override
+    public void show() {
+            Gdx.input.setInputProcessor(stage);
+    }
+
+    @Override
+    public void render(float delta) {
+            stage.act(delta);
+
+            Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+            Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
+            stage.draw();
+    }
+
+    @Override
+    public void resize(int width, int height) {
+            stage.setViewport(width, height, true);
+    }
+
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
+
+    }
+
+    @Override
+    public void dispose() {
+
+    }
+
+    protected Table getTable() {
+            if (table == null) {
+                    table = new Table(getSkin());
+                    table.setFillParent(true);
+                    stage.addActor(table);
+            }
+            return table;
+    }
+
+    protected Skin getSkin() {
+            if (skin == null) {
+                    FirstWing.manager.load("ui/uiskin.json", Skin.class);
+                    FirstWing.manager.finishLoading();
+                    skin = FirstWing.manager.get("ui/uiskin.json");
+            }
+            return skin;
+    }
+
+    public FirstWing getGame() {
+            return this.firstwing;
+    }
+}

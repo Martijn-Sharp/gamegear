@@ -23,6 +23,7 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.utils.Array;
 import com.gamegear.firstwing.ActorMgr;
 import com.gamegear.firstwing.BobController;
+import com.gamegear.firstwing.FirstWing;
 import com.gamegear.firstwing.FwWorld;
 import com.gamegear.firstwing.Stats;
 import com.gamegear.firstwing.WorldRenderer;
@@ -31,6 +32,7 @@ import com.gamegear.firstwing.actors.json.StaticActor;
 
 public class GameScreen implements Screen {
 
+	public FirstWing		game;
 	public FwWorld 			world;
 	public WorldRenderer 	renderer;
 	public BobController	controller;
@@ -57,9 +59,13 @@ public class GameScreen implements Screen {
 	
 	private int width, height;
 	
+	public GameScreen(FirstWing game)
+	{
+		this.game = game;
+	}
+	
 	@Override
 	public void show() {
-		
 		//Bullet array
 		bullets = new Array<Bullet>();
 		bullets.ensureCapacity(20);
@@ -69,7 +75,7 @@ public class GameScreen implements Screen {
 		world = new FwWorld("");
 		renderer = new WorldRenderer(world, false);
 		
-		fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/TiresiasScreenfont.ttf"));
+		fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("ui/TiresiasScreenfont.ttf"));
 		//font = fontGenerator.generateFont(30, "abcdefghijklmnopqrstuvwxyz:1234567890", true);
 		font = fontGenerator.generateFont(16);
 		fontGenerator.dispose();

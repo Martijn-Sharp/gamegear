@@ -1,23 +1,23 @@
 package com.gamegear.firstwing.screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.gamegear.firstwing.FirstWing;
 
 public class Splash implements Screen
 {
         private SpriteBatch spriteBatch;
         private Texture splash;
-        private Game game;
+        private FirstWing game;
         
         /**
          * Constructor for the splash screen
          * @param g Game which called this splash screen.
          */
-        public Splash(Game g)
+        public Splash(FirstWing g)
         {
                 game = g;
         }
@@ -31,7 +31,7 @@ public class Splash implements Screen
                 spriteBatch.end();
                 
                 if(Gdx.input.justTouched())
-                        game.setScreen(new GameScreen());
+                        game.setScreen(new MainMenu(game));
         }
         
         @Override
