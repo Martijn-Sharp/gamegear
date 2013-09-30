@@ -40,7 +40,6 @@ public class BobController implements GestureListener, InputProcessor {
 	public int dpadPointer = -1;
 	public int dpadCenterX, dpadCenterY = -1;
 	public int dpadX, dpadY = -1;
-	public final int dpadSpeed = 3;
 	
 	//Bob impulse power
 	public float linImpulseX = 0;
@@ -256,12 +255,11 @@ public class BobController implements GestureListener, InputProcessor {
 			}
 			
 		}
-//		if(dpadPointer == pointer && x < width / 2.5 && y > height - (height/2.5))
-//		{
+		
 		dpadX = x; 
 		dpadY = y;
 			
-		linImpulseY = Gdx.graphics.getDeltaTime() * ((dpadCenterY - y) * dpadSpeed);
+		linImpulseY = Gdx.graphics.getDeltaTime() * ((dpadCenterY - y) * (3 * (FirstWing.options.getSensitivity() + 1)));
 			
 		//Check if going out of map
 		if(screen.renderer.cameraX - 4f <= screen.world.bob.getPosition().x || -(dpadCenterX - x) > 0)
@@ -287,7 +285,7 @@ public class BobController implements GestureListener, InputProcessor {
 			return false;
 		}
 			
-		linImpulseX = Gdx.graphics.getDeltaTime() * (-(dpadCenterX - x) * dpadSpeed);
+		linImpulseX = Gdx.graphics.getDeltaTime() * (-(dpadCenterX - x) * (3 * (FirstWing.options.getSensitivity() + 1)));
 		return false;
 	}
 

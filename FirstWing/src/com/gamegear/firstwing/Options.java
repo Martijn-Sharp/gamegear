@@ -4,6 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 
 public class Options {
+	
+	// Controls
+	public static final String INVERT = "controls.invert.enabled";
+	public static final String SENSITIVITY = "controls.sensitivity.enabled";
+	
     
     // Graphics
     public static final String WIDTH = "window.width";
@@ -17,7 +22,7 @@ public class Options {
     public static final String SFX = "sfx.enabled";
 
     protected Preferences getPrefs() {
-            return Gdx.app.getPreferences("dungeon-data");
+            return Gdx.app.getPreferences("ColorExpress");
     }
 
     public void flush() {
@@ -38,22 +43,6 @@ public class Options {
 
     public void setHeight(int height) {
             getPrefs().putInteger(HEIGHT, height);
-    }
-
-    public boolean vSyncEnabled() {
-            return getPrefs().getBoolean(VSYNC, true);
-    }
-
-    public void setVSync(boolean value) {
-            getPrefs().putBoolean(VSYNC, value);
-    }
-
-    public boolean getFullscreen() {
-            return getPrefs().getBoolean(FULLSCREEN, false);
-    }
-
-    public void setFullscreen(boolean value) {
-            getPrefs().putBoolean(FULLSCREEN, value);
     }
 
     public boolean musicEnabled() {
@@ -78,6 +67,22 @@ public class Options {
 
     public void setVolume(float volume) {
             getPrefs().putFloat(VOLUME, volume);
+    }
+    
+    public boolean invertEnabled() {
+        return getPrefs().getBoolean(INVERT, false);
+    }
+
+    public void setInvert(boolean value) {
+        getPrefs().putBoolean(INVERT, value);
+    }
+    
+    public float getSensitivity() {
+        return getPrefs().getFloat(SENSITIVITY, 0.5f);
+    }
+
+    public void setSensitivity(float sensitivity) {
+        getPrefs().putFloat(SENSITIVITY, sensitivity);
     }
 
 }

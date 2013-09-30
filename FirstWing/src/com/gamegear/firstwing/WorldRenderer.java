@@ -264,7 +264,7 @@ public class WorldRenderer {
 		//Gdx.app.log("Camera", "X:" + cameraX + "," + x + " Y:" + cameraY + "," + y);
 		if(speed >= 3)
 		{
-			cam.position.set(cameraX, cameraY + (float)(Math.random() - 0.5)/25, 0);
+			cam.position.set(cameraX + (float)(Math.random() - 0.5)/25, cameraY + (float)(Math.random() - 0.5)/25, 0);
 		}
 		else
 		{

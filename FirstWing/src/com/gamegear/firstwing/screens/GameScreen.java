@@ -101,9 +101,12 @@ public class GameScreen implements Screen {
 		
 		//Play music
 		music = Gdx.audio.newMusic(Gdx.files.internal("sounds/BergsmatarenLever.ogg"));
-		music.setVolume(0.1f);
+		music.setVolume(FirstWing.options.getVolume());
 		music.setLooping(true);
-		//music.play();
+		if(FirstWing.options.musicEnabled())
+		{
+			music.play();
+		}
 	}
 	
 	public void loadLevel(String levelPath)
