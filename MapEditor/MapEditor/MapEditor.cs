@@ -86,11 +86,11 @@
                 switch (this.categorySelected)
                 {
                     case CategoryEnum.Spawner:
-                        this.map.Add(tmpPoint, new Spawner(tmpPoint.X + this.guiLeftX, (this.yButtonCount - 1) - tmpPoint.Y) { Name = this.actorSelected, Type = Node.NodeType.Spawner, SpawnedActorSpeed = 0.5f, SpawnColor = new List<LevelProperties.ColorEnum>(LevelProps.Colors) });
+                        this.map.Add(tmpPoint, new Spawner(tmpPoint.X, (this.yButtonCount - 1) - tmpPoint.Y) { Name = this.actorSelected, Type = Node.NodeType.Spawner, SpawnedActorSpeed = 0.5f, SpawnColor = new List<LevelProperties.ColorEnum>(LevelProps.Colors) });
                         clickedButton.BackgroundImage = this.GetImage(this.actorSelected, CategoryEnum.Spawner);
                         break;
                     case CategoryEnum.Level:
-                        this.map.Add(tmpPoint, new Node(tmpPoint.X + this.guiLeftX, (this.yButtonCount - 1) - tmpPoint.Y) { Name = this.actorSelected, Type = Node.NodeType.Tile });
+                        this.map.Add(tmpPoint, new Node(tmpPoint.X, (this.yButtonCount - 1) - tmpPoint.Y) { Name = this.actorSelected, Type = Node.NodeType.Tile });
                         clickedButton.BackgroundImage = this.GetImage(this.actorSelected, CategoryEnum.Level);
                         break;
                     case CategoryEnum.Default:
@@ -124,9 +124,9 @@
             try
             {
                 var position = (Point)((Control)sender).Tag;
-                Point target = new Point(position.X + this.guiLeftX, position.Y);
+                var target = new Point(position.X + this.guiLeftX, position.Y);
                 Node node = this.map[target];
-                this.lblButtonX.Text = "X = " + (node.X + this.guiLeftX);
+                this.lblButtonX.Text = "X = " + node.X;
                 this.lblButtonY.Text = "Y = " + node.Y;
                 this.lblButtonValue.Text = "Name = " + node.Name;
             }

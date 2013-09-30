@@ -256,7 +256,7 @@ public class WorldRenderer {
 		this.currentSpeed = speed;
 		
 		//Cap camera at the top and bottom
-		if(y + 4 > 10) { cameraY = 6f; }
+		if(y + 4 > 12) { cameraY = 8f; }
 		else if(y - 3 < 0) { cameraY = 3f; }
 		else { cameraY = y; }
 		

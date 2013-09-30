@@ -124,7 +124,7 @@ public class Level {
 		
 		if(levelPath.isEmpty())
 		{
-			levelLoader = new JSONLoader().getLevel(Gdx.files.internal("levels/map13.dat"));
+			levelLoader = new JSONLoader().getLevel(Gdx.files.internal("levels/map14.dat"));
 		}
 		else
 		{
@@ -160,7 +160,7 @@ public class Level {
 		}
 		
 		// BACKGROUND
-		for(int x = 0; x < 25; x++){
+		for(int x = 0; x < Math.ceil(levelLoader.FinishX / 4); x++){
 			for(int y = 0; y < 3; y++){
 				Sprite tempBg = new Sprite(new Texture(Gdx.files.internal("images/" + levelLoader.BackgroundName + ".png")));
 				tempBg.setSize(4f, 4f);
