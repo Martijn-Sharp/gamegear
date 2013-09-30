@@ -88,7 +88,7 @@
             this.mapPanel.AutoScroll = true;
             this.mapPanel.Location = new System.Drawing.Point(179, 59);
             this.mapPanel.Name = "mapPanel";
-            this.mapPanel.Size = new System.Drawing.Size(760, 334);
+            this.mapPanel.Size = new System.Drawing.Size(760, 374);
             this.mapPanel.TabIndex = 0;
             // 
             // lblButtonValue
@@ -136,7 +136,7 @@
             this.pnlInfo.Controls.Add(this.lblButtonX);
             this.pnlInfo.Location = new System.Drawing.Point(0, 256);
             this.pnlInfo.Name = "pnlInfo";
-            this.pnlInfo.Size = new System.Drawing.Size(173, 137);
+            this.pnlInfo.Size = new System.Drawing.Size(173, 170);
             this.pnlInfo.TabIndex = 18;
             this.pnlInfo.TabStop = false;
             this.pnlInfo.Text = "Info";
@@ -509,7 +509,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(945, 405);
+            this.ClientSize = new System.Drawing.Size(945, 438);
             this.ContextMenuStrip = this.contextMenuStrip;
             this.Controls.Add(this.btnFasterBackward);
             this.Controls.Add(this.btnFastBackward);
