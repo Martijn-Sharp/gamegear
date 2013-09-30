@@ -46,6 +46,7 @@ public class GameScreen implements Screen {
 	public boolean			markedForRestart = false;
 	public FreeTypeFontGenerator 	fontGenerator;
 	public Array<Actor>		actorsForRemoval;
+	public String			levelPath;
 	
 	// Bullets
 	private Array<Bullet> 	bullets;
@@ -57,9 +58,10 @@ public class GameScreen implements Screen {
 	
 	private int width, height;
 	
-	public GameScreen(FirstWing game)
+	public GameScreen(FirstWing game, String levelPath)
 	{
 		this.game = game;
+		this.levelPath = levelPath;
 	}
 	
 	@Override
@@ -69,7 +71,8 @@ public class GameScreen implements Screen {
 		bullets.ensureCapacity(20);
 		
 		//Rendering
-		world = new FwWorld("");
+		world = new FwWorld(levelPath);
+		
 		renderer = new WorldRenderer(world, false);
 		
 		fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("ui/TiresiasScreenfont.ttf"));
@@ -134,7 +137,7 @@ public class GameScreen implements Screen {
 		removeBodies();
 		if(markedForRestart)
 		{
-			loadLevel("");
+			loadLevel(levelPath);
 			markedForRestart = false;
 		}
 		
