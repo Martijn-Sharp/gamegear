@@ -29,6 +29,7 @@ public class MainMenu extends MenuScreen{
             TextButton newGameButton = new TextButton("Start Game", getSkin());
             newGameButton.addListener(new ClickListener() {
                     public void clicked(InputEvent event, float x, float y) {
+                    	Gdx.app.log("Menu", "Clicked startgame");
                     	firstwing.setScreen(new GameScreen(firstwing));
                     }
             });
@@ -37,8 +38,8 @@ public class MainMenu extends MenuScreen{
             TextButton optionsButton = new TextButton("Options", getSkin());
             optionsButton.addListener(new ClickListener() {
                     public void clicked(InputEvent event, float x, float y) {
-                        //game.setScreen(new OptionsScreen(game));
                     	Gdx.app.log("Menu", "Clicked menu");
+                    	firstwing.setScreen(new OptionsScreen(firstwing));
                     }
             });
 
@@ -53,11 +54,11 @@ public class MainMenu extends MenuScreen{
             // Layout
             table.add("Fullcolor Express").spaceBottom(15.0f);
             table.row();
-            table.add(newGameButton).size(300, 60).uniform().spaceBottom(10);
+            table.add(newGameButton).fill().uniform().spaceBottom(10);
             table.row();
-            table.add(optionsButton).size(300, 60).uniform().spaceBottom(10);
+            table.add(optionsButton).fill().uniform().spaceBottom(10);
             table.row();
-            table.add(exitButton).size(300, 60).uniform().spaceBottom(10);
+            table.add(exitButton).fill().uniform().spaceBottom(10);
 
     }
 
