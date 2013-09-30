@@ -51,8 +51,4 @@ public class Enemy extends MoveableActor {
 	public World getWorld(){
 		return this.world;
 	}
-	
-	public float getSpeed(){
-		return this.getSpeed();
-	}
 }

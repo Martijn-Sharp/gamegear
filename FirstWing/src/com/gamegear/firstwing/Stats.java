@@ -32,43 +32,44 @@ public class Stats {
 	
 	public void loadHighscore()
 	{
-		this.setHighScore(prefs.getLong("highscore", 0l));
+		this.setHighScore(this.prefs.getLong("highscore", 0l));
 	}
 	
 	public boolean addScore(ColorEnum colorEnum, float enemyScore)
 	{
 		boolean changed;
 		//Reset modifier
-		if(currentColor != colorEnum)
+		if(this.currentColor != colorEnum)
 		{
-			modifier = 1f;
-			comboOrbs = 0;
-			currentColor = colorEnum;
+			this.modifier = 1f;
+			this.comboOrbs = 0;
+			this.currentColor = colorEnum;
 			changed = true;
 		}
 		else
 		{
-			modifier += 0.5;
-			comboOrbs++;
+			this.modifier += 1;
+			this.comboOrbs++;
 			changed = false;
 		}
-		if(collectedOrbsColor.containsKey(colorEnum))
+		
+		if(this.collectedOrbsColor.containsKey(colorEnum))
 		{
-			collectedOrbsColor.put(colorEnum, collectedOrbsColor.get(colorEnum) + 1);
+			this.collectedOrbsColor.put(colorEnum, this.collectedOrbsColor.get(colorEnum) + 1);
 		}
 		else
 		{
-			collectedOrbsColor.put(colorEnum, 1l);
+			this.collectedOrbsColor.put(colorEnum, 1l);
 		}
 		
-		currentScore += (long) (enemyScore * modifier);
+		this.currentScore += enemyScore * this.modifier;
 		
 		return changed;
 	}
 	
-	public void addScore(int points)
+	public void addScore(float points)
 	{
-		currentScore += points;
+		this.currentScore += points * this.modifier;
 	}
 	
 	public long getScore()
