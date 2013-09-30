@@ -42,15 +42,13 @@ public class GameScreen implements Screen {
 	public ShapeRenderer 	interfaceRenderer;
 	public BitmapFont 		font;
 	public Music			music;
-	public Array<Enemy>		enemiesForRemoval;
-	public Array<Orb>		orbForRemoval;
 	public Stats			stats;
 	public boolean			markedForRestart = false;
 	public FreeTypeFontGenerator 	fontGenerator;
+	public Array<Actor>		actorsForRemoval;
 	
 	// Bullets
 	private Array<Bullet> 	bullets;
-	public Array<Bullet>	bulletsForRemoval;
 	long					timeSinceLastBullet;
 	
 	long					timeSinceDamage = 0;
@@ -69,7 +67,6 @@ public class GameScreen implements Screen {
 		//Bullet array
 		bullets = new Array<Bullet>();
 		bullets.ensureCapacity(20);
-		bulletsForRemoval = new Array<Bullet>();
 		
 		//Rendering
 		world = new FwWorld("");
@@ -93,14 +90,14 @@ public class GameScreen implements Screen {
 		
 		//Contact listener
 		createCollisionListener();
-		enemiesForRemoval = new Array<Enemy>();
-		orbForRemoval = new Array<Orb>();
+		this.actorsForRemoval = new Array<Actor>();
 		
 		//Score
 		stats = new Stats();
 		
 		//Play music
-		music = Gdx.audio.newMusic(Gdx.files.internal("sounds/BergsmatarenLever.ogg"));
+		//music = Gdx.audio.newMusic(Gdx.files.internal("sounds/BergsmatarenLever.ogg"));
+		music = Gdx.audio.newMusic(Gdx.files.internal("sounds/TeleportPro.ogg"));
 		music.setVolume(FirstWing.options.getVolume());
 		music.setLooping(true);
 		if(FirstWing.options.musicEnabled())
@@ -114,9 +111,7 @@ public class GameScreen implements Screen {
 		// Bullet array
 		bullets = new Array<Bullet>();
 		bullets.ensureCapacity(20);
-		bulletsForRemoval = new Array<Bullet>();
-		enemiesForRemoval = new Array<Enemy>();
-		orbForRemoval = new Array<Orb>();
+		this.actorsForRemoval = new Array<Actor>();
 
 		// Rendering
 		world.getWorld().dispose();
@@ -175,7 +170,7 @@ public class GameScreen implements Screen {
         	if(en instanceof Enemy){
         		if(en.getPosition().x - 6 < renderer.cameraX)
         		{
-        			en.getBody().setLinearVelocity(-0.5f, 0);
+        			en.getBody().setLinearVelocity(-en.getSpeed(), 0);
         		}
         	}
     	}
@@ -232,19 +227,20 @@ public class GameScreen implements Screen {
 	public void checkBulletFire()
 	{
 		int maxBullets = 20;
-		//Maximum bullets on screen
+		
+		// Maximum bullets on screen
         if(bullets.size > maxBullets)
         {
-        	bulletsForRemoval.add(bullets.get(0));
+        	this.actorsForRemoval.add(bullets.get(0));
         	bullets.removeIndex(0);
         }
         
-        //Remove bullets off screen
+        // Remove bullets off screen
         for(Bullet b : bullets)
         {
         	if(b.getBody().getWorldCenter().x > renderer.cameraX + 6)
         	{
-        		bulletsForRemoval.add(b);
+        		this.actorsForRemoval.add(b);
         		bullets.removeValue(b, true);
         	}
         }
@@ -313,10 +309,11 @@ public class GameScreen implements Screen {
                 	
                 	if(collisionEnemy.getHealth() <= 0)
                 	{
-                		if(!enemiesForRemoval.contains(collisionEnemy, true))
+                		if(!actorsForRemoval.contains(collisionEnemy, true))
                     	{
                 			renderer.callParticleSystem(collisionEnemy.getBody().getWorldCenter().x, collisionEnemy.getBody().getWorldCenter().y);
-                			enemiesForRemoval.add(collisionEnemy);
+                			stats.addScore(10f);
+                			actorsForRemoval.add(collisionEnemy);
                     	}
                 	}
                 }
@@ -330,16 +327,16 @@ public class GameScreen implements Screen {
                 		}
                 	}
                 	
-                	if(!orbForRemoval.contains(collisionOrb, true)){
-                		orbForRemoval.add(collisionOrb);
+                	if(!actorsForRemoval.contains(collisionOrb, true)){
+                		actorsForRemoval.add(collisionOrb);
                 	}
                 }
                 
                 if(collisionBullet != null)
                 {
-                	if(!bulletsForRemoval.contains(collisionBullet, true))
+                	if(!actorsForRemoval.contains(collisionBullet, true))
                 	{
-                		bulletsForRemoval.add(collisionBullet);
+                		actorsForRemoval.add(collisionBullet);
                 	}
                 }
                 
@@ -377,45 +374,28 @@ public class GameScreen implements Screen {
 	{
 		if(!world.getWorld().isLocked())
 		{
-			for(int i = 0; i < enemiesForRemoval.size; i++)
-			{
-				Enemy e = enemiesForRemoval.pop();
-				Filter filter = new Filter();
-				filter.categoryBits = 4;
-				filter.groupIndex = -2;
-				Orb toDrop = new Orb(e.getPosition(), e.getWorld(), ActorMgr.getProperties("orb", new StaticActor()), e.getColor(), filter);
-				try
-				{
-					world.getLevel().getMoveableActors().remove(e);
-					world.getWorld().destroyBody(e.getBody());
+			for(int i = 0; i < this.actorsForRemoval.size; i++){
+				Actor actor = this.actorsForRemoval.pop();
+				if(actor instanceof Enemy){
+					Enemy enemy = (Enemy) actor;
+					Filter filter = new Filter();
+					filter.categoryBits = 4;
+					filter.groupIndex = -2;
+					Orb toDrop = new Orb(enemy.getPosition(), enemy.getWorld(), ActorMgr.getProperties("orb", new StaticActor()), enemy.getColor(), filter);
+					world.getLevel().getMoveableActors().remove(enemy);
 					world.getLevel().addCollectable(toDrop);
-				}catch(NullPointerException ex)
-				{
-					return;
+				} else if(actor instanceof Bullet){
+					Bullet bullet = (Bullet) actor;
+					bullets.removeValue(bullet, true);
+				} else if(actor instanceof Orb){
+					Orb orb = (Orb) actor;
+					world.getLevel().getCollectables().remove(orb);
 				}
-			}
-		
-			for(int i = 0; i < bulletsForRemoval.size; i++)
-			{
-				Bullet b = bulletsForRemoval.pop();
-				bullets.removeValue(b, true);
-				try
-				{
-					world.getWorld().destroyBody(b.getBody());
-				}catch(NullPointerException ex)
-				{
-					return;
-				}
-			}
-			
-			for(int i = 0; i < orbForRemoval.size; i++){
-				Orb o = orbForRemoval.pop();
-				try
-				{
-					world.getLevel().getCollectables().remove(o);
-					world.getWorld().destroyBody(o.getBody());
-				}catch(NullPointerException ex)
-				{
+				
+				try{
+					this.world.getWorld().destroyBody(actor.getBody());
+				} catch (NullPointerException ex){
+					Gdx.app.log("Destroy Body", ex.getStackTrace().toString());
 					return;
 				}
 			}

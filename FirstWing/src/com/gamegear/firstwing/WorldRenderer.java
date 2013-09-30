@@ -115,14 +115,21 @@ public class WorldRenderer {
 		if(p == null)
 		{
 			p = new HashMap<ColorEnum, ParticleEffect>();
-			p.put(ColorEnum.blue, new ParticleEffect()); p.get(ColorEnum.blue).load(Gdx.files.internal("effects/afterburner-blue.p"), Gdx.files.internal("effects")); p.get(ColorEnum.blue).setPosition(behindShip.x, behindShip.y);
+			for(ColorEnum pColor : ColorEnum.values()){
+				p.put(pColor, new ParticleEffect());
+				p.get(pColor).load(Gdx.files.internal("effects/afterburner-" + pColor.toString() + ".p"), Gdx.files.internal("effects"));
+				p.get(pColor).setPosition(this.behindShip.x, this.behindShip.y);
+			}
+			
+			// El Martiño: kiep het maar weg als je deze zieke oplossing bekeken heb
+			/*p.put(ColorEnum.blue, new ParticleEffect()); p.get(ColorEnum.blue).load(Gdx.files.internal("effects/afterburner-blue.p"), Gdx.files.internal("effects")); p.get(ColorEnum.blue).setPosition(behindShip.x, behindShip.y);
 			p.put(ColorEnum.green, new ParticleEffect()); p.get(ColorEnum.green).load(Gdx.files.internal("effects/afterburner-green.p"), Gdx.files.internal("effects")); p.get(ColorEnum.green).setPosition(behindShip.x, behindShip.y);
 			p.put(ColorEnum.red, new ParticleEffect()); p.get(ColorEnum.red).load(Gdx.files.internal("effects/afterburner-red.p"), Gdx.files.internal("effects")); p.get(ColorEnum.red).setPosition(behindShip.x, behindShip.y);
 			p.put(ColorEnum.yellow, new ParticleEffect()); p.get(ColorEnum.yellow).load(Gdx.files.internal("effects/afterburner-yellow.p"), Gdx.files.internal("effects")); p.get(ColorEnum.yellow).setPosition(behindShip.x, behindShip.y);
 			p.put(ColorEnum.orange, new ParticleEffect()); p.get(ColorEnum.orange).load(Gdx.files.internal("effects/afterburner-orange.p"), Gdx.files.internal("effects")); p.get(ColorEnum.orange).setPosition(behindShip.x, behindShip.y);
 			p.put(ColorEnum.lightblue, new ParticleEffect()); p.get(ColorEnum.lightblue).load(Gdx.files.internal("effects/afterburner-lightblue.p"), Gdx.files.internal("effects")); p.get(ColorEnum.lightblue).setPosition(behindShip.x, behindShip.y);
 			p.put(ColorEnum.purple, new ParticleEffect()); p.get(ColorEnum.purple).load(Gdx.files.internal("effects/afterburner-purple.p"), Gdx.files.internal("effects")); p.get(ColorEnum.purple).setPosition(behindShip.x, behindShip.y);
-			p.put(ColorEnum.none, new ParticleEffect()); p.get(ColorEnum.none).load(Gdx.files.internal("effects/afterburner.p"), Gdx.files.internal("effects")); p.get(ColorEnum.none).setPosition(behindShip.x, behindShip.y);
+			p.put(ColorEnum.none, new ParticleEffect()); p.get(ColorEnum.none).load(Gdx.files.internal("effects/afterburner.p"), Gdx.files.internal("effects")); p.get(ColorEnum.none).setPosition(behindShip.x, behindShip.y);*/
 		}
 		
 		if(activeAfterburner == color)
@@ -131,11 +138,11 @@ public class WorldRenderer {
 		}
 		else
 		{
-			//Stop current afterburner
+			// Stop current afterburner
 			p.get(activeAfterburner).reset();
 			activeAfterburner = color;
 			
-			//Start new one
+			// Start new one
 			p.get(activeAfterburner).setPosition(behindShip.x, behindShip.y);
 			p.get(activeAfterburner).start();
 		}
@@ -146,7 +153,7 @@ public class WorldRenderer {
 		this.cameraX = CAMERA_WIDTH / 2f;
 		this.cameraY = CAMERA_HEIGHT / 2f;
 		this.cam.position.set(this.cameraX, this.cameraY, 0);
-		currentSpeed = 1;
+		this.currentSpeed = 1;
 		this.world = world;
 	}
 	

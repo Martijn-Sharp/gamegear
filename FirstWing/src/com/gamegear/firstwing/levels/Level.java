@@ -24,11 +24,12 @@ public class Level {
 	private ArrayList<MoveableActor> dynamicActors;
 	private ArrayList<Spawner> spawners;
 	private ArrayList<Orb> collectables;
-	private Queue<String> speed;
+	private Queue<SpeedPoint> speed;
 	private World world;
 	private int currentSpeed = 5;
 	private String levelPath;
 	private ArrayList<Sprite> background;
+	private Bob playerShip;
 
 	public int getWidth() {
 		return width;
@@ -73,6 +74,10 @@ public class Level {
 	public void setBlocks(ArrayList<Actor> blocks) {
 		this.staticActors = blocks;
 	}
+	
+	public Bob getPlayer(){
+		return this.playerShip;
+	}
 
 	public Level(World world, String levelPath) {
 		this.world = world;
@@ -88,10 +93,10 @@ public class Level {
 	{
 		if(!speed.isEmpty())
 		{
-			String[] tmpSpeed = speed.peek().split(",");
-			if(Float.parseFloat(tmpSpeed[0]) < cameraX)
+			SpeedPoint tmpSpeed = speed.peek();
+			if(tmpSpeed.X < cameraX)
 			{
-				currentSpeed = Integer.parseInt(tmpSpeed[1]);
+				currentSpeed = (int) tmpSpeed.Speed;
 				speed.remove();
 			}
 		}
@@ -109,13 +114,11 @@ public class Level {
 	}
 
 	private void loadLevel() {
-		this.height = 10;
-		this.width = 0;
 		this.staticActors = new ArrayList<Actor>();
 		this.dynamicActors = new ArrayList<MoveableActor>();
 		this.spawners = new ArrayList<Spawner>();
 		this.collectables = new ArrayList<Orb>();
-		this.speed = new LinkedList<String>();
+		this.speed = new LinkedList<SpeedPoint>();
 		this.background = new ArrayList<Sprite>();
 		LevelProperties levelLoader;
 		
@@ -132,6 +135,10 @@ public class Level {
 		Iterator<com.gamegear.firstwing.levels.json.Spawner> spawnerIt = levelLoader.Spawners.iterator();
 		Filter filter = new Filter();
 		
+		// PLAYER
+		this.playerShip = new Bob(new Vector2(levelLoader.SpawnX, levelLoader.SpawnY), this.world, new Filter());
+		
+		// TILES
 		while(tiles.hasNext()){
 			Node tile = tiles.next();
 			
@@ -145,12 +152,14 @@ public class Level {
 			tiles.remove();
 		}
 		
+		// SPAWNERS
 		while(spawnerIt.hasNext()){
 			com.gamegear.firstwing.levels.json.Spawner spawner = spawnerIt.next();
 			this.spawners.add(new Spawner(spawner, this.world, this));
 			spawnerIt.remove();
 		}
 		
+		// BACKGROUND
 		for(int x = 0; x < 25; x++){
 			for(int y = 0; y < 3; y++){
 				Sprite tempBg = new Sprite(new Texture(Gdx.files.internal("images/" + levelLoader.BackgroundName + ".png")));
@@ -161,14 +170,13 @@ public class Level {
 			}
 		}
 		
-		// Add demo speeds
-		speed.add("0,1");
-		speed.add("10,2");
-		speed.add("20,3");
-		speed.add("40,2");
-		speed.add("50,1");
-		speed.add("70,2");
-		speed.add("80,1");
-		speed.add("94,0");
+		// SPEED
+		speed.add(new SpeedPoint(0, 1));
+		if(levelLoader.SpeedPoints != null){
+			for(SpeedPoint sp : levelLoader.SpeedPoints){
+				speed.add(sp);
+			}
+		}
+		speed.add(new SpeedPoint(levelLoader.FinishX - 6f, 0));
 	}
 }
