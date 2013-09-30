@@ -5,6 +5,8 @@ import com.badlogic.gdx.Preferences;
 
 public class Options {
 	
+	public static final String PREFS_NAME = "ColorExpress";
+	
 	// Controls
 	public static final String INVERT = "controls.invert.enabled";
 	public static final String SENSITIVITY = "controls.sensitivity.enabled";
@@ -20,9 +22,14 @@ public class Options {
     public static final String MUSIC = "music.enabled";
     public static final String VOLUME = "music.volume";
     public static final String SFX = "sfx.enabled";
-
+    
+    private Preferences preferences;
+    
     protected Preferences getPrefs() {
-            return Gdx.app.getPreferences("ColorExpress");
+       if(preferences==null){
+          preferences = Gdx.app.getPreferences(PREFS_NAME);
+       }
+       return preferences;
     }
 
     public void flush() {

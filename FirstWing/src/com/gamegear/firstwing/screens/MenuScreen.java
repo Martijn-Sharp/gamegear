@@ -3,9 +3,13 @@ package com.gamegear.firstwing.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.gamegear.firstwing.FirstWing;
 
 public abstract class MenuScreen implements Screen {
@@ -15,10 +19,27 @@ public abstract class MenuScreen implements Screen {
 
     private Table table;
     private Skin skin;
+    private FreeTypeFontGenerator gen = new FreeTypeFontGenerator(Gdx.files.internal("ui/TiresiasScreenfont.ttf"));
+    protected BitmapFont font;
+    
+    //Styles
+    LabelStyle labelStyle;
+    TextButtonStyle buttonStyle;
 
     public MenuScreen(FirstWing firstwing) {
             this.firstwing = firstwing;
             stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
+            
+            int adjustedFontSize = (int)(30 * (Gdx.graphics.getDensity()));
+            font = gen.generateFont(adjustedFontSize);
+            
+            getSkin();
+            
+            labelStyle = skin.get("default", LabelStyle.class);
+            labelStyle.font = font;
+            
+            buttonStyle = skin.get("default", TextButtonStyle.class);
+            buttonStyle.font = font;
     }
 
     @Override
