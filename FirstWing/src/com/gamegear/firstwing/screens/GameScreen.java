@@ -25,7 +25,6 @@ import com.gamegear.firstwing.ActorMgr;
 import com.gamegear.firstwing.BobController;
 import com.gamegear.firstwing.FirstWing;
 import com.gamegear.firstwing.FwWorld;
-import com.gamegear.firstwing.Stats;
 import com.gamegear.firstwing.WorldRenderer;
 import com.gamegear.firstwing.actors.*;
 import com.gamegear.firstwing.actors.json.StaticActor;
@@ -42,7 +41,6 @@ public class GameScreen implements Screen {
 	public ShapeRenderer 	interfaceRenderer;
 	public BitmapFont 		font;
 	public Music			music;
-	public Stats			stats;
 	public boolean			markedForRestart = false;
 	public FreeTypeFontGenerator 	fontGenerator;
 	public Array<Actor>		actorsForRemoval;
@@ -95,9 +93,6 @@ public class GameScreen implements Screen {
 		createCollisionListener();
 		this.actorsForRemoval = new Array<Actor>();
 		
-		//Score
-		stats = new Stats();
-		
 		//Play music
 		//music = Gdx.audio.newMusic(Gdx.files.internal("sounds/BergsmatarenLever.ogg"));
 		music = Gdx.audio.newMusic(Gdx.files.internal("sounds/TeleportPro.ogg"));
@@ -123,7 +118,7 @@ public class GameScreen implements Screen {
 		//renderer = new WorldRenderer(world, false);
 
 		//Score
-		stats.resetScore();
+		FirstWing.stats.resetScore();
 
 		// Contact listener
 		createCollisionListener();
@@ -209,10 +204,10 @@ public class GameScreen implements Screen {
 		interfaceRenderer.end();
 		interfaceBatch.begin();
 		font.setScale(1);
-		font.draw(interfaceBatch, "Score:" + stats.getScore(), 10, height -10);
-		font.draw(interfaceBatch, "Highscore:" + stats.getHighScore(), 100, height -10);
+		font.draw(interfaceBatch, "Score:" + FirstWing.stats.getScore(), 10, height -10);
+		font.draw(interfaceBatch, "Highscore:" + FirstWing.stats.getHighScore(), 100, height -10);
 		font.draw(interfaceBatch, "Health:" + (int)this.world.getBob().getHealth()*10 + "%", 200, height -10);
-		font.draw(interfaceBatch, "Combo:" + stats.getComboOrbs() + "x", 300, height -10);
+		font.draw(interfaceBatch, "Combo:" + FirstWing.stats.getComboOrbs() + "x", 300, height -10);
 		
 		if(showFPS)
 		{
@@ -258,7 +253,7 @@ public class GameScreen implements Screen {
 		float elapsedTime = (System.nanoTime() - timeSinceLastBullet) / 1000000000.0f;
         if(elapsedTime>bulletDelay){
         	timeSinceLastBullet = System.nanoTime();
-        	Bullet temp = new Bullet(this.world.getBob().getBody().getWorldPoint(new Vector2(0.8f,0)), world.getWorld(), filter, stats.currentColor);
+        	Bullet temp = new Bullet(this.world.getBob().getBody().getWorldPoint(new Vector2(0.8f,0)), world.getWorld(), filter, FirstWing.stats.currentColor);
         	temp.getBody().setBullet(true);
         	temp.getBody().setLinearVelocity(10,0);
         	bullets.add(temp);
@@ -315,7 +310,7 @@ public class GameScreen implements Screen {
                 		if(!actorsForRemoval.contains(collisionEnemy, true))
                     	{
                 			renderer.callParticleSystem(collisionEnemy.getBody().getWorldCenter().x, collisionEnemy.getBody().getWorldCenter().y);
-                			stats.addScore(10f);
+                			FirstWing.stats.addScore(10f);
                 			actorsForRemoval.add(collisionEnemy);
                     	}
                 	}
@@ -324,7 +319,7 @@ public class GameScreen implements Screen {
                 if(collisionOrb != null && collisionBullet == null){
                 	if(collisionBob != null){
                 		//Add points, true means color has changed
-                		if(stats.addScore(collisionOrb.getColor(), collisionOrb.getPoints()))
+                		if(FirstWing.stats.addScore(collisionOrb.getColor(), collisionOrb.getPoints()))
                 		{
                 			renderer.changeAfterBurnerColor(collisionOrb.getColor());
                 		}
