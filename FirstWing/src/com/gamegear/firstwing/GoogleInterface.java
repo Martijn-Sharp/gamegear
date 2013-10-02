@@ -9,7 +9,7 @@ public interface GoogleInterface {
 	public boolean getSignedIn();
 
 	//submit a score to a leaderboard
-	public void submitScore(int score);
+	public void submitScore(long score);
 
 	//gets the scores and displays them threw googles default widget
 	public void getScores();

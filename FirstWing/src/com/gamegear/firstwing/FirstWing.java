@@ -18,6 +18,6 @@ public class FirstWing extends Game {
 	@Override
 	public void create() {
 		setScreen(new Splash(this));
-		stats = new Stats();
+		stats = new Stats(this);
 	}
 }

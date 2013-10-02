@@ -18,7 +18,7 @@ public class DesktopInterface implements GoogleInterface {
 		return false;
 	}
 
-	public void submitScore(int score) {
+	public void submitScore(long score) {
 		System.out.println("Desktop: submitScore: " + score);
 	}
 
