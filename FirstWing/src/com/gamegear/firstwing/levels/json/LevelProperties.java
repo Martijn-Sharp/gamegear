@@ -26,7 +26,7 @@ public class LevelProperties {
     
     public List<ColorEnum> Colors;
 
-    public List<Node> Tiles;
+    public List<Tile> Tiles;
     
     public List<Spawner> Spawners;
 }

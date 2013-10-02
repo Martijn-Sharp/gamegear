@@ -270,6 +270,7 @@ public class GameScreen implements Screen {
                 Bullet collisionBullet = null;
                 Orb collisionOrb = null;
                 Bob collisionBob = null;
+                Block collisionBlock = null;
                 
                 Actor actorA = (Actor)fixtureA.getBody().getUserData();
                 Actor actorB = (Actor)fixtureB.getBody().getUserData();
@@ -297,21 +298,26 @@ public class GameScreen implements Screen {
                 	collisionBob = (Bob)actorB;
                 }
                 
+                if(actorA instanceof Block){
+                	collisionBlock = (Block)actorA;
+                } else if(actorB instanceof Block){
+                	collisionBlock = (Block)actorB;
+                }
+                
                 //Gdx.app.log("beginContact", "between " + fixtureA.toString() + " and " + fixtureB.toString());
                 
                 if(collisionEnemy != null)
                 {
                 	if(collisionBullet != null){
                 		collisionEnemy.setHealth(collisionEnemy.getHealth() - 5);
-                	}
-                	
-                	if(collisionEnemy.getHealth() <= 0)
-                	{
-                		if(!actorsForRemoval.contains(collisionEnemy, true))
+                		if(collisionEnemy.getHealth() <= 0)
                     	{
-                			renderer.callParticleSystem(collisionEnemy.getBody().getWorldCenter().x, collisionEnemy.getBody().getWorldCenter().y);
-                			FirstWing.stats.addScore(10f);
-                			actorsForRemoval.add(collisionEnemy);
+                    		if(!actorsForRemoval.contains(collisionEnemy, true))
+                        	{
+                    			renderer.callParticleSystem(collisionEnemy.getBody().getWorldCenter().x, collisionEnemy.getBody().getWorldCenter().y);
+                    			FirstWing.stats.addScore(10f);
+                    			actorsForRemoval.add(collisionEnemy);
+                        	}
                     	}
                 	}
                 }
@@ -342,10 +348,21 @@ public class GameScreen implements Screen {
                 	if(collisionOrb == null && collisionBullet == null && timeSinceDamage + 1000 < System.currentTimeMillis()){
                 		timeSinceDamage = System.currentTimeMillis();
                 		collisionBob.setHealth(collisionBob.getHealth() - 5);
+                		if(collisionBob.getHealth() <= 0){
+                    		markedForRestart = true;
+                    	}
                 	}
-                	
-                	if(collisionBob.getHealth() <= 0){
-                		markedForRestart = true;
+                }
+                
+                if(collisionBlock != null){
+                	if(collisionBullet != null && collisionBlock.isBreakable()){
+                		collisionBlock.setHealth(collisionBlock.getHealth() - 5, collisionBullet.getColor());
+                		if(collisionBlock.getHealth() <= 0){
+                    		if(!actorsForRemoval.contains(collisionBlock, true))
+                        	{
+                    			actorsForRemoval.add(collisionBlock);
+                        	}
+                    	}
                 	}
                 }
             }

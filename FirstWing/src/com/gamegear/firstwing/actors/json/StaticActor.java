@@ -3,6 +3,8 @@ package com.gamegear.firstwing.actors.json;
 import java.util.List;
 
 public class StaticActor extends ActorProperties {
+	public boolean Breakable;
+	
 	public StaticActor(){
 		super();
 	}

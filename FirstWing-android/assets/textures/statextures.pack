@@ -3,100 +3,128 @@ statextures.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-tron-bottom
+breakable-wall-blue
   rotate: false
   xy: 1, 329
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-empty-bottom
+breakable-wall-green
   rotate: false
   xy: 1, 199
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-empty-left
+breakable-wall-red
   rotate: false
   xy: 131, 329
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-empty-right
+breakable-wall
   rotate: false
   xy: 1, 69
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-empty-top
+tron-bottom
   rotate: false
   xy: 131, 199
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-empty
+tron-empty-bottom
   rotate: false
   xy: 261, 329
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-full
+tron-empty-left
   rotate: false
   xy: 131, 69
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-left-bottom
+tron-empty-right
   rotate: false
   xy: 261, 199
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-left-top
+tron-empty-top
   rotate: false
   xy: 391, 329
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-left
+tron-empty
   rotate: false
   xy: 261, 69
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-right-bottom
+tron-full
   rotate: false
   xy: 391, 199
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-right-top
+tron-left-bottom
   rotate: false
   xy: 521, 329
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-right
+tron-left-top
   rotate: false
   xy: 391, 69
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-top
+tron-left
   rotate: false
   xy: 521, 199
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+tron-right-bottom
+  rotate: false
+  xy: 651, 329
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+tron-right-top
+  rotate: false
+  xy: 521, 69
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+tron-right
+  rotate: false
+  xy: 651, 199
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+tron-top
+  rotate: false
+  xy: 781, 329
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
@@ -110,42 +138,42 @@ orb-blue
   index: -1
 orb-green
   rotate: false
-  xy: 651, 425
+  xy: 651, 165
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 orb-lightblue
   rotate: false
-  xy: 521, 165
+  xy: 781, 295
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 orb-orange
   rotate: false
-  xy: 1, 1
+  xy: 911, 425
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 orb-purple
   rotate: false
-  xy: 35, 35
+  xy: 1, 1
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 orb-red
   rotate: false
-  xy: 651, 391
+  xy: 35, 35
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 orb-yellow
   rotate: false
-  xy: 685, 425
+  xy: 651, 131
   size: 32, 32
   orig: 32, 32
   offset: 0, 0

@@ -28,6 +28,10 @@ public class Bullet extends MoveableActor {
 		rect.setRadius((HEIGHT + WIDTH) / 4);
 		this.setShape(rect, 0.1f);
 	}
+	
+	public ColorEnum getColor(){
+		return this.color;
+	}
 
 	@Override
 	protected void loadTextures() {

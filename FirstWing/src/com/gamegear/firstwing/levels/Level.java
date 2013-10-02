@@ -131,7 +131,7 @@ public class Level {
 			levelLoader = new JSONLoader().getLevel(Gdx.files.internal("levels/" + levelPath));
 		}
 		
-		Iterator<Node> tiles = levelLoader.Tiles.iterator();
+		Iterator<Tile> tiles = levelLoader.Tiles.iterator();
 		Iterator<com.gamegear.firstwing.levels.json.Spawner> spawnerIt = levelLoader.Spawners.iterator();
 		Filter filter = new Filter();
 		
@@ -140,7 +140,7 @@ public class Level {
 		
 		// TILES
 		while(tiles.hasNext()){
-			Node tile = tiles.next();
+			Tile tile = tiles.next();
 			
 			// Check level width
 			if(tile.X > width)
@@ -148,7 +148,7 @@ public class Level {
 				width = tile.X;
 			}
 			
-			staticActors.add(new Block(new Vector2(tile.X, tile.Y), world, ActorMgr.getProperties(tile.Name, new StaticActor()),filter));
+			staticActors.add(new Block(new Vector2(tile.X, tile.Y), world, ActorMgr.getProperties(tile.Name, new StaticActor()), tile, filter));
 			tiles.remove();
 		}
 		
