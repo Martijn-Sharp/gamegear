@@ -74,7 +74,6 @@ D:\FirstWing\gamegear\MapEditor\MapEditor\bin\Debug\assets\static\tron-empty-bot
 D:\FirstWing\gamegear\MapEditor\MapEditor\bin\Debug\assets\static\tron-empty-left.png
 D:\FirstWing\gamegear\MapEditor\MapEditor\bin\Debug\assets\static\tron-empty-right.png
 D:\FirstWing\gamegear\MapEditor\MapEditor\bin\Debug\assets\static\tron-empty-top.png
-D:\FirstWing\gamegear\MapEditor\MapEditor\bin\Debug\assets\static\tron-empty.png
 D:\FirstWing\gamegear\MapEditor\MapEditor\bin\Debug\assets\static\tron-full.png
 D:\FirstWing\gamegear\MapEditor\MapEditor\bin\Debug\assets\static\tron-left-bottom.png
 D:\FirstWing\gamegear\MapEditor\MapEditor\bin\Debug\assets\static\tron-left-top.png
@@ -165,3 +164,6 @@ D:\FirstWing\gamegear\MapEditor\MapEditor\bin\Debug\assets\static\tron-right-top
 D:\FirstWing\gamegear\MapEditor\MapEditor\bin\Debug\assets\static\tron-top-blue.png
 D:\FirstWing\gamegear\MapEditor\MapEditor\bin\Debug\assets\static\tron-top-green.png
 D:\FirstWing\gamegear\MapEditor\MapEditor\bin\Debug\assets\static\tron-top-red.png
+D:\FirstWing\gamegear\MapEditor\MapEditor\bin\Debug\assets\static\tron-empty-blue.png
+D:\FirstWing\gamegear\MapEditor\MapEditor\bin\Debug\assets\static\tron-empty-green.png
+D:\FirstWing\gamegear\MapEditor\MapEditor\bin\Debug\assets\static\tron-empty-red.png

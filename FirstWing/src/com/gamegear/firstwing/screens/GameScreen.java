@@ -44,7 +44,7 @@ public class GameScreen implements Screen {
 	public boolean			markedForRestart = false;
 	public FreeTypeFontGenerator 	fontGenerator;
 	public Array<Actor>		actorsForRemoval;
-	public String			levelPath;
+	public int			levelPath;
 	
 	// Bullets
 	private Array<Bullet> 	bullets;
@@ -56,7 +56,7 @@ public class GameScreen implements Screen {
 	
 	private int width, height;
 	
-	public GameScreen(FirstWing game, String levelPath)
+	public GameScreen(FirstWing game, int levelPath)
 	{
 		this.game = game;
 		this.levelPath = levelPath;
@@ -69,7 +69,7 @@ public class GameScreen implements Screen {
 		bullets.ensureCapacity(20);
 		
 		//Rendering
-		world = new FwWorld(levelPath);
+		world = new FwWorld(String.valueOf(levelPath));
 		
 		renderer = new WorldRenderer(world, false);
 		
@@ -104,7 +104,7 @@ public class GameScreen implements Screen {
 		}
 	}
 	
-	public void loadLevel(String levelPath)
+	public void loadLevel(int levelPath)
 	{
 		// Bullet array
 		bullets = new Array<Bullet>();
@@ -113,7 +113,7 @@ public class GameScreen implements Screen {
 
 		// Rendering
 		world.getWorld().dispose();
-		world = new FwWorld(levelPath);
+		world = new FwWorld(String.valueOf(levelPath));
 		renderer.reset(world);
 		//renderer = new WorldRenderer(world, false);
 
@@ -130,10 +130,14 @@ public class GameScreen implements Screen {
 		Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		removeBodies();
-		if(markedForRestart)
+		if(this.world.getBob().getPosition().x >= (this.world.getLevel().getProperties().FinishX - 6) && this.world.getLevel().getMoveableActors().size() == 0){
+			this.loadLevel(this.levelPath + 1);
+		}
+		
+		if(this.markedForRestart)
 		{
-			loadLevel(levelPath);
-			markedForRestart = false;
+			this.loadLevel(this.levelPath);
+			this.markedForRestart = false;
 		}
 		
 		//Update input
@@ -445,7 +449,7 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void resume() {
-		loadLevel("");
+		loadLevel(1);
 	}
 
 	@Override

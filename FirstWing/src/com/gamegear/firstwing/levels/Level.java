@@ -30,6 +30,7 @@ public class Level {
 	private String levelPath;
 	private ArrayList<Sprite> background;
 	private Bob playerShip;
+	private LevelProperties properties;
 
 	public int getWidth() {
 		return width;
@@ -89,6 +90,10 @@ public class Level {
 		return staticActors.get(x);
 	}
 	
+	public LevelProperties getProperties(){
+		return this.properties;
+	}
+	
 	public float getSpeed(float cameraX)
 	{
 		if(!speed.isEmpty())
@@ -120,23 +125,21 @@ public class Level {
 		this.collectables = new ArrayList<Orb>();
 		this.speed = new LinkedList<SpeedPoint>();
 		this.background = new ArrayList<Sprite>();
-		LevelProperties levelLoader;
-		
 		if(levelPath.isEmpty())
 		{
-			levelLoader = new JSONLoader().getLevel(Gdx.files.internal("levels/map14.dat"));
+			this.properties = new JSONLoader().getLevel(Gdx.files.internal("levels/map14.dat"));
 		}
 		else
 		{
-			levelLoader = new JSONLoader().getLevel(Gdx.files.internal("levels/" + levelPath));
+			this.properties = new JSONLoader().getLevel(Gdx.files.internal("levels/" + levelPath + ".dat"));
 		}
 		
-		Iterator<Tile> tiles = levelLoader.Tiles.iterator();
-		Iterator<com.gamegear.firstwing.levels.json.Spawner> spawnerIt = levelLoader.Spawners.iterator();
+		Iterator<Tile> tiles = this.properties.Tiles.iterator();
+		Iterator<com.gamegear.firstwing.levels.json.Spawner> spawnerIt = this.properties.Spawners.iterator();
 		Filter filter = new Filter();
 		
 		// PLAYER
-		this.playerShip = new Bob(new Vector2(levelLoader.SpawnX, levelLoader.SpawnY), this.world, new Filter());
+		this.playerShip = new Bob(new Vector2(this.properties.SpawnX, this.properties.SpawnY), this.world, new Filter());
 		
 		// TILES
 		while(tiles.hasNext()){
@@ -148,7 +151,7 @@ public class Level {
 				width = tile.X;
 			}
 			
-			staticActors.add(new Block(new Vector2(tile.X, tile.Y), world, ActorMgr.getProperties(tile.Name, new StaticActor()), tile, filter, levelLoader.LevelColor));
+			staticActors.add(new Block(new Vector2(tile.X, tile.Y), world, ActorMgr.getProperties(tile.Name, new StaticActor()), tile, filter, this.properties.LevelColor));
 			tiles.remove();
 		}
 		
@@ -160,9 +163,9 @@ public class Level {
 		}
 		
 		// BACKGROUND
-		for(int x = 0; x < Math.ceil(levelLoader.FinishX / 4); x++){
+		for(int x = 0; x < Math.ceil(this.properties.FinishX / 4); x++){
 			for(int y = 0; y < 3; y++){
-				Sprite tempBg = new Sprite(new Texture(Gdx.files.internal("images/" + levelLoader.BackgroundName + ".png")));
+				Sprite tempBg = new Sprite(new Texture(Gdx.files.internal("images/" + this.properties.BackgroundName + ".png")));
 				tempBg.setSize(4f, 4f);
 				tempBg.setScale(1f);
 				tempBg.setPosition(x * 4f - 0.5f, y * 4f - 0.5f);
@@ -172,11 +175,11 @@ public class Level {
 		
 		// SPEED
 		speed.add(new SpeedPoint(0, 1));
-		if(levelLoader.SpeedPoints != null){
-			for(SpeedPoint sp : levelLoader.SpeedPoints){
+		if(this.properties.SpeedPoints != null){
+			for(SpeedPoint sp : this.properties.SpeedPoints){
 				speed.add(sp);
 			}
 		}
-		speed.add(new SpeedPoint(levelLoader.FinishX - 6f, 0));
+		speed.add(new SpeedPoint(this.properties.FinishX - 6f, 0));
 	}
 }

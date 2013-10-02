@@ -48,7 +48,7 @@ public class LevelScreen extends MenuScreen {
 		
 		for(String str : fileDirectory)
 		{
-			final String name = str + ".dat";
+			final int name = Integer.parseInt(str);
 			// Add button for each level
 			levelButtons.add(new TextButton("Level " + str, getSkin()));
 			levelButtons.getLast().addListener(new ClickListener() {
