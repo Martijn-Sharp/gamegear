@@ -19,7 +19,7 @@ public class MainActivity extends AndroidApplication implements
 
 	public MainActivity() {
 		aHelper = new GameHelper(this);
-		aHelper.enableDebugLog(true, "MYTAG");
+		aHelper.enableDebugLog(true, "Play Services");
 
 		// create a listener for getting raw data back from leaderboard
 		theLeaderboardListener = new OnLeaderboardScoresLoadedListener() {
@@ -107,21 +107,22 @@ public class MainActivity extends AndroidApplication implements
 		return aHelper.isSignedIn();
 	}
 
-	public void submitScore(int _score) {
+	public void submitScore(long _score) {
 		System.out.println("in submit score");
-		aHelper.getGamesClient().submitScore(getString(R.string.leaderBoardID),
+		aHelper.getGamesClient().submitScore(getString(R.string.leaderboard_total),
 				_score);
+		startActivityForResult(aHelper.getGamesClient().getLeaderboardIntent(String.valueOf(R.string.leaderboard_total)), 1);
 	}
 
 	public void getScores() {
 		startActivityForResult(
 				aHelper.getGamesClient().getLeaderboardIntent(
-						getString(R.string.leaderBoardID)), 105);
+						getString(R.string.leaderboard_total)), 105);
 	}
 
 	public void getScoresData() {
 		aHelper.getGamesClient().loadPlayerCenteredScores(
-				theLeaderboardListener, getString(R.string.leaderBoardID), 1,
+				theLeaderboardListener, getString(R.string.leaderboard_total), 1,
 				1, 25);
 	}
 }

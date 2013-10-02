@@ -13,6 +13,7 @@ public class Stats {
 	private Preferences prefs;
 	public long currentScore;
 	private long highScore;
+	private FirstWing firstwing;
 	
 	public ColorEnum currentColor;
 	public long comboOrbs;
@@ -23,12 +24,13 @@ public class Stats {
 
 	public HashMap<String, Long> collectedOrbsColor;
 	
-	public Stats()
+	public Stats(FirstWing firstwing)
 	{
 		this.currentScore = 0;
 		this.modifier = 1.0f;
 		this.collectedOrbsColor = new HashMap<String, Long>();
 		this.currentColor = ColorEnum.none;
+		this.firstwing = firstwing;
 		
 		//Get preferences
 		prefs = Gdx.app.getPreferences("ColorExpress");
@@ -118,6 +120,10 @@ public class Stats {
 
 	public void setHighScore(long highScore) {
 		this.highScore = highScore;
+		if(firstwing.platformInterface.getSignedIn())
+		{
+			firstwing.platformInterface.submitScore(highScore);
+		}
 	}
 
 	public long getComboOrbs() {
