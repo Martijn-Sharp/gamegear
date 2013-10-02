@@ -17,11 +17,13 @@ public class Block extends Actor {
 	private TextureRegion blockTexture;
 	private Tile tile;
 	private float health;
+	private ColorEnum blockColor;
 	
-	public Block(Vector2 position, World world, StaticActor actor, Tile tile, Filter filter) {
+	public Block(Vector2 position, World world, StaticActor actor, Tile tile, Filter filter, ColorEnum color) {
 		super(actor, BodyType.StaticBody, position, world, filter);
 		this.tile = tile;
 		this.health = tile.Health;
+		this.blockColor = color;
 		this.loadTextures();
 		this.setShape(this.createShape(actor, true), 0f);
 	}
@@ -45,7 +47,7 @@ public class Block extends Actor {
 		if(((StaticActor)this.getProperties()).Breakable){
 			blockTexture = TextureMgr.getTexture(tile.Name + "-" + tile.AssignedColor.toString(), true);
 		} else {
-			blockTexture = TextureMgr.getTexture(tile.Name, true);
+			blockTexture = TextureMgr.getTexture(tile.Name + "-" + this.blockColor.toString(), true);
 		}
 	}
 

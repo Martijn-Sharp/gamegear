@@ -3,150 +3,524 @@ statextures.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+<<<<<<< HEAD
+breakable-wall-blue
+  rotate: false
+  xy: 1, 883
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+breakable-wall-green
+  rotate: false
+  xy: 1, 753
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+breakable-wall-red
+  rotate: false
+  xy: 131, 883
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+breakable-wall
+  rotate: false
+  xy: 1, 623
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+tron-bottom-blue
+  rotate: false
+  xy: 131, 753
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+tron-bottom-green
+  rotate: false
+  xy: 261, 883
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+tron-bottom-red
+  rotate: false
+  xy: 1, 493
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+tron-empty-bottom-blue
+  rotate: false
+  xy: 131, 623
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+tron-empty-bottom-green
+  rotate: false
+  xy: 261, 753
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+tron-empty-bottom-left-blue
+  rotate: false
+  xy: 391, 883
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+tron-empty-bottom-left-green
+  rotate: false
+  xy: 1, 363
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+tron-empty-bottom-left-red
+  rotate: false
+  xy: 131, 493
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+tron-empty-bottom-red
+  rotate: false
+  xy: 261, 623
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+tron-empty-bottom-right-blue
+  rotate: false
+  xy: 391, 753
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+tron-empty-bottom-right-green
+  rotate: false
+  xy: 521, 883
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+tron-empty-bottom-right-red
+  rotate: false
+  xy: 1, 233
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+tron-empty-left-blue
+  rotate: false
+  xy: 131, 363
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+tron-empty-left-green
+  rotate: false
+  xy: 261, 493
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+tron-empty-left-red
+  rotate: false
+  xy: 391, 623
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+tron-empty-left-top-blue
+  rotate: false
+  xy: 521, 753
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+tron-empty-left-top-green
+  rotate: false
+  xy: 651, 883
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+tron-empty-left-top-red
+  rotate: false
+  xy: 1, 103
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+tron-empty-right-blue
+  rotate: false
+  xy: 131, 233
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+tron-empty-right-green
+  rotate: false
+  xy: 261, 363
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+tron-empty-right-red
+  rotate: false
+  xy: 391, 493
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+tron-empty-top-blue
+  rotate: false
+  xy: 521, 623
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+tron-empty-top-green
+  rotate: false
+  xy: 651, 753
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+tron-empty-top-red
+  rotate: false
+  xy: 781, 883
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+tron-empty-top-right-blue
+  rotate: false
+  xy: 131, 103
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+tron-empty-top-right-green
+  rotate: false
+  xy: 261, 233
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+tron-empty-top-right-red
+  rotate: false
+  xy: 391, 363
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+tron-full-blue
+  rotate: false
+  xy: 521, 493
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+tron-full-green
+  rotate: false
+  xy: 651, 623
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+tron-full-red
+  rotate: false
+  xy: 781, 753
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+tron-left-blue
+  rotate: false
+  xy: 261, 103
+=======
 tron-bottom
   rotate: false
   xy: 1, 329
+>>>>>>> 85c4673d0f9b6d5efbe3c445c3e3609d164ebb14
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-empty-bottom
+tron-left-bottom-blue
   rotate: false
+<<<<<<< HEAD
+  xy: 391, 233
+=======
   xy: 1, 199
+>>>>>>> 85c4673d0f9b6d5efbe3c445c3e3609d164ebb14
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-empty-left
+tron-left-bottom-green
   rotate: false
+<<<<<<< HEAD
+  xy: 521, 363
+=======
   xy: 131, 329
+>>>>>>> 85c4673d0f9b6d5efbe3c445c3e3609d164ebb14
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-empty-right
+tron-left-bottom-red
   rotate: false
+<<<<<<< HEAD
+  xy: 651, 493
+=======
   xy: 1, 69
+>>>>>>> 85c4673d0f9b6d5efbe3c445c3e3609d164ebb14
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-empty-top
+tron-left-green
   rotate: false
+<<<<<<< HEAD
+  xy: 781, 623
+=======
   xy: 131, 199
+>>>>>>> 85c4673d0f9b6d5efbe3c445c3e3609d164ebb14
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-empty
+tron-left-red
   rotate: false
+<<<<<<< HEAD
+  xy: 391, 103
+=======
   xy: 261, 329
+>>>>>>> 85c4673d0f9b6d5efbe3c445c3e3609d164ebb14
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-full
+tron-left-top-blue
   rotate: false
+<<<<<<< HEAD
+  xy: 521, 233
+=======
   xy: 131, 69
+>>>>>>> 85c4673d0f9b6d5efbe3c445c3e3609d164ebb14
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-left-bottom
+tron-left-top-green
   rotate: false
+<<<<<<< HEAD
+  xy: 651, 363
+=======
   xy: 261, 199
+>>>>>>> 85c4673d0f9b6d5efbe3c445c3e3609d164ebb14
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-left-top
+tron-left-top-red
   rotate: false
+<<<<<<< HEAD
+  xy: 781, 493
+=======
   xy: 391, 329
+>>>>>>> 85c4673d0f9b6d5efbe3c445c3e3609d164ebb14
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-left
+tron-right-blue
   rotate: false
+<<<<<<< HEAD
+  xy: 521, 103
+=======
   xy: 261, 69
+>>>>>>> 85c4673d0f9b6d5efbe3c445c3e3609d164ebb14
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-right-bottom
+tron-right-bottom-blue
   rotate: false
+<<<<<<< HEAD
+  xy: 651, 233
+=======
   xy: 391, 199
+>>>>>>> 85c4673d0f9b6d5efbe3c445c3e3609d164ebb14
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-right-top
+tron-right-bottom-green
   rotate: false
+<<<<<<< HEAD
+  xy: 781, 363
+=======
   xy: 521, 329
+>>>>>>> 85c4673d0f9b6d5efbe3c445c3e3609d164ebb14
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-right
+tron-right-bottom-red
   rotate: false
+<<<<<<< HEAD
+  xy: 651, 103
+=======
   xy: 391, 69
+>>>>>>> 85c4673d0f9b6d5efbe3c445c3e3609d164ebb14
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-top
+tron-right-green
   rotate: false
+<<<<<<< HEAD
+  xy: 781, 233
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+tron-right-red
+  rotate: false
+  xy: 781, 103
+=======
   xy: 521, 199
+>>>>>>> 85c4673d0f9b6d5efbe3c445c3e3609d164ebb14
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 orb-blue
   rotate: false
-  xy: 1, 35
+  xy: 1, 69
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 orb-green
   rotate: false
+<<<<<<< HEAD
+  xy: 911, 979
+=======
   xy: 651, 425
+>>>>>>> 85c4673d0f9b6d5efbe3c445c3e3609d164ebb14
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 orb-lightblue
   rotate: false
+<<<<<<< HEAD
+  xy: 1, 35
+=======
   xy: 521, 165
+>>>>>>> 85c4673d0f9b6d5efbe3c445c3e3609d164ebb14
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 orb-orange
   rotate: false
+<<<<<<< HEAD
+  xy: 35, 69
+=======
   xy: 1, 1
+>>>>>>> 85c4673d0f9b6d5efbe3c445c3e3609d164ebb14
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 orb-purple
   rotate: false
+<<<<<<< HEAD
+  xy: 911, 945
+=======
   xy: 35, 35
+>>>>>>> 85c4673d0f9b6d5efbe3c445c3e3609d164ebb14
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 orb-red
   rotate: false
+<<<<<<< HEAD
+  xy: 945, 979
+=======
   xy: 651, 391
+>>>>>>> 85c4673d0f9b6d5efbe3c445c3e3609d164ebb14
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 orb-yellow
   rotate: false
+<<<<<<< HEAD
+  xy: 1, 1
+=======
   xy: 685, 425
+>>>>>>> 85c4673d0f9b6d5efbe3c445c3e3609d164ebb14
   size: 32, 32
   orig: 32, 32
+  offset: 0, 0
+  index: -1
+
+statextures2.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+tron-right-top-blue
+  rotate: false
+  xy: 1, 1
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+tron-right-top-green
+  rotate: false
+  xy: 131, 1
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+tron-right-top-red
+  rotate: false
+  xy: 261, 1
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+tron-top-blue
+  rotate: false
+  xy: 391, 1
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+tron-top-green
+  rotate: false
+  xy: 521, 1
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+tron-top-red
+  rotate: false
+  xy: 651, 1
+  size: 128, 128
+  orig: 128, 128
   offset: 0, 0
   index: -1

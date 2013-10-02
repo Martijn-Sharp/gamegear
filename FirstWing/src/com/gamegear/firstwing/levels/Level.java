@@ -148,7 +148,7 @@ public class Level {
 				width = tile.X;
 			}
 			
-			staticActors.add(new Block(new Vector2(tile.X, tile.Y), world, ActorMgr.getProperties(tile.Name, new StaticActor()), tile, filter));
+			staticActors.add(new Block(new Vector2(tile.X, tile.Y), world, ActorMgr.getProperties(tile.Name, new StaticActor()), tile, filter, levelLoader.LevelColor));
 			tiles.remove();
 		}
 		
