@@ -34,6 +34,15 @@ public class MainMenu extends MenuScreen{
                     	firstwing.setScreen(new LevelScreen(firstwing));
                     }
             });
+            
+            // Upgrades
+            TextButton upgradeButton = new TextButton("Upgrade", getSkin());
+            upgradeButton.addListener(new ClickListener() {
+                    public void clicked(InputEvent event, float x, float y) {
+                    	Gdx.app.log("Menu", "Clicked upgrade");
+                    	firstwing.setScreen(new UpgradeScreen(firstwing));
+                    }
+            });
 
             // Options
             TextButton optionsButton = new TextButton("Options", getSkin());
@@ -56,6 +65,8 @@ public class MainMenu extends MenuScreen{
             table.add("Fullcolor Express").spaceBottom(15.0f);
             table.row();
             table.add(newGameButton).fill().uniform().spaceBottom(10);
+            table.row();
+            table.add(upgradeButton).fill().uniform().spaceBottom(10);
             table.row();
             table.add(optionsButton).fill().uniform().spaceBottom(10);
             table.row();

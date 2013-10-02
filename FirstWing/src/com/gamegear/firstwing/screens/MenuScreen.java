@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.List.ListStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
@@ -25,12 +26,13 @@ public abstract class MenuScreen implements Screen {
     //Styles
     LabelStyle labelStyle;
     TextButtonStyle buttonStyle;
+    ListStyle listStyle;
 
     public MenuScreen(FirstWing firstwing) {
             this.firstwing = firstwing;
             stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
             
-            int adjustedFontSize = (int)(30 * (Gdx.graphics.getDensity()));
+            int adjustedFontSize = (int)(26 * (Gdx.graphics.getDensity()));
             font = gen.generateFont(adjustedFontSize);
             
             getSkin();
@@ -40,6 +42,9 @@ public abstract class MenuScreen implements Screen {
             
             buttonStyle = skin.get("default", TextButtonStyle.class);
             buttonStyle.font = font;
+            
+            listStyle = skin.get("default", ListStyle.class);
+            listStyle.font = font;
     }
 
     @Override

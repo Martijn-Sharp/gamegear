@@ -1,5 +1,6 @@
 package com.gamegear.firstwing.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -11,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.esotericsoftware.tablelayout.Value;
 import com.gamegear.firstwing.FirstWing;
 
 public class OptionsScreen extends MenuScreen {
@@ -41,6 +43,8 @@ public class OptionsScreen extends MenuScreen {
                     }
             });
             
+            invert.getCells().get(0).size(14*Gdx.graphics.getDensity()*1.5f);
+            
             
             final Label sensLabel = new Label("Sensitivity:", getSkin());
             final Slider sensitivity = new Slider( 0f, 1f, 0.01f, false, getSkin(), "default-horizontal");
@@ -52,7 +56,6 @@ public class OptionsScreen extends MenuScreen {
                     			sensLabel.setText("Sensitivity:");
                             }
                     });
-            
 
             
             //Audio
@@ -68,6 +71,7 @@ public class OptionsScreen extends MenuScreen {
                     }
             });
             
+            music.getCells().get(0).size(14*Gdx.graphics.getDensity()*1.5f);
             
             final Label volumeLabel = new Label("Volume:", getSkin());
             final Slider volume = new Slider( 0f, 1f, 0.01f, false, getSkin(), "default-horizontal");
@@ -107,23 +111,23 @@ public class OptionsScreen extends MenuScreen {
             //Add controls to table
             
             table.add("Controls").spaceBottom(15.0f).colspan(2).align(Align.left);
-            table.row().expand();
+            table.row();
             table.add(invertLabel).uniform().align(Align.left).padLeft(20);
-            table.add(invert).uniform().spaceBottom(5).align(Align.left);
-            table.row().expand();
+            table.add(invert).align(Align.left).fill();
+            table.row();
             table.add(sensLabel).uniform().align(Align.left).padLeft(20);
-            table.add(sensitivity).uniform().align(Align.left);
-            table.row().expand();
+            table.add(sensitivity).align(Align.left).fill().height(Value.maxHeight);
+            table.row();
             
             //Add audio to table
             table.add("Audio").spaceBottom(15.0f).colspan(2).align(Align.left);
-            table.row().expand();
+            table.row();
             table.add(musicLabel).uniform().align(Align.left).padLeft(20);
-            table.add(music).uniform().spaceBottom(5).align(Align.left);
-            table.row().expand();
+            table.add(music).align(Align.left).fill();
+            table.row();
             table.add(volumeLabel).uniform().align(Align.left).padLeft(20);
-            table.add(volume).uniform().align(Align.left);
-            table.row().expand();
+            table.add(volume).align(Align.left).fill().expand();
+            table.row();
             table.add(back).uniform().left().spaceTop(25).pad(5);
             table.add(apply).uniform().right().spaceTop(25).pad(5);
     }

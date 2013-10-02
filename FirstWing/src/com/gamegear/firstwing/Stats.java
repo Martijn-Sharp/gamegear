@@ -1,6 +1,9 @@
 package com.gamegear.firstwing;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
@@ -14,25 +17,34 @@ public class Stats {
 	public ColorEnum currentColor;
 	public long comboOrbs;
 	public float modifier;
+	
+	public long upgradeWeapon = 0;
+	public long upgradeHealth = 0;
 
-	public HashMap<ColorEnum, Long> collectedOrbsColor;
+	public HashMap<String, Long> collectedOrbsColor;
 	
 	public Stats()
 	{
 		this.currentScore = 0;
 		this.modifier = 1.0f;
+		this.collectedOrbsColor = new HashMap<String, Long>();
+		this.currentColor = ColorEnum.none;
 		
 		//Get preferences
 		prefs = Gdx.app.getPreferences("ColorExpress");
-		loadHighscore();
+		loadPreferences();
 		
-		this.currentColor = ColorEnum.none;
-		collectedOrbsColor = new HashMap<ColorEnum, Long>();
+		
+		
 	}
 	
-	public void loadHighscore()
+	public void loadPreferences()
 	{
 		this.setHighScore(this.prefs.getLong("highscore", 0l));
+		for(ColorEnum en : ColorEnum.values())
+		{
+			 collectedOrbsColor.put(en.name(), prefs.getLong(en.name(), 0l));
+		}
 	}
 	
 	public boolean addScore(ColorEnum colorEnum, float enemyScore)
@@ -53,13 +65,13 @@ public class Stats {
 			changed = false;
 		}
 		
-		if(this.collectedOrbsColor.containsKey(colorEnum))
+		if(this.collectedOrbsColor.containsKey(colorEnum.name()))
 		{
-			this.collectedOrbsColor.put(colorEnum, this.collectedOrbsColor.get(colorEnum) + 1);
+			this.collectedOrbsColor.put(colorEnum.name(), (long) (this.collectedOrbsColor.get(colorEnum.name()) + (enemyScore * this.modifier)));
 		}
 		else
 		{
-			this.collectedOrbsColor.put(colorEnum, 1l);
+			this.collectedOrbsColor.put(colorEnum.name(), 1l);
 		}
 		
 		this.currentScore += enemyScore * this.modifier;
@@ -83,8 +95,17 @@ public class Stats {
 		{
 			prefs.putLong("highscore", currentScore);
 			setHighScore(currentScore);
-			prefs.flush();
+			
 		}
+		
+		Iterator<Entry<String, Long>> it = collectedOrbsColor.entrySet().iterator();
+	    while (it.hasNext()) {
+	        Map.Entry<String, Long> pairs = (Entry<String, Long>)it.next();
+	        prefs.putLong(pairs.getKey(), prefs.getLong(pairs.getKey()) + pairs.getValue());
+	        System.out.println(pairs.getKey() + " = " + prefs.getLong(pairs.getKey()));
+	        it.remove();
+	    }
+	    prefs.flush();
 		
 		currentScore = 0;
 		modifier = 1f;
