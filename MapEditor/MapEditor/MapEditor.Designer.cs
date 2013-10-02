@@ -35,6 +35,11 @@
             this.lblButtonX = new System.Windows.Forms.Label();
             this.lblCurrentButton = new System.Windows.Forms.Label();
             this.pnlInfo = new System.Windows.Forms.GroupBox();
+            this.pnlWallProps = new System.Windows.Forms.Panel();
+            this.lblHealth = new System.Windows.Forms.Label();
+            this.healthNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.ddlWallColor = new System.Windows.Forms.ComboBox();
+            this.lblWallColor = new System.Windows.Forms.Label();
             this.pnlSpawnerProps = new System.Windows.Forms.Panel();
             this.chkMultiple = new System.Windows.Forms.CheckBox();
             this.intervalUpDown = new System.Windows.Forms.NumericUpDown();
@@ -73,6 +78,8 @@
             this.btnFastBackward = new System.Windows.Forms.Button();
             this.btnFasterBackward = new System.Windows.Forms.Button();
             this.pnlInfo.SuspendLayout();
+            this.pnlWallProps.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.healthNumericUpDown)).BeginInit();
             this.pnlSpawnerProps.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.intervalUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.speedUpDown)).BeginInit();
@@ -94,7 +101,7 @@
             // lblButtonValue
             // 
             this.lblButtonValue.AutoSize = true;
-            this.lblButtonValue.Location = new System.Drawing.Point(6, 121);
+            this.lblButtonValue.Location = new System.Drawing.Point(6, 178);
             this.lblButtonValue.Name = "lblButtonValue";
             this.lblButtonValue.Size = new System.Drawing.Size(43, 13);
             this.lblButtonValue.TabIndex = 4;
@@ -103,7 +110,7 @@
             // lblButtonY
             // 
             this.lblButtonY.AutoSize = true;
-            this.lblButtonY.Location = new System.Drawing.Point(66, 108);
+            this.lblButtonY.Location = new System.Drawing.Point(66, 165);
             this.lblButtonY.Name = "lblButtonY";
             this.lblButtonY.Size = new System.Drawing.Size(26, 13);
             this.lblButtonY.TabIndex = 3;
@@ -112,7 +119,7 @@
             // lblButtonX
             // 
             this.lblButtonX.AutoSize = true;
-            this.lblButtonX.Location = new System.Drawing.Point(6, 108);
+            this.lblButtonX.Location = new System.Drawing.Point(6, 165);
             this.lblButtonX.Name = "lblButtonX";
             this.lblButtonX.Size = new System.Drawing.Size(23, 13);
             this.lblButtonX.TabIndex = 2;
@@ -121,7 +128,7 @@
             // lblCurrentButton
             // 
             this.lblCurrentButton.AutoSize = true;
-            this.lblCurrentButton.Location = new System.Drawing.Point(6, 95);
+            this.lblCurrentButton.Location = new System.Drawing.Point(6, 152);
             this.lblCurrentButton.Name = "lblCurrentButton";
             this.lblCurrentButton.Size = new System.Drawing.Size(86, 13);
             this.lblCurrentButton.TabIndex = 1;
@@ -129,17 +136,71 @@
             // 
             // pnlInfo
             // 
+            this.pnlInfo.Controls.Add(this.pnlWallProps);
             this.pnlInfo.Controls.Add(this.pnlSpawnerProps);
             this.pnlInfo.Controls.Add(this.lblButtonValue);
             this.pnlInfo.Controls.Add(this.lblButtonY);
             this.pnlInfo.Controls.Add(this.lblCurrentButton);
             this.pnlInfo.Controls.Add(this.lblButtonX);
-            this.pnlInfo.Location = new System.Drawing.Point(0, 256);
+            this.pnlInfo.Location = new System.Drawing.Point(0, 229);
             this.pnlInfo.Name = "pnlInfo";
-            this.pnlInfo.Size = new System.Drawing.Size(173, 170);
+            this.pnlInfo.Size = new System.Drawing.Size(173, 197);
             this.pnlInfo.TabIndex = 18;
             this.pnlInfo.TabStop = false;
             this.pnlInfo.Text = "Info";
+            // 
+            // pnlWallProps
+            // 
+            this.pnlWallProps.Controls.Add(this.lblHealth);
+            this.pnlWallProps.Controls.Add(this.healthNumericUpDown);
+            this.pnlWallProps.Controls.Add(this.ddlWallColor);
+            this.pnlWallProps.Controls.Add(this.lblWallColor);
+            this.pnlWallProps.Location = new System.Drawing.Point(7, 20);
+            this.pnlWallProps.Name = "pnlWallProps";
+            this.pnlWallProps.Size = new System.Drawing.Size(155, 51);
+            this.pnlWallProps.TabIndex = 6;
+            this.pnlWallProps.Visible = false;
+            // 
+            // lblHealth
+            // 
+            this.lblHealth.AutoSize = true;
+            this.lblHealth.Location = new System.Drawing.Point(2, 30);
+            this.lblHealth.Name = "lblHealth";
+            this.lblHealth.Size = new System.Drawing.Size(38, 13);
+            this.lblHealth.TabIndex = 3;
+            this.lblHealth.Text = "Health";
+            // 
+            // healthNumericUpDown
+            // 
+            this.healthNumericUpDown.Location = new System.Drawing.Point(44, 28);
+            this.healthNumericUpDown.Maximum = new decimal(new int[] {
+            999,
+            0,
+            0,
+            0});
+            this.healthNumericUpDown.Name = "healthNumericUpDown";
+            this.healthNumericUpDown.Size = new System.Drawing.Size(41, 20);
+            this.healthNumericUpDown.TabIndex = 2;
+            this.healthNumericUpDown.ValueChanged += new System.EventHandler(this.HealthNumericUpDownValueChanged);
+            // 
+            // ddlWallColor
+            // 
+            this.ddlWallColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ddlWallColor.FormattingEnabled = true;
+            this.ddlWallColor.Location = new System.Drawing.Point(44, 4);
+            this.ddlWallColor.Name = "ddlWallColor";
+            this.ddlWallColor.Size = new System.Drawing.Size(108, 21);
+            this.ddlWallColor.TabIndex = 1;
+            this.ddlWallColor.SelectedIndexChanged += new System.EventHandler(this.DllWallColorSelectedIndexChanged);
+            // 
+            // lblWallColor
+            // 
+            this.lblWallColor.AutoSize = true;
+            this.lblWallColor.Location = new System.Drawing.Point(2, 7);
+            this.lblWallColor.Name = "lblWallColor";
+            this.lblWallColor.Size = new System.Drawing.Size(31, 13);
+            this.lblWallColor.TabIndex = 0;
+            this.lblWallColor.Text = "Color";
             // 
             // pnlSpawnerProps
             // 
@@ -150,7 +211,7 @@
             this.pnlSpawnerProps.Controls.Add(this.lblSpeed);
             this.pnlSpawnerProps.Controls.Add(this.ddlColors);
             this.pnlSpawnerProps.Controls.Add(this.lblColors);
-            this.pnlSpawnerProps.Location = new System.Drawing.Point(7, 20);
+            this.pnlSpawnerProps.Location = new System.Drawing.Point(7, 77);
             this.pnlSpawnerProps.Name = "pnlSpawnerProps";
             this.pnlSpawnerProps.Size = new System.Drawing.Size(155, 72);
             this.pnlSpawnerProps.TabIndex = 5;
@@ -249,7 +310,7 @@
             this.tabPicker.Location = new System.Drawing.Point(12, 27);
             this.tabPicker.Name = "tabPicker";
             this.tabPicker.SelectedIndex = 0;
-            this.tabPicker.Size = new System.Drawing.Size(154, 223);
+            this.tabPicker.Size = new System.Drawing.Size(154, 196);
             this.tabPicker.TabIndex = 19;
             // 
             // Enemy
@@ -258,7 +319,7 @@
             this.Enemy.Location = new System.Drawing.Point(4, 22);
             this.Enemy.Name = "Enemy";
             this.Enemy.Padding = new System.Windows.Forms.Padding(3);
-            this.Enemy.Size = new System.Drawing.Size(146, 197);
+            this.Enemy.Size = new System.Drawing.Size(146, 170);
             this.Enemy.TabIndex = 1;
             this.Enemy.Text = "Enemy";
             this.Enemy.UseVisualStyleBackColor = true;
@@ -272,7 +333,7 @@
             this.listEnemies.Location = new System.Drawing.Point(0, 0);
             this.listEnemies.MultiSelect = false;
             this.listEnemies.Name = "listEnemies";
-            this.listEnemies.Size = new System.Drawing.Size(146, 201);
+            this.listEnemies.Size = new System.Drawing.Size(150, 174);
             this.listEnemies.TabIndex = 0;
             this.listEnemies.UseCompatibleStateImageBehavior = false;
             this.listEnemies.View = System.Windows.Forms.View.Details;
@@ -289,7 +350,7 @@
             this.Level.Location = new System.Drawing.Point(4, 22);
             this.Level.Name = "Level";
             this.Level.Padding = new System.Windows.Forms.Padding(3);
-            this.Level.Size = new System.Drawing.Size(146, 197);
+            this.Level.Size = new System.Drawing.Size(146, 170);
             this.Level.TabIndex = 2;
             this.Level.Text = "Level";
             this.Level.UseVisualStyleBackColor = true;
@@ -303,7 +364,7 @@
             this.listLevels.Location = new System.Drawing.Point(0, 0);
             this.listLevels.MultiSelect = false;
             this.listLevels.Name = "listLevels";
-            this.listLevels.Size = new System.Drawing.Size(150, 201);
+            this.listLevels.Size = new System.Drawing.Size(150, 174);
             this.listLevels.TabIndex = 0;
             this.listLevels.UseCompatibleStateImageBehavior = false;
             this.listLevels.View = System.Windows.Forms.View.Details;
@@ -530,6 +591,9 @@
             this.Text = "Map Editor";
             this.pnlInfo.ResumeLayout(false);
             this.pnlInfo.PerformLayout();
+            this.pnlWallProps.ResumeLayout(false);
+            this.pnlWallProps.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.healthNumericUpDown)).EndInit();
             this.pnlSpawnerProps.ResumeLayout(false);
             this.pnlSpawnerProps.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.intervalUpDown)).EndInit();
@@ -590,6 +654,11 @@
         private System.Windows.Forms.Button btnBackward;
         private System.Windows.Forms.Button btnFastBackward;
         private System.Windows.Forms.Button btnFasterBackward;
+        private System.Windows.Forms.Panel pnlWallProps;
+        private System.Windows.Forms.Label lblHealth;
+        private System.Windows.Forms.NumericUpDown healthNumericUpDown;
+        private System.Windows.Forms.ComboBox ddlWallColor;
+        private System.Windows.Forms.Label lblWallColor;
     }
 }
 

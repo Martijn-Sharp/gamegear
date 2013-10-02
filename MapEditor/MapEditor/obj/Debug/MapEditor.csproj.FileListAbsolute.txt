@@ -111,3 +111,4 @@ C:\MINORP1\MapEditor\MapEditor\obj\Debug\MapEditor.AddPolygonDialog.resources
 C:\MINORP1\MapEditor\MapEditor\obj\Debug\MapEditor.AddSpeedPointDialog.resources
 C:\MINORP1\MapEditor\MapEditor\obj\Debug\MapEditor.PropertiesForm.resources
 C:\MINORP1\MapEditor\MapEditor\obj\Debug\MapEditor.AddActorDialog.resources
+D:\FirstWing\gamegear\MapEditor\MapEditor\bin\Debug\assets\static\breakable-wall.png

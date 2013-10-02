@@ -54,6 +54,8 @@
             this.txtBackground = new System.Windows.Forms.TextBox();
             this.lblBackground = new System.Windows.Forms.Label();
             this.tabActors = new System.Windows.Forms.TabPage();
+            this.pnlStaticProperties = new System.Windows.Forms.GroupBox();
+            this.chkBreakable = new System.Windows.Forms.CheckBox();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabEnemy = new System.Windows.Forms.TabPage();
             this.btnRemoveEnemy = new System.Windows.Forms.Button();
@@ -87,10 +89,6 @@
             this.btnRemoveAnimation = new System.Windows.Forms.Button();
             this.btnAddAnimation = new System.Windows.Forms.Button();
             this.lblAnimations = new System.Windows.Forms.Label();
-            this.ddlSecondaryWeapon = new System.Windows.Forms.ComboBox();
-            this.ddlPrimaryWeapon = new System.Windows.Forms.ComboBox();
-            this.lblSecondaryWeapon = new System.Windows.Forms.Label();
-            this.lblPrimaryWeapon = new System.Windows.Forms.Label();
             this.healthUpDown = new System.Windows.Forms.NumericUpDown();
             this.lblHealth = new System.Windows.Forms.Label();
             this.speedUpDown = new System.Windows.Forms.NumericUpDown();
@@ -105,6 +103,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.spawnYUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.spawnXUpDown)).BeginInit();
             this.tabActors.SuspendLayout();
+            this.pnlStaticProperties.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.tabEnemy.SuspendLayout();
             this.tabLevel.SuspendLayout();
@@ -360,6 +359,7 @@
             // 
             // tabActors
             // 
+            this.tabActors.Controls.Add(this.pnlStaticProperties);
             this.tabActors.Controls.Add(this.tabControl);
             this.tabActors.Controls.Add(this.pnlProperties);
             this.tabActors.Controls.Add(this.pnlDynProperties);
@@ -370,6 +370,27 @@
             this.tabActors.TabIndex = 1;
             this.tabActors.Text = "Actors";
             this.tabActors.UseVisualStyleBackColor = true;
+            // 
+            // pnlStaticProperties
+            // 
+            this.pnlStaticProperties.Controls.Add(this.chkBreakable);
+            this.pnlStaticProperties.Location = new System.Drawing.Point(213, 169);
+            this.pnlStaticProperties.Name = "pnlStaticProperties";
+            this.pnlStaticProperties.Size = new System.Drawing.Size(257, 51);
+            this.pnlStaticProperties.TabIndex = 11;
+            this.pnlStaticProperties.TabStop = false;
+            this.pnlStaticProperties.Text = "Static Properties";
+            // 
+            // chkBreakable
+            // 
+            this.chkBreakable.AutoSize = true;
+            this.chkBreakable.Location = new System.Drawing.Point(7, 20);
+            this.chkBreakable.Name = "chkBreakable";
+            this.chkBreakable.Size = new System.Drawing.Size(74, 17);
+            this.chkBreakable.TabIndex = 0;
+            this.chkBreakable.Text = "Breakable";
+            this.chkBreakable.UseVisualStyleBackColor = true;
+            this.chkBreakable.CheckedChanged += new System.EventHandler(this.ChkBreakableCheckedChanged);
             // 
             // tabControl
             // 
@@ -659,17 +680,13 @@
             this.pnlDynProperties.Controls.Add(this.btnRemoveAnimation);
             this.pnlDynProperties.Controls.Add(this.btnAddAnimation);
             this.pnlDynProperties.Controls.Add(this.lblAnimations);
-            this.pnlDynProperties.Controls.Add(this.ddlSecondaryWeapon);
-            this.pnlDynProperties.Controls.Add(this.ddlPrimaryWeapon);
-            this.pnlDynProperties.Controls.Add(this.lblSecondaryWeapon);
-            this.pnlDynProperties.Controls.Add(this.lblPrimaryWeapon);
             this.pnlDynProperties.Controls.Add(this.healthUpDown);
             this.pnlDynProperties.Controls.Add(this.lblHealth);
             this.pnlDynProperties.Controls.Add(this.speedUpDown);
             this.pnlDynProperties.Controls.Add(this.lblSpeed);
-            this.pnlDynProperties.Location = new System.Drawing.Point(213, 168);
+            this.pnlDynProperties.Location = new System.Drawing.Point(213, 226);
             this.pnlDynProperties.Name = "pnlDynProperties";
-            this.pnlDynProperties.Size = new System.Drawing.Size(266, 171);
+            this.pnlDynProperties.Size = new System.Drawing.Size(266, 113);
             this.pnlDynProperties.TabIndex = 10;
             this.pnlDynProperties.TabStop = false;
             this.pnlDynProperties.Text = "Dynamic Properties";
@@ -681,10 +698,10 @@
             this.lengthAnimationColumnHeader});
             this.listAnimations.FullRowSelect = true;
             this.listAnimations.GridLines = true;
-            this.listAnimations.Location = new System.Drawing.Point(78, 77);
+            this.listAnimations.Location = new System.Drawing.Point(92, 14);
             this.listAnimations.MultiSelect = false;
             this.listAnimations.Name = "listAnimations";
-            this.listAnimations.Size = new System.Drawing.Size(179, 84);
+            this.listAnimations.Size = new System.Drawing.Size(165, 92);
             this.listAnimations.TabIndex = 11;
             this.listAnimations.UseCompatibleStateImageBehavior = false;
             this.listAnimations.View = System.Windows.Forms.View.Details;
@@ -692,7 +709,7 @@
             // typeAnimationColumnHeader
             // 
             this.typeAnimationColumnHeader.Text = "Type";
-            this.typeAnimationColumnHeader.Width = 80;
+            this.typeAnimationColumnHeader.Width = 76;
             // 
             // lengthAnimationColumnHeader
             // 
@@ -701,7 +718,7 @@
             // 
             // btnRemoveAnimation
             // 
-            this.btnRemoveAnimation.Location = new System.Drawing.Point(41, 101);
+            this.btnRemoveAnimation.Location = new System.Drawing.Point(41, 82);
             this.btnRemoveAnimation.Name = "btnRemoveAnimation";
             this.btnRemoveAnimation.Size = new System.Drawing.Size(23, 23);
             this.btnRemoveAnimation.TabIndex = 10;
@@ -711,7 +728,7 @@
             // 
             // btnAddAnimation
             // 
-            this.btnAddAnimation.Location = new System.Drawing.Point(6, 101);
+            this.btnAddAnimation.Location = new System.Drawing.Point(6, 82);
             this.btnAddAnimation.Name = "btnAddAnimation";
             this.btnAddAnimation.Size = new System.Drawing.Size(23, 23);
             this.btnAddAnimation.TabIndex = 9;
@@ -722,55 +739,17 @@
             // lblAnimations
             // 
             this.lblAnimations.AutoSize = true;
-            this.lblAnimations.Location = new System.Drawing.Point(6, 77);
+            this.lblAnimations.Location = new System.Drawing.Point(6, 63);
             this.lblAnimations.Name = "lblAnimations";
             this.lblAnimations.Size = new System.Drawing.Size(58, 13);
             this.lblAnimations.TabIndex = 8;
             this.lblAnimations.Text = "Animations";
             // 
-            // ddlSecondaryWeapon
-            // 
-            this.ddlSecondaryWeapon.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.ddlSecondaryWeapon.FormattingEnabled = true;
-            this.ddlSecondaryWeapon.Location = new System.Drawing.Point(155, 44);
-            this.ddlSecondaryWeapon.Name = "ddlSecondaryWeapon";
-            this.ddlSecondaryWeapon.Size = new System.Drawing.Size(105, 21);
-            this.ddlSecondaryWeapon.TabIndex = 7;
-            this.ddlSecondaryWeapon.SelectedIndexChanged += new System.EventHandler(this.DdlSecondaryWeaponSelectedIndexChanged);
-            // 
-            // ddlPrimaryWeapon
-            // 
-            this.ddlPrimaryWeapon.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.ddlPrimaryWeapon.FormattingEnabled = true;
-            this.ddlPrimaryWeapon.Location = new System.Drawing.Point(155, 18);
-            this.ddlPrimaryWeapon.Name = "ddlPrimaryWeapon";
-            this.ddlPrimaryWeapon.Size = new System.Drawing.Size(105, 21);
-            this.ddlPrimaryWeapon.TabIndex = 6;
-            this.ddlPrimaryWeapon.SelectedIndexChanged += new System.EventHandler(this.DdlPrimaryWeaponSelectedIndexChanged);
-            // 
-            // lblSecondaryWeapon
-            // 
-            this.lblSecondaryWeapon.AutoSize = true;
-            this.lblSecondaryWeapon.Location = new System.Drawing.Point(92, 47);
-            this.lblSecondaryWeapon.Name = "lblSecondaryWeapon";
-            this.lblSecondaryWeapon.Size = new System.Drawing.Size(57, 13);
-            this.lblSecondaryWeapon.TabIndex = 5;
-            this.lblSecondaryWeapon.Text = "Weapon 2";
-            // 
-            // lblPrimaryWeapon
-            // 
-            this.lblPrimaryWeapon.AutoSize = true;
-            this.lblPrimaryWeapon.Location = new System.Drawing.Point(92, 21);
-            this.lblPrimaryWeapon.Name = "lblPrimaryWeapon";
-            this.lblPrimaryWeapon.Size = new System.Drawing.Size(57, 13);
-            this.lblPrimaryWeapon.TabIndex = 4;
-            this.lblPrimaryWeapon.Text = "Weapon 1";
-            // 
             // healthUpDown
             // 
-            this.healthUpDown.Location = new System.Drawing.Point(51, 45);
+            this.healthUpDown.Location = new System.Drawing.Point(51, 14);
             this.healthUpDown.Maximum = new decimal(new int[] {
-            99,
+            999,
             0,
             0,
             0});
@@ -783,7 +762,7 @@
             // lblHealth
             // 
             this.lblHealth.AutoSize = true;
-            this.lblHealth.Location = new System.Drawing.Point(7, 47);
+            this.lblHealth.Location = new System.Drawing.Point(7, 16);
             this.lblHealth.Name = "lblHealth";
             this.lblHealth.Size = new System.Drawing.Size(38, 13);
             this.lblHealth.TabIndex = 2;
@@ -797,7 +776,7 @@
             0,
             0,
             65536});
-            this.speedUpDown.Location = new System.Drawing.Point(51, 19);
+            this.speedUpDown.Location = new System.Drawing.Point(51, 40);
             this.speedUpDown.Maximum = new decimal(new int[] {
             20,
             0,
@@ -812,7 +791,7 @@
             // lblSpeed
             // 
             this.lblSpeed.AutoSize = true;
-            this.lblSpeed.Location = new System.Drawing.Point(7, 21);
+            this.lblSpeed.Location = new System.Drawing.Point(7, 42);
             this.lblSpeed.Name = "lblSpeed";
             this.lblSpeed.Size = new System.Drawing.Size(38, 13);
             this.lblSpeed.TabIndex = 0;
@@ -850,6 +829,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.spawnYUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.spawnXUpDown)).EndInit();
             this.tabActors.ResumeLayout(false);
+            this.pnlStaticProperties.ResumeLayout(false);
+            this.pnlStaticProperties.PerformLayout();
             this.tabControl.ResumeLayout(false);
             this.tabEnemy.ResumeLayout(false);
             this.tabLevel.ResumeLayout(false);
@@ -904,10 +885,6 @@
         private System.Windows.Forms.Label lblHealth;
         private System.Windows.Forms.NumericUpDown speedUpDown;
         private System.Windows.Forms.Label lblSpeed;
-        private System.Windows.Forms.ComboBox ddlSecondaryWeapon;
-        private System.Windows.Forms.ComboBox ddlPrimaryWeapon;
-        private System.Windows.Forms.Label lblSecondaryWeapon;
-        private System.Windows.Forms.Label lblPrimaryWeapon;
         private System.Windows.Forms.BindingSource bulletBindingSource;
         private System.Windows.Forms.Button btnAddAnimation;
         private System.Windows.Forms.Label lblAnimations;
@@ -937,6 +914,8 @@
         private System.Windows.Forms.Label lblColors;
         private System.Windows.Forms.Button btnRemoveColor;
         private System.Windows.Forms.Button btnAddColor;
+        private System.Windows.Forms.GroupBox pnlStaticProperties;
+        private System.Windows.Forms.CheckBox chkBreakable;
 
     }
 }

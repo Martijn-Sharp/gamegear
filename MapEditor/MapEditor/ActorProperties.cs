@@ -9,14 +9,6 @@
         Down
     }
 
-    public enum Weapon
-    {
-        None = 0,
-        FodderGun = 1,
-        MissileLauncher = 2,
-        EnergyballGun = 3
-    }
-
     public class ActorFile
     {
         public Dictionary<string, DynamicActor> DynamicActors { get; set; }
@@ -43,15 +35,12 @@
 
         public float Health { get; set; }
 
-        public Weapon PrimaryWeapon { get; set; }
-
-        public Weapon SecondaryWeapon { get; set; }
-
         public Dictionary<Animation, int> Animations { get; set; }
     }
 
     public class StaticActor : ActorProperties
     {
+        public bool Breakable { get; set; }
     }
 
     public class Polygon

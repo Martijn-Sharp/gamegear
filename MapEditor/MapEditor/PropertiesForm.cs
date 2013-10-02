@@ -16,11 +16,7 @@
         {
             this.InitializeComponent();
             this.pnlDynProperties.Visible = false;
-            foreach (var bullet in Enum.GetValues(typeof(Weapon)))
-            {
-                this.ddlPrimaryWeapon.Items.Add(bullet);
-                this.ddlSecondaryWeapon.Items.Add(bullet);
-            }
+            this.pnlStaticProperties.Visible = false;
 
             foreach (var actor in MapEditor.Actors.DynamicActors)
             {
@@ -59,8 +55,6 @@
 
                 this.speedUpDown.Text = dynActor.Speed.ToString();
                 this.healthUpDown.Text = dynActor.Health.ToString();
-                this.ddlPrimaryWeapon.SelectedItem = dynActor.PrimaryWeapon;
-                this.ddlSecondaryWeapon.SelectedItem = dynActor.SecondaryWeapon;
                 if (dynActor.Animations != null)
                 {
                     foreach (var animation in dynActor.Animations)
@@ -68,6 +62,12 @@
                         this.listAnimations.Items.Add(new ListViewItem(new[] { animation.Key.ToString(), animation.Value.ToString() }));
                     }
                 }
+            } 
+            else if (this.selectedActor is StaticActor)
+            {
+                this.pnlStaticProperties.Visible = true;
+                var statActor = (StaticActor)this.selectedActor;
+                this.chkBreakable.Checked = statActor.Breakable;
             }
         }
 
@@ -81,8 +81,6 @@
             this.listPolygons.Items.Clear();
             this.speedUpDown.Text = "0";
             this.healthUpDown.Text = "0";
-            this.ddlPrimaryWeapon.SelectedItem = null;
-            this.ddlSecondaryWeapon.SelectedItem = null;
             this.listAnimations.Items.Clear();
         }
 
@@ -313,19 +311,11 @@
             }
         }
 
-        private void DdlPrimaryWeaponSelectedIndexChanged(object sender, EventArgs e)
+        private void ChkBreakableCheckedChanged(object sender, EventArgs e)
         {
-            if (this.selectedActor is DynamicActor)
+            if (this.selectedActor is StaticActor)
             {
-                ((DynamicActor)this.selectedActor).PrimaryWeapon = (Weapon)this.ddlPrimaryWeapon.SelectedItem;
-            }
-        }
-
-        private void DdlSecondaryWeaponSelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (this.selectedActor is DynamicActor)
-            {
-                ((DynamicActor)this.selectedActor).SecondaryWeapon = (Weapon)this.ddlSecondaryWeapon.SelectedItem;
+                ((StaticActor)this.selectedActor).Breakable = this.chkBreakable.Checked;
             }
         }
         #endregion Events

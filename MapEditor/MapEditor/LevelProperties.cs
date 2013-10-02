@@ -25,9 +25,9 @@
 
         public List<SpeedPoint> SpeedPoints { get; set; } 
 
-        public List<ColorEnum> Colors { get; set; } 
+        public List<ColorEnum> Colors { get; set; }
 
-        public List<Node> Tiles { get; set; }
+        public List<Tile> Tiles { get; set; }
 
         public List<Spawner> Spawners { get; set; }
     }
@@ -63,6 +63,17 @@
         {
             this.X = x;
             this.Y = y;
+        }
+    }
+
+    public class Tile : Node
+    {
+        public float Health;
+
+        public LevelProperties.ColorEnum AssignedColor;
+
+        public Tile(int x, int y) : base(x, y)
+        {
         }
     }
 

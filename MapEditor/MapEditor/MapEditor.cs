@@ -16,6 +16,8 @@
 
         private Spawner currentSelectedSpawner;
 
+        private Tile currentSelectedTile;
+
         private string actorSelected;
 
         private int xButtonCount = 25;
@@ -90,7 +92,7 @@
                         clickedButton.BackgroundImage = this.GetImage(this.actorSelected, CategoryEnum.Spawner);
                         break;
                     case CategoryEnum.Level:
-                        this.map.Add(tmpPoint, new Node(tmpPoint.X, (this.yButtonCount - 1) - tmpPoint.Y) { Name = this.actorSelected, Type = Node.NodeType.Tile });
+                        this.map.Add(tmpPoint, new Tile(tmpPoint.X, (this.yButtonCount - 1) - tmpPoint.Y) { Name = this.actorSelected, Type = Node.NodeType.Tile, AssignedColor = LevelProperties.ColorEnum.Red});
                         clickedButton.BackgroundImage = this.GetImage(this.actorSelected, CategoryEnum.Level);
                         break;
                     case CategoryEnum.Default:
@@ -105,6 +107,7 @@
                     this.map.Remove(tmpPoint);
                     clickedButton.BackgroundImage = this.GetImage("default");
                     this.pnlSpawnerProps.Visible = false;
+                    this.pnlWallProps.Visible = false;
                 }
                 else if (this.map[tmpPoint] is Spawner)
                 {
@@ -112,9 +115,16 @@
                     this.pnlSpawnerProps.Visible = true;
                     this.FillSpawnProperties(this.currentSelectedSpawner);
                 }
+                else if (this.map[tmpPoint] is Tile && Actors.StaticActors.FirstOrDefault(x => x.Value.Name == this.map[tmpPoint].Name).Value.Breakable)
+                {
+                    this.currentSelectedTile = (Tile)this.map[tmpPoint];
+                    this.pnlWallProps.Visible = true;
+                    this.FillWallProperties(this.currentSelectedTile);
+                }
                 else
                 {
                     this.pnlSpawnerProps.Visible = false;
+                    this.pnlWallProps.Visible = false;
                 }
             }
         }
@@ -277,7 +287,7 @@
         private void ExportClick(object sender, EventArgs e)
         {
             LevelProps.Spawners = new List<Spawner>();
-            LevelProps.Tiles = new List<Node>();
+            LevelProps.Tiles = new List<Tile>();
 
             foreach (KeyValuePair<Point, Node> a in this.map)
             {
@@ -287,7 +297,7 @@
                 }
                 else if (a.Value.Type == Node.NodeType.Tile)
                 {
-                    LevelProps.Tiles.Add(a.Value);
+                    LevelProps.Tiles.Add((Tile)a.Value);
                 }
             }
 
@@ -504,6 +514,34 @@
         private void BtnFasterForwardClick(object sender, EventArgs e)
         {
             this.ChangeGuiPosition(25);
+        }
+        #endregion
+
+        #region Tile Properties
+
+        private void FillWallProperties(Tile wall)
+        {
+            this.ddlWallColor.Items.Clear();
+            if (LevelProps.Colors != null)
+            {
+                foreach (var color in LevelProps.Colors)
+                {
+                    this.ddlWallColor.Items.Add(color);
+                }
+            }
+
+            this.ddlWallColor.SelectedItem = this.ddlWallColor.Items.Contains(wall.AssignedColor) ? wall.AssignedColor : this.ddlWallColor.Items[0];
+            this.healthNumericUpDown.Value = Convert.ToDecimal(wall.Health);
+        }
+
+        private void DllWallColorSelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.currentSelectedTile.AssignedColor = (LevelProperties.ColorEnum)this.ddlWallColor.SelectedItem;
+        }
+
+        private void HealthNumericUpDownValueChanged(object sender, EventArgs e)
+        {
+            this.currentSelectedTile.Health = Convert.ToSingle(this.healthNumericUpDown.Value);
         }
         #endregion
     }
