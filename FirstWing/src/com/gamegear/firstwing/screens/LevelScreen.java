@@ -50,7 +50,7 @@ public class LevelScreen extends MenuScreen {
 		{
 			final String name = str + ".dat";
 			// Add button for each level
-			levelButtons.add(new TextButton(str, getSkin()));
+			levelButtons.add(new TextButton("Level " + str, getSkin()));
 			levelButtons.getLast().addListener(new ClickListener() {
 				public void clicked(InputEvent event, float x, float y) {
 					Gdx.app.log("Menu", "Clicked " + name);
@@ -81,6 +81,7 @@ public class LevelScreen extends MenuScreen {
 				table.row();
 			}
 		}
+		table.row();
 		table.add(backButton).fill().uniform().spaceBottom(10);
 
 	}

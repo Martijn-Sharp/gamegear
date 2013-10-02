@@ -3,14 +3,18 @@ package com.gamegear.firstwing.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.List.ListStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.gamegear.firstwing.FirstWing;
 
 public abstract class MenuScreen implements Screen {
@@ -22,6 +26,7 @@ public abstract class MenuScreen implements Screen {
     private Skin skin;
     private FreeTypeFontGenerator gen = new FreeTypeFontGenerator(Gdx.files.internal("ui/TiresiasScreenfont.ttf"));
     protected BitmapFont font;
+    private NinePatchDrawable background;
     
     //Styles
     LabelStyle labelStyle;
@@ -45,6 +50,8 @@ public abstract class MenuScreen implements Screen {
             
             listStyle = skin.get("default", ListStyle.class);
             listStyle.font = font;
+            
+            background = new NinePatchDrawable(new NinePatch(new Texture(Gdx.files.internal("images/menu/start-empty.png"))));
     }
 
     @Override
@@ -85,6 +92,7 @@ public abstract class MenuScreen implements Screen {
     protected Table getTable() {
             if (table == null) {
                     table = new Table(getSkin());
+                    table.setBackground(background);
                     table.setFillParent(true);
                     stage.addActor(table);
             }
