@@ -95,6 +95,8 @@
             this.lblSpeed = new System.Windows.Forms.Label();
             this.bulletBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.btnSave = new System.Windows.Forms.Button();
+            this.lblLevelColor = new System.Windows.Forms.Label();
+            this.ddlLevelColor = new System.Windows.Forms.ComboBox();
             this.tabControl1.SuspendLayout();
             this.tabProperties.SuspendLayout();
             this.gboxBackground.SuspendLayout();
@@ -129,6 +131,8 @@
             // 
             // tabProperties
             // 
+            this.tabProperties.Controls.Add(this.ddlLevelColor);
+            this.tabProperties.Controls.Add(this.lblLevelColor);
             this.tabProperties.Controls.Add(this.btnRemoveColor);
             this.tabProperties.Controls.Add(this.btnAddColor);
             this.tabProperties.Controls.Add(this.listColours);
@@ -157,7 +161,7 @@
             // 
             // btnRemoveColor
             // 
-            this.btnRemoveColor.Location = new System.Drawing.Point(9, 242);
+            this.btnRemoveColor.Location = new System.Drawing.Point(9, 278);
             this.btnRemoveColor.Name = "btnRemoveColor";
             this.btnRemoveColor.Size = new System.Drawing.Size(23, 23);
             this.btnRemoveColor.TabIndex = 19;
@@ -167,7 +171,7 @@
             // 
             // btnAddColor
             // 
-            this.btnAddColor.Location = new System.Drawing.Point(9, 212);
+            this.btnAddColor.Location = new System.Drawing.Point(9, 248);
             this.btnAddColor.Name = "btnAddColor";
             this.btnAddColor.Size = new System.Drawing.Size(23, 23);
             this.btnAddColor.TabIndex = 18;
@@ -181,7 +185,7 @@
             this.colorColorHeader});
             this.listColours.FullRowSelect = true;
             this.listColours.GridLines = true;
-            this.listColours.Location = new System.Drawing.Point(100, 190);
+            this.listColours.Location = new System.Drawing.Point(100, 226);
             this.listColours.MultiSelect = false;
             this.listColours.Name = "listColours";
             this.listColours.Size = new System.Drawing.Size(136, 97);
@@ -197,7 +201,7 @@
             // lblColors
             // 
             this.lblColors.AutoSize = true;
-            this.lblColors.Location = new System.Drawing.Point(6, 196);
+            this.lblColors.Location = new System.Drawing.Point(6, 232);
             this.lblColors.Name = "lblColors";
             this.lblColors.Size = new System.Drawing.Size(36, 13);
             this.lblColors.TabIndex = 16;
@@ -223,7 +227,7 @@
             // 
             // btnRemoveSpeedPoint
             // 
-            this.btnRemoveSpeedPoint.Location = new System.Drawing.Point(9, 133);
+            this.btnRemoveSpeedPoint.Location = new System.Drawing.Point(9, 169);
             this.btnRemoveSpeedPoint.Name = "btnRemoveSpeedPoint";
             this.btnRemoveSpeedPoint.Size = new System.Drawing.Size(23, 23);
             this.btnRemoveSpeedPoint.TabIndex = 13;
@@ -233,7 +237,7 @@
             // 
             // btnAddSpeedPoint
             // 
-            this.btnAddSpeedPoint.Location = new System.Drawing.Point(9, 103);
+            this.btnAddSpeedPoint.Location = new System.Drawing.Point(9, 139);
             this.btnAddSpeedPoint.Name = "btnAddSpeedPoint";
             this.btnAddSpeedPoint.Size = new System.Drawing.Size(23, 23);
             this.btnAddSpeedPoint.TabIndex = 12;
@@ -248,7 +252,7 @@
             this.speedHeaderSpeedPoints});
             this.listSpeedPoints.FullRowSelect = true;
             this.listSpeedPoints.GridLines = true;
-            this.listSpeedPoints.Location = new System.Drawing.Point(100, 87);
+            this.listSpeedPoints.Location = new System.Drawing.Point(100, 123);
             this.listSpeedPoints.MultiSelect = false;
             this.listSpeedPoints.Name = "listSpeedPoints";
             this.listSpeedPoints.Size = new System.Drawing.Size(136, 97);
@@ -269,7 +273,7 @@
             // lblSpeedpoints
             // 
             this.lblSpeedpoints.AutoSize = true;
-            this.lblSpeedpoints.Location = new System.Drawing.Point(6, 87);
+            this.lblSpeedpoints.Location = new System.Drawing.Point(6, 123);
             this.lblSpeedpoints.Name = "lblSpeedpoints";
             this.lblSpeedpoints.Size = new System.Drawing.Size(60, 13);
             this.lblSpeedpoints.TabIndex = 10;
@@ -277,7 +281,7 @@
             // 
             // finishXUpDown
             // 
-            this.finishXUpDown.Location = new System.Drawing.Point(100, 61);
+            this.finishXUpDown.Location = new System.Drawing.Point(100, 97);
             this.finishXUpDown.Name = "finishXUpDown";
             this.finishXUpDown.Size = new System.Drawing.Size(42, 20);
             this.finishXUpDown.TabIndex = 9;
@@ -286,7 +290,7 @@
             // lblFinishX
             // 
             this.lblFinishX.AutoSize = true;
-            this.lblFinishX.Location = new System.Drawing.Point(6, 63);
+            this.lblFinishX.Location = new System.Drawing.Point(6, 99);
             this.lblFinishX.Name = "lblFinishX";
             this.lblFinishX.Size = new System.Drawing.Size(50, 13);
             this.lblFinishX.TabIndex = 8;
@@ -294,7 +298,7 @@
             // 
             // spawnYUpDown
             // 
-            this.spawnYUpDown.Location = new System.Drawing.Point(191, 34);
+            this.spawnYUpDown.Location = new System.Drawing.Point(191, 70);
             this.spawnYUpDown.Maximum = new decimal(new int[] {
             10,
             0,
@@ -308,7 +312,7 @@
             // lblSpawnY
             // 
             this.lblSpawnY.AutoSize = true;
-            this.lblSpawnY.Location = new System.Drawing.Point(168, 36);
+            this.lblSpawnY.Location = new System.Drawing.Point(168, 72);
             this.lblSpawnY.Name = "lblSpawnY";
             this.lblSpawnY.Size = new System.Drawing.Size(17, 13);
             this.lblSpawnY.TabIndex = 6;
@@ -316,7 +320,7 @@
             // 
             // spawnXUpDown
             // 
-            this.spawnXUpDown.Location = new System.Drawing.Point(120, 34);
+            this.spawnXUpDown.Location = new System.Drawing.Point(120, 70);
             this.spawnXUpDown.Name = "spawnXUpDown";
             this.spawnXUpDown.Size = new System.Drawing.Size(42, 20);
             this.spawnXUpDown.TabIndex = 5;
@@ -325,7 +329,7 @@
             // lblSpawnX
             // 
             this.lblSpawnX.AutoSize = true;
-            this.lblSpawnX.Location = new System.Drawing.Point(97, 36);
+            this.lblSpawnX.Location = new System.Drawing.Point(97, 72);
             this.lblSpawnX.Name = "lblSpawnX";
             this.lblSpawnX.Size = new System.Drawing.Size(17, 13);
             this.lblSpawnX.TabIndex = 4;
@@ -334,7 +338,7 @@
             // lblSpawn
             // 
             this.lblSpawn.AutoSize = true;
-            this.lblSpawn.Location = new System.Drawing.Point(6, 36);
+            this.lblSpawn.Location = new System.Drawing.Point(6, 72);
             this.lblSpawn.Name = "lblSpawn";
             this.lblSpawn.Size = new System.Drawing.Size(40, 13);
             this.lblSpawn.TabIndex = 2;
@@ -807,6 +811,25 @@
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.BtnSave);
             // 
+            // lblLevelColor
+            // 
+            this.lblLevelColor.AutoSize = true;
+            this.lblLevelColor.Location = new System.Drawing.Point(6, 38);
+            this.lblLevelColor.Name = "lblLevelColor";
+            this.lblLevelColor.Size = new System.Drawing.Size(59, 13);
+            this.lblLevelColor.TabIndex = 20;
+            this.lblLevelColor.Text = "Level color";
+            // 
+            // ddlLevelColor
+            // 
+            this.ddlLevelColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ddlLevelColor.FormattingEnabled = true;
+            this.ddlLevelColor.Location = new System.Drawing.Point(100, 35);
+            this.ddlLevelColor.Name = "ddlLevelColor";
+            this.ddlLevelColor.Size = new System.Drawing.Size(136, 21);
+            this.ddlLevelColor.TabIndex = 21;
+            this.ddlLevelColor.SelectedIndexChanged += new System.EventHandler(this.DdlLevelColorSelectedIndexChanged);
+            // 
             // PropertiesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -916,6 +939,8 @@
         private System.Windows.Forms.Button btnAddColor;
         private System.Windows.Forms.GroupBox pnlStaticProperties;
         private System.Windows.Forms.CheckBox chkBreakable;
+        private System.Windows.Forms.ComboBox ddlLevelColor;
+        private System.Windows.Forms.Label lblLevelColor;
 
     }
 }

@@ -327,6 +327,14 @@
             this.spawnXUpDown.Text = MapEditor.LevelProps.SpawnX.ToString();
             this.spawnYUpDown.Text = MapEditor.LevelProps.SpawnY.ToString();
             this.finishXUpDown.Text = MapEditor.LevelProps.FinishX.ToString();
+
+            foreach (var color in Enum.GetValues(typeof(LevelProperties.ColorEnum)))
+            {
+                this.ddlLevelColor.Items.Add(color);
+            }
+
+            this.ddlLevelColor.SelectedItem = MapEditor.LevelProps.LevelColor;
+
             if (MapEditor.LevelProps.SpeedPoints != null)
             {
                 foreach (var speedPoint in MapEditor.LevelProps.SpeedPoints)
@@ -366,6 +374,11 @@
         private void FinishXUpDownValueChanged(object sender, EventArgs e)
         {
             MapEditor.LevelProps.FinishX = Convert.ToSingle(this.finishXUpDown.Value);
+        }
+
+        private void DdlLevelColorSelectedIndexChanged(object sender, EventArgs e)
+        {
+            MapEditor.LevelProps.LevelColor = (LevelProperties.ColorEnum)this.ddlLevelColor.SelectedItem;
         }
 
         #region SpeedPoint

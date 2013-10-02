@@ -3,7 +3,6 @@ statextures.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-<<<<<<< HEAD
 breakable-wall-blue
   rotate: false
   xy: 1, 883
@@ -245,150 +244,96 @@ tron-full-red
 tron-left-blue
   rotate: false
   xy: 261, 103
-=======
-tron-bottom
-  rotate: false
-  xy: 1, 329
->>>>>>> 85c4673d0f9b6d5efbe3c445c3e3609d164ebb14
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 tron-left-bottom-blue
   rotate: false
-<<<<<<< HEAD
   xy: 391, 233
-=======
-  xy: 1, 199
->>>>>>> 85c4673d0f9b6d5efbe3c445c3e3609d164ebb14
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 tron-left-bottom-green
   rotate: false
-<<<<<<< HEAD
   xy: 521, 363
-=======
-  xy: 131, 329
->>>>>>> 85c4673d0f9b6d5efbe3c445c3e3609d164ebb14
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 tron-left-bottom-red
   rotate: false
-<<<<<<< HEAD
   xy: 651, 493
-=======
-  xy: 1, 69
->>>>>>> 85c4673d0f9b6d5efbe3c445c3e3609d164ebb14
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 tron-left-green
   rotate: false
-<<<<<<< HEAD
   xy: 781, 623
-=======
-  xy: 131, 199
->>>>>>> 85c4673d0f9b6d5efbe3c445c3e3609d164ebb14
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 tron-left-red
   rotate: false
-<<<<<<< HEAD
   xy: 391, 103
-=======
-  xy: 261, 329
->>>>>>> 85c4673d0f9b6d5efbe3c445c3e3609d164ebb14
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 tron-left-top-blue
   rotate: false
-<<<<<<< HEAD
   xy: 521, 233
-=======
-  xy: 131, 69
->>>>>>> 85c4673d0f9b6d5efbe3c445c3e3609d164ebb14
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 tron-left-top-green
   rotate: false
-<<<<<<< HEAD
   xy: 651, 363
-=======
-  xy: 261, 199
->>>>>>> 85c4673d0f9b6d5efbe3c445c3e3609d164ebb14
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 tron-left-top-red
   rotate: false
-<<<<<<< HEAD
   xy: 781, 493
-=======
-  xy: 391, 329
->>>>>>> 85c4673d0f9b6d5efbe3c445c3e3609d164ebb14
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 tron-right-blue
   rotate: false
-<<<<<<< HEAD
   xy: 521, 103
-=======
-  xy: 261, 69
->>>>>>> 85c4673d0f9b6d5efbe3c445c3e3609d164ebb14
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 tron-right-bottom-blue
   rotate: false
-<<<<<<< HEAD
   xy: 651, 233
-=======
-  xy: 391, 199
->>>>>>> 85c4673d0f9b6d5efbe3c445c3e3609d164ebb14
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 tron-right-bottom-green
   rotate: false
-<<<<<<< HEAD
   xy: 781, 363
-=======
-  xy: 521, 329
->>>>>>> 85c4673d0f9b6d5efbe3c445c3e3609d164ebb14
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 tron-right-bottom-red
   rotate: false
-<<<<<<< HEAD
   xy: 651, 103
-=======
-  xy: 391, 69
->>>>>>> 85c4673d0f9b6d5efbe3c445c3e3609d164ebb14
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 tron-right-green
   rotate: false
-<<<<<<< HEAD
   xy: 781, 233
   size: 128, 128
   orig: 128, 128
@@ -397,9 +342,6 @@ tron-right-green
 tron-right-red
   rotate: false
   xy: 781, 103
-=======
-  xy: 521, 199
->>>>>>> 85c4673d0f9b6d5efbe3c445c3e3609d164ebb14
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
@@ -413,66 +355,42 @@ orb-blue
   index: -1
 orb-green
   rotate: false
-<<<<<<< HEAD
   xy: 911, 979
-=======
-  xy: 651, 425
->>>>>>> 85c4673d0f9b6d5efbe3c445c3e3609d164ebb14
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 orb-lightblue
   rotate: false
-<<<<<<< HEAD
   xy: 1, 35
-=======
-  xy: 521, 165
->>>>>>> 85c4673d0f9b6d5efbe3c445c3e3609d164ebb14
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 orb-orange
   rotate: false
-<<<<<<< HEAD
   xy: 35, 69
-=======
-  xy: 1, 1
->>>>>>> 85c4673d0f9b6d5efbe3c445c3e3609d164ebb14
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 orb-purple
   rotate: false
-<<<<<<< HEAD
   xy: 911, 945
-=======
-  xy: 35, 35
->>>>>>> 85c4673d0f9b6d5efbe3c445c3e3609d164ebb14
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 orb-red
   rotate: false
-<<<<<<< HEAD
   xy: 945, 979
-=======
-  xy: 651, 391
->>>>>>> 85c4673d0f9b6d5efbe3c445c3e3609d164ebb14
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 orb-yellow
   rotate: false
-<<<<<<< HEAD
   xy: 1, 1
-=======
-  xy: 685, 425
->>>>>>> 85c4673d0f9b6d5efbe3c445c3e3609d164ebb14
   size: 32, 32
   orig: 32, 32
   offset: 0, 0

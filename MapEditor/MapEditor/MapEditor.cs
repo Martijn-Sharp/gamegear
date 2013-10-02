@@ -33,7 +33,7 @@
         public MapEditor()
         {
             this.map = new Dictionary<Point, Node>();
-            this.images = new Dictionary<string, Bitmap>();
+            images = new Dictionary<string, Bitmap>();
             this.InitializeComponent();
             this.BuildGui(BuildOptions.Build);
             this.PopulateLists();
@@ -243,6 +243,11 @@
             }
         }
 
+        public void DisposeImages()
+        {
+            images.Clear();
+        }
+
         #region Import/Export
         private void ImportClick(object sender, EventArgs e)
         {
@@ -345,6 +350,8 @@
             if (new PropertiesForm().ShowDialog() != DialogResult.Abort)
             {
                 this.PopulateLists();
+                this.DisposeImages();
+                this.BuildGui(BuildOptions.ChangeView);
             }
         }
 
@@ -368,9 +375,9 @@
 
         private Image GetImage(string name, CategoryEnum category = CategoryEnum.Default)
         {
-            if (this.images.ContainsKey(name))
+            if (images.ContainsKey(name))
             {
-                return this.images[name];
+                return images[name];
             }
 
             Bitmap image;
@@ -380,7 +387,7 @@
                     image = new Bitmap("assets/images/spawner.png");
                     break;
                 case CategoryEnum.Level:
-                    image = new Bitmap("assets/static/" + name + ".png");
+                    image = new Bitmap("assets/static/" + name + "-" + LevelProps.LevelColor.ToString().ToLower() + ".png");
                     break;
                 default:
                     image = new Bitmap("assets/images/" + name + ".png");
@@ -392,7 +399,7 @@
                 image = new Bitmap(image, new Size(30, 30));
             }
 
-            this.images.Add(name, image);
+            images.Add(name, image);
             return image;
         }
 
@@ -518,7 +525,6 @@
         #endregion
 
         #region Tile Properties
-
         private void FillWallProperties(Tile wall)
         {
             this.ddlWallColor.Items.Clear();
