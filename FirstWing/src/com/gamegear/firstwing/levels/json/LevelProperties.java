@@ -22,6 +22,8 @@ public class LevelProperties {
     
     public String BackgroundName;
     
+    public ColorEnum LevelColor;
+    
     public List<SpeedPoint> SpeedPoints;
     
     public List<ColorEnum> Colors;

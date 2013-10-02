@@ -23,6 +23,8 @@
 
         public string BackgroundName { get; set; }
 
+        public ColorEnum LevelColor { get; set; }
+
         public List<SpeedPoint> SpeedPoints { get; set; } 
 
         public List<ColorEnum> Colors { get; set; }
