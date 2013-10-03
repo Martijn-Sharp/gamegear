@@ -18,7 +18,7 @@
 
         private Tile currentSelectedTile;
 
-        private string actorSelected;
+        private ActorProperties actorSelected;
 
         private int xButtonCount = 25;
         private int yButtonCount = 12;
@@ -58,23 +58,6 @@
 
         public static LevelProperties LevelProps { get; set; }
 
-        /// <summary>
-        /// Parses x and y coords from input
-        /// </summary>
-        /// <param name="coordinates">format: "x,y"</param>
-        /// <returns>Array with y = [0] and x = [1]</returns>
-        public static int[] GetCoordsFromString(string coordinates)
-        {
-            string[] coords = coordinates.Split(',');
-            var temp = new int[2];
-            for (int i = 0; i < 2; i++)
-            {
-                temp[i] = Convert.ToInt32(coords[i]);
-            }
-
-            return temp;
-        }
-
         private void ChangeTileClick(object sender, EventArgs e)
         {
             // When the button is clicked,
@@ -88,12 +71,31 @@
                 switch (this.categorySelected)
                 {
                     case CategoryEnum.Spawner:
-                        this.map.Add(tmpPoint, new Spawner(tmpPoint.X, (this.yButtonCount - 1) - tmpPoint.Y) { Name = this.actorSelected, Type = Node.NodeType.Spawner, SpawnedActorSpeed = 0.5f, SpawnColor = new List<LevelProperties.ColorEnum>(LevelProps.Colors) });
-                        clickedButton.BackgroundImage = this.GetImage(this.actorSelected, CategoryEnum.Spawner);
+                        this.map.Add(tmpPoint, new Spawner(tmpPoint.X, (this.yButtonCount - 1) - tmpPoint.Y) { Name = this.actorSelected.Name, Type = Node.NodeType.Spawner, SpawnedActorSpeed = 0.5f, SpawnColor = new List<ColorEnum>(LevelProps.Colors) });
+                        clickedButton.BackgroundImage = this.GetImage(this.actorSelected.Name, CategoryEnum.Spawner);
                         break;
                     case CategoryEnum.Level:
-                        this.map.Add(tmpPoint, new Tile(tmpPoint.X, (this.yButtonCount - 1) - tmpPoint.Y) { Name = this.actorSelected, Type = Node.NodeType.Tile, AssignedColor = LevelProperties.ColorEnum.Red});
-                        clickedButton.BackgroundImage = this.GetImage(this.actorSelected, CategoryEnum.Level);
+                        var tile = new Tile(tmpPoint.X, (this.yButtonCount - 1) - tmpPoint.Y)
+                        {
+                            Name = this.actorSelected.Name,
+                            Type = Node.NodeType.Tile
+                        };
+                        this.map.Add(tmpPoint, tile);
+                        string color = string.Empty;
+                        StaticActor actor;
+                        if (Actors.StaticActors.TryGetValue(this.actorSelected.Name, out actor))
+                        {
+                            switch (actor.Type)
+                            {
+                                case StaticType.Tile:
+                                     case StaticType.Breakable:
+                                    tile.AssignedColor = LevelProps.LevelColor;
+                                    color = LevelProps.LevelColor.ToString();
+                                    break;
+                            }
+                        }
+
+                        clickedButton.BackgroundImage = this.GetImage(this.actorSelected.Name, CategoryEnum.Level, color);
                         break;
                     case CategoryEnum.Default:
                         clickedButton.BackgroundImage = this.GetImage("default");
@@ -200,7 +202,20 @@
                             }
                             else if (a.Value.Type == Node.NodeType.Tile)
                             {
-                                fillButton.BackgroundImage = this.GetImage(a.Value.Name, CategoryEnum.Level);
+                                string color = string.Empty;
+                                StaticActor actor;
+                                if (Actors.StaticActors.TryGetValue(a.Value.Name, out actor))
+                                {
+                                    switch (actor.Type)
+                                    {
+                                        case StaticType.Tile:
+                                        case StaticType.Breakable:
+                                            color = ((Tile)a.Value).AssignedColor.ToString();
+                                            break;
+                                    }
+                                }
+
+                                fillButton.BackgroundImage = this.GetImage(a.Value.Name, CategoryEnum.Level, color);
                             }
                         }
                     }
@@ -215,10 +230,36 @@
                             if (button != null)
                             {
                                 var node = this.map.FirstOrDefault(mapNode => mapNode.Key == new Point(x + this.guiLeftX, y));
-                                button.BackgroundImage = 
-                                    node.Value != null ?
-                                    this.GetImage(node.Value.Name, node.Value is Spawner ? CategoryEnum.Spawner : CategoryEnum.Level) 
-                                    : this.GetImage("default");
+                                if (node.Value != null)
+                                {
+                                    if (node.Value is Spawner)
+                                    {
+                                        button.BackgroundImage = this.GetImage(node.Value.Name, CategoryEnum.Spawner);
+                                    }
+                                    else if (node.Value is Tile)
+                                    {
+                                        string color = string.Empty;
+                                        StaticActor actor;
+                                        if (Actors.StaticActors.TryGetValue(node.Value.Name, out actor))
+                                        {
+                                            switch (actor.Type)
+                                            {
+                                                case StaticType.Tile:
+                                                    ((Tile)node.Value).AssignedColor = LevelProps.LevelColor;
+                                                    color = ((Tile)node.Value).AssignedColor.ToString();
+                                                    break;
+                                                case StaticType.Breakable:
+                                                    color = ((Tile)node.Value).AssignedColor.ToString();
+                                                    break;
+                                            }
+                                        }
+                                        button.BackgroundImage = this.GetImage(node.Value.Name, CategoryEnum.Level, color);
+                                    }
+                                }
+                                else
+                                {
+                                    button.BackgroundImage = this.GetImage("default");
+                                }
                             }
                         }
                     }
@@ -241,11 +282,6 @@
             {
                 this.listLevels.Items.Add(new ListViewItem(level.Key));
             }
-        }
-
-        public void DisposeImages()
-        {
-            images.Clear();
         }
 
         #region Import/Export
@@ -331,6 +367,7 @@
         }
         #endregion
 
+        #region Events
         private void CloseClick(object sender, EventArgs e)
         {
             Application.Exit();
@@ -350,7 +387,7 @@
             if (new PropertiesForm().ShowDialog() != DialogResult.Abort)
             {
                 this.PopulateLists();
-                this.DisposeImages();
+                this.images.Clear();
                 this.BuildGui(BuildOptions.ChangeView);
             }
         }
@@ -360,7 +397,7 @@
             if (this.listEnemies.SelectedItems.Count == 1)
             {
                 this.categorySelected = CategoryEnum.Spawner;
-                this.actorSelected = this.listEnemies.SelectedItems[0].Text;
+                this.actorSelected = Actors.DynamicActors.Select(x => x.Value).FirstOrDefault(y => y.Name == this.listEnemies.SelectedItems[0].Text);
             }
         }
 
@@ -369,39 +406,10 @@
             if (this.listLevels.SelectedItems.Count == 1)
             {
                 this.categorySelected = CategoryEnum.Level;
-                this.actorSelected = this.listLevels.SelectedItems[0].Text;
+                this.actorSelected = Actors.StaticActors.Select(x => x.Value).FirstOrDefault(y => y.Name == this.listLevels.SelectedItems[0].Text);
             }
         }
-
-        private Image GetImage(string name, CategoryEnum category = CategoryEnum.Default)
-        {
-            if (images.ContainsKey(name))
-            {
-                return images[name];
-            }
-
-            Bitmap image;
-            switch (category)
-            {
-                case CategoryEnum.Spawner:
-                    image = new Bitmap("assets/images/spawner.png");
-                    break;
-                case CategoryEnum.Level:
-                    image = new Bitmap("assets/static/" + name + "-" + LevelProps.LevelColor.ToString().ToLower() + ".png");
-                    break;
-                default:
-                    image = new Bitmap("assets/images/" + name + ".png");
-                    break;
-            }
-
-            if (image.Size.Height != 30)
-            {
-                image = new Bitmap(image, new Size(30, 30));
-            }
-
-            images.Add(name, image);
-            return image;
-        }
+        #endregion
 
         #region Spawner Properties
         private void FillSpawnProperties(Spawner spawner)
@@ -440,7 +448,7 @@
             this.currentSelectedSpawner.SpawnColor.Clear();
             if (this.currentSelectedSpawner.SpawnColor == null)
             {
-                this.currentSelectedSpawner.SpawnColor = new List<LevelProperties.ColorEnum>();
+                this.currentSelectedSpawner.SpawnColor = new List<ColorEnum>();
             }
 
             if (this.ddlColors.SelectedItem == "All")
@@ -452,7 +460,7 @@
             }
             else
             {
-                this.currentSelectedSpawner.SpawnColor.Add((LevelProperties.ColorEnum)this.ddlColors.SelectedItem);
+                this.currentSelectedSpawner.SpawnColor.Add((ColorEnum)this.ddlColors.SelectedItem);
             }
         }
 
@@ -542,7 +550,7 @@
 
         private void DllWallColorSelectedIndexChanged(object sender, EventArgs e)
         {
-            this.currentSelectedTile.AssignedColor = (LevelProperties.ColorEnum)this.ddlWallColor.SelectedItem;
+            this.currentSelectedTile.AssignedColor = (ColorEnum)this.ddlWallColor.SelectedItem;
         }
 
         private void HealthNumericUpDownValueChanged(object sender, EventArgs e)
@@ -550,5 +558,40 @@
             this.currentSelectedTile.Health = Convert.ToSingle(this.healthNumericUpDown.Value);
         }
         #endregion
+
+        private Image GetImage(string name, CategoryEnum category = CategoryEnum.Default, string color = "")
+        {
+            if (images.ContainsKey(name))
+            {
+                return images[name];
+            }
+
+            Bitmap image;
+            switch (category)
+            {
+                case CategoryEnum.Spawner:
+                    image = new Bitmap("assets/images/spawner.png");
+                    break;
+                case CategoryEnum.Level:
+                    if (!string.IsNullOrEmpty(color))
+                    {
+                        color = "-" + color;
+                    }
+
+                    image = new Bitmap("assets/static/" + name + color + ".png");
+                    break;
+                default:
+                    image = new Bitmap("assets/images/" + name + ".png");
+                    break;
+            }
+
+            if (image.Size.Height != 30)
+            {
+                image = new Bitmap(image, new Size(30, 30));
+            }
+
+            images.Add(name, image);
+            return image;
+        }
     }
 }

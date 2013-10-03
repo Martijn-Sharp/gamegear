@@ -167,3 +167,4 @@ D:\FirstWing\gamegear\MapEditor\MapEditor\bin\Debug\assets\static\tron-top-red.p
 D:\FirstWing\gamegear\MapEditor\MapEditor\bin\Debug\assets\static\tron-empty-blue.png
 D:\FirstWing\gamegear\MapEditor\MapEditor\bin\Debug\assets\static\tron-empty-green.png
 D:\FirstWing\gamegear\MapEditor\MapEditor\bin\Debug\assets\static\tron-empty-red.png
+D:\FirstWing\gamegear\MapEditor\MapEditor\bin\Debug\assets\static\finish.png

@@ -6,15 +6,15 @@
 
     public partial class AddColorDialog : Form
     {
-        public AddColorDialog(List<LevelProperties.ColorEnum> availableColors)
+        public AddColorDialog(List<ColorEnum> availableColors)
         {
             this.InitializeComponent();
             availableColors.ForEach(x => this.ddlColors.Items.Add(x));
         }
 
-        public LevelProperties.ColorEnum GetColor()
+        public ColorEnum GetColor()
         {
-            return (LevelProperties.ColorEnum)this.ddlColors.SelectedItem;
+            return (ColorEnum)this.ddlColors.SelectedItem;
         }
 
         private void BtnSaveClick(object sender, EventArgs e)

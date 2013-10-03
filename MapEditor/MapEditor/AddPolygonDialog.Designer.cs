@@ -59,10 +59,15 @@
             65536});
             this.xUpDown.Location = new System.Drawing.Point(53, 3);
             this.xUpDown.Maximum = new decimal(new int[] {
-            1,
+            256,
             0,
             0,
             0});
+            this.xUpDown.Minimum = new decimal(new int[] {
+            256,
+            0,
+            0,
+            -2147483648});
             this.xUpDown.Name = "xUpDown";
             this.xUpDown.Size = new System.Drawing.Size(43, 20);
             this.xUpDown.TabIndex = 1;
@@ -92,10 +97,15 @@
             65536});
             this.yUpDown.Location = new System.Drawing.Point(152, 3);
             this.yUpDown.Maximum = new decimal(new int[] {
-            1,
+            256,
             0,
             0,
             0});
+            this.yUpDown.Minimum = new decimal(new int[] {
+            256,
+            0,
+            0,
+            -2147483648});
             this.yUpDown.Name = "yUpDown";
             this.yUpDown.Size = new System.Drawing.Size(43, 20);
             this.yUpDown.TabIndex = 3;

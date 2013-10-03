@@ -2,19 +2,19 @@
 {
     using System.Collections.Generic;
 
+    public enum ColorEnum
+    {
+        Blue,
+        Green,
+        LightBlue,
+        Orange,
+        Purple,
+        Red,
+        Yellow
+    }
+
     public class LevelProperties
     {
-        public enum ColorEnum
-        {
-            Blue,
-            Green,
-            LightBlue,
-            Orange,
-            Purple,
-            Red,
-            Yellow
-        }
-
         public float FinishX { get; set; }
 
         public float SpawnX { get; set; }
@@ -72,7 +72,7 @@
     {
         public float Health;
 
-        public LevelProperties.ColorEnum AssignedColor;
+        public ColorEnum AssignedColor;
 
         public Tile(int x, int y) : base(x, y)
         {
@@ -81,7 +81,7 @@
 
     public class Spawner : Node
     {
-        public List<LevelProperties.ColorEnum> SpawnColor { get; set; }
+        public List<ColorEnum> SpawnColor { get; set; }
 
         public float SpawnedActorSpeed { get; set; }
 

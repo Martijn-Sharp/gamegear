@@ -97,6 +97,8 @@
             this.lblSpeed = new System.Windows.Forms.Label();
             this.bulletBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.btnSave = new System.Windows.Forms.Button();
+            this.lblType = new System.Windows.Forms.Label();
+            this.ddlStaticType = new System.Windows.Forms.ComboBox();
             this.tabControl1.SuspendLayout();
             this.tabProperties.SuspendLayout();
             this.gboxBackground.SuspendLayout();
@@ -398,6 +400,8 @@
             // 
             // pnlStaticProperties
             // 
+            this.pnlStaticProperties.Controls.Add(this.ddlStaticType);
+            this.pnlStaticProperties.Controls.Add(this.lblType);
             this.pnlStaticProperties.Controls.Add(this.chkBreakable);
             this.pnlStaticProperties.Location = new System.Drawing.Point(213, 169);
             this.pnlStaticProperties.Name = "pnlStaticProperties";
@@ -832,6 +836,25 @@
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.BtnSave);
             // 
+            // lblType
+            // 
+            this.lblType.AutoSize = true;
+            this.lblType.Location = new System.Drawing.Point(88, 21);
+            this.lblType.Name = "lblType";
+            this.lblType.Size = new System.Drawing.Size(31, 13);
+            this.lblType.TabIndex = 1;
+            this.lblType.Text = "Type";
+            // 
+            // ddlStaticType
+            // 
+            this.ddlStaticType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ddlStaticType.FormattingEnabled = true;
+            this.ddlStaticType.Location = new System.Drawing.Point(125, 18);
+            this.ddlStaticType.Name = "ddlStaticType";
+            this.ddlStaticType.Size = new System.Drawing.Size(126, 21);
+            this.ddlStaticType.TabIndex = 2;
+            this.ddlStaticType.SelectedIndexChanged += new System.EventHandler(this.DdlStaticTypeSelectedIndexChanged);
+            // 
             // PropertiesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -943,6 +966,8 @@
         private System.Windows.Forms.CheckBox chkBreakable;
         private System.Windows.Forms.ComboBox ddlLevelColor;
         private System.Windows.Forms.Label lblLevelColor;
+        private System.Windows.Forms.ComboBox ddlStaticType;
+        private System.Windows.Forms.Label lblType;
 
     }
 }
