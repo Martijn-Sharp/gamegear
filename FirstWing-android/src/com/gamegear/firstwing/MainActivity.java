@@ -111,7 +111,7 @@ public class MainActivity extends AndroidApplication implements
 		System.out.println("in submit score");
 		aHelper.getGamesClient().submitScore(getString(R.string.leaderboard_total),
 				_score);
-		startActivityForResult(aHelper.getGamesClient().getLeaderboardIntent(String.valueOf(R.string.leaderboard_total)), 1);
+		startActivityForResult(aHelper.getGamesClient().getLeaderboardIntent(getString(R.string.leaderboard_total)), 105);
 	}
 
 	public void getScores() {
@@ -124,5 +124,15 @@ public class MainActivity extends AndroidApplication implements
 		aHelper.getGamesClient().loadPlayerCenteredScores(
 				theLeaderboardListener, getString(R.string.leaderboard_total), 1,
 				1, 25);
+	}
+	
+	public void unlockAchievement(String achievement) {
+		System.out.println("in submit score");
+		aHelper.getGamesClient().unlockAchievement(achievement);
+	}
+
+	@Override
+	public void incrementAchievement(String achievement, int steps) {
+		aHelper.getGamesClient().incrementAchievement(achievement, steps);
 	}
 }

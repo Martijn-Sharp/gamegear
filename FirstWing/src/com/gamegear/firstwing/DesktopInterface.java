@@ -31,4 +31,16 @@ public class DesktopInterface implements GoogleInterface {
 	public void getScoresData() {
 		System.out.println("Desktop: getScoresData()");
 	}
+
+	@Override
+	public void unlockAchievement(String achievement) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void incrementAchievement(String achievement, int steps) {
+		// TODO Auto-generated method stub
+		
+	}
 }
