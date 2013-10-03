@@ -204,6 +204,7 @@ public class WorldRenderer {
 					float width = actor.getWidth();
 					float height = actor.getHeight();
 					float scale = actor.getScale();
+					try{
 					spriteBatch.draw(
 							actor.getTexture(),
 							position.x - width / 2,
@@ -216,6 +217,9 @@ public class WorldRenderer {
 							scale,
 							rotationAngle,
 							false);
+					} catch (NullPointerException ex){
+						Gdx.app.log("Rendering", actor.getProperties().Name + ex.getMessage());
+					}
 				}
 			}
 			

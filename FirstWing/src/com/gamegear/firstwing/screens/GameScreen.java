@@ -131,7 +131,8 @@ public class GameScreen implements Screen {
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		removeBodies();
 		if(this.world.getBob().getPosition().x >= (this.world.getLevel().getProperties().FinishX - 6) && this.world.getLevel().getMoveableActors().size() == 0){
-			this.loadLevel(this.levelPath + 1);
+			this.levelPath += 1;
+			this.loadLevel(this.levelPath);
 		}
 		
 		if(this.markedForRestart)

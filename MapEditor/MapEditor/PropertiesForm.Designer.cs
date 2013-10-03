@@ -31,6 +31,8 @@
             this.components = new System.ComponentModel.Container();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabProperties = new System.Windows.Forms.TabPage();
+            this.ddlLevelColor = new System.Windows.Forms.ComboBox();
+            this.lblLevelColor = new System.Windows.Forms.Label();
             this.btnRemoveColor = new System.Windows.Forms.Button();
             this.btnAddColor = new System.Windows.Forms.Button();
             this.listColours = new System.Windows.Forms.ListView();
@@ -95,8 +97,6 @@
             this.lblSpeed = new System.Windows.Forms.Label();
             this.bulletBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.btnSave = new System.Windows.Forms.Button();
-            this.lblLevelColor = new System.Windows.Forms.Label();
-            this.ddlLevelColor = new System.Windows.Forms.ComboBox();
             this.tabControl1.SuspendLayout();
             this.tabProperties.SuspendLayout();
             this.gboxBackground.SuspendLayout();
@@ -158,6 +158,25 @@
             this.tabProperties.TabIndex = 0;
             this.tabProperties.Text = "Properties";
             this.tabProperties.UseVisualStyleBackColor = true;
+            // 
+            // ddlLevelColor
+            // 
+            this.ddlLevelColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ddlLevelColor.FormattingEnabled = true;
+            this.ddlLevelColor.Location = new System.Drawing.Point(100, 35);
+            this.ddlLevelColor.Name = "ddlLevelColor";
+            this.ddlLevelColor.Size = new System.Drawing.Size(136, 21);
+            this.ddlLevelColor.TabIndex = 21;
+            this.ddlLevelColor.SelectedIndexChanged += new System.EventHandler(this.DdlLevelColorSelectedIndexChanged);
+            // 
+            // lblLevelColor
+            // 
+            this.lblLevelColor.AutoSize = true;
+            this.lblLevelColor.Location = new System.Drawing.Point(6, 38);
+            this.lblLevelColor.Name = "lblLevelColor";
+            this.lblLevelColor.Size = new System.Drawing.Size(59, 13);
+            this.lblLevelColor.TabIndex = 20;
+            this.lblLevelColor.Text = "Level color";
             // 
             // btnRemoveColor
             // 
@@ -298,6 +317,7 @@
             // 
             // spawnYUpDown
             // 
+            this.spawnYUpDown.DecimalPlaces = 1;
             this.spawnYUpDown.Location = new System.Drawing.Point(191, 70);
             this.spawnYUpDown.Maximum = new decimal(new int[] {
             10,
@@ -320,6 +340,7 @@
             // 
             // spawnXUpDown
             // 
+            this.spawnXUpDown.DecimalPlaces = 1;
             this.spawnXUpDown.Location = new System.Drawing.Point(120, 70);
             this.spawnXUpDown.Name = "spawnXUpDown";
             this.spawnXUpDown.Size = new System.Drawing.Size(42, 20);
@@ -810,25 +831,6 @@
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.BtnSave);
-            // 
-            // lblLevelColor
-            // 
-            this.lblLevelColor.AutoSize = true;
-            this.lblLevelColor.Location = new System.Drawing.Point(6, 38);
-            this.lblLevelColor.Name = "lblLevelColor";
-            this.lblLevelColor.Size = new System.Drawing.Size(59, 13);
-            this.lblLevelColor.TabIndex = 20;
-            this.lblLevelColor.Text = "Level color";
-            // 
-            // ddlLevelColor
-            // 
-            this.ddlLevelColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.ddlLevelColor.FormattingEnabled = true;
-            this.ddlLevelColor.Location = new System.Drawing.Point(100, 35);
-            this.ddlLevelColor.Name = "ddlLevelColor";
-            this.ddlLevelColor.Size = new System.Drawing.Size(136, 21);
-            this.ddlLevelColor.TabIndex = 21;
-            this.ddlLevelColor.SelectedIndexChanged += new System.EventHandler(this.DdlLevelColorSelectedIndexChanged);
             // 
             // PropertiesForm
             // 
