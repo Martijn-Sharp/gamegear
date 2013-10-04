@@ -31,10 +31,13 @@ import com.gamegear.firstwing.WorldRenderer;
 import com.gamegear.firstwing.actors.*;
 import com.gamegear.firstwing.actors.json.StaticActor;
 import com.gamegear.firstwing.levels.Spawner;
-import com.gamegear.firstwing.levels.json.Tile;
 
 public class GameScreen implements Screen {
 
+	public enum GameState{
+		Paused,
+		Running
+	}
 	public FirstWing		game;
 	public FwWorld 			world;
 	public WorldRenderer 	renderer;
@@ -60,6 +63,7 @@ public class GameScreen implements Screen {
 	
 	private int width, height;
 	private boolean finished;
+	private GameState currentState;
 	
 	public GameScreen(FirstWing game, int levelPath)
 	{
@@ -107,6 +111,8 @@ public class GameScreen implements Screen {
 		{
 			music.play();
 		}
+		
+		this.currentState = GameState.Running;
 	}
 	
 	public void loadLevel(int levelPath)
@@ -145,38 +151,38 @@ public class GameScreen implements Screen {
 			}
 			
 			this.levelPath += 1;
-			this.loadLevel(this.levelPath);
+			this.currentState = GameState.Paused;
+			//this.loadLevel(this.levelPath);
 		}
 		
 		if(this.markedForRestart)
 		{
-			this.loadLevel(this.levelPath);
+			//this.loadLevel(this.levelPath);
+			this.currentState = GameState.Paused;
 			this.markedForRestart = false;
 		}
 		
-		//Update input
-		controller.update(delta);
-		checkPlayerBounds();
-		
-		//Update Bob speed
-		this.world.getBob().getBody().setLinearVelocity(controller.linImpulseX + world.getLevel().getSpeed(),controller.linImpulseY);
-		
-		//Update bullets
-		this.checkBulletFire();
-		this.moveEnemies();
-		
+		if(this.currentState == GameState.Running){
+			
+			//Update input
+			this.controller.update(delta);
+			this.checkPlayerBounds();
+			
+			//Update Bob speed
+			this.world.getBob().getBody().setLinearVelocity(controller.linImpulseX + world.getLevel().getSpeed(),controller.linImpulseY);
+			
+			//Update bullets
+			this.checkBulletFire();
+			this.moveEnemies();
+		}
+			
 		//Render frame
-		renderer.render();
-		
+		this.renderer.render(this.currentState);
+	
 		//Render interface
-		renderInterface(true);
+		this.renderInterface(true);
 		//renderFPS();
 		
-		//Debug reset
-//		if(renderer.cameraX > 14)
-//		{
-//			loadLevel("");
-//		}
 	}
 	
 	public void moveEnemies()
@@ -370,7 +376,7 @@ public class GameScreen implements Screen {
 							break;
 						case Tile:
 							if(timeSinceDamage + 100 < System.currentTimeMillis()){
-								collisionBob.setHealth(collisionBob.getHealth() - 0.1f);
+								collisionBob.setHealth(collisionBob.getHealth() - 1f);
 								timeSinceDamage = System.currentTimeMillis();
 							}
 							break;

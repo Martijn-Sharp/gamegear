@@ -22,6 +22,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.Array;
 import com.gamegear.firstwing.actors.Actor;
 import com.gamegear.firstwing.levels.json.LevelProperties.ColorEnum;
+import com.gamegear.firstwing.screens.GameScreen.GameState;
 
 public class WorldRenderer {
 	private static final float CAMERA_WIDTH = 10f;
@@ -29,6 +30,8 @@ public class WorldRenderer {
 	
 	private FwWorld world;
 	private OrthographicCamera cam;
+	
+	private float timestep;
 
 	/** for debug rendering **/
 	@SuppressWarnings("unused")
@@ -151,7 +154,7 @@ public class WorldRenderer {
 	{
 		PooledEffect effect = pool.obtain();
 		effect.setPosition(x, y);
-		effect.update(Gdx.graphics.getDeltaTime());
+		effect.update(this.timestep);
 		
 		effects.add(effect);
 //		prototype.reset();
@@ -160,7 +163,8 @@ public class WorldRenderer {
 //		System.out.println("Effect restarting");
 	}
 	
-	public void render() {
+	public void render(GameState state) {
+		this.timestep = state == GameState.Running ? Gdx.graphics.getDeltaTime() : 0f;
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		moveCamera(world.getBob().getBody().getWorldCenter().x, world.getBob().getBody().getWorldCenter().y, world.level.getSpeed(cameraX));
 		
@@ -219,7 +223,7 @@ public class WorldRenderer {
 			// Render particle effects
 			for(PooledEffect effect : effects)
 			{
-				effect.draw(spriteBatch, Gdx.graphics.getDeltaTime());
+				effect.draw(spriteBatch, this.timestep);
 				if(effect.isComplete()){
 					effects.removeValue(effect, true);
 					effect.free();
@@ -228,13 +232,13 @@ public class WorldRenderer {
 			
 			behindShip = world.getBob().getBody().getWorldPoint(new Vector2(-0.3f,0));
 			p.get(activeAfterburner).setPosition(behindShip.x, behindShip.y);
-			p.get(activeAfterburner).update(Gdx.graphics.getDeltaTime());
-			p.get(activeAfterburner).draw(spriteBatch, Gdx.graphics.getDeltaTime());
+			p.get(activeAfterburner).update(this.timestep);
+			p.get(activeAfterburner).draw(spriteBatch, this.timestep);
 		spriteBatch.end();
 		//debugRenderer.render(world.getWorld(), cam.combined);
 		//Gdx.app.log("Stats", "active: " + effects.size + " | max: " + pool.max);
 		
-		world.world.step(Gdx.app.getGraphics().getDeltaTime(), 3, 3);
+		world.world.step(this.timestep, 3, 3);
 	}
 	
 	public void draw(SpriteBatch batch, float parentAlpha){
@@ -263,7 +267,7 @@ public class WorldRenderer {
 //		else{cameraX = x;}
 		
 		//Move camera with speed
-		cameraX += Gdx.graphics.getDeltaTime() * currentSpeed;
+		cameraX += this.timestep * currentSpeed;
 		
 		//Gdx.app.log("Camera", "X:" + cameraX + "," + x + " Y:" + cameraY + "," + y);
 		if(speed >= 3)
@@ -296,7 +300,7 @@ public class WorldRenderer {
 	        return;
 	    }
 	    
-	    this.step += Gdx.graphics.getDeltaTime();
+	    this.step += this.timestep;
 	    float percentComplete = this.step / this.maxtime;
 	    float percentGone = 1 - percentComplete;
 	    float red = this.sourceBgColor.r * percentGone + this.targetBgColor.r * percentComplete;
