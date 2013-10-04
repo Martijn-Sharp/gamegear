@@ -157,15 +157,24 @@ public class GameScreen extends MenuScreen {
 		if(this.finished){
 			this.finished = false;
 			
-			// Completed first level
 			if(game.platformInterface.getSignedIn())
 			{
+				// Completed first level
 				if(this.levelPath == 1)
 				{
 					game.platformInterface.unlockAchievement("CgkIhpLNkp8BEAIQBA");
 				}
 				
 				FirstWing.stats.checkColorAchievement();
+			}
+			
+			if(world.getLevel().getProperties().StarTwo < FirstWing.stats.getScore() && FirstWing.stats.getStars(levelPath) < 2)
+			{
+				FirstWing.stats.setStars(levelPath, 2);
+			}
+			else if(world.getLevel().getProperties().StarOne < FirstWing.stats.getScore() && FirstWing.stats.getStars(levelPath) < 1)
+			{
+				FirstWing.stats.setStars(levelPath, 1);
 			}
 			
 			this.stage.addActor(this.getVictoryWindow());

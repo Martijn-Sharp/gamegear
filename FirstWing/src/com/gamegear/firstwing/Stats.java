@@ -118,6 +118,16 @@ public class Stats {
 		comboOrbs = 0;
 	}
 	
+	public int getStars(int levelID)
+	{
+		return prefs.getInteger("levelStars" + levelID, 0);
+	}
+	
+	public void setStars(int levelID, int stars)
+	{
+		prefs.putInteger("levelStars" + levelID, stars);
+	}
+	
 	public void changeLevel(int levelID)
 	{
 		resetScore();
