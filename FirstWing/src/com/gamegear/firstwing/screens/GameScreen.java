@@ -152,12 +152,19 @@ public class GameScreen extends MenuScreen {
 			this.finished = false;
 			
 			// Completed first level
-			if(this.levelPath == 1)
+			if(game.platformInterface.getSignedIn())
 			{
-				game.platformInterface.unlockAchievement("CgkIhpLNkp8BEAIQBA");
+				if(this.levelPath == 1)
+				{
+					game.platformInterface.unlockAchievement("CgkIhpLNkp8BEAIQBA");
+				}
+				FirstWing.stats.checkColorAchievement();
 			}
 			
+			//Change level
 			this.levelPath += 1;
+			FirstWing.stats.changeLevel(levelPath);
+			
 			this.currentState = GameState.Paused;
 			//this.loadLevel(this.levelPath);
 		}
@@ -244,7 +251,7 @@ public class GameScreen extends MenuScreen {
 		interfaceBatch.begin();
 		font.setScale(1);
 		font.draw(interfaceBatch, "Score:" + FirstWing.stats.getScore(), 10, height -10);
-		font.draw(interfaceBatch, "Highscore:" + FirstWing.stats.getHighScore(), 100, height -10);
+		font.draw(interfaceBatch, "Highscore:" + FirstWing.stats.getHighScore(levelPath), 100, height -10);
 		font.draw(interfaceBatch, "Health:" + (int)this.world.getBob().getHealth()*10 + "%", 200, height -10);
 		font.draw(interfaceBatch, "Combo:" + FirstWing.stats.getComboOrbs() + "x", 300, height -10);
 		
