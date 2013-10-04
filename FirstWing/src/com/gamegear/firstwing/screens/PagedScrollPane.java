@@ -12,8 +12,6 @@ public class PagedScrollPane extends ScrollPane {
 
 	private boolean wasPanDragFling = false;
 
-	private float pageSpacing;
-
 	private Table content;
 
 	public PagedScrollPane () {
@@ -109,7 +107,7 @@ public class PagedScrollPane extends ScrollPane {
 					break;
 				}
 			}
-			setScrollX(MathUtils.clamp(pageX - (width - pageWidth) / 2, 0, maxX));
+			setScrollX(MathUtils.clamp(pageX, 0, maxX));
 		}
 	}
 

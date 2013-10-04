@@ -31,7 +31,7 @@ public class MainMenu extends MenuScreen{
                     public void clicked(InputEvent event, float x, float y) {
                     	Gdx.app.log("Menu", "Clicked startgame");
                     	//firstwing.setScreen(new GameScreen(firstwing, ""));
-                    	firstwing.setScreen(new LevelScreen(firstwing));
+                    	firstwing.setScreen(new ExtendedLevelScreen(firstwing));
                     }
             });
             

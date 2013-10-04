@@ -2,6 +2,7 @@ package com.gamegear.firstwing.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -13,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.List.ListStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.gamegear.firstwing.FirstWing;
 
@@ -103,6 +105,9 @@ public abstract class MenuScreen implements Screen {
                 FirstWing.manager.load("ui/uiskin.json", Skin.class);
                 FirstWing.manager.finishLoading();
                 skin = FirstWing.manager.get("ui/uiskin.json");
+                skin.add("top", skin.newDrawable("default-round", Color.RED), Drawable.class);
+                skin.add("star-filled", skin.newDrawable("white", Color.YELLOW), Drawable.class);
+                skin.add("star-unfilled", skin.newDrawable("white", Color.GRAY), Drawable.class);
         }
         return skin;
     }
