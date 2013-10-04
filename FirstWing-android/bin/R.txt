@@ -59,8 +59,13 @@ int id normal 0x7f050001
 int id satellite 0x7f050002
 int id terrain 0x7f050003
 int layout main 0x7f030000
+int string achievement_colorbuster 0x7f060021
+int string achievement_feeling_blue 0x7f06001e
+int string achievement_good_job_major 0x7f060020
+int string achievement_kill_them_all 0x7f06001f
+int string achievement_nice_job_idiot 0x7f060022
 int string app_id 0x7f06001d
-int string app_name 0x7f06001f
+int string app_name 0x7f060024
 int string auth_client_needs_enabling_title 0x7f060014
 int string auth_client_needs_installation_title 0x7f060015
 int string auth_client_needs_update_title 0x7f060016
@@ -90,8 +95,8 @@ int string gamehelper_app_misconfigured 0x7f06001a
 int string gamehelper_license_failed 0x7f06001b
 int string gamehelper_sign_in_failed 0x7f060019
 int string gamehelper_unknown_error 0x7f06001c
-int string leaderBoardID 0x7f060020
-int string leaderboard_total 0x7f06001e
+int string leaderBoardID 0x7f060025
+int string leaderboard_total 0x7f060023
 int[] styleable MapAttrs { 0x7f010000, 0x7f010001, 0x7f010002, 0x7f010003, 0x7f010004, 0x7f010005, 0x7f010006, 0x7f010007, 0x7f010008, 0x7f010009, 0x7f01000a, 0x7f01000b, 0x7f01000c, 0x7f01000d }
 int styleable MapAttrs_cameraBearing 1
 int styleable MapAttrs_cameraTargetLat 2

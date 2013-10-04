@@ -120,16 +120,6 @@ public class WorldRenderer {
 				p.get(pColor).load(Gdx.files.internal("effects/afterburner-" + pColor.toString() + ".p"), Gdx.files.internal("effects"));
 				p.get(pColor).setPosition(this.behindShip.x, this.behindShip.y);
 			}
-			
-			// El Martiño: kiep het maar weg als je deze zieke oplossing bekeken heb
-			/*p.put(ColorEnum.blue, new ParticleEffect()); p.get(ColorEnum.blue).load(Gdx.files.internal("effects/afterburner-blue.p"), Gdx.files.internal("effects")); p.get(ColorEnum.blue).setPosition(behindShip.x, behindShip.y);
-			p.put(ColorEnum.green, new ParticleEffect()); p.get(ColorEnum.green).load(Gdx.files.internal("effects/afterburner-green.p"), Gdx.files.internal("effects")); p.get(ColorEnum.green).setPosition(behindShip.x, behindShip.y);
-			p.put(ColorEnum.red, new ParticleEffect()); p.get(ColorEnum.red).load(Gdx.files.internal("effects/afterburner-red.p"), Gdx.files.internal("effects")); p.get(ColorEnum.red).setPosition(behindShip.x, behindShip.y);
-			p.put(ColorEnum.yellow, new ParticleEffect()); p.get(ColorEnum.yellow).load(Gdx.files.internal("effects/afterburner-yellow.p"), Gdx.files.internal("effects")); p.get(ColorEnum.yellow).setPosition(behindShip.x, behindShip.y);
-			p.put(ColorEnum.orange, new ParticleEffect()); p.get(ColorEnum.orange).load(Gdx.files.internal("effects/afterburner-orange.p"), Gdx.files.internal("effects")); p.get(ColorEnum.orange).setPosition(behindShip.x, behindShip.y);
-			p.put(ColorEnum.lightblue, new ParticleEffect()); p.get(ColorEnum.lightblue).load(Gdx.files.internal("effects/afterburner-lightblue.p"), Gdx.files.internal("effects")); p.get(ColorEnum.lightblue).setPosition(behindShip.x, behindShip.y);
-			p.put(ColorEnum.purple, new ParticleEffect()); p.get(ColorEnum.purple).load(Gdx.files.internal("effects/afterburner-purple.p"), Gdx.files.internal("effects")); p.get(ColorEnum.purple).setPosition(behindShip.x, behindShip.y);
-			p.put(ColorEnum.none, new ParticleEffect()); p.get(ColorEnum.none).load(Gdx.files.internal("effects/afterburner.p"), Gdx.files.internal("effects")); p.get(ColorEnum.none).setPosition(behindShip.x, behindShip.y);*/
 		}
 		
 		if(activeAfterburner == color)
@@ -204,21 +194,24 @@ public class WorldRenderer {
 					float width = actor.getWidth();
 					float height = actor.getHeight();
 					float scale = actor.getScale();
-					try{
-					spriteBatch.draw(
-							actor.getTexture(),
-							position.x - width / 2,
-							position.y - height / 2,
-							width / 2,
-							height / 2,
-							width,
-							height,
-							scale,
-							scale,
-							rotationAngle,
-							false);
-					} catch (NullPointerException ex){
-						Gdx.app.log("Rendering", actor.getProperties().Name + ex.getMessage());
+					
+					if(position.x - cam.position.x < (int)CAMERA_WIDTH && position.x - cam.position.x > -(int)CAMERA_WIDTH){
+						try{
+							spriteBatch.draw(
+									actor.getTexture(),
+									position.x - width / 2,
+									position.y - height / 2,
+									width / 2,
+									height / 2,
+									width,
+									height,
+									scale,
+									scale,
+									rotationAngle,
+									false);
+						} catch (NullPointerException ex){
+							Gdx.app.log("Rendering", actor.getProperties().Name + ex.getMessage());
+						}
 					}
 				}
 			}

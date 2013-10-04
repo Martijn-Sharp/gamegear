@@ -31,329 +31,329 @@ breakable-wall
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-bottom-blue
+finish
   rotate: false
   xy: 131, 753
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-bottom-green
+tron-bottom-blue
   rotate: false
   xy: 261, 883
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-bottom-red
+tron-bottom-green
   rotate: false
   xy: 1, 493
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
+tron-bottom-red
+  rotate: false
+  xy: 131, 623
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
 tron-empty-blue
-  rotate: false
-  xy: 131, 623
-  size: 128, 128
-  orig: 128, 128
-  offset: 0, 0
-  index: -1
-tron-empty-green
-  rotate: false
-  xy: 131, 623
-  size: 128, 128
-  orig: 128, 128
-  offset: 0, 0
-  index: -1
-tron-empty-red
-  rotate: false
-  xy: 131, 623
-  size: 128, 128
-  orig: 128, 128
-  offset: 0, 0
-  index: -1
-tron-empty-bottom-blue
   rotate: false
   xy: 261, 753
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-empty-bottom-green
+tron-empty-green
+  rotate: false
+  xy: 261, 753
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+tron-empty-red
+  rotate: false
+  xy: 261, 753
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+tron-empty-bottom-blue
   rotate: false
   xy: 391, 883
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-empty-bottom-left-blue
+tron-empty-bottom-green
   rotate: false
   xy: 1, 363
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-empty-bottom-left-green
+tron-empty-bottom-left-blue
   rotate: false
   xy: 131, 493
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-empty-bottom-left-red
+tron-empty-bottom-left-green
   rotate: false
   xy: 261, 623
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-empty-bottom-red
+tron-empty-bottom-left-red
   rotate: false
   xy: 391, 753
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-empty-bottom-right-blue
+tron-empty-bottom-red
   rotate: false
   xy: 521, 883
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-empty-bottom-right-green
+tron-empty-bottom-right-blue
   rotate: false
   xy: 1, 233
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-empty-bottom-right-red
+tron-empty-bottom-right-green
   rotate: false
   xy: 131, 363
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-empty-left-blue
+tron-empty-bottom-right-red
   rotate: false
   xy: 261, 493
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-empty-left-green
+tron-empty-left-blue
   rotate: false
   xy: 391, 623
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-empty-left-red
+tron-empty-left-green
   rotate: false
   xy: 521, 753
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-empty-left-top-blue
+tron-empty-left-red
   rotate: false
   xy: 651, 883
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-empty-left-top-green
+tron-empty-left-top-blue
   rotate: false
   xy: 1, 103
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-empty-left-top-red
+tron-empty-left-top-green
   rotate: false
   xy: 131, 233
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-empty-right-blue
+tron-empty-left-top-red
   rotate: false
   xy: 261, 363
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-empty-right-green
+tron-empty-right-blue
   rotate: false
   xy: 391, 493
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-empty-right-red
+tron-empty-right-green
   rotate: false
   xy: 521, 623
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-empty-top-blue
+tron-empty-right-red
   rotate: false
   xy: 651, 753
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-empty-top-green
+tron-empty-top-blue
   rotate: false
   xy: 781, 883
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-empty-top-red
+tron-empty-top-green
   rotate: false
   xy: 131, 103
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-empty-top-right-blue
+tron-empty-top-red
   rotate: false
   xy: 261, 233
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-empty-top-right-green
+tron-empty-top-right-blue
   rotate: false
   xy: 391, 363
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-empty-top-right-red
+tron-empty-top-right-green
   rotate: false
   xy: 521, 493
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-full-blue
+tron-empty-top-right-red
   rotate: false
   xy: 651, 623
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-full-green
+tron-full-blue
   rotate: false
   xy: 781, 753
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-full-red
+tron-full-green
   rotate: false
   xy: 261, 103
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-left-blue
+tron-full-red
   rotate: false
   xy: 391, 233
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-left-bottom-blue
+tron-left-blue
   rotate: false
   xy: 521, 363
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-left-bottom-green
+tron-left-bottom-blue
   rotate: false
   xy: 651, 493
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-left-bottom-red
+tron-left-bottom-green
   rotate: false
   xy: 781, 623
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-left-green
+tron-left-bottom-red
   rotate: false
   xy: 391, 103
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-left-red
+tron-left-green
   rotate: false
   xy: 521, 233
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-left-top-blue
+tron-left-red
   rotate: false
   xy: 651, 363
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-left-top-green
+tron-left-top-blue
   rotate: false
   xy: 781, 493
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-left-top-red
+tron-left-top-green
   rotate: false
   xy: 521, 103
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-right-blue
+tron-left-top-red
   rotate: false
   xy: 651, 233
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-right-bottom-blue
+tron-right-blue
   rotate: false
   xy: 781, 363
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-right-bottom-green
+tron-right-bottom-blue
   rotate: false
   xy: 651, 103
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-right-bottom-red
+tron-right-bottom-green
   rotate: false
   xy: 781, 233
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-right-green
+tron-right-bottom-red
   rotate: false
   xy: 781, 103
   size: 128, 128
@@ -414,51 +414,58 @@ statextures2.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+tron-right-green
+  rotate: false
+  xy: 1, 261
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
 tron-right-red
   rotate: false
-  xy: 1, 1
+  xy: 1, 131
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 tron-right-top-blue
   rotate: false
-  xy: 131, 1
+  xy: 131, 261
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 tron-right-top-green
   rotate: false
-  xy: 261, 1
+  xy: 1, 1
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 tron-right-top-red
   rotate: false
-  xy: 391, 1
+  xy: 131, 131
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 tron-top-blue
   rotate: false
-  xy: 521, 1
+  xy: 261, 261
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 tron-top-green
   rotate: false
-  xy: 651, 1
+  xy: 131, 1
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 tron-top-red
   rotate: false
-  xy: 781, 1
+  xy: 261, 131
   size: 128, 128
   orig: 128, 128
   offset: 0, 0

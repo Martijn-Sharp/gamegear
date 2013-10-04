@@ -1,6 +1,7 @@
 package com.gamegear.firstwing.levels;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -62,6 +63,10 @@ public class Level {
 	
 	public void addMoveableActor(MoveableActor enemy){
 		this.dynamicActors.add(enemy);
+	}
+	
+	public ArrayList<Spawner> getSpawners(){
+		return this.spawners;
 	}
 	
 	public ArrayList<Orb> getCollectables(){
@@ -134,7 +139,9 @@ public class Level {
 			this.properties = new JSONLoader().getLevel(Gdx.files.internal("levels/" + levelPath + ".dat"));
 		}
 		
+		Collections.sort(this.properties.Tiles);
 		Iterator<Tile> tiles = this.properties.Tiles.iterator();
+		Collections.sort(this.properties.Spawners);
 		Iterator<com.gamegear.firstwing.levels.json.Spawner> spawnerIt = this.properties.Spawners.iterator();
 		Filter filter = new Filter();
 		

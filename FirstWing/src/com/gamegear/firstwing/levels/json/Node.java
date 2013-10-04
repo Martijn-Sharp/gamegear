@@ -1,6 +1,6 @@
 package com.gamegear.firstwing.levels.json;
 
-public class Node {
+public class Node implements Comparable<Node> {
 	public enum NodeType{
 		Spawner,
 		Tile
@@ -28,4 +28,17 @@ public class Node {
     {
     	
     }
+    
+    @Override
+	public int compareTo(Node o) {
+		int compare;
+		if(this.X > o.X){
+			compare = 1;
+		} else if(this.X == o.X){
+			compare = 0;
+		} else {
+			compare = -1;
+		}
+		return compare;
+	}
 }

@@ -18,6 +18,10 @@ public class Spawner {
 	private Vector2 position;
 	private Level level;
 	private float speed;
+	private boolean hasSpawned;
+	private boolean multiple;
+	private float interval;
+	private long timeOfLastSpawn;
 	
 	public Spawner(com.gamegear.firstwing.levels.json.Spawner spawner, World world, Level level){
 		this.position = new Vector2(spawner.X, spawner.Y);
@@ -26,14 +30,28 @@ public class Spawner {
 		this.world = world;
 		this.level = level;
 		this.speed = spawner.SpawnedActorSpeed;
-		this.Spawn();
+		this.multiple = spawner.Multiple;
+		this.interval = spawner.SpawnInterval;
+		this.timeOfLastSpawn = System.nanoTime();
+		//this.Spawn();
 	}
 	
 	public void Spawn(){
-		ColorEnum color = this.colors.get(new Random().nextInt(this.colors.size()));
-		Filter filter = new Filter();
-		filter.maskBits = ~4;
-		this.level.addMoveableActor(new Enemy(this.position, this.world, ActorMgr.getProperties(this.type, new DynamicActor()), this.type + "-" + color.toString(), filter, this.speed));
+		if(this.multiple || this.hasSpawned == false){
+			float elapsedTime = (System.nanoTime() - timeOfLastSpawn) / 1000000000.0f;
+			if(this.multiple && elapsedTime < this.interval){
+				return;
+			}
+			
+			ColorEnum color = this.colors.get(new Random().nextInt(this.colors.size()));
+			Filter filter = new Filter();
+			filter.maskBits = ~4;
+			Enemy enemy = new Enemy(this.position, this.world, ActorMgr.getProperties(this.type, new DynamicActor()), this.type + "-" + color.toString(), filter, this.speed);
+			enemy.getBody().setLinearVelocity(-enemy.getSpeed(), 0f);
+			this.level.addMoveableActor(enemy);
+			this.hasSpawned = true;
+			this.timeOfLastSpawn = System.nanoTime();
+		}
 	}
 	
 	public Vector2 getPosition(){

@@ -1,5 +1,7 @@
 package com.gamegear.firstwing.screens;
 
+import java.util.Iterator;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
@@ -28,6 +30,8 @@ import com.gamegear.firstwing.FwWorld;
 import com.gamegear.firstwing.WorldRenderer;
 import com.gamegear.firstwing.actors.*;
 import com.gamegear.firstwing.actors.json.StaticActor;
+import com.gamegear.firstwing.levels.Spawner;
+import com.gamegear.firstwing.levels.json.Tile;
 
 public class GameScreen implements Screen {
 
@@ -55,6 +59,7 @@ public class GameScreen implements Screen {
 	InputMultiplexer im;
 	
 	private int width, height;
+	private boolean finished;
 	
 	public GameScreen(FirstWing game, int levelPath)
 	{
@@ -130,13 +135,15 @@ public class GameScreen implements Screen {
 		Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		removeBodies();
-		if(this.world.getBob().getPosition().x >= (this.world.getLevel().getProperties().FinishX - 6) && this.world.getLevel().getMoveableActors().size() == 0){
+		if(this.finished){
+			this.finished = false;
 			
-			//Completed first level
+			// Completed first level
 			if(this.levelPath == 1)
 			{
 				game.platformInterface.unlockAchievement("CgkIhpLNkp8BEAIQBA");
 			}
+			
 			this.levelPath += 1;
 			this.loadLevel(this.levelPath);
 		}
@@ -174,15 +181,21 @@ public class GameScreen implements Screen {
 	
 	public void moveEnemies()
 	{
-		for(MoveableActor en : world.getLevel().getMoveableActors())
-    	{
-        	if(en instanceof Enemy){
-        		if(en.getPosition().x - 6 < renderer.cameraX)
-        		{
-        			en.getBody().setLinearVelocity(-en.getSpeed(), 0);
-        		}
-        	}
-    	}
+		Iterator<Spawner> it = world.getLevel().getSpawners().iterator();
+		while(it.hasNext()){
+			Spawner spawner = it.next();
+			if(spawner.getPosition().x -6 < renderer.cameraX){
+				spawner.Spawn();
+			} else {
+				return;
+			}
+			
+			if(spawner.getPosition().x < renderer.cameraX){
+				world.getLevel().getSpawners().remove(spawner);
+			}
+			
+			it.remove();
+		}
 	}
 	
 	public void checkPlayerBounds()
@@ -235,7 +248,7 @@ public class GameScreen implements Screen {
 	
 	public void checkBulletFire()
 	{
-		int maxBullets = 20;
+		int maxBullets = 10;
 		
 		// Maximum bullets on screen
         if(bullets.size > maxBullets)
@@ -247,7 +260,7 @@ public class GameScreen implements Screen {
         // Remove bullets off screen
         for(Bullet b : bullets)
         {
-        	if(b.getBody().getWorldCenter().x > renderer.cameraX + 6)
+        	if(b.getBody().getWorldCenter().x > renderer.cameraX + (renderer.getCam().viewportWidth / 2))
         	{
         		this.actorsForRemoval.add(b);
         		bullets.removeValue(b, true);
@@ -255,14 +268,14 @@ public class GameScreen implements Screen {
         }
 		
 		//Bullet delay in seconds
-		float bulletDelay = 0.2f;
+		float bulletDelay = 0.8f;
 		
 		Filter filter = new Filter();
 		filter.categoryBits = 1;
 		filter.groupIndex = -2;
 		
 		float elapsedTime = (System.nanoTime() - timeSinceLastBullet) / 1000000000.0f;
-        if(elapsedTime>bulletDelay){
+        if(elapsedTime > bulletDelay){
         	timeSinceLastBullet = System.nanoTime();
         	Bullet temp = new Bullet(this.world.getBob().getBody().getWorldPoint(new Vector2(0.8f,0)), world.getWorld(), filter, FirstWing.stats.currentColor);
         	temp.getBody().setBullet(true);
@@ -315,11 +328,10 @@ public class GameScreen implements Screen {
                 	collisionBlock = (Block)actorB;
                 }
                 
-                //Gdx.app.log("beginContact", "between " + fixtureA.toString() + " and " + fixtureB.toString());
-                
-                if(collisionEnemy != null)
+                // Als een bullet in aanraking komt
+                if(collisionBullet != null)
                 {
-                	if(collisionBullet != null){
+                	if(collisionEnemy != null){
                 		collisionEnemy.setHealth(collisionEnemy.getHealth() - 5);
                 		if(collisionEnemy.getHealth() <= 0)
                     	{
@@ -330,50 +342,57 @@ public class GameScreen implements Screen {
                     			actorsForRemoval.add(collisionEnemy);
                         	}
                     	}
-                	}
-                }
-                                
-                if(collisionOrb != null && collisionBullet == null){
-                	if(collisionBob != null){
-                		//Add points, true means color has changed
-                		if(FirstWing.stats.addScore(collisionOrb.getColor(), collisionOrb.getPoints()))
-                		{
-                			renderer.changeAfterBurnerColor(collisionOrb.getColor());
-                		}
-                	}
-                	
-                	if(!actorsForRemoval.contains(collisionOrb, true)){
-                		actorsForRemoval.add(collisionOrb);
-                	}
-                }
-                
-                if(collisionBullet != null)
-                {
-                	if(!actorsForRemoval.contains(collisionBullet, true))
-                	{
-                		actorsForRemoval.add(collisionBullet);
-                	}
-                }
-                
-                if(collisionBob != null){
-                	if(collisionOrb == null && collisionBullet == null && timeSinceDamage + 1000 < System.currentTimeMillis()){
-                		timeSinceDamage = System.currentTimeMillis();
-                		collisionBob.setHealth(collisionBob.getHealth() - 5);
-                		if(collisionBob.getHealth() <= 0){
-                    		markedForRestart = true;
-                    	}
-                	}
-                }
-                
-                if(collisionBlock != null){
-                	if(collisionBullet != null && collisionBlock.isBreakable()){
-                		collisionBlock.setHealth(collisionBlock.getHealth() - 5, collisionBullet.getColor());
+                	} else if(collisionBlock != null && collisionBlock.isBreakable()){
+                		collisionBlock.setHealth(collisionBlock.getHealth() - 2f, collisionBullet.getColor());
                 		if(collisionBlock.getHealth() <= 0){
                     		if(!actorsForRemoval.contains(collisionBlock, true))
                         	{
                     			actorsForRemoval.add(collisionBlock);
                         	}
                     	}
+                	}
+                	
+                	if(!actorsForRemoval.contains(collisionBullet, true))
+                	{
+                		actorsForRemoval.add(collisionBullet);
+                	}
+                }
+                
+                // Als het schip in aanraking komt
+                if(collisionBob != null){
+                	if(collisionBlock != null){
+                		switch(((StaticActor)collisionBlock.getProperties()).Type){
+						case Breakable:
+							collisionBob.setHealth(0f);
+							break;
+						case Finish:
+							finished = true;
+							break;
+						case Tile:
+							if(timeSinceDamage + 100 < System.currentTimeMillis()){
+								collisionBob.setHealth(collisionBob.getHealth() - 0.1f);
+								timeSinceDamage = System.currentTimeMillis();
+							}
+							break;
+						default:
+							break;
+        				}
+                	} else if(collisionOrb != null){
+                		if(FirstWing.stats.addScore(collisionOrb.getColor(), collisionOrb.getPoints()))
+                		{
+                			renderer.changeAfterBurnerColor(collisionOrb.getColor());
+                		}
+                		
+                		if(!actorsForRemoval.contains(collisionOrb, true)){
+                    		actorsForRemoval.add(collisionOrb);
+                    	}
+                	} else if(collisionOrb == null && collisionBullet == null && timeSinceDamage + 1000 < System.currentTimeMillis()){
+                		timeSinceDamage = System.currentTimeMillis();
+                		collisionBob.setHealth(collisionBob.getHealth() - 5);
+                	}
+                	
+                	if(collisionBob.getHealth() <= 0){
+                		markedForRestart = true;
                 	}
                 }
             }
