@@ -1,19 +1,13 @@
 package com.gamegear.firstwing;
 
-import java.util.Iterator;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.input.GestureDetector.GestureListener;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.gamegear.firstwing.actors.Actor;
 import com.gamegear.firstwing.actors.Bob;
-import com.gamegear.firstwing.actors.Enemy;
-import com.gamegear.firstwing.actors.MoveableActor;
 import com.gamegear.firstwing.screens.GameScreen;
 import com.gamegear.firstwing.BobController;
 
@@ -24,15 +18,12 @@ public class BobController implements GestureListener, InputProcessor {
 	private Bob bob;
 	OrthographicCamera cam;
 	
-	
 	///////////////////////
 	/// Mouse Collision ///
 	///////////////////////
 	protected Body hitBody = null;
     protected Body groundBody;
     protected Vector2 target = new Vector2();
-    
-    private Iterator<MoveableActor> collisionIterator;
     
 	public int width;
 	public int height;
@@ -62,8 +53,6 @@ public class BobController implements GestureListener, InputProcessor {
 		BodyDef bodyDef = new BodyDef();
         groundBody = screen.world.world.createBody(bodyDef);
 	}
-	
-	
 	
 	/** The main update method **/
 	public void update(float delta) {
@@ -321,7 +310,7 @@ public class BobController implements GestureListener, InputProcessor {
 	
 	public int getDpadCenterX()
 	{
-		return  dpadCenterX;
+		return dpadCenterX;
 	}
 	
 	public int getDpadCenterY()
@@ -337,39 +326,6 @@ public class BobController implements GestureListener, InputProcessor {
 	public int getDpadY()
 	{
 		return height - dpadY;
-	}
-	
-	public boolean checkCollision(float touchX, float touchY, boolean worldCoords)
-	{
-		//Gdx.app.log("Bob Position", "x:" + bob.getBody().getPosition().x  + " y:" + bob.getBody().getPosition().y);
-		//Gdx.app.log("Touch Position", "x:" + worldCoordinates.x  + " y:" + worldCoordinates.y);
-		
-		Vector3 worldCoordinates = new Vector3(touchX, touchY, 0);
-		
-		//If the coordinates are local, unproject them
-		if(!worldCoords)
-		{
-			cam.unproject(worldCoordinates);
-		}
-		
-		collisionIterator = screen.world.level.getMoveableActors().iterator();
-		
-		Actor actor;
-		while(collisionIterator.hasNext())
-		{
-			actor = (Enemy) collisionIterator.next();
-			if(Math.abs(worldCoordinates.x - actor.getBody().getWorldCenter().x) < actor.getWidth()/2 && Math.abs(worldCoordinates.y - actor.getBody().getWorldCenter().y) < actor.getHeight()/2)
-			{
-				Gdx.app.log("Collision", "Collided with enemy");
-				//actor.getBody().setAngularVelocity(10);
-				
-				screen.renderer.callParticleSystem(actor.getBody().getWorldCenter().x, actor.getBody().getWorldCenter().y);
-				screen.world.world.destroyBody(actor.getBody());
-				collisionIterator.remove();
-				return true;
-			}
-		}		
-		return false;
 	}
 	
 	static class VelocityTracker {

@@ -5,7 +5,6 @@ import java.util.Iterator;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
@@ -39,7 +38,6 @@ public class WorldRenderer {
 	private ShapeRenderer shapeRenderer;
 
 	/** Textures **/
-	public static TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("textures/textures.pack"));
 	private boolean debug = false;
 	@SuppressWarnings("unused")
 	private int width;
@@ -175,7 +173,7 @@ public class WorldRenderer {
 	        shapeRenderer.filledRect(0, 0, cam.viewportWidth, cam.viewportHeight);
         shapeRenderer.end();
         
-        batch.setProjectionMatrix(cam.combined);
+        //batch.setProjectionMatrix(cam.combined);
         batch.begin();
 			for(Sprite bg : world.level.getBackground()){
 				if(bg.getX() - cam.position.x < (int)CAMERA_WIDTH && bg.getX() - cam.position.x > -(int)CAMERA_WIDTH){
@@ -232,7 +230,7 @@ public class WorldRenderer {
 			p.get(activeAfterburner).setPosition(behindShip.x, behindShip.y);
 			p.get(activeAfterburner).update(this.timestep);
 			p.get(activeAfterburner).draw(batch, this.timestep);
-			batch.end();
+		batch.end();
 		//debugRenderer.render(world.getWorld(), cam.combined);
 		//Gdx.app.log("Stats", "active: " + effects.size + " | max: " + pool.max);
 		

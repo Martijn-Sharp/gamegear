@@ -4,10 +4,8 @@ import java.util.Iterator;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -22,9 +20,12 @@ import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.gamegear.firstwing.ActorMgr;
 import com.gamegear.firstwing.BobController;
@@ -41,13 +42,13 @@ public class GameScreen extends MenuScreen {
 		Paused,
 		Running
 	}
+	
 	public FirstWing		game;
 	public FwWorld 			world;
 	public WorldRenderer 	renderer;
 	public BobController	controller;
 	public GestureDetector 	gestureDetector;
 	public Texture 			interfaceTexture;
-	public SpriteBatch 		interfaceBatch;
 	public ShapeRenderer 	interfaceRenderer;
 	public BitmapFont 		font;
 	public Music			music;
@@ -67,7 +68,6 @@ public class GameScreen extends MenuScreen {
 	private int width, height;
 	private boolean finished;
 	private GameState currentState;
-	private Skin skin;
 	
 	public GameScreen(FirstWing game, int levelPath)
 	{
@@ -95,7 +95,6 @@ public class GameScreen extends MenuScreen {
 
 		
 		interfaceTexture = new Texture(Gdx.files.internal("images/dpad.png"));
-		interfaceBatch = new SpriteBatch();
 		interfaceRenderer = new ShapeRenderer();
 		
 		//Input
@@ -140,6 +139,13 @@ public class GameScreen extends MenuScreen {
 		// Contact listener
 		createCollisionListener();
 		System.gc();
+		
+		controller = new BobController(this, width, height);
+		gestureDetector = new GestureDetector(20, 0.5f, 1, 0.15f, controller);
+		im = new InputMultiplexer(controller, gestureDetector);
+		Gdx.input.setInputProcessor(this.im);
+		
+		this.currentState = GameState.Running;
 	}
 
 	@Override
@@ -158,20 +164,17 @@ public class GameScreen extends MenuScreen {
 				{
 					game.platformInterface.unlockAchievement("CgkIhpLNkp8BEAIQBA");
 				}
+				
 				FirstWing.stats.checkColorAchievement();
 			}
 			
-			//Change level
-			this.levelPath += 1;
-			FirstWing.stats.changeLevel(levelPath);
-			
+			this.stage.addActor(this.getVictoryWindow());
+			Gdx.input.setInputProcessor(stage);
 			this.currentState = GameState.Paused;
-			//this.loadLevel(this.levelPath);
 		}
 		
 		if(this.markedForRestart)
 		{
-			//this.loadLevel(this.levelPath);
 			this.stage.addActor(this.getDeathWindow());
 			Gdx.input.setInputProcessor(stage);
 			this.currentState = GameState.Paused;
@@ -192,13 +195,17 @@ public class GameScreen extends MenuScreen {
 			this.moveEnemies();
 		}
 			
+		this.stage.getSpriteBatch().setProjectionMatrix(this.renderer.getCam().combined);
+		
 		//Render frame
 		this.renderer.render(this.currentState, this.stage.getSpriteBatch());
 	
-		//Render interface
-		this.renderInterface(true);
-		//renderFPS();
 		stage.draw();
+		
+		//Render interface
+		this.renderInterface(this.stage.getSpriteBatch(), true);
+		//renderFPS();
+		
 	}
 	
 	public void moveEnemies()
@@ -242,30 +249,31 @@ public class GameScreen extends MenuScreen {
 		}
 	}
 	
-	public void renderInterface(boolean showFPS)
+	public void renderInterface(SpriteBatch batch, boolean showFPS)
 	{
 		interfaceRenderer.begin(ShapeType.FilledRectangle);
 			interfaceRenderer.setColor(Color.DARK_GRAY);
 			interfaceRenderer.filledRect(0, height -30, width, height);
 		interfaceRenderer.end();
-		interfaceBatch.begin();
+		batch.begin();
 		font.setScale(1);
-		font.draw(interfaceBatch, "Score:" + FirstWing.stats.getScore(), 10, height -10);
-		font.draw(interfaceBatch, "Highscore:" + FirstWing.stats.getHighScore(levelPath), 100, height -10);
-		font.draw(interfaceBatch, "Health:" + (int)this.world.getBob().getHealth()*10 + "%", 200, height -10);
-		font.draw(interfaceBatch, "Combo:" + FirstWing.stats.getComboOrbs() + "x", 300, height -10);
+		font.draw(batch, "Score:" + FirstWing.stats.getScore(), 10, height -10);
+		font.draw(batch, "Highscore:" + FirstWing.stats.getHighScore(levelPath), 100, height -10);
+		font.draw(batch, "Health:" + (int)this.world.getBob().getHealth()*10 + "%", 200, height -10);
+		font.draw(batch, "Combo:" + FirstWing.stats.getComboOrbs() + "x", 300, height -10);
 		
 		if(showFPS)
 		{
-			font.draw(interfaceBatch, "FPS:" + Gdx.graphics.getFramesPerSecond(), width - 50, height -10);
+			font.draw(batch, "FPS:" + Gdx.graphics.getFramesPerSecond(), width - 50, height -10);
 		}
 		
-		if(controller.getDpadCenterX() > 0)
+		if(controller.getDpadCenterX() > 0 && this.currentState == GameState.Running)
 		{
-			interfaceBatch.draw(interfaceTexture, controller.getDpadCenterX() - interfaceTexture.getWidth()/4, controller.getDpadCenterY() - interfaceTexture.getHeight()/4, interfaceTexture.getWidth()/2, interfaceTexture.getHeight()/2);
-			interfaceBatch.draw(interfaceTexture, controller.getDpadX() - interfaceTexture.getWidth()/2, controller.getDpadY() - interfaceTexture.getHeight()/2, interfaceTexture.getWidth(), interfaceTexture.getHeight());
+			batch.draw(interfaceTexture, controller.getDpadCenterX() - interfaceTexture.getWidth()/4, controller.getDpadCenterY() - interfaceTexture.getHeight()/4, interfaceTexture.getWidth()/2, interfaceTexture.getHeight()/2);
+			batch.draw(interfaceTexture, controller.getDpadX() - interfaceTexture.getWidth()/2, controller.getDpadY() - interfaceTexture.getHeight()/2, interfaceTexture.getWidth(), interfaceTexture.getHeight());
 		}
-		interfaceBatch.end();
+		
+		batch.end();
 	}
 	
 	public void checkBulletFire()
@@ -504,7 +512,6 @@ public class GameScreen extends MenuScreen {
 	@Override
 	public void dispose() {
 		Gdx.input.setInputProcessor(null);
-		interfaceBatch.dispose();
 		interfaceRenderer.dispose();
 		music.stop();
 		music.dispose();
@@ -512,10 +519,55 @@ public class GameScreen extends MenuScreen {
 	}
 	
 	private Window getDeathWindow(){
-		Window window = new Window("You failed!", this.getSkin());
-		window.padTop(window.getStyle().titleFont.getCapHeight());
-		window.add(new TextButton("Retry", this.getSkin()));
-		window.pack();
+		final Window window = this.getStandardWindow("You Failed!");
+		TextButton btnRetry = new TextButton("Retry", this.getSkin());
+		btnRetry.addListener(new ClickListener(){
+			@Override
+			public void clicked(InputEvent event, float x, float y){
+				stage.getActors().removeValue(window, true);
+				loadLevel(levelPath);
+			}
+		});
+		window.add(btnRetry);
+		return window;
+	}
+	
+	private Window getVictoryWindow(){
+		final Window window = this.getStandardWindow("Victory!");
+		TextButton btnRetry = new TextButton("Retry", this.getSkin());
+		btnRetry.addListener(new ClickListener(){
+			@Override
+			public void clicked(InputEvent event, float x, float y){
+				stage.getActors().removeValue(window, true);
+				loadLevel(levelPath);
+			}
+		});
+		TextButton btnNextLevel = new TextButton("Next level", this.getSkin());
+		btnNextLevel.addListener(new ClickListener(){
+			@Override
+			public void clicked(InputEvent event, float x, float y){
+				stage.getActors().removeValue(window, true);
+				//Change level
+				levelPath += 1;
+				FirstWing.stats.changeLevel(levelPath);
+				loadLevel(levelPath);
+			}
+		});
+		
+		window.add(btnRetry);
+		window.add(btnNextLevel);
+		return window;
+	}
+	
+	private Window getStandardWindow(String title){
+		Window window = new Window(title, this.getSkin());
+		window.addAction(Actions.fadeIn(0.5f));
+		WindowStyle windowStyle = this.getSkin().get("default", WindowStyle.class); 
+		windowStyle.titleFont = this.font;
+		window.setStyle(windowStyle);
+		window.setSize(this.stage.getWidth() / 1.5f, this.stage.getHeight() / 1.5f);
+		window.setPosition(this.stage.getWidth() / 2 - window.getWidth() / 2, this.stage.getHeight() / 2 - window.getHeight() / 2);
+		window.setMovable(false);
 		return window;
 	}
 }
