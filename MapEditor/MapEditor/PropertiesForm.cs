@@ -361,6 +361,16 @@
             }
         }
 
+        private void StarOneTextChanged(object sender, EventArgs e)
+        {
+            MapEditor.LevelProps.StarOne = Convert.ToInt64(this.firstStarBox.Text);
+        }
+
+        private void StarTwoTextChanged(object sender, EventArgs e)
+        {
+            MapEditor.LevelProps.StarTwo = Convert.ToInt64(this.secondStarBox.Text);
+        }
+
         #endregion Events
 
         private void FillLevelProperties()

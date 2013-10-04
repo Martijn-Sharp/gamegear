@@ -21,6 +21,10 @@
 
         public float SpawnY { get; set; }
 
+        public long StarOne { get; set; }
+
+        public long StarTwo { get; set; }
+
         public string BackgroundName { get; set; }
 
         public ColorEnum LevelColor { get; set; }
