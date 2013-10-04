@@ -22,6 +22,9 @@ import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.utils.Array;
 import com.gamegear.firstwing.ActorMgr;
 import com.gamegear.firstwing.BobController;
@@ -32,7 +35,7 @@ import com.gamegear.firstwing.actors.*;
 import com.gamegear.firstwing.actors.json.StaticActor;
 import com.gamegear.firstwing.levels.Spawner;
 
-public class GameScreen implements Screen {
+public class GameScreen extends MenuScreen {
 
 	public enum GameState{
 		Paused,
@@ -64,15 +67,18 @@ public class GameScreen implements Screen {
 	private int width, height;
 	private boolean finished;
 	private GameState currentState;
+	private Skin skin;
 	
 	public GameScreen(FirstWing game, int levelPath)
 	{
+		super(game);
 		this.game = game;
 		this.levelPath = levelPath;
 	}
 	
 	@Override
 	public void show() {
+		super.show();
 		//Bullet array
 		bullets = new Array<Bullet>();
 		bullets.ensureCapacity(20);
@@ -138,8 +144,9 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void render(float delta) {
-		Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1);
-		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+		super.render(delta);
+		//Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1);
+		//Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		removeBodies();
 		if(this.finished){
 			this.finished = false;
@@ -158,6 +165,8 @@ public class GameScreen implements Screen {
 		if(this.markedForRestart)
 		{
 			//this.loadLevel(this.levelPath);
+			this.stage.addActor(this.getDeathWindow());
+			Gdx.input.setInputProcessor(stage);
 			this.currentState = GameState.Paused;
 			this.markedForRestart = false;
 		}
@@ -177,12 +186,12 @@ public class GameScreen implements Screen {
 		}
 			
 		//Render frame
-		this.renderer.render(this.currentState);
+		this.renderer.render(this.currentState, this.stage.getSpriteBatch());
 	
 		//Render interface
 		this.renderInterface(true);
 		//renderFPS();
-		
+		stage.draw();
 	}
 	
 	public void moveEnemies()
@@ -446,7 +455,7 @@ public class GameScreen implements Screen {
 				try{
 					this.world.getWorld().destroyBody(actor.getBody());
 				} catch (NullPointerException ex){
-					Gdx.app.log("Destroy Body", ex.getStackTrace().toString());
+					Gdx.app.log("Destroy Body", ex.getMessage());
 					return;
 				}
 			}
@@ -462,6 +471,7 @@ public class GameScreen implements Screen {
 	
 	@Override
 	public void resize(int width, int height) {
+		super.resize(width, height);
 		renderer.setSize(width, height);
 		this.width = width;
 		this.height = height;
@@ -492,5 +502,13 @@ public class GameScreen implements Screen {
 		music.stop();
 		music.dispose();
 		Gdx.app.exit();
+	}
+	
+	private Window getDeathWindow(){
+		Window window = new Window("You failed!", this.getSkin());
+		window.padTop(window.getStyle().titleFont.getCapHeight());
+		window.add(new TextButton("Retry", this.getSkin()));
+		window.pack();
+		return window;
 	}
 }

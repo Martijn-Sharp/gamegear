@@ -33,44 +33,44 @@ public abstract class MenuScreen implements Screen {
     ListStyle listStyle;
 
     public MenuScreen(FirstWing firstwing) {
-            this.firstwing = firstwing;
-            stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
-            
-            int adjustedFontSize = (int)(26 * (Gdx.graphics.getDensity()));
-            font = gen.generateFont(adjustedFontSize);
-            
-            getSkin();
-            
-            labelStyle = skin.get("default", LabelStyle.class);
-            labelStyle.font = font;
-            
-            buttonStyle = skin.get("default", TextButtonStyle.class);
-            buttonStyle.font = font;
-            
-            listStyle = skin.get("default", ListStyle.class);
-            listStyle.font = font;
-            
-            background = new NinePatchDrawable(new NinePatch(new Texture(Gdx.files.internal("images/menu/start-empty.png"))));
+        this.firstwing = firstwing;
+        stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
+        
+        int adjustedFontSize = (int)(26 * (Gdx.graphics.getDensity()));
+        font = gen.generateFont(adjustedFontSize);
+        
+        this.getSkin();
+        
+        labelStyle = skin.get("default", LabelStyle.class);
+        labelStyle.font = font;
+        
+        buttonStyle = skin.get("default", TextButtonStyle.class);
+        buttonStyle.font = font;
+        
+        listStyle = skin.get("default", ListStyle.class);
+        listStyle.font = font;
+        
+        background = new NinePatchDrawable(new NinePatch(new Texture(Gdx.files.internal("images/menu/start-empty.png"))));
     }
 
     @Override
     public void show() {
-            Gdx.input.setInputProcessor(stage);
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override
     public void render(float delta) {
-            stage.act(delta);
+        stage.act(delta);
 
-            Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-            Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+        Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-            stage.draw();
+        stage.draw();
     }
 
     @Override
     public void resize(int width, int height) {
-            stage.setViewport(width, height, true);
+        stage.setViewport(width, height, true);
     }
 
     @Override
@@ -89,25 +89,25 @@ public abstract class MenuScreen implements Screen {
     }
 
     protected Table getTable() {
-            if (table == null) {
-                    table = new Table(getSkin());
-                    table.setBackground(background);
-                    table.setFillParent(true);
-                    stage.addActor(table);
-            }
-            return table;
+        if (table == null) {
+                table = new Table(getSkin());
+                table.setBackground(background);
+                table.setFillParent(true);
+                stage.addActor(table);
+        }
+        return table;
     }
 
     protected Skin getSkin() {
-            if (skin == null) {
-                    FirstWing.manager.load("ui/uiskin.json", Skin.class);
-                    FirstWing.manager.finishLoading();
-                    skin = FirstWing.manager.get("ui/uiskin.json");
-            }
-            return skin;
+        if (skin == null) {
+                FirstWing.manager.load("ui/uiskin.json", Skin.class);
+                FirstWing.manager.finishLoading();
+                skin = FirstWing.manager.get("ui/uiskin.json");
+        }
+        return skin;
     }
 
     public FirstWing getGame() {
-            return this.firstwing;
+        return this.firstwing;
     }
 }

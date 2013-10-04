@@ -40,7 +40,6 @@ public class WorldRenderer {
 
 	/** Textures **/
 	public static TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("textures/textures.pack"));
-	private SpriteBatch spriteBatch;
 	private boolean debug = false;
 	@SuppressWarnings("unused")
 	private int width;
@@ -92,7 +91,6 @@ public class WorldRenderer {
 		this.cam.position.set(this.cameraX, this.cameraY, 0);
 		this.cam.update();
 		this.debug = debug;
-		this.spriteBatch = new SpriteBatch();
 		this.debugRenderer = new Box2DDebugRenderer();
 		this.shapeRenderer = new ShapeRenderer();
 		this.shapeRenderer.setProjectionMatrix(cam.combined);
@@ -163,9 +161,9 @@ public class WorldRenderer {
 //		System.out.println("Effect restarting");
 	}
 	
-	public void render(GameState state) {
+	public void render(GameState state, SpriteBatch batch) {
 		this.timestep = state == GameState.Running ? Gdx.graphics.getDeltaTime() : 0f;
-		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+		//Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		moveCamera(world.getBob().getBody().getWorldCenter().x, world.getBob().getBody().getWorldCenter().y, world.level.getSpeed(cameraX));
 		
 		if(this.changeBackgroundColor){
@@ -177,11 +175,11 @@ public class WorldRenderer {
 	        shapeRenderer.filledRect(0, 0, cam.viewportWidth, cam.viewportHeight);
         shapeRenderer.end();
         
-		spriteBatch.setProjectionMatrix(cam.combined);
-		spriteBatch.begin();
+        batch.setProjectionMatrix(cam.combined);
+        batch.begin();
 			for(Sprite bg : world.level.getBackground()){
 				if(bg.getX() - cam.position.x < (int)CAMERA_WIDTH && bg.getX() - cam.position.x > -(int)CAMERA_WIDTH){
-					bg.draw(spriteBatch);
+					bg.draw(batch);
 				}
 			}
 			
@@ -201,7 +199,7 @@ public class WorldRenderer {
 					
 					if(position.x - cam.position.x < (int)CAMERA_WIDTH && position.x - cam.position.x > -(int)CAMERA_WIDTH){
 						try{
-							spriteBatch.draw(
+							batch.draw(
 									actor.getTexture(),
 									position.x - width / 2,
 									position.y - height / 2,
@@ -223,7 +221,7 @@ public class WorldRenderer {
 			// Render particle effects
 			for(PooledEffect effect : effects)
 			{
-				effect.draw(spriteBatch, this.timestep);
+				effect.draw(batch, this.timestep);
 				if(effect.isComplete()){
 					effects.removeValue(effect, true);
 					effect.free();
@@ -233,8 +231,8 @@ public class WorldRenderer {
 			behindShip = world.getBob().getBody().getWorldPoint(new Vector2(-0.3f,0));
 			p.get(activeAfterburner).setPosition(behindShip.x, behindShip.y);
 			p.get(activeAfterburner).update(this.timestep);
-			p.get(activeAfterburner).draw(spriteBatch, this.timestep);
-		spriteBatch.end();
+			p.get(activeAfterburner).draw(batch, this.timestep);
+			batch.end();
 		//debugRenderer.render(world.getWorld(), cam.combined);
 		//Gdx.app.log("Stats", "active: " + effects.size + " | max: " + pool.max);
 		
