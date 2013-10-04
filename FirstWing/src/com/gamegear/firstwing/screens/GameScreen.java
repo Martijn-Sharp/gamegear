@@ -27,6 +27,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.Timer.Task;
 import com.gamegear.firstwing.ActorMgr;
 import com.gamegear.firstwing.BobController;
 import com.gamegear.firstwing.FirstWing;
@@ -48,14 +50,20 @@ public class GameScreen extends MenuScreen {
 	public WorldRenderer 	renderer;
 	public BobController	controller;
 	public GestureDetector 	gestureDetector;
+	
+	//Interface
 	public Texture 			interfaceTexture;
 	public ShapeRenderer 	interfaceRenderer;
 	public BitmapFont 		font;
+	public BitmapFont 		popupFont;
+	public String			notificationMessage;
+	public boolean			notificationEnabled = false;
+	
 	public Music			music;
 	public boolean			markedForRestart = false;
 	public FreeTypeFontGenerator 	fontGenerator;
 	public Array<Actor>		actorsForRemoval;
-	public int			levelPath;
+	public int				levelPath;
 	
 	// Bullets
 	private Array<Bullet> 	bullets;
@@ -90,7 +98,8 @@ public class GameScreen extends MenuScreen {
 		
 		fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("ui/TiresiasScreenfont.ttf"));
 		//font = fontGenerator.generateFont(30, "abcdefghijklmnopqrstuvwxyz:1234567890", true);
-		font = fontGenerator.generateFont(16);
+		font = fontGenerator.generateFont((int) (16 * Gdx.graphics.getDensity()));
+		popupFont = fontGenerator.generateFont((int) (40 * Gdx.graphics.getDensity()));
 		fontGenerator.dispose();
 
 		
@@ -262,14 +271,23 @@ public class GameScreen extends MenuScreen {
 	{
 		interfaceRenderer.begin(ShapeType.FilledRectangle);
 			interfaceRenderer.setColor(Color.DARK_GRAY);
-			interfaceRenderer.filledRect(0, height -30, width, height);
+			interfaceRenderer.filledRect(0, height - (30 * Gdx.graphics.getDensity()), width, height);
+			interfaceRenderer.setColor(Color.RED);
+			interfaceRenderer.filledRect(300, height - (30 * Gdx.graphics.getDensity()), (renderer.cameraX/world.getLevel().getProperties().FinishX)*100, height);
+			interfaceRenderer.setColor(Color.WHITE);
+			interfaceRenderer.filledRect(395, height - (30 * Gdx.graphics.getDensity()), 5, height);
 		interfaceRenderer.end();
 		batch.begin();
 		font.setScale(1);
 		font.draw(batch, "Score:" + FirstWing.stats.getScore(), 10, height -10);
 		font.draw(batch, "Highscore:" + FirstWing.stats.getHighScore(levelPath), 100, height -10);
 		font.draw(batch, "Health:" + (int)this.world.getBob().getHealth()*10 + "%", 200, height -10);
-		font.draw(batch, "Combo:" + FirstWing.stats.getComboOrbs() + "x", 300, height -10);
+		
+		if(notificationEnabled)
+		{
+			popupFont.setColor(Color.WHITE);
+			popupFont.draw(batch, notificationMessage,(int) (width/2 - popupFont.getBounds(notificationMessage).width/2), height/1.2f);
+		}
 		
 		if(showFPS)
 		{
@@ -283,6 +301,24 @@ public class GameScreen extends MenuScreen {
 		}
 		
 		batch.end();
+	}
+	
+	public void setNotification(String message, int durationInSeconds)
+	{
+		//Set message
+		notificationMessage = message;
+		notificationEnabled = true;
+		
+		//Stop previous timer
+		Timer.instance.clear();
+		
+		//Hide notification after set time
+		Timer.schedule(new Task(){
+		    @Override
+		    public void run() {
+		        notificationEnabled = false;
+		    }
+		}, durationInSeconds);
 	}
 	
 	public void checkBulletFire()
@@ -420,6 +456,11 @@ public class GameScreen extends MenuScreen {
                 		if(FirstWing.stats.addScore(collisionOrb.getColor(), collisionOrb.getPoints()))
                 		{
                 			renderer.changeAfterBurnerColor(collisionOrb.getColor());
+                			setNotification("Changed color!", 2);
+                		}
+                		else
+                		{
+                			setNotification("Combo x" + FirstWing.stats.comboOrbs + "!" , 2);
                 		}
                 		
                 		if(!actorsForRemoval.contains(collisionOrb, true)){

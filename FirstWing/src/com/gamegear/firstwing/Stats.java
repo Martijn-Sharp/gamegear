@@ -126,6 +126,7 @@ public class Stats {
 	public void setStars(int levelID, int stars)
 	{
 		prefs.putInteger("levelStars" + levelID, stars);
+		prefs.flush();
 	}
 	
 	public void changeLevel(int levelID)
@@ -141,6 +142,7 @@ public class Stats {
 	public void setHighScore(int levelID, long highScore) {
 		//Store highscore locally
 		prefs.putLong("highscore" + levelID, currentScore);
+		prefs.flush();
 		
 		if(firstwing.platformInterface.getSignedIn())
 		{
