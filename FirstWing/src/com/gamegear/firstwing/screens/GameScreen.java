@@ -82,6 +82,7 @@ public class GameScreen extends MenuScreen {
 		super(game);
 		this.game = game;
 		this.levelPath = levelPath;
+		FirstWing.stats.levelID = levelPath;
 	}
 	
 	@Override
@@ -116,14 +117,9 @@ public class GameScreen extends MenuScreen {
 		createCollisionListener();
 		this.actorsForRemoval = new Array<Actor>();
 		
-		//Play music
-		//music = Gdx.audio.newMusic(Gdx.files.internal("sounds/BergsmatarenLever.ogg"));
-		music = Gdx.audio.newMusic(Gdx.files.internal("sounds/TeleportPro.ogg"));
-		music.setVolume(FirstWing.options.getVolume());
-		music.setLooping(true);
-		if(FirstWing.options.musicEnabled())
+		if(!FirstWing.audio.isEnabled())
 		{
-			music.play();
+			FirstWing.audio.enableMusic();
 		}
 		
 		this.currentState = GameState.Running;
@@ -143,7 +139,7 @@ public class GameScreen extends MenuScreen {
 		//renderer = new WorldRenderer(world, false);
 
 		//Score
-		FirstWing.stats.resetScore();
+		//FirstWing.stats.resetScore();
 
 		// Contact listener
 		createCollisionListener();
@@ -186,6 +182,8 @@ public class GameScreen extends MenuScreen {
 				FirstWing.stats.setStars(levelPath, 1);
 			}
 			
+			FirstWing.stats.resetScore();
+			
 			this.stage.addActor(this.getVictoryWindow());
 			Gdx.input.setInputProcessor(stage);
 			this.currentState = GameState.Paused;
@@ -224,6 +222,11 @@ public class GameScreen extends MenuScreen {
 		this.renderInterface(this.stage.getSpriteBatch(), true);
 		//renderFPS();
 		
+		//Handle playlist
+		if(FirstWing.audio.isEnabled())
+		{
+			FirstWing.audio.handleMusic();
+		}
 	}
 	
 	public void moveEnemies()
@@ -303,6 +306,8 @@ public class GameScreen extends MenuScreen {
 		batch.end();
 	}
 	
+	
+	
 	public void setNotification(String message, int durationInSeconds)
 	{
 		//Set message
@@ -356,6 +361,7 @@ public class GameScreen extends MenuScreen {
         	temp.getBody().setBullet(true);
         	temp.getBody().setLinearVelocity(10,0);
         	bullets.add(temp);
+        	FirstWing.audio.sounds.get("laser").play(FirstWing.options.getVolume());
         }
 	}
 	
@@ -413,6 +419,7 @@ public class GameScreen extends MenuScreen {
                     		if(!actorsForRemoval.contains(collisionEnemy, true))
                         	{
                     			renderer.callParticleSystem(collisionEnemy.getBody().getWorldCenter().x, collisionEnemy.getBody().getWorldCenter().y);
+                    			FirstWing.audio.sounds.get("explosion").play(FirstWing.options.getVolume());
                     			FirstWing.stats.addScore(10f);
                     			actorsForRemoval.add(collisionEnemy);
                         	}
@@ -423,6 +430,7 @@ public class GameScreen extends MenuScreen {
                     		if(!actorsForRemoval.contains(collisionBlock, true))
                         	{
                     			actorsForRemoval.add(collisionBlock);
+                    			FirstWing.audio.sounds.get("explosion").play(FirstWing.options.getVolume());
                         	}
                     	}
                 	}
@@ -473,6 +481,7 @@ public class GameScreen extends MenuScreen {
                 	
                 	if(collisionBob.getHealth() <= 0){
                 		markedForRestart = true;
+                		FirstWing.audio.sounds.get("explosion").play(FirstWing.options.getVolume());
                 	}
                 }
             }

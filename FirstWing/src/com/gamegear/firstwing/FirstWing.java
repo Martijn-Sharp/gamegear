@@ -8,16 +8,25 @@ public class FirstWing extends Game {
 	public static AssetManager manager = new AssetManager();
 	public static Options options = new Options();
 	public static Stats stats;
+	public static AudioManager audio;
 	public GoogleInterface platformInterface;
+	
 	
 	public FirstWing(GoogleInterface aInterface){
 		platformInterface = aInterface;
-		platformInterface.Login();
+		platformInterface.Login();	
 	}
 	
 	@Override
 	public void create() {
 		setScreen(new Splash(this));
 		stats = new Stats(this);
+		audio = new AudioManager();
+	}
+	
+	@Override
+	public void dispose()
+	{
+		audio.dispose();
 	}
 }
