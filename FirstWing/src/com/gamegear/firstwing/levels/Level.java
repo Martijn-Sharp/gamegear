@@ -7,6 +7,8 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Application.ApplicationType;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
@@ -93,7 +95,14 @@ public class Level {
 	public Level(World world, String levelPath) {
 		this.world = world;
 		this.levelPath = levelPath;
-		this.loadLevel();
+		try
+		{
+			this.loadLevel();
+		}
+		catch(Exception ex)
+		{
+			//TODO FIX ME
+		}
 	}
 	
 	public Actor get(int x) {
@@ -135,12 +144,17 @@ public class Level {
 		this.collectables = new ArrayList<Orb>();
 		this.speed = new LinkedList<SpeedPoint>();
 		this.background = new ArrayList<Sprite>();
-		if(levelPath.isEmpty())
+		
+		FileHandle fileHandle;
+		fileHandle = Gdx.files.internal("levels/" + levelPath + ".dat");
+		
+		if(levelPath.isEmpty() || !fileHandle.exists())
 		{
-			this.properties = new JSONLoader().getLevel(Gdx.files.internal("levels/map14.dat"));
+			this.properties = new JSONLoader().getLevel(Gdx.files.internal("levels/1.dat"));
 		}
 		else
 		{
+			//TODO FIX ME
 			this.properties = new JSONLoader().getLevel(Gdx.files.internal("levels/" + levelPath + ".dat"));
 		}
 		

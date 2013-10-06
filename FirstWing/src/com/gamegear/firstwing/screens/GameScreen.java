@@ -21,7 +21,9 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle;
@@ -111,6 +113,7 @@ public class GameScreen extends MenuScreen {
 
 		// Rendering
 		world = new FwWorld(String.valueOf(levelPath));
+		firstWing.setScreen(firstWing.extLevelScreen);
 
 		renderer = new WorldRenderer(world, false);
 
@@ -142,7 +145,14 @@ public class GameScreen extends MenuScreen {
 
 		// Rendering
 		world.getWorld().dispose();
-		world = new FwWorld(String.valueOf(levelPath));
+		try{
+			world = new FwWorld(String.valueOf(levelPath));
+		}
+		catch(Exception ex)
+		{
+			//TODO Fix this ugly ass solution
+			firstWing.setScreen(firstWing.extLevelScreen);
+		}
 		renderer.reset(world);
 		//renderer = new WorldRenderer(world, false);
 
@@ -190,9 +200,9 @@ public class GameScreen extends MenuScreen {
 				FirstWing.stats.checkColorAchievement();
 			}
 			
+			FirstWing.stats.checkStars(world.getLevel().getProperties().StarOne, world.getLevel().getProperties().StarTwo);
 			this.stage.addActor(this.getVictoryWindow());
 			Gdx.input.setInputProcessor(stage);
-			FirstWing.stats.checkStars(world.getLevel().getProperties().StarOne, world.getLevel().getProperties().StarTwo);
 			FirstWing.stats.resetScore(true);
 			this.currentState = GameState.Paused;
 		}
@@ -674,9 +684,24 @@ public class GameScreen extends MenuScreen {
 			}
 		});
 		
+		int stars = FirstWing.stats.getStars(levelPath);
+		Table starTable = new Table();
+		starTable.defaults().pad(5);
+		if (stars >= 0) {
+			for (int star = 0; star < 3; star++) {
+				if (stars > star) {
+					starTable.add(new Image(getSkin().getDrawable("star-filled"))).width(20).height(20);
+				} else {
+					starTable.add(new Image(getSkin().getDrawable("star-unfilled"))).width(20).height(20);
+				}
+			}			
+		}
+		
 		window.add(new Label("Congratulations!", this.getSkin())).colspan(3);
 		window.row();
 		window.add(new Label("You scored: " + FirstWing.stats.getScore(), this.getSkin())).colspan(3);
+		window.row();
+		window.add(starTable).height(30).colspan(3);
 		window.row();
 		window.add(btnReplay);
 		window.add(btnMenu);

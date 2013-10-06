@@ -118,7 +118,7 @@ public class ExtendedLevelScreen extends MenuScreen {
 		// Stack the image and the label at the top of our button
 		button.stack(new Image(getSkin().getDrawable("top")), label).expand().fill();
 
-		// Randomize the number of stars earned for demonstration purposes
+		// Get stars earned
 		int stars = FirstWing.stats.getStars(Integer.parseInt(level));
 		Table starTable = new Table();
 		starTable.defaults().pad(5);
