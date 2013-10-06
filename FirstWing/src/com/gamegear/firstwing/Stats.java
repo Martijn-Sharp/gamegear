@@ -21,6 +21,8 @@ public class Stats {
 	public long upgradeWeapon = 0;
 	public long upgradeHealth = 0;
 	
+	public boolean trophy = false;
+	
 	public int levelID = 0;
 	
 	public boolean noColorChanges = true;
@@ -96,26 +98,49 @@ public class Stats {
 		return currentScore;
 	}
 	
-	public void resetScore()
+	public void resetScore(boolean checkHighscore)
 	{
-		if(getHighScore(levelID) < currentScore)
+		if(getHighScore(levelID) < currentScore && checkHighscore)
 		{
 			setHighScore(levelID, currentScore);
+			
+			Iterator<Entry<String, Long>> it = collectedOrbsColor.entrySet().iterator();
+		    while (it.hasNext()) {
+		        Map.Entry<String, Long> pairs = (Entry<String, Long>)it.next();
+		        prefs.putLong(pairs.getKey(), prefs.getLong(pairs.getKey()) + pairs.getValue());
+		        System.out.println(pairs.getKey() + " = " + prefs.getLong(pairs.getKey()));
+		        it.remove();
+		    }
+		    prefs.flush();
 		}
-		
-		Iterator<Entry<String, Long>> it = collectedOrbsColor.entrySet().iterator();
-	    while (it.hasNext()) {
-	        Map.Entry<String, Long> pairs = (Entry<String, Long>)it.next();
-	        prefs.putLong(pairs.getKey(), prefs.getLong(pairs.getKey()) + pairs.getValue());
-	        System.out.println(pairs.getKey() + " = " + prefs.getLong(pairs.getKey()));
-	        it.remove();
-	    }
-	    prefs.flush();
-		
 	    currentColor = ColorEnum.none;
 		currentScore = 0;
 		modifier = 1f;
 		comboOrbs = 0;
+	}
+	
+	public void checkStars(long starOne, long starTwo)
+	{
+		int stars = 0;
+		
+		if(trophy)
+		{
+			stars++;
+		}
+		
+		if(starTwo < getScore())
+		{
+			stars++;
+		}
+		else if(starOne < getScore() && getStars(levelID) < 1)
+		{
+			stars++;
+		}
+		
+		if(getStars(levelID) < stars)
+		{
+			FirstWing.stats.setStars(levelID, stars);
+		}
 	}
 	
 	public int getStars(int levelID)
@@ -131,7 +156,7 @@ public class Stats {
 	
 	public void changeLevel(int levelID)
 	{
-		resetScore();
+		resetScore(true);
 		this.levelID = levelID;
 	}
 
@@ -187,5 +212,15 @@ public class Stats {
 
 	public long getComboOrbs() {
 		return comboOrbs;
+	}
+	
+	public boolean getTrophy()
+	{
+		return trophy;
+	}
+	
+	public void setTrophy(boolean trophy)
+	{
+		this.trophy = trophy;
 	}
 }

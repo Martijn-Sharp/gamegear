@@ -188,18 +188,10 @@ public class GameScreen extends MenuScreen {
 				FirstWing.stats.checkColorAchievement();
 			}
 			
-			if(world.getLevel().getProperties().StarTwo < FirstWing.stats.getScore() && FirstWing.stats.getStars(levelPath) < 2)
-			{
-				FirstWing.stats.setStars(levelPath, 2);
-			}
-			else if(world.getLevel().getProperties().StarOne < FirstWing.stats.getScore() && FirstWing.stats.getStars(levelPath) < 1)
-			{
-				FirstWing.stats.setStars(levelPath, 1);
-			}
-			
 			this.stage.addActor(this.getVictoryWindow());
 			Gdx.input.setInputProcessor(stage);
-			FirstWing.stats.resetScore();
+			FirstWing.stats.checkStars(world.getLevel().getProperties().StarOne, world.getLevel().getProperties().StarTwo);
+			FirstWing.stats.resetScore(true);
 			this.currentState = GameState.Paused;
 		}
 		
@@ -386,6 +378,30 @@ public class GameScreen extends MenuScreen {
 	}
 	
 	private void createCollisionListener() {
+		
+		
+		
+		
+		
+		
+		
+		/////////////////////
+		
+		
+		
+		
+		
+		
+		FirstWing.stats.setTrophy(true);
+		
+		
+		
+		
+		
+		
+		
+		
+		/////////////////
         world.getWorld().setContactListener(new ContactListener() {
             @Override
             public void beginContact(Contact contact) {
@@ -601,6 +617,7 @@ public class GameScreen extends MenuScreen {
 			@Override
 			public void clicked(InputEvent event, float x, float y){
 				stage.getActors().removeValue(window, true);
+				FirstWing.stats.resetScore(false);
 				loadLevel(levelPath);
 			}
 		});
