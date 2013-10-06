@@ -10,13 +10,13 @@ import com.gamegear.firstwing.FirstWing;
 
 public class MainMenu extends MenuScreen{
     public MainMenu(FirstWing firstwing) {
-            super(firstwing);
-            load();
+        super(firstwing);
+        load();
     }
 
     @Override
     public void show() {
-            super.show();
+        super.show();
     }
     
     public void load()

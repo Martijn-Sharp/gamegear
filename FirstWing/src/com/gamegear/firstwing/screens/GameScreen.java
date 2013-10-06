@@ -103,6 +103,7 @@ public class GameScreen extends MenuScreen {
 	
 	public void load()
 	{
+		Gdx.app.log("GameLoad", "Started to load");
 		this.currentState = GameState.Begin;
 		// Bullet array
 		bullets = new Array<Bullet>();
@@ -127,6 +128,7 @@ public class GameScreen extends MenuScreen {
 		// Contact listener
 		createCollisionListener();
 		this.actorsForRemoval = new Array<Actor>();
+		Gdx.app.log("GameLoad", "Finished loading");
 	}
 	
 	public void loadLevel(int levelPath)
