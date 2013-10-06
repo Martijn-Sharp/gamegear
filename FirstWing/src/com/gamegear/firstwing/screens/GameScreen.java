@@ -380,30 +380,6 @@ public class GameScreen extends MenuScreen {
 	}
 	
 	private void createCollisionListener() {
-		
-		
-		
-		
-		
-		
-		
-		/////////////////////
-		
-		
-		
-		
-		
-		
-		FirstWing.stats.setTrophy(true);
-		
-		
-		
-		
-		
-		
-		
-		
-		/////////////////
         world.getWorld().setContactListener(new ContactListener() {
             @Override
             public void beginContact(Contact contact) {
@@ -414,6 +390,7 @@ public class GameScreen extends MenuScreen {
                 Orb collisionOrb = null;
                 Bob collisionBob = null;
                 Block collisionBlock = null;
+                AlienHead collisionAlienHead = null;
                 
                 Actor actorA = (Actor)fixtureA.getBody().getUserData();
                 Actor actorB = (Actor)fixtureB.getBody().getUserData();
@@ -445,6 +422,12 @@ public class GameScreen extends MenuScreen {
                 	collisionBlock = (Block)actorA;
                 } else if(actorB instanceof Block){
                 	collisionBlock = (Block)actorB;
+                }
+                
+                if(actorA instanceof AlienHead){
+                	collisionAlienHead = (AlienHead)actorA;
+                } else if(actorB instanceof AlienHead){
+                	collisionAlienHead = (AlienHead)actorB;
                 }
                 
                 // Als een bullet in aanraking komt
@@ -483,20 +466,20 @@ public class GameScreen extends MenuScreen {
                 if(collisionBob != null){
                 	if(collisionBlock != null){
                 		switch(((StaticActor)collisionBlock.getProperties()).Type){
-						case Breakable:
-							collisionBob.setHealth(0f);
-							break;
-						case Finish:
-							finished = true;
-							break;
-						case Tile:
-							if(timeSinceDamage + 100 < System.currentTimeMillis()){
-								collisionBob.setHealth(collisionBob.getHealth() - 1f);
-								timeSinceDamage = System.currentTimeMillis();
-							}
-							break;
-						default:
-							break;
+							case Breakable:
+								collisionBob.setHealth(0f);
+								break;
+							case Finish:
+								finished = true;
+								break;
+							case Tile:
+								if(timeSinceDamage + 100 < System.currentTimeMillis()){
+									collisionBob.setHealth(collisionBob.getHealth() - 1f);
+									timeSinceDamage = System.currentTimeMillis();
+								}
+								break;
+							default:
+								break;
         				}
                 	} else if(collisionOrb != null){
                 		if(FirstWing.stats.addScore(collisionOrb.getColor(), collisionOrb.getPoints()))
@@ -512,9 +495,14 @@ public class GameScreen extends MenuScreen {
                 		if(!actorsForRemoval.contains(collisionOrb, true)){
                     		actorsForRemoval.add(collisionOrb);
                     	}
-                	} else if(collisionOrb == null && collisionBullet == null && timeSinceDamage + 1000 < System.currentTimeMillis()){
+                	} else if(collisionOrb == null && collisionBullet == null && collisionAlienHead == null && timeSinceDamage + 1000 < System.currentTimeMillis()){
                 		timeSinceDamage = System.currentTimeMillis();
                 		collisionBob.setHealth(collisionBob.getHealth() - 5);
+                	} else if(collisionAlienHead != null){
+                		FirstWing.stats.setTrophy(true);
+                		if(!actorsForRemoval.contains(collisionAlienHead, true)){
+                			actorsForRemoval.add(collisionAlienHead);
+                		}
                 	}
                 	
                 	if(collisionBob.getHealth() <= 0){
@@ -562,6 +550,12 @@ public class GameScreen extends MenuScreen {
 				} else if(actor instanceof Orb){
 					Orb orb = (Orb) actor;
 					world.getLevel().getCollectables().remove(orb);
+				} else if(actor instanceof AlienHead){
+					AlienHead alienHead = (AlienHead) actor;
+					world.getLevel().getStaticActors().remove(alienHead);
+				} else if(actor instanceof Block){
+					Block block = (Block) actor;
+					world.getLevel().getStaticActors().remove(block);
 				}
 				
 				try{

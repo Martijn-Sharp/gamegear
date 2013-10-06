@@ -130,9 +130,10 @@ public class Stats {
 		
 		if(starTwo < getScore())
 		{
-			stars++;
+			stars ++;
 		}
-		else if(starOne < getScore() && getStars(levelID) < 1)
+		
+		if(starOne < getScore())
 		{
 			stars++;
 		}

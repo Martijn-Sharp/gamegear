@@ -82,8 +82,8 @@ public class Level {
 		this.staticActors = blocks;
 	}
 	
-	public AlienHead getAlienHead(){
-		return this.alienHead;
+	public void setAlienHead(AlienHead alienHead){
+		this.alienHead = alienHead;
 	}
 	
 	public Bob getPlayer(){
@@ -163,11 +163,12 @@ public class Level {
 				width = tile.X;
 			}
 			
-			if(tile.Name == "alienhead"){
-				this.alienHead = new AlienHead(new Vector2(tile.X, tile.Y), world, ActorMgr.getProperties(tile.Name, new StaticActor()), filter);
+			if(tile.Name.contains("alienhead")){
+				staticActors.add(new AlienHead(new Vector2(tile.X, tile.Y), world, ActorMgr.getProperties(tile.Name, new StaticActor()), filter));
+			} else {
+				staticActors.add(new Block(new Vector2(tile.X, tile.Y), world, ActorMgr.getProperties(tile.Name, new StaticActor()), tile, filter, this.properties.LevelColor));
 			}
 			
-			staticActors.add(new Block(new Vector2(tile.X, tile.Y), world, ActorMgr.getProperties(tile.Name, new StaticActor()), tile, filter, this.properties.LevelColor));
 			tiles.remove();
 		}
 		
