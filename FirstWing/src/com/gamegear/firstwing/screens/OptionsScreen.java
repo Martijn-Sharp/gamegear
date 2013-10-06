@@ -137,13 +137,12 @@ public class OptionsScreen extends MenuScreen {
 
     @Override
     public void render(float delta) {
-            super.render(delta);
-
+        super.render(delta);
     }
 
     @Override
     public void resize(int width, int height) {
-            super.resize(width, height);
+        super.resize(width, height);
     }
 
     @Override
@@ -163,8 +162,7 @@ public class OptionsScreen extends MenuScreen {
 
     @Override
     public void dispose() {
-            super.dispose();
-
+        super.dispose();
     }
 
 }

@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.gamegear.firstwing.actors.Bob;
 import com.gamegear.firstwing.screens.GameScreen;
+import com.gamegear.firstwing.screens.GameScreen.GameState;
 import com.gamegear.firstwing.BobController;
 
 public class BobController implements GestureListener, InputProcessor {
@@ -151,6 +152,10 @@ public class BobController implements GestureListener, InputProcessor {
 		dpadX = x;
 		dpadY = y;
 		Gdx.app.log("Touch", "DPAD x: " + x + " y:" + y + " pointer:" + pointer);
+		
+		if(this.screen.getCurrentState() == GameState.Begin){
+			this.screen.setCurrentState(GameState.Running);
+		}
 		
 		//checkCollision(x, y, false);
 		

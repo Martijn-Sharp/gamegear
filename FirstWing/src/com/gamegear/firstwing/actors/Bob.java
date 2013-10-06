@@ -32,6 +32,10 @@ public class Bob extends MoveableActor {
 		this.setShape(rect, 0f);
 	}
 	
+	public float getInitialHealth(){
+		return HEALTH;
+	}
+	
 	public float getHealth(){
 		return ((DynamicActor)this.getProperties()).Health;
 	}

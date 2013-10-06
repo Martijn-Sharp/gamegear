@@ -37,15 +37,21 @@ public class Bullet extends MoveableActor {
 	protected void loadTextures() {
 		switch(color)
 		{
-			case red:		bullet = TextureMgr.getTexture("red-bullet-glow", false); break;
-			case yellow:	bullet = TextureMgr.getTexture("yellow-bullet-glow", false); break;
-			case purple:	bullet = TextureMgr.getTexture("purple-bullet-glow", false); break;
-			case orange:	bullet = TextureMgr.getTexture("orange-bullet-glow", false); break;
-			case green:		bullet = TextureMgr.getTexture("green-bullet-glow", false); break;
-			case lightblue:	bullet = TextureMgr.getTexture("lightblue-bullet-glow", false); break;
-			case blue:		bullet = TextureMgr.getTexture("blue-bullet-glow", false); break;
-			case none:		bullet = TextureMgr.getTexture("red-bullet-glow", false); break;
-			default:		bullet = TextureMgr.getTexture("red-bullet-glow", false); break;
+			case red:
+			case yellow:
+			case purple:
+			case orange:
+			case green:
+			case lightblue:
+			case blue:		
+				bullet = TextureMgr.getTexture(color.toString() + "-bullet-glow", false); 
+				break;
+			case none:		
+				bullet = TextureMgr.getTexture("white-bullet-glow", false); 
+				break;
+			default:		
+				bullet = TextureMgr.getTexture("white-bullet-glow", false); 
+				break;
 		}
 	}
 

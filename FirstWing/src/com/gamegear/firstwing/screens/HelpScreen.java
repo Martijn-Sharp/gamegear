@@ -70,14 +70,14 @@ public HelpScreen(FirstWing firstwing, int level) {
 		// Layout
 		table.add(helpImage).spaceBottom(10).colspan(2);
 		table.row();
-		table.add(helpLabel).align(Align.left).padLeft(20);
+		table.add(helpLabel).align(Align.right).padLeft(20).spaceRight(10f);
 		table.add(helpEnable).align(Align.left).padRight(20).fill();
 	}
 
 	@Override
 	public void render(float delta) {
 		super.render(delta);
-
+		Table.drawDebug(this.stage);
 	}
 
 	@Override

@@ -19,6 +19,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.Array;
 import com.gamegear.firstwing.actors.Actor;
+import com.gamegear.firstwing.helper.Helper;
 import com.gamegear.firstwing.levels.json.LevelProperties.ColorEnum;
 import com.gamegear.firstwing.screens.GameScreen.GameState;
 
@@ -78,6 +79,10 @@ public class WorldRenderer {
 	public void setDebug(boolean debug) {
 		this.debug = debug;
 	}
+	
+	public FwWorld getWorld(){
+		return this.world;
+	}
 
 	public WorldRenderer(FwWorld world, boolean debug) {
 		this.world = world;
@@ -105,7 +110,7 @@ public class WorldRenderer {
 		pool = new ParticleEffectPool(prototype, 2, 20);
 		effects = new Array<PooledEffect>();
 		
-		this.currentBgColor = new Color(0f, 0f, 0.5f, 1f);
+		this.currentBgColor = Helper.darkenColor(Helper.colorEnumToColor(ColorEnum.blue), 0.65f);
 	}
 	
 	public void changeAfterBurnerColor(ColorEnum color)
@@ -195,17 +200,17 @@ public class WorldRenderer {
 					if(position.x - cam.position.x < (int)CAMERA_WIDTH && position.x - cam.position.x > -(int)CAMERA_WIDTH){
 						try{
 							batch.draw(
-									actor.getTexture(),
-									position.x - width / 2,
-									position.y - height / 2,
-									width / 2,
-									height / 2,
-									width,
-									height,
-									scale,
-									scale,
-									rotationAngle,
-									false);
+								actor.getTexture(),
+								position.x - width / 2,
+								position.y - height / 2,
+								width / 2,
+								height / 2,
+								width,
+								height,
+								scale,
+								scale,
+								rotationAngle,
+								false);
 						} catch (NullPointerException ex){
 							Gdx.app.log("Rendering", actor.getProperties().Name + ex.getMessage());
 						}
@@ -277,11 +282,11 @@ public class WorldRenderer {
 	
 	private Color getColor(int speed){
 		if(speed == 3){
-			return new Color(0.5f, 0f, 0f, 1f);
+			return Helper.darkenColor(Helper.colorEnumToColor(ColorEnum.red), 0.65f);
 		} else if(speed == 2) {
-			return new Color(0.5f, 0.25f, 0f, 1f);
+			return Helper.darkenColor(Helper.colorEnumToColor(ColorEnum.orange), 0.65f);
 		} else{
-			return new Color(0f, 0f, 0.5f, 1f);
+			return Helper.darkenColor(Helper.colorEnumToColor(ColorEnum.blue), 0.65f);
 		}
 	}
 	

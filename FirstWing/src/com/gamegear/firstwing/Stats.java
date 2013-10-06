@@ -149,12 +149,18 @@ public class Stats {
 			firstwing.platformInterface.submitScore(highScore);
 			switch(levelID)
 			{
-				case 1:		firstwing.platformInterface.submitScore("CgkIhpLNkp8BEAIQCg" ,highScore);
+				case 1:		
+					firstwing.platformInterface.submitScore("CgkIhpLNkp8BEAIQCg" ,highScore);
 					break;
-				case 2:		firstwing.platformInterface.submitScore("CgkIhpLNkp8BEAIQCw" ,highScore);
+				case 2:		
+					firstwing.platformInterface.submitScore("CgkIhpLNkp8BEAIQCw" ,highScore);
 					break;
-				case 3:		firstwing.platformInterface.submitScore("CgkIhpLNkp8BEAIQDA" ,highScore);
+				case 3:		
+					firstwing.platformInterface.submitScore("CgkIhpLNkp8BEAIQDA" ,highScore);
 					break;
+				case 4:  
+					firstwing.platformInterface.submitScore("CgkIhpLNkp8BEAIQDQ" ,highScore);
+			     	break;
 			}
 		}
 	}

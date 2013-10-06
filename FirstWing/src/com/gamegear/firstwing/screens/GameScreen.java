@@ -36,11 +36,14 @@ import com.gamegear.firstwing.FwWorld;
 import com.gamegear.firstwing.WorldRenderer;
 import com.gamegear.firstwing.actors.*;
 import com.gamegear.firstwing.actors.json.StaticActor;
+import com.gamegear.firstwing.helper.Helper;
 import com.gamegear.firstwing.levels.Spawner;
+import com.gamegear.firstwing.levels.json.LevelProperties.ColorEnum;
 
 public class GameScreen extends MenuScreen {
 
 	public enum GameState{
+		Begin,
 		Paused,
 		Running
 	}
@@ -100,6 +103,7 @@ public class GameScreen extends MenuScreen {
 	
 	public void load()
 	{
+		this.currentState = GameState.Begin;
 		// Bullet array
 		bullets = new Array<Bullet>();
 		bullets.ensureCapacity(20);
@@ -123,12 +127,12 @@ public class GameScreen extends MenuScreen {
 		// Contact listener
 		createCollisionListener();
 		this.actorsForRemoval = new Array<Actor>();
-
-		this.currentState = GameState.Running;
 	}
 	
 	public void loadLevel(int levelPath)
 	{
+		this.currentState = GameState.Begin;
+		
 		// Bullet array
 		bullets = new Array<Bullet>();
 		bullets.ensureCapacity(20);
@@ -152,7 +156,16 @@ public class GameScreen extends MenuScreen {
 		im = new InputMultiplexer(controller, gestureDetector);
 		Gdx.input.setInputProcessor(this.im);
 		
-		this.currentState = GameState.Running;
+		FirstWing.stats.currentColor = ColorEnum.none;
+		renderer.changeAfterBurnerColor(FirstWing.stats.currentColor);
+	}
+	
+	public GameState getCurrentState(){
+		return this.currentState;
+	}
+	
+	public void setCurrentState(GameState state){
+		this.currentState = state;
 	}
 
 	@Override
@@ -218,7 +231,6 @@ public class GameScreen extends MenuScreen {
 		this.renderer.render(this.currentState, this.stage.getSpriteBatch());
 	
 		this.stage.draw();
-		Window.drawDebug(this.stage);
 		
 		//Render interface
 		this.renderInterface(this.stage.getSpriteBatch(), true);
@@ -274,21 +286,32 @@ public class GameScreen extends MenuScreen {
 		interfaceRenderer.begin(ShapeType.FilledRectangle);
 			interfaceRenderer.setColor(Color.DARK_GRAY);
 			interfaceRenderer.filledRect(0, height - (30 * Gdx.graphics.getDensity()), width, height);
-			interfaceRenderer.setColor(Color.RED);
-			interfaceRenderer.filledRect(300, height - (30 * Gdx.graphics.getDensity()), (renderer.cameraX/world.getLevel().getProperties().FinishX)*100, height);
-			interfaceRenderer.setColor(Color.WHITE);
-			interfaceRenderer.filledRect(395, height - (30 * Gdx.graphics.getDensity()), 5, height);
+			interfaceRenderer.setColor(Helper.colorEnumToColor(ColorEnum.red));
+			interfaceRenderer.filledRect(this.stage.getWidth() * 0.6f, height - (30 * Gdx.graphics.getDensity()), (renderer.cameraX/world.getLevel().getProperties().FinishX)*100, height);
+			interfaceRenderer.setColor(Helper.colorEnumToColor(ColorEnum.none));
+			interfaceRenderer.filledRect(this.stage.getWidth() * 0.8f, height - (30 * Gdx.graphics.getDensity()), 5, height);
 		interfaceRenderer.end();
+		
+		interfaceRenderer.begin(ShapeType.Line);
+			interfaceRenderer.setColor(Helper.colorEnumToColor(this.renderer.getWorld().getLevel().getProperties().LevelColor));
+			interfaceRenderer.line(0, height - (30 * Gdx.graphics.getDensity()), width, height - (30 * Gdx.graphics.getDensity()));
+		interfaceRenderer.end();
+    
 		batch.begin();
 		font.setScale(1);
-		font.draw(batch, "Score:" + FirstWing.stats.getScore(), 10, height -10);
-		font.draw(batch, "Highscore:" + FirstWing.stats.getHighScore(levelPath), 100, height -10);
-		font.draw(batch, "Health:" + (int)this.world.getBob().getHealth()*10 + "%", 200, height -10);
+		font.draw(batch, "Score: " + FirstWing.stats.getScore(), 10, height -10);
+		font.draw(batch, "Highscore: " + FirstWing.stats.getHighScore(levelPath), this.stage.getWidth() * 0.2f, height -10);
+		float shipHealth = (this.world.getBob().getHealth() / this.world.getBob().getInitialHealth()) * 100;
+		font.draw(batch, "Health: " + (int)shipHealth + "%", this.stage.getWidth() * 0.4f, height -10);
+		
+		if(this.currentState == GameState.Begin){
+			this.popupFont.draw(batch, "Tap to start", (this.stage.getWidth() * 0.5f) - (this.popupFont.getSpaceWidth() * 6f), this.stage.getHeight() * 0.75f);
+		}
 		
 		if(notificationEnabled)
 		{
-			popupFont.setColor(Color.WHITE);
-			popupFont.draw(batch, notificationMessage,(int) (width/2 - popupFont.getBounds(notificationMessage).width/2), height/1.2f);
+			popupFont.setColor(Helper.colorEnumToColor(ColorEnum.none));
+			popupFont.draw(batch, notificationMessage,(int) (width / 2 - popupFont.getBounds(notificationMessage).width / 2), height / 1.2f);
 		}
 		
 		if(showFPS)
@@ -650,12 +673,13 @@ public class GameScreen extends MenuScreen {
 	
 	private Window getStandardWindow(String title){
 		Window window = new Window(title, this.getSkin());
-		window.debug();
+		//window.debug();
 		window.addAction(Actions.fadeIn(0.5f));
 		WindowStyle windowStyle = this.getSkin().get("default", WindowStyle.class); 
-		windowStyle.titleFont = this.font;
+		windowStyle.titleFont = this.popupFont;
+		window.padTop(this.popupFont.getCapHeight() + 30f);
 		window.setStyle(windowStyle);
-		window.setSize(this.stage.getWidth() / 2.5f, this.stage.getHeight() / 2.5f);
+		window.setSize(this.stage.getWidth() / 2f, this.stage.getHeight() / 2.5f);
 		window.setPosition(this.stage.getWidth() / 2 - window.getWidth() / 2, this.stage.getHeight() / 2 - window.getHeight() / 2);
 		window.setMovable(false);
 		return window;

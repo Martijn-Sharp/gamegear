@@ -21,4 +21,10 @@ public class TextureMgr {
 		
 		return tr;
 	}
+	
+	public static void initiate(){
+		dynAtlas = new TextureAtlas(Gdx.files.internal("textures/dyntextures.atlas"));
+		staAtlas = new TextureAtlas(Gdx.files.internal("textures/statextures.atlas"));
+		textureRegions = new HashMap<String, TextureRegion>();
+	}
 }

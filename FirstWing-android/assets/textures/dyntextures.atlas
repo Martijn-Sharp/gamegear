@@ -108,9 +108,16 @@ red-bullet
   orig: 16, 16
   offset: 0, 0
   index: -1
-yellow-bullet-glow
+white-bullet-glow
   rotate: false
   xy: 131, 131
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+yellow-bullet-glow
+  rotate: false
+  xy: 149, 149
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
