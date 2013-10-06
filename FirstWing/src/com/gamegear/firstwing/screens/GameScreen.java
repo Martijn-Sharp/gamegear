@@ -22,6 +22,7 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle;
@@ -45,7 +46,6 @@ public class GameScreen extends MenuScreen {
 		Running
 	}
 	
-	public FirstWing		game;
 	public FwWorld 			world;
 	public WorldRenderer 	renderer;
 	public BobController	controller;
@@ -80,7 +80,6 @@ public class GameScreen extends MenuScreen {
 	public GameScreen(FirstWing game, int levelPath)
 	{
 		super(game);
-		this.game = game;
 		this.levelPath = levelPath;
 		FirstWing.stats.levelID = levelPath;
 	}
@@ -162,12 +161,12 @@ public class GameScreen extends MenuScreen {
 		if(this.finished){
 			this.finished = false;
 			
-			if(game.platformInterface.getSignedIn())
+			if(this.firstWing.platformInterface.getSignedIn())
 			{
 				// Completed first level
 				if(this.levelPath == 1)
 				{
-					game.platformInterface.unlockAchievement("CgkIhpLNkp8BEAIQBA");
+					this.firstWing.platformInterface.unlockAchievement("CgkIhpLNkp8BEAIQBA");
 				}
 				
 				FirstWing.stats.checkColorAchievement();
@@ -182,10 +181,9 @@ public class GameScreen extends MenuScreen {
 				FirstWing.stats.setStars(levelPath, 1);
 			}
 			
-			FirstWing.stats.resetScore();
-			
 			this.stage.addActor(this.getVictoryWindow());
 			Gdx.input.setInputProcessor(stage);
+			FirstWing.stats.resetScore();
 			this.currentState = GameState.Paused;
 		}
 		
@@ -216,7 +214,8 @@ public class GameScreen extends MenuScreen {
 		//Render frame
 		this.renderer.render(this.currentState, this.stage.getSpriteBatch());
 	
-		stage.draw();
+		this.stage.draw();
+		Window.drawDebug(this.stage);
 		
 		//Render interface
 		this.renderInterface(this.stage.getSpriteBatch(), true);
@@ -234,6 +233,7 @@ public class GameScreen extends MenuScreen {
 		Iterator<Spawner> it = world.getLevel().getSpawners().iterator();
 		while(it.hasNext()){
 			Spawner spawner = it.next();
+			it.remove();
 			if(spawner.getPosition().x -6 < renderer.cameraX){
 				spawner.Spawn();
 			} else {
@@ -243,8 +243,6 @@ public class GameScreen extends MenuScreen {
 			if(spawner.getPosition().x < renderer.cameraX){
 				world.getLevel().getSpawners().remove(spawner);
 			}
-			
-			it.remove();
 		}
 	}
 	
@@ -305,8 +303,6 @@ public class GameScreen extends MenuScreen {
 		
 		batch.end();
 	}
-	
-	
 	
 	public void setNotification(String message, int durationInSeconds)
 	{
@@ -579,7 +575,7 @@ public class GameScreen extends MenuScreen {
 	
 	private Window getDeathWindow(){
 		final Window window = this.getStandardWindow("You Failed!");
-		TextButton btnRetry = new TextButton("Retry", this.getSkin());
+		TextButton btnRetry = new TextButton("Yes", this.getSkin());
 		btnRetry.addListener(new ClickListener(){
 			@Override
 			public void clicked(InputEvent event, float x, float y){
@@ -587,20 +583,49 @@ public class GameScreen extends MenuScreen {
 				loadLevel(levelPath);
 			}
 		});
-		window.add(btnRetry);
+		btnRetry.pad(0f, 20f, 0f, 20f);
+		
+		TextButton btnMenu = new TextButton("No", this.getSkin());
+		btnMenu.addListener(new ClickListener(){
+			@Override
+			public void clicked(InputEvent event, float x, float y){
+				stage.getActors().removeValue(window, true);
+				firstWing.setScreen(new MainMenu(firstWing));
+			}
+		});
+		btnMenu.pad(0f, 20f, 0f, 20f);
+		
+		window.add(new Label("You're destroyed!", this.getSkin())).expandX().colspan(2);
+		window.row();
+		window.add(new Label("Would you like to retry?", this.getSkin())).expandX().colspan(2).spaceBottom(10f);
+		window.row();
+		window.add(btnRetry).expandX();
+		window.add(btnMenu).expandX();
 		return window;
 	}
 	
 	private Window getVictoryWindow(){
 		final Window window = this.getStandardWindow("Victory!");
-		TextButton btnRetry = new TextButton("Retry", this.getSkin());
-		btnRetry.addListener(new ClickListener(){
+		window.setSize(this.stage.getWidth() / 1.5f, this.stage.getHeight() / 1.5f);
+		window.setPosition(this.stage.getWidth() / 2 - window.getWidth() / 2, this.stage.getHeight() / 2 - window.getHeight() / 2);
+		TextButton btnReplay = new TextButton("Replay", this.getSkin());
+		btnReplay.addListener(new ClickListener(){
 			@Override
 			public void clicked(InputEvent event, float x, float y){
 				stage.getActors().removeValue(window, true);
 				loadLevel(levelPath);
 			}
 		});
+		
+		TextButton btnMenu = new TextButton("Back to menu", this.getSkin());
+		btnReplay.addListener(new ClickListener(){
+			@Override
+			public void clicked(InputEvent event, float x, float y){
+				stage.getActors().removeValue(window, true);
+				firstWing.setScreen(new MainMenu(firstWing));
+			}
+		});
+		
 		TextButton btnNextLevel = new TextButton("Next level", this.getSkin());
 		btnNextLevel.addListener(new ClickListener(){
 			@Override
@@ -613,18 +638,24 @@ public class GameScreen extends MenuScreen {
 			}
 		});
 		
-		window.add(btnRetry);
+		window.add(new Label("Congratulations!", this.getSkin())).colspan(3);
+		window.row();
+		window.add(new Label("You scored: " + FirstWing.stats.getScore(), this.getSkin())).colspan(3);
+		window.row();
+		window.add(btnReplay);
+		window.add(btnMenu);
 		window.add(btnNextLevel);
 		return window;
 	}
 	
 	private Window getStandardWindow(String title){
 		Window window = new Window(title, this.getSkin());
+		window.debug();
 		window.addAction(Actions.fadeIn(0.5f));
 		WindowStyle windowStyle = this.getSkin().get("default", WindowStyle.class); 
 		windowStyle.titleFont = this.font;
 		window.setStyle(windowStyle);
-		window.setSize(this.stage.getWidth() / 1.5f, this.stage.getHeight() / 1.5f);
+		window.setSize(this.stage.getWidth() / 2.5f, this.stage.getHeight() / 2.5f);
 		window.setPosition(this.stage.getWidth() / 2 - window.getWidth() / 2, this.stage.getHeight() / 2 - window.getHeight() / 2);
 		window.setMovable(false);
 		return window;

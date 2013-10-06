@@ -21,7 +21,7 @@ import com.gamegear.firstwing.FirstWing;
 public abstract class MenuScreen implements Screen {
 
     protected Stage stage;
-    FirstWing firstwing;
+    protected FirstWing firstWing;
 
     private Table table;
     private Skin skin;
@@ -34,8 +34,8 @@ public abstract class MenuScreen implements Screen {
     TextButtonStyle buttonStyle;
     ListStyle listStyle;
 
-    public MenuScreen(FirstWing firstwing) {
-        this.firstwing = firstwing;
+    public MenuScreen(FirstWing firstWing) {
+        this.firstWing = firstWing;
         stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
         
         int adjustedFontSize = (int)(26 * (Gdx.graphics.getDensity()));
@@ -113,6 +113,6 @@ public abstract class MenuScreen implements Screen {
     }
 
     public FirstWing getGame() {
-        return this.firstwing;
+        return this.firstWing;
     }
 }

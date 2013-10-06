@@ -9,12 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.gamegear.firstwing.FirstWing;
 
 public class MainMenu extends MenuScreen{
-        
-	FirstWing firstwing;
-
     public MainMenu(FirstWing firstwing) {
             super(firstwing);
-            this.firstwing = firstwing;
     }
 
     @Override
@@ -31,7 +27,7 @@ public class MainMenu extends MenuScreen{
                     public void clicked(InputEvent event, float x, float y) {
                     	Gdx.app.log("Menu", "Clicked startgame");
                     	//firstwing.setScreen(new GameScreen(firstwing, ""));
-                    	firstwing.setScreen(new ExtendedLevelScreen(firstwing));
+                    	firstWing.setScreen(new ExtendedLevelScreen(firstWing));
                     }
             });
             
@@ -40,7 +36,7 @@ public class MainMenu extends MenuScreen{
             upgradeButton.addListener(new ClickListener() {
                     public void clicked(InputEvent event, float x, float y) {
                     	Gdx.app.log("Menu", "Clicked upgrade");
-                    	firstwing.setScreen(new UpgradeScreen(firstwing));
+                    	firstWing.setScreen(new UpgradeScreen(firstWing));
                     }
             });
 
@@ -49,7 +45,7 @@ public class MainMenu extends MenuScreen{
             optionsButton.addListener(new ClickListener() {
                     public void clicked(InputEvent event, float x, float y) {
                     	Gdx.app.log("Menu", "Clicked menu");
-                    	firstwing.setScreen(new OptionsScreen(firstwing));
+                    	firstWing.setScreen(new OptionsScreen(firstWing));
                     }
             });
 

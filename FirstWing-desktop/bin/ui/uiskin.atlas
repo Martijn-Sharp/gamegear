@@ -174,9 +174,16 @@ default-select-selection
   orig: 3, 3
   offset: 0, 0
   index: -1
+half-transparant
+  rotate: false
+  xy: 129, 32
+  size: 2, 2
+  orig: 2, 2
+  offset: 0, 0
+  index: -1
 default-pane-noborder
   rotate: false
-  xy: 129, 33
+  xy: 170, 44
   size: 1, 1
   split: 0, 0, 0, 0
   orig: 1, 1
@@ -184,14 +191,14 @@ default-pane-noborder
   index: -1
 selection
   rotate: false
-  xy: 170, 44
+  xy: 174, 48
   size: 1, 1
   orig: 1, 1
   offset: 0, 0
   index: -1
 white
   rotate: false
-  xy: 174, 48
+  xy: 38, 23
   size: 1, 1
   orig: 1, 1
   offset: 0, 0
