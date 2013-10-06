@@ -4,7 +4,6 @@ import java.util.Iterator;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -59,7 +58,6 @@ public class GameScreen extends MenuScreen {
 	public String			notificationMessage;
 	public boolean			notificationEnabled = false;
 	
-	public Music			music;
 	public boolean			markedForRestart = false;
 	public FreeTypeFontGenerator 	fontGenerator;
 	public Array<Actor>		actorsForRemoval;
@@ -82,45 +80,50 @@ public class GameScreen extends MenuScreen {
 		super(game);
 		this.levelPath = levelPath;
 		FirstWing.stats.levelID = levelPath;
+		load();
 	}
 	
 	@Override
 	public void show() {
 		super.show();
-		//Bullet array
+		
+		// Input
+		controller = new BobController(this, width, height);
+		gestureDetector = new GestureDetector(20, 0.5f, 1, 0.15f, controller);
+		im = new InputMultiplexer(controller, gestureDetector);
+		Gdx.input.setInputProcessor(im);
+		
+		if (!FirstWing.audio.isEnabled()) {
+			FirstWing.audio.enableMusic();
+		}
+	}
+	
+	public void load()
+	{
+		// Bullet array
 		bullets = new Array<Bullet>();
 		bullets.ensureCapacity(20);
-		
-		//Rendering
+
+		// Rendering
 		world = new FwWorld(String.valueOf(levelPath));
-		
+
 		renderer = new WorldRenderer(world, false);
-		
-		fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("ui/TiresiasScreenfont.ttf"));
-		//font = fontGenerator.generateFont(30, "abcdefghijklmnopqrstuvwxyz:1234567890", true);
-		font = fontGenerator.generateFont((int) (16 * Gdx.graphics.getDensity()));
-		popupFont = fontGenerator.generateFont((int) (40 * Gdx.graphics.getDensity()));
+
+		fontGenerator = new FreeTypeFontGenerator(
+				Gdx.files.internal("ui/TiresiasScreenfont.ttf"));
+		font = fontGenerator
+				.generateFont((int) (16 * Gdx.graphics.getDensity()));
+		popupFont = fontGenerator.generateFont((int) (40 * Gdx.graphics
+				.getDensity()));
 		fontGenerator.dispose();
 
-		
 		interfaceTexture = new Texture(Gdx.files.internal("images/dpad.png"));
 		interfaceRenderer = new ShapeRenderer();
 		
-		//Input
-		controller = new BobController(this, width, height);
-		gestureDetector = new GestureDetector(20, 0.5f, 1, 0.15f, controller);
-		im = new InputMultiplexer(controller, gestureDetector); // Order matters here!
-		Gdx.input.setInputProcessor(im);
-		
-		//Contact listener
+		// Contact listener
 		createCollisionListener();
 		this.actorsForRemoval = new Array<Actor>();
-		
-		if(!FirstWing.audio.isEnabled())
-		{
-			FirstWing.audio.enableMusic();
-		}
-		
+
 		this.currentState = GameState.Running;
 	}
 	
@@ -228,20 +231,18 @@ public class GameScreen extends MenuScreen {
 		}
 	}
 	
-	public void moveEnemies()
-	{
+	public void moveEnemies() {
 		Iterator<Spawner> it = world.getLevel().getSpawners().iterator();
-		while(it.hasNext()){
+		while (it.hasNext()) {
 			Spawner spawner = it.next();
-			it.remove();
-			if(spawner.getPosition().x -6 < renderer.cameraX){
+			if (spawner.getPosition().x - 6 < renderer.cameraX) {
 				spawner.Spawn();
 			} else {
 				return;
 			}
-			
-			if(spawner.getPosition().x < renderer.cameraX){
-				world.getLevel().getSpawners().remove(spawner);
+
+			if (spawner.getPosition().x < renderer.cameraX) {
+				it.remove();
 			}
 		}
 	}
@@ -551,26 +552,23 @@ public class GameScreen extends MenuScreen {
 
 	@Override
 	public void hide() {
-		Gdx.app.exit();
+		FirstWing.audio.disableMusic();
 	}
 
 	@Override
 	public void pause() {
-		Gdx.app.exit();
+		super.pause();
 	}
 
 	@Override
 	public void resume() {
-		loadLevel(1);
+		super.resume();
 	}
 
 	@Override
 	public void dispose() {
 		Gdx.input.setInputProcessor(null);
 		interfaceRenderer.dispose();
-		music.stop();
-		music.dispose();
-		Gdx.app.exit();
 	}
 	
 	private Window getDeathWindow(){
@@ -618,13 +616,15 @@ public class GameScreen extends MenuScreen {
 		});
 		
 		TextButton btnMenu = new TextButton("Back to menu", this.getSkin());
-		btnReplay.addListener(new ClickListener(){
+		btnMenu.addListener(new ClickListener(){
 			@Override
 			public void clicked(InputEvent event, float x, float y){
+				Gdx.app.log("Window", "Back to menu pressed");
+				firstWing.setScreen(firstWing.mainScreen);
 				stage.getActors().removeValue(window, true);
-				firstWing.setScreen(new MainMenu(firstWing));
 			}
 		});
+		
 		
 		TextButton btnNextLevel = new TextButton("Next level", this.getSkin());
 		btnNextLevel.addListener(new ClickListener(){

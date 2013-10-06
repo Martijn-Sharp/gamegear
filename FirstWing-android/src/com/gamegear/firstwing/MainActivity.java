@@ -140,4 +140,9 @@ public class MainActivity extends AndroidApplication implements
 	public void incrementAchievement(String achievement, int steps) {
 		aHelper.getGamesClient().incrementAchievement(achievement, steps);
 	}
+
+	@Override
+	public void getLeaderboard() {
+		startActivityForResult(aHelper.getGamesClient().getLeaderboardIntent(getString(R.string.leaderboard_total)), 105);
+	}
 }

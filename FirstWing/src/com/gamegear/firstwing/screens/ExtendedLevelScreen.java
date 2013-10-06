@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.gamegear.firstwing.FirstWing;
@@ -23,70 +24,67 @@ public class ExtendedLevelScreen extends MenuScreen {
 	public ExtendedLevelScreen(FirstWing firstwing) {
 		super(firstwing);
 		this.firstwing = firstwing;
+		load();
 	}
 
 	public void show() {
 		
 		super.show();
 		
-		Table table = super.getTable();
 		
+	}
+	
+	public void load() {
+		Table table = super.getTable();
+
 		FileHandle dirHandle;
 		if (Gdx.app.getType() == ApplicationType.Android) {
-			  dirHandle = Gdx.files.internal("levels");
+			dirHandle = Gdx.files.internal("levels");
 		} else {
-			  dirHandle = Gdx.files.internal("./bin/levels");
+			dirHandle = Gdx.files.internal("./bin/levels");
 		}
-		
+
 		LinkedList<String> fileDirectory = new LinkedList<String>();
 
-		for (FileHandle entry: dirHandle.list()) {
+		for (FileHandle entry : dirHandle.list()) {
 			fileDirectory.add(entry.nameWithoutExtension());
 		}
-		
+
 		Collections.sort(fileDirectory);
-		
+
+		// Back
+		TextButton backButton = new TextButton("Back", getSkin());
+		backButton.addListener(new ClickListener() {
+			public void clicked(InputEvent event, float x, float y) {
+				firstwing.setScreen(firstwing.mainScreen);
+			}
+		});
+
 		PagedScrollPane scroll = new PagedScrollPane();
 		scroll.setFlingTime(0.1f);
 		scroll.setPageSpacing(25);
 		int c = 1;
 		boolean finished = false;
-		while(!finished) {
+		while (!finished) {
 			Table levels = new Table().pad(40);
 			levels.defaults().pad(10, 25, 10, 25);
 			for (int y = 0; y < 3; y++) {
 				levels.row();
 				for (int x = 0; x < 3; x++) {
-					if(fileDirectory.size() < c)
-					{
+					if (fileDirectory.size() < c) {
 						finished = true;
 						break;
 					}
-					levels.add(getLevelButton(fileDirectory.get(c -1))).expand().fill();
+					levels.add(getLevelButton(fileDirectory.get(c - 1)))
+							.expand().fill();
 					c++;
 				}
-			}			
+			}
 			scroll.addPage(levels);
 		}
 		table.add(scroll).expand().fill();
-		
-		
-//		PagedScrollPane scroll = new PagedScrollPane();
-//		scroll.setFlingTime(0.1f);
-//		scroll.setPageSpacing(25);
-//		int c = 1;
-//		for (int l = 0; l < 10; l++) {
-//			Table levels = new Table().pad(40);
-//			levels.defaults().pad(10, 25, 10, 25);
-//			for (int y = 0; y < 3; y++) {
-//				levels.row();
-//				for (int x = 0; x < 3; x++) {
-//					levels.add(getLevelButton(c++)).expand().fill();
-//				}
-//			}
-//			scroll.addPage(levels);
-//		}
-//		table.add(scroll).expand().fill();
+		table.row();
+		table.add(backButton).padLeft(20).align(Align.left);
 	}
 
 	public void render(float delta) {
@@ -149,7 +147,14 @@ public class ExtendedLevelScreen extends MenuScreen {
 		@Override
 		public void clicked (InputEvent event, float x, float y) {
 			System.out.println("Click: " + event.getListenerActor().getName());
-			firstwing.setScreen(new GameScreen(firstwing, Integer.parseInt(event.getListenerActor().getName())));
+			if(FirstWing.options.helpEnabled())
+			{
+				firstwing.setScreen(new HelpScreen(firstwing, Integer.parseInt(event.getListenerActor().getName())));
+			}
+			else
+			{
+				firstwing.setScreen(new GameScreen(firstwing, Integer.parseInt(event.getListenerActor().getName())));
+			}
 		}
 	};
 

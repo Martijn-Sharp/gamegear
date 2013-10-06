@@ -58,6 +58,8 @@ public abstract class MenuScreen implements Screen {
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
+        
+        
     }
 
     @Override
@@ -77,17 +79,15 @@ public abstract class MenuScreen implements Screen {
 
     @Override
     public void pause() {
-
     }
 
     @Override
     public void resume() {
-
     }
 
     @Override
     public void dispose() {
-
+    	stage.dispose();
     }
 
     protected Table getTable() {

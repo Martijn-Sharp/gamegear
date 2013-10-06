@@ -48,4 +48,9 @@ public class DesktopInterface implements GoogleInterface {
 	public void submitScore(String leaderboard, long highScore) {
 		System.out.println("Desktop: submitScore: " + highScore);
 	}
+
+	@Override
+	public void getLeaderboard() {
+		System.out.println("Desktop: Should have shown leaderboards");		
+	}
 }

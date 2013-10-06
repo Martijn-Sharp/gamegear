@@ -20,4 +20,6 @@ public interface GoogleInterface {
 	
 	public void unlockAchievement(String achievement);
 	public void incrementAchievement(String achievement, int steps);
+	
+	public void getLeaderboard();
 }
