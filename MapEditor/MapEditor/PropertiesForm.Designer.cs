@@ -31,6 +31,10 @@
             this.components = new System.ComponentModel.Container();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabProperties = new System.Windows.Forms.TabPage();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.secondStarBox = new System.Windows.Forms.TextBox();
+            this.firstStarBox = new System.Windows.Forms.TextBox();
             this.ddlLevelColor = new System.Windows.Forms.ComboBox();
             this.lblLevelColor = new System.Windows.Forms.Label();
             this.btnRemoveColor = new System.Windows.Forms.Button();
@@ -99,10 +103,6 @@
             this.lblSpeed = new System.Windows.Forms.Label();
             this.bulletBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.btnSave = new System.Windows.Forms.Button();
-            this.firstStarBox = new System.Windows.Forms.TextBox();
-            this.secondStarBox = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabProperties.SuspendLayout();
             this.gboxBackground.SuspendLayout();
@@ -130,7 +130,7 @@
             this.tabControl1.Controls.Add(this.tabProperties);
             this.tabControl1.Controls.Add(this.tabActors);
             this.tabControl1.Location = new System.Drawing.Point(16, 15);
-            this.tabControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(4);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(661, 457);
@@ -163,20 +163,54 @@
             this.tabProperties.Controls.Add(this.txtBackground);
             this.tabProperties.Controls.Add(this.lblBackground);
             this.tabProperties.Location = new System.Drawing.Point(4, 25);
-            this.tabProperties.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabProperties.Margin = new System.Windows.Forms.Padding(4);
             this.tabProperties.Name = "tabProperties";
-            this.tabProperties.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabProperties.Padding = new System.Windows.Forms.Padding(4);
             this.tabProperties.Size = new System.Drawing.Size(653, 428);
             this.tabProperties.TabIndex = 0;
             this.tabProperties.Text = "Properties";
             this.tabProperties.UseVisualStyleBackColor = true;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(324, 342);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(85, 17);
+            this.label3.TabIndex = 25;
+            this.label3.Text = "Star 2 score";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(324, 284);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(85, 17);
+            this.label2.TabIndex = 24;
+            this.label2.Text = "Star 1 score";
+            // 
+            // secondStarBox
+            // 
+            this.secondStarBox.Location = new System.Drawing.Point(324, 362);
+            this.secondStarBox.Name = "secondStarBox";
+            this.secondStarBox.Size = new System.Drawing.Size(100, 22);
+            this.secondStarBox.TabIndex = 23;
+            this.secondStarBox.TextChanged += new System.EventHandler(this.StarTwoTextChanged);
+            // 
+            // firstStarBox
+            // 
+            this.firstStarBox.Location = new System.Drawing.Point(324, 304);
+            this.firstStarBox.Name = "firstStarBox";
+            this.firstStarBox.Size = new System.Drawing.Size(100, 22);
+            this.firstStarBox.TabIndex = 22;
+            this.firstStarBox.TextChanged += new System.EventHandler(this.StarOneTextChanged);
             // 
             // ddlLevelColor
             // 
             this.ddlLevelColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ddlLevelColor.FormattingEnabled = true;
             this.ddlLevelColor.Location = new System.Drawing.Point(133, 43);
-            this.ddlLevelColor.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ddlLevelColor.Margin = new System.Windows.Forms.Padding(4);
             this.ddlLevelColor.Name = "ddlLevelColor";
             this.ddlLevelColor.Size = new System.Drawing.Size(180, 24);
             this.ddlLevelColor.TabIndex = 21;
@@ -195,7 +229,7 @@
             // btnRemoveColor
             // 
             this.btnRemoveColor.Location = new System.Drawing.Point(12, 342);
-            this.btnRemoveColor.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnRemoveColor.Margin = new System.Windows.Forms.Padding(4);
             this.btnRemoveColor.Name = "btnRemoveColor";
             this.btnRemoveColor.Size = new System.Drawing.Size(31, 28);
             this.btnRemoveColor.TabIndex = 19;
@@ -206,7 +240,7 @@
             // btnAddColor
             // 
             this.btnAddColor.Location = new System.Drawing.Point(12, 305);
-            this.btnAddColor.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnAddColor.Margin = new System.Windows.Forms.Padding(4);
             this.btnAddColor.Name = "btnAddColor";
             this.btnAddColor.Size = new System.Drawing.Size(31, 28);
             this.btnAddColor.TabIndex = 18;
@@ -221,7 +255,7 @@
             this.listColours.FullRowSelect = true;
             this.listColours.GridLines = true;
             this.listColours.Location = new System.Drawing.Point(133, 278);
-            this.listColours.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.listColours.Margin = new System.Windows.Forms.Padding(4);
             this.listColours.MultiSelect = false;
             this.listColours.Name = "listColours";
             this.listColours.Size = new System.Drawing.Size(180, 118);
@@ -248,9 +282,9 @@
             // 
             this.gboxBackground.Controls.Add(this.picboxPreview);
             this.gboxBackground.Location = new System.Drawing.Point(324, 9);
-            this.gboxBackground.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gboxBackground.Margin = new System.Windows.Forms.Padding(4);
             this.gboxBackground.Name = "gboxBackground";
-            this.gboxBackground.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gboxBackground.Padding = new System.Windows.Forms.Padding(4);
             this.gboxBackground.Size = new System.Drawing.Size(319, 218);
             this.gboxBackground.TabIndex = 14;
             this.gboxBackground.TabStop = false;
@@ -259,7 +293,7 @@
             // picboxPreview
             // 
             this.picboxPreview.Location = new System.Drawing.Point(8, 23);
-            this.picboxPreview.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.picboxPreview.Margin = new System.Windows.Forms.Padding(4);
             this.picboxPreview.Name = "picboxPreview";
             this.picboxPreview.Size = new System.Drawing.Size(303, 187);
             this.picboxPreview.TabIndex = 1;
@@ -268,7 +302,7 @@
             // btnRemoveSpeedPoint
             // 
             this.btnRemoveSpeedPoint.Location = new System.Drawing.Point(12, 208);
-            this.btnRemoveSpeedPoint.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnRemoveSpeedPoint.Margin = new System.Windows.Forms.Padding(4);
             this.btnRemoveSpeedPoint.Name = "btnRemoveSpeedPoint";
             this.btnRemoveSpeedPoint.Size = new System.Drawing.Size(31, 28);
             this.btnRemoveSpeedPoint.TabIndex = 13;
@@ -279,7 +313,7 @@
             // btnAddSpeedPoint
             // 
             this.btnAddSpeedPoint.Location = new System.Drawing.Point(12, 171);
-            this.btnAddSpeedPoint.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnAddSpeedPoint.Margin = new System.Windows.Forms.Padding(4);
             this.btnAddSpeedPoint.Name = "btnAddSpeedPoint";
             this.btnAddSpeedPoint.Size = new System.Drawing.Size(31, 28);
             this.btnAddSpeedPoint.TabIndex = 12;
@@ -295,7 +329,7 @@
             this.listSpeedPoints.FullRowSelect = true;
             this.listSpeedPoints.GridLines = true;
             this.listSpeedPoints.Location = new System.Drawing.Point(133, 151);
-            this.listSpeedPoints.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.listSpeedPoints.Margin = new System.Windows.Forms.Padding(4);
             this.listSpeedPoints.MultiSelect = false;
             this.listSpeedPoints.Name = "listSpeedPoints";
             this.listSpeedPoints.Size = new System.Drawing.Size(180, 118);
@@ -326,7 +360,12 @@
             // finishXUpDown
             // 
             this.finishXUpDown.Location = new System.Drawing.Point(133, 119);
-            this.finishXUpDown.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.finishXUpDown.Margin = new System.Windows.Forms.Padding(4);
+            this.finishXUpDown.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
             this.finishXUpDown.Name = "finishXUpDown";
             this.finishXUpDown.Size = new System.Drawing.Size(56, 22);
             this.finishXUpDown.TabIndex = 9;
@@ -346,7 +385,7 @@
             // 
             this.spawnYUpDown.DecimalPlaces = 1;
             this.spawnYUpDown.Location = new System.Drawing.Point(255, 86);
-            this.spawnYUpDown.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.spawnYUpDown.Margin = new System.Windows.Forms.Padding(4);
             this.spawnYUpDown.Maximum = new decimal(new int[] {
             10,
             0,
@@ -371,7 +410,7 @@
             // 
             this.spawnXUpDown.DecimalPlaces = 1;
             this.spawnXUpDown.Location = new System.Drawing.Point(160, 86);
-            this.spawnXUpDown.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.spawnXUpDown.Margin = new System.Windows.Forms.Padding(4);
             this.spawnXUpDown.Name = "spawnXUpDown";
             this.spawnXUpDown.Size = new System.Drawing.Size(56, 22);
             this.spawnXUpDown.TabIndex = 5;
@@ -400,7 +439,7 @@
             // txtBackground
             // 
             this.txtBackground.Location = new System.Drawing.Point(133, 7);
-            this.txtBackground.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtBackground.Margin = new System.Windows.Forms.Padding(4);
             this.txtBackground.Name = "txtBackground";
             this.txtBackground.Size = new System.Drawing.Size(180, 22);
             this.txtBackground.TabIndex = 1;
@@ -423,9 +462,9 @@
             this.tabActors.Controls.Add(this.pnlProperties);
             this.tabActors.Controls.Add(this.pnlDynProperties);
             this.tabActors.Location = new System.Drawing.Point(4, 25);
-            this.tabActors.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabActors.Margin = new System.Windows.Forms.Padding(4);
             this.tabActors.Name = "tabActors";
-            this.tabActors.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabActors.Padding = new System.Windows.Forms.Padding(4);
             this.tabActors.Size = new System.Drawing.Size(653, 428);
             this.tabActors.TabIndex = 1;
             this.tabActors.Text = "Actors";
@@ -437,9 +476,9 @@
             this.pnlStaticProperties.Controls.Add(this.lblType);
             this.pnlStaticProperties.Controls.Add(this.chkBreakable);
             this.pnlStaticProperties.Location = new System.Drawing.Point(284, 208);
-            this.pnlStaticProperties.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pnlStaticProperties.Margin = new System.Windows.Forms.Padding(4);
             this.pnlStaticProperties.Name = "pnlStaticProperties";
-            this.pnlStaticProperties.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pnlStaticProperties.Padding = new System.Windows.Forms.Padding(4);
             this.pnlStaticProperties.Size = new System.Drawing.Size(343, 63);
             this.pnlStaticProperties.TabIndex = 11;
             this.pnlStaticProperties.TabStop = false;
@@ -450,7 +489,7 @@
             this.ddlStaticType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ddlStaticType.FormattingEnabled = true;
             this.ddlStaticType.Location = new System.Drawing.Point(167, 22);
-            this.ddlStaticType.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ddlStaticType.Margin = new System.Windows.Forms.Padding(4);
             this.ddlStaticType.Name = "ddlStaticType";
             this.ddlStaticType.Size = new System.Drawing.Size(167, 24);
             this.ddlStaticType.TabIndex = 2;
@@ -470,7 +509,7 @@
             // 
             this.chkBreakable.AutoSize = true;
             this.chkBreakable.Location = new System.Drawing.Point(9, 25);
-            this.chkBreakable.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chkBreakable.Margin = new System.Windows.Forms.Padding(4);
             this.chkBreakable.Name = "chkBreakable";
             this.chkBreakable.Size = new System.Drawing.Size(94, 21);
             this.chkBreakable.TabIndex = 0;
@@ -483,7 +522,7 @@
             this.tabControl.Controls.Add(this.tabEnemy);
             this.tabControl.Controls.Add(this.tabLevel);
             this.tabControl.Location = new System.Drawing.Point(8, 7);
-            this.tabControl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabControl.Margin = new System.Windows.Forms.Padding(4);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
             this.tabControl.Size = new System.Drawing.Size(267, 410);
@@ -495,9 +534,9 @@
             this.tabEnemy.Controls.Add(this.btnAddEnemy);
             this.tabEnemy.Controls.Add(this.listEnemies);
             this.tabEnemy.Location = new System.Drawing.Point(4, 25);
-            this.tabEnemy.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabEnemy.Margin = new System.Windows.Forms.Padding(4);
             this.tabEnemy.Name = "tabEnemy";
-            this.tabEnemy.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabEnemy.Padding = new System.Windows.Forms.Padding(4);
             this.tabEnemy.Size = new System.Drawing.Size(259, 381);
             this.tabEnemy.TabIndex = 0;
             this.tabEnemy.Text = "Enemy";
@@ -506,7 +545,7 @@
             // btnRemoveEnemy
             // 
             this.btnRemoveEnemy.Location = new System.Drawing.Point(152, 342);
-            this.btnRemoveEnemy.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnRemoveEnemy.Margin = new System.Windows.Forms.Padding(4);
             this.btnRemoveEnemy.Name = "btnRemoveEnemy";
             this.btnRemoveEnemy.Size = new System.Drawing.Size(100, 28);
             this.btnRemoveEnemy.TabIndex = 2;
@@ -517,7 +556,7 @@
             // btnAddEnemy
             // 
             this.btnAddEnemy.Location = new System.Drawing.Point(8, 342);
-            this.btnAddEnemy.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnAddEnemy.Margin = new System.Windows.Forms.Padding(4);
             this.btnAddEnemy.Name = "btnAddEnemy";
             this.btnAddEnemy.Size = new System.Drawing.Size(100, 28);
             this.btnAddEnemy.TabIndex = 1;
@@ -532,7 +571,7 @@
             this.listEnemies.FullRowSelect = true;
             this.listEnemies.GridLines = true;
             this.listEnemies.Location = new System.Drawing.Point(0, 0);
-            this.listEnemies.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.listEnemies.Margin = new System.Windows.Forms.Padding(4);
             this.listEnemies.MultiSelect = false;
             this.listEnemies.Name = "listEnemies";
             this.listEnemies.Size = new System.Drawing.Size(255, 334);
@@ -553,9 +592,9 @@
             this.tabLevel.Controls.Add(this.btnAddLevel);
             this.tabLevel.Controls.Add(this.listLevels);
             this.tabLevel.Location = new System.Drawing.Point(4, 25);
-            this.tabLevel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabLevel.Margin = new System.Windows.Forms.Padding(4);
             this.tabLevel.Name = "tabLevel";
-            this.tabLevel.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabLevel.Padding = new System.Windows.Forms.Padding(4);
             this.tabLevel.Size = new System.Drawing.Size(259, 381);
             this.tabLevel.TabIndex = 1;
             this.tabLevel.Text = "Level";
@@ -564,7 +603,7 @@
             // btnRemoveLevel
             // 
             this.btnRemoveLevel.Location = new System.Drawing.Point(148, 342);
-            this.btnRemoveLevel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnRemoveLevel.Margin = new System.Windows.Forms.Padding(4);
             this.btnRemoveLevel.Name = "btnRemoveLevel";
             this.btnRemoveLevel.Size = new System.Drawing.Size(100, 28);
             this.btnRemoveLevel.TabIndex = 2;
@@ -575,7 +614,7 @@
             // btnAddLevel
             // 
             this.btnAddLevel.Location = new System.Drawing.Point(8, 342);
-            this.btnAddLevel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnAddLevel.Margin = new System.Windows.Forms.Padding(4);
             this.btnAddLevel.Name = "btnAddLevel";
             this.btnAddLevel.Size = new System.Drawing.Size(100, 28);
             this.btnAddLevel.TabIndex = 1;
@@ -590,7 +629,7 @@
             this.listLevels.FullRowSelect = true;
             this.listLevels.GridLines = true;
             this.listLevels.Location = new System.Drawing.Point(0, 0);
-            this.listLevels.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.listLevels.Margin = new System.Windows.Forms.Padding(4);
             this.listLevels.MultiSelect = false;
             this.listLevels.Name = "listLevels";
             this.listLevels.Size = new System.Drawing.Size(255, 334);
@@ -619,9 +658,9 @@
             this.pnlProperties.Controls.Add(this.txtName);
             this.pnlProperties.Controls.Add(this.lblName);
             this.pnlProperties.Location = new System.Drawing.Point(284, 7);
-            this.pnlProperties.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pnlProperties.Margin = new System.Windows.Forms.Padding(4);
             this.pnlProperties.Name = "pnlProperties";
-            this.pnlProperties.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pnlProperties.Padding = new System.Windows.Forms.Padding(4);
             this.pnlProperties.Size = new System.Drawing.Size(355, 192);
             this.pnlProperties.TabIndex = 9;
             this.pnlProperties.TabStop = false;
@@ -631,7 +670,7 @@
             // 
             this.heightUpDown.DecimalPlaces = 1;
             this.heightUpDown.Location = new System.Drawing.Point(280, 155);
-            this.heightUpDown.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.heightUpDown.Margin = new System.Windows.Forms.Padding(4);
             this.heightUpDown.Maximum = new decimal(new int[] {
             256,
             0,
@@ -646,7 +685,7 @@
             // btnRemovePolygon
             // 
             this.btnRemovePolygon.Location = new System.Drawing.Point(123, 57);
-            this.btnRemovePolygon.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnRemovePolygon.Margin = new System.Windows.Forms.Padding(4);
             this.btnRemovePolygon.Name = "btnRemovePolygon";
             this.btnRemovePolygon.Size = new System.Drawing.Size(31, 28);
             this.btnRemovePolygon.TabIndex = 11;
@@ -668,7 +707,7 @@
             // 
             this.widthUpDown.DecimalPlaces = 1;
             this.widthUpDown.Location = new System.Drawing.Point(280, 119);
-            this.widthUpDown.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.widthUpDown.Margin = new System.Windows.Forms.Padding(4);
             this.widthUpDown.Maximum = new decimal(new int[] {
             256,
             0,
@@ -703,7 +742,7 @@
             // btnAddPolygon
             // 
             this.btnAddPolygon.Location = new System.Drawing.Point(84, 57);
-            this.btnAddPolygon.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnAddPolygon.Margin = new System.Windows.Forms.Padding(4);
             this.btnAddPolygon.Name = "btnAddPolygon";
             this.btnAddPolygon.Size = new System.Drawing.Size(31, 28);
             this.btnAddPolygon.TabIndex = 10;
@@ -719,7 +758,7 @@
             this.listPolygons.FullRowSelect = true;
             this.listPolygons.GridLines = true;
             this.listPolygons.Location = new System.Drawing.Point(13, 91);
-            this.listPolygons.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.listPolygons.Margin = new System.Windows.Forms.Padding(4);
             this.listPolygons.MultiSelect = false;
             this.listPolygons.Name = "listPolygons";
             this.listPolygons.Size = new System.Drawing.Size(197, 93);
@@ -746,7 +785,7 @@
             0,
             131072});
             this.scaleUpDown.Location = new System.Drawing.Point(280, 89);
-            this.scaleUpDown.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.scaleUpDown.Margin = new System.Windows.Forms.Padding(4);
             this.scaleUpDown.Name = "scaleUpDown";
             this.scaleUpDown.Size = new System.Drawing.Size(63, 22);
             this.scaleUpDown.TabIndex = 12;
@@ -766,7 +805,7 @@
             // txtName
             // 
             this.txtName.Location = new System.Drawing.Point(64, 21);
-            this.txtName.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtName.Margin = new System.Windows.Forms.Padding(4);
             this.txtName.MaxLength = 128;
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(277, 22);
@@ -794,9 +833,9 @@
             this.pnlDynProperties.Controls.Add(this.speedUpDown);
             this.pnlDynProperties.Controls.Add(this.lblSpeed);
             this.pnlDynProperties.Location = new System.Drawing.Point(284, 278);
-            this.pnlDynProperties.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pnlDynProperties.Margin = new System.Windows.Forms.Padding(4);
             this.pnlDynProperties.Name = "pnlDynProperties";
-            this.pnlDynProperties.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pnlDynProperties.Padding = new System.Windows.Forms.Padding(4);
             this.pnlDynProperties.Size = new System.Drawing.Size(355, 139);
             this.pnlDynProperties.TabIndex = 10;
             this.pnlDynProperties.TabStop = false;
@@ -810,7 +849,7 @@
             this.listAnimations.FullRowSelect = true;
             this.listAnimations.GridLines = true;
             this.listAnimations.Location = new System.Drawing.Point(123, 17);
-            this.listAnimations.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.listAnimations.Margin = new System.Windows.Forms.Padding(4);
             this.listAnimations.MultiSelect = false;
             this.listAnimations.Name = "listAnimations";
             this.listAnimations.Size = new System.Drawing.Size(219, 112);
@@ -831,7 +870,7 @@
             // btnRemoveAnimation
             // 
             this.btnRemoveAnimation.Location = new System.Drawing.Point(55, 101);
-            this.btnRemoveAnimation.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnRemoveAnimation.Margin = new System.Windows.Forms.Padding(4);
             this.btnRemoveAnimation.Name = "btnRemoveAnimation";
             this.btnRemoveAnimation.Size = new System.Drawing.Size(31, 28);
             this.btnRemoveAnimation.TabIndex = 10;
@@ -842,7 +881,7 @@
             // btnAddAnimation
             // 
             this.btnAddAnimation.Location = new System.Drawing.Point(8, 101);
-            this.btnAddAnimation.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnAddAnimation.Margin = new System.Windows.Forms.Padding(4);
             this.btnAddAnimation.Name = "btnAddAnimation";
             this.btnAddAnimation.Size = new System.Drawing.Size(31, 28);
             this.btnAddAnimation.TabIndex = 9;
@@ -863,7 +902,7 @@
             // healthUpDown
             // 
             this.healthUpDown.Location = new System.Drawing.Point(68, 17);
-            this.healthUpDown.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.healthUpDown.Margin = new System.Windows.Forms.Padding(4);
             this.healthUpDown.Maximum = new decimal(new int[] {
             999,
             0,
@@ -894,7 +933,7 @@
             0,
             65536});
             this.speedUpDown.Location = new System.Drawing.Point(68, 49);
-            this.speedUpDown.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.speedUpDown.Margin = new System.Windows.Forms.Padding(4);
             this.speedUpDown.Maximum = new decimal(new int[] {
             20,
             0,
@@ -919,47 +958,13 @@
             // btnSave
             // 
             this.btnSave.Location = new System.Drawing.Point(585, 479);
-            this.btnSave.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnSave.Margin = new System.Windows.Forms.Padding(4);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(100, 28);
             this.btnSave.TabIndex = 11;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.BtnSave);
-            // 
-            // firstStarBox
-            // 
-            this.firstStarBox.Location = new System.Drawing.Point(324, 304);
-            this.firstStarBox.Name = "firstStarBox";
-            this.firstStarBox.Size = new System.Drawing.Size(100, 22);
-            this.firstStarBox.TabIndex = 22;
-            this.firstStarBox.TextChanged += new System.EventHandler(this.StarOneTextChanged);
-            // 
-            // secondStarBox
-            // 
-            this.secondStarBox.Location = new System.Drawing.Point(324, 362);
-            this.secondStarBox.Name = "secondStarBox";
-            this.secondStarBox.Size = new System.Drawing.Size(100, 22);
-            this.secondStarBox.TabIndex = 23;
-            this.secondStarBox.TextChanged += new System.EventHandler(this.StarTwoTextChanged);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(324, 284);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(85, 17);
-            this.label2.TabIndex = 24;
-            this.label2.Text = "Star 1 score";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(324, 342);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(85, 17);
-            this.label3.TabIndex = 25;
-            this.label3.Text = "Star 2 score";
             // 
             // PropertiesForm
             // 
@@ -969,7 +974,7 @@
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.btnSave);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "PropertiesForm";
