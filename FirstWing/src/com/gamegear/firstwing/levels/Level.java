@@ -25,6 +25,7 @@ public class Level {
 	private ArrayList<MoveableActor> dynamicActors;
 	private ArrayList<Spawner> spawners;
 	private ArrayList<Orb> collectables;
+	private AlienHead alienHead;
 	private Queue<SpeedPoint> speed;
 	private World world;
 	private int currentSpeed = 5;
@@ -79,6 +80,10 @@ public class Level {
 	
 	public void setBlocks(ArrayList<Actor> blocks) {
 		this.staticActors = blocks;
+	}
+	
+	public AlienHead getAlienHead(){
+		return this.alienHead;
 	}
 	
 	public Bob getPlayer(){
@@ -156,6 +161,10 @@ public class Level {
 			if(tile.X > width)
 			{
 				width = tile.X;
+			}
+			
+			if(tile.Name == "alienhead"){
+				this.alienHead = new AlienHead(new Vector2(tile.X, tile.Y), world, ActorMgr.getProperties(tile.Name, new StaticActor()), filter);
 			}
 			
 			staticActors.add(new Block(new Vector2(tile.X, tile.Y), world, ActorMgr.getProperties(tile.Name, new StaticActor()), tile, filter, this.properties.LevelColor));

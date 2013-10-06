@@ -244,3 +244,4 @@ D:\School\Minor\GIT\gamegear\MapEditor\MapEditor\obj\Debug\MapEditor.AddSpeedPoi
 D:\School\Minor\GIT\gamegear\MapEditor\MapEditor\obj\Debug\MapEditor.PropertiesForm.resources
 D:\School\Minor\GIT\gamegear\MapEditor\MapEditor\obj\Debug\MapEditor.AddActorDialog.resources
 D:\School\Minor\GIT\gamegear\MapEditor\MapEditor\obj\Debug\MapEditor.MapEditor.resources
+D:\FirstWing\gamegear\MapEditor\MapEditor\bin\Debug\assets\static\alienhead.png
