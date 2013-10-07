@@ -74,6 +74,11 @@ public class Stats {
 			changed = false;
 		}
 		
+		if(comboOrbs == 5 && firstwing.platformInterface.getSignedIn())
+		{
+			firstwing.platformInterface.unlockAchievement("CgkIhpLNkp8BEAIQBQ");
+		}
+		
 		if(this.collectedOrbsColor.containsKey(colorEnum.name()))
 		{
 			this.collectedOrbsColor.put(colorEnum.name(), (long) (this.collectedOrbsColor.get(colorEnum.name()) + (enemyScore * this.modifier)));
@@ -141,6 +146,11 @@ public class Stats {
 		if(getStars(levelID) < stars)
 		{
 			FirstWing.stats.setStars(levelID, stars);
+		}
+		
+		if(FirstWing.stats.getStars(levelID) > 0)
+		{
+			setUnlockedLevels(levelID+1);
 		}
 	}
 	
@@ -223,5 +233,19 @@ public class Stats {
 	public void setTrophy(boolean trophy)
 	{
 		this.trophy = trophy;
+	}
+	
+	public long getUnlockedLevels()
+	{
+		return prefs.getLong("unlocked", 1);
+	}
+	
+	public void setUnlockedLevels(long unlocked)
+	{
+		if(getUnlockedLevels() < unlocked)
+		{
+			prefs.putLong("unlocked", unlocked);
+			prefs.flush();
+		}
 	}
 }

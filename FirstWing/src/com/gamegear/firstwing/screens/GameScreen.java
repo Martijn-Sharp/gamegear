@@ -698,15 +698,36 @@ public class GameScreen extends MenuScreen {
 			}			
 		}
 		
-		window.add(new Label("Congratulations!", this.getSkin())).colspan(3);
+		if(stars < 1)
+		{
+			window.add(new Label("Ouch, not enough points!", this.getSkin())).colspan(3);
+			window.add(new Label("Try to get orbs of the same color", this.getSkin())).colspan(3);
+		}
+		else
+		{
+			window.add(new Label("Congratulations!", this.getSkin())).colspan(3);
+		}
+		
 		window.row();
 		window.add(new Label("You scored: " + FirstWing.stats.getScore(), this.getSkin())).colspan(3);
+		window.row();
+		if(FirstWing.stats.getTrophy())
+		{
+			window.add(new Label("You got the trophy!", this.getSkin())).colspan(3);
+		}
+		else
+		{
+			window.add(new Label("You didn't get the trophy!", this.getSkin())).colspan(3);
+		}
 		window.row();
 		window.add(starTable).height(30).colspan(3);
 		window.row();
 		window.add(btnReplay);
 		window.add(btnMenu);
-		window.add(btnNextLevel);
+		if(stars > 0 || FirstWing.stats.getUnlockedLevels() > levelPath)
+		{
+			window.add(btnNextLevel);
+		}
 		return window;
 	}
 	

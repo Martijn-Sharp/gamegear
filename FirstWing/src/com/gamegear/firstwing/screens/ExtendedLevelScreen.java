@@ -27,11 +27,10 @@ public class ExtendedLevelScreen extends MenuScreen {
 		load();
 	}
 
-	public void show() {
-		
+	public void show() {	
 		super.show();
-		
-		
+		super.getTable().clear();
+		load();
 	}
 	
 	public void load() {
@@ -114,9 +113,16 @@ public class ExtendedLevelScreen extends MenuScreen {
 		Label label = new Label(level, getSkin());
 		label.setFontScale(1f);
 		label.setAlignment(Align.center);		
-		
-		// Stack the image and the label at the top of our button
-		button.stack(new Image(getSkin().getDrawable("top")), label).expand().fill();
+		if(FirstWing.stats.getUnlockedLevels() >= Integer.parseInt(level))
+		{
+			// Stack the image and the label at the top of our button
+			button.stack(new Image(getSkin().getDrawable("top")), label).expand().fill();
+			button.addListener(levelClickListener);	
+		}
+		else
+		{
+			button.stack(new Image(getSkin().getDrawable("button-disabled")), label).expand().fill();
+		}
 
 		// Get stars earned
 		int stars = FirstWing.stats.getStars(Integer.parseInt(level));
@@ -136,7 +142,7 @@ public class ExtendedLevelScreen extends MenuScreen {
 		button.add(starTable).height(30);
 		
 		button.setName(level);
-		button.addListener(levelClickListener);		
+			
 		return button;
 	}
 	
