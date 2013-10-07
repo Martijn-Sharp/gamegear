@@ -131,7 +131,6 @@ public class GameScreen extends MenuScreen {
 		
 		// Contact listener
 		createCollisionListener();
-		System.gc();
 		this.actorsForRemoval = new Array<Actor>();
 		Gdx.app.log("GameLoad", "Finished loading");
 	}
@@ -753,6 +752,7 @@ public class GameScreen extends MenuScreen {
 			public void clicked(InputEvent event, float x, float y){
 				Gdx.app.log("Window", "Back to menu pressed");
 				firstWing.setScreen(firstWing.mainScreen);
+				FirstWing.stats.resetScore(false);
 				stage.getActors().removeValue(window, true);
 			}
 		});

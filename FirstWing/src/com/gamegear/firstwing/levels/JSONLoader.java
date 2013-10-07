@@ -43,7 +43,6 @@ public class JSONLoader  {
 		try {
 			//convert JSON string to Map
 			level = FirstWing.mapper.readValue(jsonFile, new TypeReference<ActorFile>(){});
-	 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
