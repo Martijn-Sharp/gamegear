@@ -12,5 +12,7 @@
 	<classpathentry exported="true" kind="lib" path="/FirstWing/libs/jackson-core-2.2.3.jar"/>
 	<classpathentry exported="true" kind="lib" path="/FirstWing/libs/jackson-databind-2.2.3.jar"/>
 	<classpathentry exported="true" kind="lib" path="/FirstWing/libs/gdx-freetype.jar"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/BaseGameUtils"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/google-play-services_lib"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

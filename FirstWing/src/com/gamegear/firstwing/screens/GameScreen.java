@@ -131,6 +131,7 @@ public class GameScreen extends MenuScreen {
 		
 		// Contact listener
 		createCollisionListener();
+		System.gc();
 		this.actorsForRemoval = new Array<Actor>();
 		Gdx.app.log("GameLoad", "Finished loading");
 	}
