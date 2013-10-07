@@ -604,11 +604,14 @@ public class GameScreen extends MenuScreen {
 	@Override
 	public void pause() {
 		super.pause();
+		currentState = GameState.Paused;
 	}
 
 	@Override
 	public void resume() {
 		super.resume();
+		getWindow();
+		
 	}
 
 	@Override
