@@ -93,6 +93,7 @@ public class GameScreen extends MenuScreen {
 		super.show();
 		
 		// Input
+		Gdx.input.setCatchBackKey(true);
 		controller = new BobController(this, width, height);
 		gestureDetector = new GestureDetector(20, 0.5f, 1, 0.15f, controller);
 		im = new InputMultiplexer(controller, gestureDetector);
@@ -290,14 +291,14 @@ public class GameScreen extends MenuScreen {
 		interfaceRenderer.begin(ShapeType.FilledRectangle);
 			interfaceRenderer.setColor(Color.DARK_GRAY);
 			interfaceRenderer.filledRect(0, height - (30 * Gdx.graphics.getDensity()), width, height);
-			interfaceRenderer.setColor(Helper.colorEnumToColor(ColorEnum.red));
+			interfaceRenderer.setColor(Helper.colorEnumToColor(FirstWing.stats.currentColor));
 			interfaceRenderer.filledRect(this.stage.getWidth() * 0.6f, height - (30 * Gdx.graphics.getDensity()), (renderer.cameraX/world.getLevel().getProperties().FinishX)*100, height);
 			interfaceRenderer.setColor(Helper.colorEnumToColor(ColorEnum.none));
 			interfaceRenderer.filledRect(this.stage.getWidth() * 0.8f, height - (30 * Gdx.graphics.getDensity()), 5, height);
 		interfaceRenderer.end();
 		
 		interfaceRenderer.begin(ShapeType.Line);
-			interfaceRenderer.setColor(Helper.colorEnumToColor(this.renderer.getWorld().getLevel().getProperties().LevelColor));
+			interfaceRenderer.setColor(Helper.colorEnumToColor(FirstWing.stats.currentColor));
 			interfaceRenderer.line(0, height - (30 * Gdx.graphics.getDensity()), width, height - (30 * Gdx.graphics.getDensity()));
 		interfaceRenderer.end();
     
@@ -648,7 +649,7 @@ public class GameScreen extends MenuScreen {
 		return window;
 	}
 	
-	private Window getVictoryWindow(){
+	public Window getVictoryWindow(){
 		final Window window = this.getStandardWindow("Victory!");
 		window.setSize(this.stage.getWidth() / 1.5f, this.stage.getHeight() / 1.5f);
 		window.setPosition(this.stage.getWidth() / 2 - window.getWidth() / 2, this.stage.getHeight() / 2 - window.getHeight() / 2);
@@ -709,6 +710,50 @@ public class GameScreen extends MenuScreen {
 		return window;
 	}
 	
+	public Window getPauseWindow(){
+		final Window window = this.getStandardWindow("Paused!");
+		window.setSize(this.stage.getWidth() / 1.5f, this.stage.getHeight() / 1.5f);
+		window.setPosition(this.stage.getWidth() / 2 - window.getWidth() / 2, this.stage.getHeight() / 2 - window.getHeight() / 2);
+		TextButton btnReplay = new TextButton("Restart", this.getSkin());
+		btnReplay.addListener(new ClickListener(){
+			@Override
+			public void clicked(InputEvent event, float x, float y){
+				stage.getActors().removeValue(window, true);
+				loadLevel(levelPath);
+			}
+		});
+		
+		TextButton btnMenu = new TextButton("Back to menu", this.getSkin());
+		btnMenu.addListener(new ClickListener(){
+			@Override
+			public void clicked(InputEvent event, float x, float y){
+				Gdx.app.log("Window", "Back to menu pressed");
+				firstWing.setScreen(firstWing.mainScreen);
+				stage.getActors().removeValue(window, true);
+			}
+		});
+		
+		
+		TextButton btnResume = new TextButton("Resume", this.getSkin());
+		btnResume.addListener(new ClickListener(){
+			@Override
+			public void clicked(InputEvent event, float x, float y){
+				stage.getActors().removeValue(window, true);
+				//Resume level
+				currentState = GameState.Running;
+				Gdx.input.setInputProcessor(im);
+			}
+		});
+		
+		
+		window.add(new Label("Game is paused!", this.getSkin())).colspan(3);
+		window.row();
+		window.add(btnReplay);
+		window.add(btnMenu);
+		window.add(btnResume);
+		return window;
+	}
+	
 	private Window getStandardWindow(String title){
 		Window window = new Window(title, this.getSkin());
 		//window.debug();
@@ -721,5 +766,12 @@ public class GameScreen extends MenuScreen {
 		window.setPosition(this.stage.getWidth() / 2 - window.getWidth() / 2, this.stage.getHeight() / 2 - window.getHeight() / 2);
 		window.setMovable(false);
 		return window;
+	}
+	
+	public void getWindow()
+	{
+		this.stage.addActor(this.getPauseWindow());
+		Gdx.input.setInputProcessor(stage);
+		this.currentState = GameState.Paused;
 	}
 }
