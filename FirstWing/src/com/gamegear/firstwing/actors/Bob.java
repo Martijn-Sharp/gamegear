@@ -13,11 +13,12 @@ public class Bob extends MoveableActor {
 	private static final float SCALE = 1f;
 	private static final float WIDTH = 1f;
 	private static final float HEIGHT = 1f;
+	private static final float HEALTH = 10f;
 	
 	private TextureRegion bobShipRight;
 	
 	public Bob(Vector2 position, World world, Filter filter) {
-		super(new DynamicActor(SPEED, 10f, "bob", SCALE, WIDTH, HEIGHT, null), position, world, filter);
+		super(new DynamicActor(SPEED, HEALTH, "bob", SCALE, WIDTH, HEIGHT, null), position, world, filter);
 		this.loadTextures();
 		
 		PolygonShape rect = new PolygonShape();
@@ -29,6 +30,10 @@ public class Bob extends MoveableActor {
 		polygons[4] = new Vector2(0.2f,-0.2f);
 		rect.set(polygons);
 		this.setShape(rect, 0f);
+	}
+	
+	public float getInitialHealth(){
+		return HEALTH;
 	}
 	
 	public float getHealth(){

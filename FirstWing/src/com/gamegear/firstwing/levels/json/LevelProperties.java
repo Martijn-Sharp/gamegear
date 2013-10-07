@@ -20,6 +20,10 @@ public class LevelProperties {
     
     public float SpawnY;
     
+    public long StarOne;
+    
+    public long StarTwo;
+    
     public String BackgroundName;
     
     public ColorEnum LevelColor;

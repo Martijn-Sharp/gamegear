@@ -5,13 +5,11 @@ import java.util.Iterator;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool.PooledEffect;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
@@ -21,7 +19,9 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.Array;
 import com.gamegear.firstwing.actors.Actor;
+import com.gamegear.firstwing.helper.Helper;
 import com.gamegear.firstwing.levels.json.LevelProperties.ColorEnum;
+import com.gamegear.firstwing.screens.GameScreen.GameState;
 
 public class WorldRenderer {
 	private static final float CAMERA_WIDTH = 10f;
@@ -29,6 +29,8 @@ public class WorldRenderer {
 	
 	private FwWorld world;
 	private OrthographicCamera cam;
+	
+	private float timestep;
 
 	/** for debug rendering **/
 	@SuppressWarnings("unused")
@@ -36,8 +38,6 @@ public class WorldRenderer {
 	private ShapeRenderer shapeRenderer;
 
 	/** Textures **/
-	public static TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("textures/textures.pack"));
-	private SpriteBatch spriteBatch;
 	private boolean debug = false;
 	@SuppressWarnings("unused")
 	private int width;
@@ -79,6 +79,10 @@ public class WorldRenderer {
 	public void setDebug(boolean debug) {
 		this.debug = debug;
 	}
+	
+	public FwWorld getWorld(){
+		return this.world;
+	}
 
 	public WorldRenderer(FwWorld world, boolean debug) {
 		this.world = world;
@@ -89,7 +93,6 @@ public class WorldRenderer {
 		this.cam.position.set(this.cameraX, this.cameraY, 0);
 		this.cam.update();
 		this.debug = debug;
-		this.spriteBatch = new SpriteBatch();
 		this.debugRenderer = new Box2DDebugRenderer();
 		this.shapeRenderer = new ShapeRenderer();
 		this.shapeRenderer.setProjectionMatrix(cam.combined);
@@ -107,7 +110,7 @@ public class WorldRenderer {
 		pool = new ParticleEffectPool(prototype, 2, 20);
 		effects = new Array<PooledEffect>();
 		
-		this.currentBgColor = new Color(0f, 0f, 0.5f, 1f);
+		this.currentBgColor = Helper.darkenColor(Helper.colorEnumToColor(ColorEnum.blue), 0.65f);
 	}
 	
 	public void changeAfterBurnerColor(ColorEnum color)
@@ -120,16 +123,6 @@ public class WorldRenderer {
 				p.get(pColor).load(Gdx.files.internal("effects/afterburner-" + pColor.toString() + ".p"), Gdx.files.internal("effects"));
 				p.get(pColor).setPosition(this.behindShip.x, this.behindShip.y);
 			}
-			
-			// El Martiño: kiep het maar weg als je deze zieke oplossing bekeken heb
-			/*p.put(ColorEnum.blue, new ParticleEffect()); p.get(ColorEnum.blue).load(Gdx.files.internal("effects/afterburner-blue.p"), Gdx.files.internal("effects")); p.get(ColorEnum.blue).setPosition(behindShip.x, behindShip.y);
-			p.put(ColorEnum.green, new ParticleEffect()); p.get(ColorEnum.green).load(Gdx.files.internal("effects/afterburner-green.p"), Gdx.files.internal("effects")); p.get(ColorEnum.green).setPosition(behindShip.x, behindShip.y);
-			p.put(ColorEnum.red, new ParticleEffect()); p.get(ColorEnum.red).load(Gdx.files.internal("effects/afterburner-red.p"), Gdx.files.internal("effects")); p.get(ColorEnum.red).setPosition(behindShip.x, behindShip.y);
-			p.put(ColorEnum.yellow, new ParticleEffect()); p.get(ColorEnum.yellow).load(Gdx.files.internal("effects/afterburner-yellow.p"), Gdx.files.internal("effects")); p.get(ColorEnum.yellow).setPosition(behindShip.x, behindShip.y);
-			p.put(ColorEnum.orange, new ParticleEffect()); p.get(ColorEnum.orange).load(Gdx.files.internal("effects/afterburner-orange.p"), Gdx.files.internal("effects")); p.get(ColorEnum.orange).setPosition(behindShip.x, behindShip.y);
-			p.put(ColorEnum.lightblue, new ParticleEffect()); p.get(ColorEnum.lightblue).load(Gdx.files.internal("effects/afterburner-lightblue.p"), Gdx.files.internal("effects")); p.get(ColorEnum.lightblue).setPosition(behindShip.x, behindShip.y);
-			p.put(ColorEnum.purple, new ParticleEffect()); p.get(ColorEnum.purple).load(Gdx.files.internal("effects/afterburner-purple.p"), Gdx.files.internal("effects")); p.get(ColorEnum.purple).setPosition(behindShip.x, behindShip.y);
-			p.put(ColorEnum.none, new ParticleEffect()); p.get(ColorEnum.none).load(Gdx.files.internal("effects/afterburner.p"), Gdx.files.internal("effects")); p.get(ColorEnum.none).setPosition(behindShip.x, behindShip.y);*/
 		}
 		
 		if(activeAfterburner == color)
@@ -161,7 +154,7 @@ public class WorldRenderer {
 	{
 		PooledEffect effect = pool.obtain();
 		effect.setPosition(x, y);
-		effect.update(Gdx.graphics.getDeltaTime());
+		effect.update(this.timestep);
 		
 		effects.add(effect);
 //		prototype.reset();
@@ -170,8 +163,9 @@ public class WorldRenderer {
 //		System.out.println("Effect restarting");
 	}
 	
-	public void render() {
-		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+	public void render(GameState state, SpriteBatch batch) {
+		this.timestep = state == GameState.Running ? Gdx.graphics.getDeltaTime() : 0f;
+		//Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		moveCamera(world.getBob().getBody().getWorldCenter().x, world.getBob().getBody().getWorldCenter().y, world.level.getSpeed(cameraX));
 		
 		if(this.changeBackgroundColor){
@@ -183,18 +177,16 @@ public class WorldRenderer {
 	        shapeRenderer.filledRect(0, 0, cam.viewportWidth, cam.viewportHeight);
         shapeRenderer.end();
         
-		spriteBatch.setProjectionMatrix(cam.combined);
-		spriteBatch.begin();
+        batch.begin();
 			for(Sprite bg : world.level.getBackground()){
 				if(bg.getX() - cam.position.x < (int)CAMERA_WIDTH && bg.getX() - cam.position.x > -(int)CAMERA_WIDTH){
-					bg.draw(spriteBatch);
+					bg.draw(batch);
 				}
 			}
 			
 			tmpBodies = world.world.getBodies();
-			Body node;
 			while(tmpBodies.hasNext()){
-				node = tmpBodies.next();
+				Body node = tmpBodies.next();
 				
 				if(node.getUserData() != null && node.getUserData() instanceof Actor)
 				{
@@ -204,21 +196,24 @@ public class WorldRenderer {
 					float width = actor.getWidth();
 					float height = actor.getHeight();
 					float scale = actor.getScale();
-					try{
-					spriteBatch.draw(
-							actor.getTexture(),
-							position.x - width / 2,
-							position.y - height / 2,
-							width / 2,
-							height / 2,
-							width,
-							height,
-							scale,
-							scale,
-							rotationAngle,
-							false);
-					} catch (NullPointerException ex){
-						Gdx.app.log("Rendering", actor.getProperties().Name + ex.getMessage());
+					
+					if(position.x - cam.position.x < (int)CAMERA_WIDTH && position.x - cam.position.x > -(int)CAMERA_WIDTH){
+						try{
+							batch.draw(
+								actor.getTexture(),
+								position.x - width / 2,
+								position.y - height / 2,
+								width / 2,
+								height / 2,
+								width,
+								height,
+								scale,
+								scale,
+								rotationAngle,
+								false);
+						} catch (NullPointerException ex){
+							Gdx.app.log("Rendering", actor.getProperties().Name + ex.getMessage());
+						}
 					}
 				}
 			}
@@ -226,7 +221,7 @@ public class WorldRenderer {
 			// Render particle effects
 			for(PooledEffect effect : effects)
 			{
-				effect.draw(spriteBatch, Gdx.graphics.getDeltaTime());
+				effect.draw(batch, this.timestep);
 				if(effect.isComplete()){
 					effects.removeValue(effect, true);
 					effect.free();
@@ -235,13 +230,13 @@ public class WorldRenderer {
 			
 			behindShip = world.getBob().getBody().getWorldPoint(new Vector2(-0.3f,0));
 			p.get(activeAfterburner).setPosition(behindShip.x, behindShip.y);
-			p.get(activeAfterburner).update(Gdx.graphics.getDeltaTime());
-			p.get(activeAfterburner).draw(spriteBatch, Gdx.graphics.getDeltaTime());
-		spriteBatch.end();
+			p.get(activeAfterburner).update(this.timestep);
+			p.get(activeAfterburner).draw(batch, this.timestep);
+		batch.end();
 		//debugRenderer.render(world.getWorld(), cam.combined);
 		//Gdx.app.log("Stats", "active: " + effects.size + " | max: " + pool.max);
 		
-		world.world.step(Gdx.app.getGraphics().getDeltaTime(), 3, 3);
+		world.world.step(this.timestep, 3, 3);
 	}
 	
 	public void draw(SpriteBatch batch, float parentAlpha){
@@ -270,7 +265,7 @@ public class WorldRenderer {
 //		else{cameraX = x;}
 		
 		//Move camera with speed
-		cameraX += Gdx.graphics.getDeltaTime() * currentSpeed;
+		cameraX += this.timestep * currentSpeed;
 		
 		//Gdx.app.log("Camera", "X:" + cameraX + "," + x + " Y:" + cameraY + "," + y);
 		if(speed >= 3)
@@ -287,11 +282,11 @@ public class WorldRenderer {
 	
 	private Color getColor(int speed){
 		if(speed == 3){
-			return new Color(0.5f, 0f, 0f, 1f);
+			return Helper.darkenColor(Helper.colorEnumToColor(ColorEnum.red), 0.65f);
 		} else if(speed == 2) {
-			return new Color(0.5f, 0.25f, 0f, 1f);
+			return Helper.darkenColor(Helper.colorEnumToColor(ColorEnum.orange), 0.65f);
 		} else{
-			return new Color(0f, 0f, 0.5f, 1f);
+			return Helper.darkenColor(Helper.colorEnumToColor(ColorEnum.blue), 0.65f);
 		}
 	}
 	
@@ -303,7 +298,7 @@ public class WorldRenderer {
 	        return;
 	    }
 	    
-	    this.step += Gdx.graphics.getDeltaTime();
+	    this.step += this.timestep;
 	    float percentComplete = this.step / this.maxtime;
 	    float percentGone = 1 - percentComplete;
 	    float red = this.sourceBgColor.r * percentGone + this.targetBgColor.r * percentComplete;

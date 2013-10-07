@@ -44,10 +44,19 @@ public class Block extends Actor {
 
 	@Override
 	protected void loadTextures() {
-		if(((StaticActor)this.getProperties()).Breakable){
+		switch(((StaticActor)this.getProperties()).Type){
+		case Breakable:
 			blockTexture = TextureMgr.getTexture(tile.Name + "-" + tile.AssignedColor.toString(), true);
-		} else {
+			break;
+		case Tile:
 			blockTexture = TextureMgr.getTexture(tile.Name + "-" + this.blockColor.toString(), true);
+			break;
+		case Collectable:
+		case Finish:
+			blockTexture = TextureMgr.getTexture(tile.Name, true);
+			break;
+		default:
+			break;
 		}
 	}
 

@@ -11,6 +11,9 @@ public class Options {
 	public static final String INVERT = "controls.invert.enabled";
 	public static final String SENSITIVITY = "controls.sensitivity.enabled";
 	
+	// Controls
+	public static final String HELP = "help.enabled";
+	
     
     // Graphics
     public static final String WIDTH = "window.width";
@@ -82,6 +85,14 @@ public class Options {
 
     public void setInvert(boolean value) {
         getPrefs().putBoolean(INVERT, value);
+    }
+    
+    public boolean helpEnabled() {
+        return getPrefs().getBoolean(HELP, true);
+    }
+
+    public void setHelp(boolean value) {
+        getPrefs().putBoolean(HELP, value);
     }
     
     public float getSensitivity() {

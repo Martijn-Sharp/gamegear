@@ -9,6 +9,14 @@
         Down
     }
 
+    public enum StaticType
+    {
+        Tile,
+        Breakable,
+        Collectable,
+        Finish
+    }
+
     public class ActorFile
     {
         public Dictionary<string, DynamicActor> DynamicActors { get; set; }
@@ -41,6 +49,8 @@
     public class StaticActor : ActorProperties
     {
         public bool Breakable { get; set; }
+
+        public StaticType Type { get; set; }
     }
 
     public class Polygon

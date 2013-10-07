@@ -29,15 +29,15 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
-            this.lblX = new System.Windows.Forms.Label();
-            this.xUpDown = new System.Windows.Forms.NumericUpDown();
-            this.lblSpeed = new System.Windows.Forms.Label();
-            this.speedUpDown = new System.Windows.Forms.NumericUpDown();
-            this.btnSave = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.btnSave = new System.Windows.Forms.Button();
+            this.speedUpDown = new System.Windows.Forms.NumericUpDown();
+            this.lblSpeed = new System.Windows.Forms.Label();
+            this.xUpDown = new System.Windows.Forms.NumericUpDown();
+            this.lblX = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.xUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.speedUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.xUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -53,30 +53,25 @@
             this.panel1.Size = new System.Drawing.Size(192, 56);
             this.panel1.TabIndex = 0;
             // 
-            // lblX
+            // btnCancel
             // 
-            this.lblX.AutoSize = true;
-            this.lblX.Location = new System.Drawing.Point(3, 6);
-            this.lblX.Name = "lblX";
-            this.lblX.Size = new System.Drawing.Size(17, 13);
-            this.lblX.TabIndex = 0;
-            this.lblX.Text = "X:";
+            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnCancel.Location = new System.Drawing.Point(101, 30);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(75, 23);
+            this.btnCancel.TabIndex = 5;
+            this.btnCancel.Text = "Cancel";
+            this.btnCancel.UseVisualStyleBackColor = true;
             // 
-            // xUpDown
+            // btnSave
             // 
-            this.xUpDown.Location = new System.Drawing.Point(26, 4);
-            this.xUpDown.Name = "xUpDown";
-            this.xUpDown.Size = new System.Drawing.Size(47, 20);
-            this.xUpDown.TabIndex = 1;
-            // 
-            // lblSpeed
-            // 
-            this.lblSpeed.AutoSize = true;
-            this.lblSpeed.Location = new System.Drawing.Point(79, 6);
-            this.lblSpeed.Name = "lblSpeed";
-            this.lblSpeed.Size = new System.Drawing.Size(41, 13);
-            this.lblSpeed.TabIndex = 2;
-            this.lblSpeed.Text = "Speed:";
+            this.btnSave.Location = new System.Drawing.Point(6, 30);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(75, 23);
+            this.btnSave.TabIndex = 4;
+            this.btnSave.Text = "Save";
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.BtnSaveClick);
             // 
             // speedUpDown
             // 
@@ -101,25 +96,35 @@
             0,
             0});
             // 
-            // btnSave
+            // lblSpeed
             // 
-            this.btnSave.Location = new System.Drawing.Point(6, 30);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(75, 23);
-            this.btnSave.TabIndex = 4;
-            this.btnSave.Text = "Save";
-            this.btnSave.UseVisualStyleBackColor = true;
-            this.btnSave.Click += new System.EventHandler(this.BtnSaveClick);
+            this.lblSpeed.AutoSize = true;
+            this.lblSpeed.Location = new System.Drawing.Point(79, 6);
+            this.lblSpeed.Name = "lblSpeed";
+            this.lblSpeed.Size = new System.Drawing.Size(41, 13);
+            this.lblSpeed.TabIndex = 2;
+            this.lblSpeed.Text = "Speed:";
             // 
-            // btnCancel
+            // xUpDown
             // 
-            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(101, 30);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 5;
-            this.btnCancel.Text = "Cancel";
-            this.btnCancel.UseVisualStyleBackColor = true;
+            this.xUpDown.Location = new System.Drawing.Point(26, 4);
+            this.xUpDown.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.xUpDown.Name = "xUpDown";
+            this.xUpDown.Size = new System.Drawing.Size(47, 20);
+            this.xUpDown.TabIndex = 1;
+            // 
+            // lblX
+            // 
+            this.lblX.AutoSize = true;
+            this.lblX.Location = new System.Drawing.Point(3, 6);
+            this.lblX.Name = "lblX";
+            this.lblX.Size = new System.Drawing.Size(17, 13);
+            this.lblX.TabIndex = 0;
+            this.lblX.Text = "X:";
             // 
             // AddSpeedPointDialog
             // 
@@ -136,8 +141,8 @@
             this.Text = "AddSpeedPointDialog";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.xUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.speedUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.xUpDown)).EndInit();
             this.ResumeLayout(false);
 
         }

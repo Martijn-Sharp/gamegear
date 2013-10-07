@@ -3,7 +3,17 @@ package com.gamegear.firstwing.actors.json;
 import java.util.List;
 
 public class StaticActor extends ActorProperties {
+	public enum StaticType
+    {
+        Tile,
+        Breakable,
+        Collectable,
+        Finish
+    }
+	
 	public boolean Breakable;
+	
+	public StaticType Type;
 	
 	public StaticActor(){
 		super();

@@ -8,8 +8,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class TextureMgr {
 	
-	private static TextureAtlas dynAtlas = new TextureAtlas(Gdx.files.internal("textures/dyntextures.pack"));
-	private static TextureAtlas staAtlas = new TextureAtlas(Gdx.files.internal("textures/statextures.pack"));
+	private static TextureAtlas dynAtlas = new TextureAtlas(Gdx.files.internal("textures/dyntextures.atlas"));
+	private static TextureAtlas staAtlas = new TextureAtlas(Gdx.files.internal("textures/statextures.atlas"));
 	private static HashMap<String, TextureRegion> textureRegions = new HashMap<String, TextureRegion>();
 	
 	public static TextureRegion getTexture(String name, boolean staticTexture){
@@ -20,5 +20,11 @@ public class TextureMgr {
 		}
 		
 		return tr;
+	}
+	
+	public static void initiate(){
+		dynAtlas = new TextureAtlas(Gdx.files.internal("textures/dyntextures.atlas"));
+		staAtlas = new TextureAtlas(Gdx.files.internal("textures/statextures.atlas"));
+		textureRegions = new HashMap<String, TextureRegion>();
 	}
 }

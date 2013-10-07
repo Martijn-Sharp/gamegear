@@ -1,11 +1,14 @@
 package com.gamegear.firstwing.levels;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Application.ApplicationType;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
@@ -24,6 +27,7 @@ public class Level {
 	private ArrayList<MoveableActor> dynamicActors;
 	private ArrayList<Spawner> spawners;
 	private ArrayList<Orb> collectables;
+	private AlienHead alienHead;
 	private Queue<SpeedPoint> speed;
 	private World world;
 	private int currentSpeed = 5;
@@ -64,6 +68,10 @@ public class Level {
 		this.dynamicActors.add(enemy);
 	}
 	
+	public ArrayList<Spawner> getSpawners(){
+		return this.spawners;
+	}
+	
 	public ArrayList<Orb> getCollectables(){
 		return this.collectables;
 	}
@@ -76,6 +84,10 @@ public class Level {
 		this.staticActors = blocks;
 	}
 	
+	public void setAlienHead(AlienHead alienHead){
+		this.alienHead = alienHead;
+	}
+	
 	public Bob getPlayer(){
 		return this.playerShip;
 	}
@@ -83,7 +95,14 @@ public class Level {
 	public Level(World world, String levelPath) {
 		this.world = world;
 		this.levelPath = levelPath;
-		this.loadLevel();
+		try
+		{
+			this.loadLevel();
+		}
+		catch(Exception ex)
+		{
+			//TODO FIX ME
+		}
 	}
 	
 	public Actor get(int x) {
@@ -125,16 +144,23 @@ public class Level {
 		this.collectables = new ArrayList<Orb>();
 		this.speed = new LinkedList<SpeedPoint>();
 		this.background = new ArrayList<Sprite>();
-		if(levelPath.isEmpty())
+		
+		FileHandle fileHandle;
+		fileHandle = Gdx.files.internal("levels/" + levelPath + ".dat");
+		
+		if(levelPath.isEmpty() || !fileHandle.exists())
 		{
-			this.properties = new JSONLoader().getLevel(Gdx.files.internal("levels/map14.dat"));
+			this.properties = new JSONLoader().getLevel(Gdx.files.internal("levels/1.dat"));
 		}
 		else
 		{
+			//TODO FIX ME
 			this.properties = new JSONLoader().getLevel(Gdx.files.internal("levels/" + levelPath + ".dat"));
 		}
 		
+		Collections.sort(this.properties.Tiles);
 		Iterator<Tile> tiles = this.properties.Tiles.iterator();
+		Collections.sort(this.properties.Spawners);
 		Iterator<com.gamegear.firstwing.levels.json.Spawner> spawnerIt = this.properties.Spawners.iterator();
 		Filter filter = new Filter();
 		
@@ -151,7 +177,12 @@ public class Level {
 				width = tile.X;
 			}
 			
-			staticActors.add(new Block(new Vector2(tile.X, tile.Y), world, ActorMgr.getProperties(tile.Name, new StaticActor()), tile, filter, this.properties.LevelColor));
+			if(tile.Name.contains("alienhead")){
+				staticActors.add(new AlienHead(new Vector2(tile.X, tile.Y), world, ActorMgr.getProperties(tile.Name, new StaticActor()), filter));
+			} else {
+				staticActors.add(new Block(new Vector2(tile.X, tile.Y), world, ActorMgr.getProperties(tile.Name, new StaticActor()), tile, filter, this.properties.LevelColor));
+			}
+			
 			tiles.remove();
 		}
 		

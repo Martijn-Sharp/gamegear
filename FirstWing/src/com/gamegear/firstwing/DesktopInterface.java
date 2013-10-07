@@ -28,7 +28,29 @@ public class DesktopInterface implements GoogleInterface {
 	}
 
 	@Override
-	public void getScoresData() {
+	public void getScoresData(String leaderboard) {
 		System.out.println("Desktop: getScoresData()");
+	}
+
+	@Override
+	public void unlockAchievement(String achievement) {
+		System.out.println("Desktop: Should have unlocked achievement id: " + achievement);
+		
+	}
+
+	@Override
+	public void incrementAchievement(String achievement, int steps) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void submitScore(String leaderboard, long highScore) {
+		System.out.println("Desktop: submitScore: " + highScore);
+	}
+
+	@Override
+	public void getLeaderboard() {
+		System.out.println("Desktop: Should have shown leaderboards");		
 	}
 }

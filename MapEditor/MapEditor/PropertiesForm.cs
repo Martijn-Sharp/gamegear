@@ -68,11 +68,15 @@
                 this.pnlStaticProperties.Visible = true;
                 var statActor = (StaticActor)this.selectedActor;
                 this.chkBreakable.Checked = statActor.Breakable;
+                this.ddlStaticType.Items.Clear();
+                Enum.GetValues(typeof(StaticType)).Cast<StaticType>().ToList().ForEach(x => this.ddlStaticType.Items.Add(x));
+                this.ddlStaticType.SelectedItem = ((StaticActor)this.selectedActor).Type;
             }
         }
 
         public void ClearActorProperties()
         {
+            this.pnlStaticProperties.Visible = false;
             this.pnlDynProperties.Visible = false;
             this.txtName.Text = string.Empty;
             this.scaleUpDown.Text = "0";
@@ -82,6 +86,7 @@
             this.speedUpDown.Text = "0";
             this.healthUpDown.Text = "0";
             this.listAnimations.Items.Clear();
+            this.chkBreakable.Checked = false;
         }
 
         public void BtnSave(object sender, EventArgs e)
@@ -318,39 +323,6 @@
                 ((StaticActor)this.selectedActor).Breakable = this.chkBreakable.Checked;
             }
         }
-        #endregion Events
-
-        private void FillLevelProperties()
-        {
-            this.txtBackground.Text = MapEditor.LevelProps.BackgroundName;
-            this.TxtBackgroundTextChanged(this, new EventArgs());
-            this.spawnXUpDown.Text = MapEditor.LevelProps.SpawnX.ToString();
-            this.spawnYUpDown.Text = MapEditor.LevelProps.SpawnY.ToString();
-            this.finishXUpDown.Text = MapEditor.LevelProps.FinishX.ToString();
-
-            foreach (var color in Enum.GetValues(typeof(LevelProperties.ColorEnum)))
-            {
-                this.ddlLevelColor.Items.Add(color);
-            }
-
-            this.ddlLevelColor.SelectedItem = MapEditor.LevelProps.LevelColor;
-
-            if (MapEditor.LevelProps.SpeedPoints != null)
-            {
-                foreach (var speedPoint in MapEditor.LevelProps.SpeedPoints)
-                {
-                    this.listSpeedPoints.Items.Add(new ListViewItem(new[] { speedPoint.X.ToString(), speedPoint.Speed.ToString() }));
-                }
-            }
-
-            if (MapEditor.LevelProps.Colors != null)
-            {
-                foreach (var color in MapEditor.LevelProps.Colors)
-                {
-                    this.listColours.Items.Add(new ListViewItem(color.ToString()));
-                }
-            }
-        }
 
         private void TxtBackgroundTextChanged(object sender, EventArgs e)
         {
@@ -378,7 +350,59 @@
 
         private void DdlLevelColorSelectedIndexChanged(object sender, EventArgs e)
         {
-            MapEditor.LevelProps.LevelColor = (LevelProperties.ColorEnum)this.ddlLevelColor.SelectedItem;
+            MapEditor.LevelProps.LevelColor = (ColorEnum)this.ddlLevelColor.SelectedItem;
+        }
+
+        private void DdlStaticTypeSelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (this.selectedActor != null)
+            {
+                ((StaticActor)this.selectedActor).Type = (StaticType)this.ddlStaticType.SelectedItem;
+            }
+        }
+
+        private void StarOneTextChanged(object sender, EventArgs e)
+        {
+            MapEditor.LevelProps.StarOne = Convert.ToInt64(this.firstStarBox.Text);
+        }
+
+        private void StarTwoTextChanged(object sender, EventArgs e)
+        {
+            MapEditor.LevelProps.StarTwo = Convert.ToInt64(this.secondStarBox.Text);
+        }
+
+        #endregion Events
+
+        private void FillLevelProperties()
+        {
+            this.txtBackground.Text = MapEditor.LevelProps.BackgroundName;
+            this.TxtBackgroundTextChanged(this, new EventArgs());
+            this.spawnXUpDown.Text = MapEditor.LevelProps.SpawnX.ToString();
+            this.spawnYUpDown.Text = MapEditor.LevelProps.SpawnY.ToString();
+            this.finishXUpDown.Text = MapEditor.LevelProps.FinishX.ToString();
+
+            foreach (var color in Enum.GetValues(typeof(ColorEnum)))
+            {
+                this.ddlLevelColor.Items.Add(color);
+            }
+
+            this.ddlLevelColor.SelectedItem = MapEditor.LevelProps.LevelColor;
+
+            if (MapEditor.LevelProps.SpeedPoints != null)
+            {
+                foreach (var speedPoint in MapEditor.LevelProps.SpeedPoints)
+                {
+                    this.listSpeedPoints.Items.Add(new ListViewItem(new[] { speedPoint.X.ToString(), speedPoint.Speed.ToString() }));
+                }
+            }
+
+            if (MapEditor.LevelProps.Colors != null)
+            {
+                foreach (var color in MapEditor.LevelProps.Colors)
+                {
+                    this.listColours.Items.Add(new ListViewItem(color.ToString()));
+                }
+            }
         }
 
         #region SpeedPoint
@@ -412,7 +436,7 @@
         #region Color
         private void BtnAddColorClick(object sender, EventArgs e)
         {
-            var availableColors = Enum.GetValues(typeof(LevelProperties.ColorEnum)).Cast<LevelProperties.ColorEnum>().ToList();
+            var availableColors = Enum.GetValues(typeof(ColorEnum)).Cast<ColorEnum>().ToList();
             if (MapEditor.LevelProps.Colors != null)
             {
                 foreach (var color in MapEditor.LevelProps.Colors)
@@ -424,10 +448,10 @@
             var dialog = new AddColorDialog(availableColors);
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                LevelProperties.ColorEnum color = dialog.GetColor();
+                ColorEnum color = dialog.GetColor();
                 if (MapEditor.LevelProps.Colors == null)
                 {
-                    MapEditor.LevelProps.Colors = new List<LevelProperties.ColorEnum>();
+                    MapEditor.LevelProps.Colors = new List<ColorEnum>();
                 }
 
                 MapEditor.LevelProps.Colors.Add(color);
@@ -440,7 +464,7 @@
         {
             if (this.listColours.SelectedItems.Count == 1)
             {
-                MapEditor.LevelProps.Colors.Remove((LevelProperties.ColorEnum)Enum.Parse(typeof(LevelProperties.ColorEnum), this.listColours.SelectedItems[0].Text));
+                MapEditor.LevelProps.Colors.Remove((ColorEnum)Enum.Parse(typeof(ColorEnum), this.listColours.SelectedItems[0].Text));
                 this.listColours.Items.Remove(this.listColours.SelectedItems[0]);
             }
         }

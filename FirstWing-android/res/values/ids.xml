@@ -5,5 +5,10 @@ Save this file as res/values/games-ids.xml in your project.
 -->
 <resources>
   <string name="app_id">42720250118</string>
+  <string name="achievement_feeling_blue">CgkIhpLNkp8BEAIQAg</string>
+  <string name="achievement_kill_them_all">CgkIhpLNkp8BEAIQAw</string>
+  <string name="achievement_good_job_major">CgkIhpLNkp8BEAIQBA</string>
+  <string name="achievement_colorbuster">CgkIhpLNkp8BEAIQBQ</string>
+  <string name="achievement_nice_job_idiot">CgkIhpLNkp8BEAIQBg</string>
   <string name="leaderboard_total">CgkIhpLNkp8BEAIQAQ</string>
 </resources>
