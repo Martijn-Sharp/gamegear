@@ -197,6 +197,21 @@ public class Stats {
 				case 4:  
 					firstwing.platformInterface.submitScore("CgkIhpLNkp8BEAIQDQ" ,highScore);
 			     	break;
+				case 5:  
+					firstwing.platformInterface.submitScore("CgkIhpLNkp8BEAIQDg" ,highScore);
+			     	break;
+				case 6:  
+					firstwing.platformInterface.submitScore("CgkIhpLNkp8BEAIQDw" ,highScore);
+			     	break;
+				case 7:  
+					firstwing.platformInterface.submitScore("CgkIhpLNkp8BEAIQEA" ,highScore);
+			     	break;
+				case 8:  
+					firstwing.platformInterface.submitScore("CgkIhpLNkp8BEAIQEQ" ,highScore);
+			     	break;
+				case 9:  
+					firstwing.platformInterface.submitScore("CgkIhpLNkp8BEAIQEg" ,highScore);
+			     	break;
 			}
 		}
 	}
