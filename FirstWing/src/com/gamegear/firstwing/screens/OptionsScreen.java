@@ -93,7 +93,7 @@ public class OptionsScreen extends MenuScreen {
         back.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                	game.setScreen(new MainMenu(game));
+                	game.setScreen(firstWing.mainScreen);
                 }
         });
         
@@ -102,6 +102,7 @@ public class OptionsScreen extends MenuScreen {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                 	FirstWing.options.flush();
+                	game.setScreen(firstWing.mainScreen);
                 	//game.setScreen(new MainMenu(game));
                 	//game.init();
                 }
