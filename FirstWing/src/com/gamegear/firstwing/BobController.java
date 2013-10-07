@@ -1,6 +1,7 @@
 package com.gamegear.firstwing;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.input.GestureDetector.GestureListener;
@@ -303,8 +304,10 @@ public class BobController implements GestureListener, InputProcessor {
 
 	@Override
 	public boolean keyDown(int keycode) {
-		// TODO Auto-generated method stub
-		return false;
+		if(keycode == Keys.BACK || keycode == Keys.ESCAPE){
+			screen.getWindow();
+	    }
+	    return false;
 	}
 
 	@Override
