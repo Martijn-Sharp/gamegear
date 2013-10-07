@@ -212,4 +212,19 @@ public class Level {
 		}
 		speed.add(new SpeedPoint(this.properties.FinishX - 6f, 0));
 	}
+	
+	public void dispose()
+	{
+		staticActors.clear();
+		dynamicActors.clear();
+		
+		spawners.clear();
+		collectables.clear();
+		alienHead = null;
+		speed.clear();
+		world.dispose();
+		background.clear();
+		playerShip = null;
+		properties = null;
+	}
 }

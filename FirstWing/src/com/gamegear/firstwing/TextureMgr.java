@@ -18,7 +18,7 @@ public class TextureMgr {
 			tr = staticTexture ? staAtlas.findRegion(name) : dynAtlas.findRegion(name);
 			textureRegions.put(name, tr);
 		}
-		
+
 		return tr;
 	}
 	

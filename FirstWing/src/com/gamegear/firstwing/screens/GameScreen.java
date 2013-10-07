@@ -141,14 +141,13 @@ public class GameScreen extends MenuScreen {
 		this.currentState = GameState.Begin;
 		
 		// Bullet array
-		bullets = new Array<Bullet>();
-		bullets.ensureCapacity(20);
-		this.actorsForRemoval = new Array<Actor>();
+		bullets.clear();
+		this.actorsForRemoval.clear();
 
 		// Rendering
-		world.getWorld().dispose();
+		//world.dispose();
 		try{
-			world = new FwWorld(String.valueOf(levelPath));
+			world.createWorld(String.valueOf(levelPath));
 		}
 		catch(Exception ex)
 		{
@@ -165,9 +164,9 @@ public class GameScreen extends MenuScreen {
 		createCollisionListener();
 		System.gc();
 		
-		controller = new BobController(this, width, height);
-		gestureDetector = new GestureDetector(20, 0.5f, 1, 0.15f, controller);
-		im = new InputMultiplexer(controller, gestureDetector);
+		//controller = new BobController(this, width, height);
+		//gestureDetector = new GestureDetector(20, 0.5f, 1, 0.15f, controller);
+		//im = new InputMultiplexer(controller, gestureDetector);
 		Gdx.input.setInputProcessor(this.im);
 		
 		FirstWing.stats.currentColor = ColorEnum.none;
@@ -239,7 +238,7 @@ public class GameScreen extends MenuScreen {
 		this.stage.draw();
 		
 		//Render interface
-		this.renderInterface(this.stage.getSpriteBatch(), true);
+		this.renderInterface(this.stage.getSpriteBatch(), false);
 		//renderFPS();
 		
 		//Handle playlist

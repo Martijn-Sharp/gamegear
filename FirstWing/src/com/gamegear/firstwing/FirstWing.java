@@ -2,6 +2,7 @@ package com.gamegear.firstwing;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gamegear.firstwing.screens.ExtendedLevelScreen;
 import com.gamegear.firstwing.screens.MainMenu;
 import com.gamegear.firstwing.screens.OptionsScreen;
@@ -14,6 +15,7 @@ public class FirstWing extends Game {
 	public static Stats stats;
 	public static AudioManager audio;
 	public GoogleInterface platformInterface;
+	public static ObjectMapper mapper;
 	
 	//Screens
 	public ExtendedLevelScreen 	extLevelScreen;
@@ -42,6 +44,8 @@ public class FirstWing extends Game {
 		this.mainScreen = new MainMenu(this);
 		this.optionsScreen = new OptionsScreen(this);
 		this.upgradeScreen = new UpgradeScreen(this);
+		
+		mapper = new ObjectMapper();
 	}
 	
 	@Override
