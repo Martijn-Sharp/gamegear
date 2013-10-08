@@ -16,6 +16,14 @@ import com.gamegear.firstwing.actors.json.ActorProperties;
 import com.gamegear.firstwing.actors.json.Polygon;
 
 public abstract class Actor {
+	public enum ActorState{
+		ALIVE,
+		DIEING,
+		DEAD
+	}
+	
+	protected float stateTime = 0;
+	
 	private Body body;
 	private BodyDef bodyDef;
 	private TextureRegion texture;
@@ -28,6 +36,7 @@ public abstract class Actor {
 	private World world;
 	
 	private ActorProperties actor;
+	private ActorState state;
 	
 	/** @param Scale
 	 * @param Width
@@ -79,6 +88,10 @@ public abstract class Actor {
 		return shape;
 	}
 	
+	public void update(float delta){
+		stateTime += delta;
+	}
+	
 	public Body getBody(){
 		return this.body;
 	}
@@ -112,6 +125,14 @@ public abstract class Actor {
 		return this.actor;
 	}
 	
+	public void setState(ActorState state){
+		this.state = state;
+	}
+	
+	public ActorState getState(){
+		return this.state;
+	}
+	
 	protected void setTexture(TextureRegion texture){
 		this.texture = texture;
 	}
@@ -119,4 +140,5 @@ public abstract class Actor {
 	protected abstract void loadTextures();
 	
 	protected abstract void draw();
+	
 }

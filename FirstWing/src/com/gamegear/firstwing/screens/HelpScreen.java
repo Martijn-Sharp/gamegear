@@ -45,12 +45,12 @@ public HelpScreen(FirstWing firstwing, int level) {
 				if (level != -1) {
 					if(!firstwing.gameScreen.isLoaded())
 					{
-						firstwing.gameScreen.load(Integer.parseInt(event.getListenerActor().getName()));
+						firstwing.gameScreen.load(level);
 						firstwing.setScreen(firstwing.gameScreen);
 					}
 					else
 					{
-						firstwing.gameScreen.loadLevel(Integer.parseInt(event.getListenerActor().getName()));
+						firstwing.gameScreen.loadLevel(level);
 						firstwing.setScreen(firstwing.gameScreen);
 					}
 				} else {

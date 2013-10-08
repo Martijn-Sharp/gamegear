@@ -7,8 +7,8 @@ public class TextureSetup {
 //		TexturePacker2.process("D:/School/Minor/Local/FirstWing-images/dynamic", "D:/School/Minor/Local/FirstWing-android/assets/textures", "dyntextures.atlas");
 //		TexturePacker2.process("D:/School/Minor/Local/FirstWing-images/static", "D:/School/Minor/Local/FirstWing-android/assets/textures", "statextures.atlas");
 		
-		TexturePacker2.process("D:/FirstWing/gamegear/FirstWing-images/dynamic", "D:/FirstWing/gamegear/FirstWing-android/assets/textures", "dyntextures.atlas");
-		TexturePacker2.process("D:/FirstWing/gamegear/FirstWing-images/static", "D:/FirstWing/gamegear/FirstWing-android/assets/textures", "statextures.atlas");
-		TexturePacker2.process("D:/FirstWing/gamegear/FirstWing-images/ui", "D:/FirstWing/gamegear/FirstWing-android/assets/ui", "uiskin.atlas");
+		TexturePacker2.process("D:/FirstWing/FirstWing-images/dynamic", "D:/FirstWing/FirstWing-android/assets/textures", "dyntextures.atlas");
+		TexturePacker2.process("D:/FirstWing/FirstWing-images/static", "D:/FirstWing/FirstWing-android/assets/textures", "statextures.atlas");
+		TexturePacker2.process("D:/FirstWing/FirstWing-images/ui", "D:/FirstWing/FirstWing-android/assets/ui", "uiskin.atlas");
 	}
 }

@@ -1,5 +1,6 @@
 package com.gamegear.firstwing.actors;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Filter;
@@ -8,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.gamegear.firstwing.TextureMgr;
 import com.gamegear.firstwing.actors.Actor;
 import com.gamegear.firstwing.actors.json.StaticActor;
+import com.gamegear.firstwing.actors.json.StaticActor.StaticType;
 import com.gamegear.firstwing.levels.json.LevelProperties.ColorEnum;
 import com.gamegear.firstwing.levels.json.Tile;
 
@@ -15,6 +17,7 @@ public class Block extends Actor {
 
 	public float SIZE = 1f;
 	private TextureRegion blockTexture;
+	private Animation deathAnimation;
 	private Tile tile;
 	private float health;
 	private ColorEnum blockColor;
@@ -45,23 +48,47 @@ public class Block extends Actor {
 	@Override
 	protected void loadTextures() {
 		switch(((StaticActor)this.getProperties()).Type){
-		case Breakable:
-			blockTexture = TextureMgr.getTexture(tile.Name + "-" + tile.AssignedColor.toString(), true);
-			break;
-		case Tile:
-			blockTexture = TextureMgr.getTexture(tile.Name + "-" + this.blockColor.toString(), true);
-			break;
-		case Collectable:
-		case Finish:
-			blockTexture = TextureMgr.getTexture(tile.Name, true);
-			break;
-		default:
-			break;
+			case Breakable:
+				this.blockTexture = TextureMgr.getTexture(tile.Name + "-" + tile.AssignedColor.toString(), true);
+				TextureRegion[] deathFrames = new TextureRegion[3];
+				for(int i = 0; i < 3; i++){
+					deathFrames[i] = TextureMgr.getTexture(tile.Name + "-" + tile.AssignedColor.toString() + "-death" + i, true);
+				}
+				
+				this.deathAnimation = new Animation(1f, deathFrames);
+				break;
+			case Tile:
+				this.blockTexture = TextureMgr.getTexture(tile.Name + "-" + this.blockColor.toString(), true);
+				break;
+			case Collectable:
+			case Finish:
+				this.blockTexture = TextureMgr.getTexture(tile.Name, true);
+				break;
+			default:
+				break;
 		}
 	}
 
 	@Override
 	protected void draw() {
-		this.setTexture(blockTexture);
+		if(this.getState() == ActorState.DIEING){
+			switch(((StaticActor)this.getProperties()).Type){
+			case Breakable:
+				this.setTexture(this.deathAnimation.getKeyFrame(this.stateTime, false));
+				if(this.deathAnimation.isAnimationFinished(this.stateTime)){
+					this.setState(ActorState.DEAD);
+				}
+				
+				break;
+			case Collectable:
+			case Finish:
+			case Tile:
+			default:
+				this.setState(ActorState.DEAD);
+				break;
+			}
+		} else {
+			this.setTexture(blockTexture);
+		}
 	}
 }

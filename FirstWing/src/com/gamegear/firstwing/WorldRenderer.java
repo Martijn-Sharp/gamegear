@@ -212,6 +212,8 @@ public class WorldRenderer {
 							Gdx.app.log("Rendering", actor.getProperties().Name + ex.getMessage());
 						}
 					}
+					
+					actor.update(Gdx.graphics.getDeltaTime());
 				}
 			}
 			

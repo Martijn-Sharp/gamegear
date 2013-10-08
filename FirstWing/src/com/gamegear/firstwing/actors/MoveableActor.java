@@ -7,13 +7,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.gamegear.firstwing.actors.json.DynamicActor;
 
 public abstract class MoveableActor extends Actor {
-
-	public enum State {
-		IDLE, DYING, ACCELERATING, BREAKING, LIFTING, DESCENDING
-	}
-	
 	private float speed;
-	private State state = State.IDLE;
 	private float stateTime = 0;
 	
 	/** @param Speed
@@ -34,20 +28,6 @@ public abstract class MoveableActor extends Actor {
 		this.speed = speed;
 	}
 	
-	@Override
-	protected abstract void loadTextures();
-	
-	@Override
-	protected abstract void draw();
-	
-	public State getState() {
-		return state;
-	}
-	
-	public void setState(State newState) {
-		this.state = newState;
-	}
-	
 	public float getStateTime(){
 		return stateTime;
 	}
@@ -60,4 +40,10 @@ public abstract class MoveableActor extends Actor {
 		stateTime += delta;
 		//position.add(velocity.tmp().mul(delta)); 
 	}
+	
+	@Override
+	protected abstract void loadTextures();
+	
+	@Override
+	protected abstract void draw();
 }
