@@ -28,7 +28,6 @@ public class FirstWing extends Game {
 	
 	public FirstWing(GoogleInterface aInterface){
 		this.platformInterface = aInterface;
-		this.platformInterface.Login();	
 	}
 	
 	@Override
@@ -42,14 +41,18 @@ public class FirstWing extends Game {
 		TextureMgr.initiate();
 		mapper = new ObjectMapper();
 		
+		//Login if available
+		if(options.getPlayServices())
+		{
+			this.platformInterface.Login();
+		}
+		
 		//Create all screens
 		this.extLevelScreen = new ExtendedLevelScreen(this);
 		this.mainScreen = new MainMenu(this);
 		this.optionsScreen = new OptionsScreen(this);
 		this.upgradeScreen = new UpgradeScreen(this);
 		this.gameScreen = new GameScreen(this, 1);
-		
-		
 	}
 	
 	@Override

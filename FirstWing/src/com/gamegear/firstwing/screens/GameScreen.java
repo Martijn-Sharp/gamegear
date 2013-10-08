@@ -177,28 +177,31 @@ public class GameScreen extends MenuScreen {
 			this.world = new World(new Vector2(0, 0), true);
 			this.level = new Level(this, levelPath);
 		} else {
-			this.level.dispose();
 			clearWorld();
+			this.level.dispose();
+			this.world.dispose();
+			this.world = new World(new Vector2(0, 0), true);
 			this.level.loadLevel(levelPath);
 		}
 		System.gc();
 	}
 	
 	public void clearWorld()
-	{
-		world.clearForces();
-	       
-        Iterator<Joint> joints = world.getJoints();
-        while (joints.hasNext()) {
-            Joint j = joints.next();
-            if (j != null) world.destroyJoint(j);
-        }
- 
-        Iterator<Body> bodies = world.getBodies();
-        while (bodies.hasNext()) {
-            Body b = bodies.next();
-            if (b != null) world.destroyBody(b);
-        }
+	{	       
+		Iterator<Joint> joints = world.getJoints();
+		while (joints.hasNext()) {
+			Joint j = joints.next();
+			if (j != null)
+				world.destroyJoint(j);
+		}
+
+		Iterator<Body> bodies = world.getBodies();
+		while (bodies.hasNext()) {
+			Body b = bodies.next();
+			if (b != null)
+				b.setUserData(null);
+			world.destroyBody(b);
+		}
 	}
 	
 	public GameState getCurrentState(){

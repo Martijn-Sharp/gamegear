@@ -11,9 +11,9 @@ public class Options {
 	public static final String INVERT = "controls.invert.enabled";
 	public static final String SENSITIVITY = "controls.sensitivity.enabled";
 	
-	// Controls
-	public static final String HELP = "help.enabled";
-	
+	// Toggles
+	public static final String 	HELP 			= "help.enabled";
+	public static final String 	PLAYSERVICES	= "play.enabled";
     
     // Graphics
     public static final String WIDTH = "window.width";
@@ -101,6 +101,15 @@ public class Options {
 
     public void setSensitivity(float sensitivity) {
         getPrefs().putFloat(SENSITIVITY, sensitivity);
+    }
+    
+    public boolean getPlayServices() {
+        return getPrefs().getBoolean(PLAYSERVICES, true);
+    }
+
+    public void setPlayServices(boolean value) {
+        getPrefs().putBoolean(PLAYSERVICES, value);
+        flush();
     }
 
 }
