@@ -159,7 +159,8 @@ public class ExtendedLevelScreen extends MenuScreen {
 			}
 			else
 			{
-				firstwing.setScreen(new GameScreen(firstwing, Integer.parseInt(event.getListenerActor().getName())));
+				firstwing.gameScreen.loadLevel(Integer.parseInt(event.getListenerActor().getName()));
+				firstwing.setScreen(firstwing.gameScreen);
 			}
 		}
 	};

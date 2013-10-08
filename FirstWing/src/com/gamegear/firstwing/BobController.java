@@ -47,13 +47,13 @@ public class BobController implements GestureListener, InputProcessor {
 	
 	public BobController(GameScreen screen, int width, int height) {
 		this.screen = screen;
-		this.bob = screen.world.getBob();
+		this.bob = screen.level.getPlayer();
 		this.width = width;
 		this.height = height;
 		this.cam = screen.renderer.getCam();
 		
 		BodyDef bodyDef = new BodyDef();
-        groundBody = screen.world.world.createBody(bodyDef);
+        groundBody = screen.world.createBody(bodyDef);
 	}
 	
 	/** The main update method **/
@@ -257,7 +257,7 @@ public class BobController implements GestureListener, InputProcessor {
 		linImpulseY = Gdx.graphics.getDeltaTime() * ((dpadCenterY - y) * (3 * (FirstWing.options.getSensitivity() + 1)));
 			
 		//Check if going out of map
-		if(screen.renderer.cameraX - 4f <= screen.world.bob.getPosition().x || -(dpadCenterX - x) > 0)
+		if(screen.renderer.cameraX - 4f <= screen.level.getPlayer().getPosition().x || -(dpadCenterX - x) > 0)
 		{
 			//linImpulseX = Gdx.graphics.getDeltaTime() * (-(dpadCenterX - x) * dpadSpeed);
 		}
@@ -268,7 +268,7 @@ public class BobController implements GestureListener, InputProcessor {
 			//Gdx.app.log("Edge detection", "Edge left x: " + (screen.renderer.cameraX-5) + " Bob x:" + bob.getPosition().x);
 			return false;
 		}
-		if(screen.renderer.cameraX + 4f >= screen.world.bob.getPosition().x || -(dpadCenterX - x) < 0)
+		if(screen.renderer.cameraX + 4f >= screen.level.getPlayer().getPosition().x || -(dpadCenterX - x) < 0)
 		{
 			//linImpulseX = Gdx.graphics.getDeltaTime() * (-(dpadCenterX - x) * dpadSpeed);
 		}

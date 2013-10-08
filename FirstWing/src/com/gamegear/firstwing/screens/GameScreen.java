@@ -13,12 +13,15 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.Joint;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -34,11 +37,11 @@ import com.badlogic.gdx.utils.Timer.Task;
 import com.gamegear.firstwing.ActorMgr;
 import com.gamegear.firstwing.BobController;
 import com.gamegear.firstwing.FirstWing;
-import com.gamegear.firstwing.FwWorld;
 import com.gamegear.firstwing.WorldRenderer;
 import com.gamegear.firstwing.actors.*;
 import com.gamegear.firstwing.actors.json.StaticActor;
 import com.gamegear.firstwing.helper.Helper;
+import com.gamegear.firstwing.levels.Level;
 import com.gamegear.firstwing.levels.Spawner;
 import com.gamegear.firstwing.levels.json.LevelProperties.ColorEnum;
 
@@ -50,7 +53,8 @@ public class GameScreen extends MenuScreen {
 		Running
 	}
 	
-	public FwWorld 			world;
+	public World 			world;
+	public Level			level;
 	public WorldRenderer 	renderer;
 	public BobController	controller;
 	public GestureDetector 	gestureDetector;
@@ -67,6 +71,8 @@ public class GameScreen extends MenuScreen {
 	public FreeTypeFontGenerator 	fontGenerator;
 	public Array<Actor>		actorsForRemoval;
 	public int				levelPath;
+	
+	private boolean 		loaded = false;
 	
 	// Bullets
 	private Array<Bullet> 	bullets;
@@ -85,7 +91,7 @@ public class GameScreen extends MenuScreen {
 		super(game);
 		this.levelPath = levelPath;
 		FirstWing.stats.levelID = levelPath;
-		load();
+		load(levelPath);
 	}
 	
 	@Override
@@ -104,7 +110,7 @@ public class GameScreen extends MenuScreen {
 		}
 	}
 	
-	public void load()
+	public void load(int levelPath)
 	{
 		Gdx.app.log("GameLoad", "Started to load");
 		this.currentState = GameState.Begin;
@@ -113,10 +119,10 @@ public class GameScreen extends MenuScreen {
 		bullets.ensureCapacity(20);
 
 		// Rendering
-		world = new FwWorld(String.valueOf(levelPath));
-		firstWing.setScreen(firstWing.extLevelScreen);
+		createWorld(String.valueOf(levelPath));
+		//firstWing.setScreen(firstWing.extLevelScreen);
 
-		renderer = new WorldRenderer(world, false);
+		renderer = new WorldRenderer(this, false);
 
 		fontGenerator = new FreeTypeFontGenerator(
 				Gdx.files.internal("ui/TiresiasScreenfont.ttf"));
@@ -132,11 +138,13 @@ public class GameScreen extends MenuScreen {
 		// Contact listener
 		createCollisionListener();
 		this.actorsForRemoval = new Array<Actor>();
+		loaded = true;
 		Gdx.app.log("GameLoad", "Finished loading");
 	}
 	
 	public void loadLevel(int levelPath)
 	{
+		this.levelPath = levelPath;
 		this.currentState = GameState.Begin;
 		
 		// Bullet array
@@ -146,30 +154,51 @@ public class GameScreen extends MenuScreen {
 		// Rendering
 		//world.dispose();
 		try{
-			world.createWorld(String.valueOf(levelPath));
+			createWorld(String.valueOf(levelPath));
+			Gdx.input.setInputProcessor(this.im);
 		}
 		catch(Exception ex)
 		{
 			//TODO Fix this ugly ass solution
 			firstWing.setScreen(firstWing.extLevelScreen);
 		}
-		renderer.reset(world);
-		//renderer = new WorldRenderer(world, false);
-
-		//Score
-		//FirstWing.stats.resetScore();
+		renderer.reset();
 
 		// Contact listener
 		createCollisionListener();
 		System.gc();
 		
-		//controller = new BobController(this, width, height);
-		//gestureDetector = new GestureDetector(20, 0.5f, 1, 0.15f, controller);
-		//im = new InputMultiplexer(controller, gestureDetector);
-		Gdx.input.setInputProcessor(this.im);
-		
 		FirstWing.stats.currentColor = ColorEnum.none;
 		renderer.changeAfterBurnerColor(FirstWing.stats.currentColor);
+	}
+	
+	public void createWorld(String levelPath) {
+		if (world == null && level == null) {
+			this.world = new World(new Vector2(0, 0), true);
+			this.level = new Level(this, levelPath);
+		} else {
+			this.level.dispose();
+			clearWorld();
+			this.level.loadLevel(levelPath);
+		}
+		System.gc();
+	}
+	
+	public void clearWorld()
+	{
+		world.clearForces();
+	       
+        Iterator<Joint> joints = world.getJoints();
+        while (joints.hasNext()) {
+            Joint j = joints.next();
+            if (j != null) world.destroyJoint(j);
+        }
+ 
+        Iterator<Body> bodies = world.getBodies();
+        while (bodies.hasNext()) {
+            Body b = bodies.next();
+            if (b != null) world.destroyBody(b);
+        }
 	}
 	
 	public GameState getCurrentState(){
@@ -200,7 +229,7 @@ public class GameScreen extends MenuScreen {
 				FirstWing.stats.checkColorAchievement();
 			}
 			
-			FirstWing.stats.checkStars(world.getLevel().getProperties().StarOne, world.getLevel().getProperties().StarTwo);
+			FirstWing.stats.checkStars(level.getProperties().StarOne, level.getProperties().StarTwo);
 			this.stage.addActor(this.getVictoryWindow());
 			Gdx.input.setInputProcessor(stage);
 			FirstWing.stats.resetScore(true);
@@ -222,7 +251,7 @@ public class GameScreen extends MenuScreen {
 			this.checkPlayerBounds();
 			
 			//Update Bob speed
-			this.world.getBob().getBody().setLinearVelocity(controller.linImpulseX + world.getLevel().getSpeed(),controller.linImpulseY);
+			this.level.getPlayer().getBody().setLinearVelocity(controller.linImpulseX + level.getSpeed(),controller.linImpulseY);
 			
 			//Update bullets
 			this.checkBulletFire();
@@ -248,7 +277,7 @@ public class GameScreen extends MenuScreen {
 	}
 	
 	public void moveEnemies() {
-		Iterator<Spawner> it = world.getLevel().getSpawners().iterator();
+		Iterator<Spawner> it = level.getSpawners().iterator();
 		while (it.hasNext()) {
 			Spawner spawner = it.next();
 			if (spawner.getPosition().x - 6 < renderer.cameraX) {
@@ -265,19 +294,19 @@ public class GameScreen extends MenuScreen {
 	
 	public void checkPlayerBounds()
 	{
-		if(renderer.cameraX - 4f >= world.getBob().getPosition().x && -(controller.dpadCenterX - controller.dpadX) < 0){ 
+		if(renderer.cameraX - 4f >= level.getPlayer().getPosition().x && -(controller.dpadCenterX - controller.dpadX) < 0){ 
 			controller.linImpulseX = 0;
 		}
-		else if(renderer.cameraX - 5f >= world.getBob().getPosition().x){
+		else if(renderer.cameraX - 5f >= level.getPlayer().getPosition().x){
 			markedForRestart = true;
 		}
 		else{
 			//controller.linImpulseX = 0;
 		}
-		if(renderer.cameraX + 4f <= world.getBob().getPosition().x && -(controller.dpadCenterX - controller.dpadX) > 0){
+		if(renderer.cameraX + 4f <= level.getPlayer().getPosition().x && -(controller.dpadCenterX - controller.dpadX) > 0){
 			controller.linImpulseX = 0;
 		}
-		else if(renderer.cameraX + 5f <= world.getBob().getPosition().x){
+		else if(renderer.cameraX + 5f <= level.getPlayer().getPosition().x){
 			markedForRestart = true;
 		}
 		else{
@@ -291,7 +320,7 @@ public class GameScreen extends MenuScreen {
 			interfaceRenderer.setColor(Color.DARK_GRAY);
 			interfaceRenderer.filledRect(0, height - (30 * Gdx.graphics.getDensity()), width, height);
 			interfaceRenderer.setColor(Helper.colorEnumToColor(FirstWing.stats.currentColor));
-			interfaceRenderer.filledRect(this.stage.getWidth() * 0.6f, height - (30 * Gdx.graphics.getDensity()), (renderer.cameraX/world.getLevel().getProperties().FinishX)*100, height);
+			interfaceRenderer.filledRect(this.stage.getWidth() * 0.6f, height - (30 * Gdx.graphics.getDensity()), ((renderer.cameraX + 5)/level.getProperties().FinishX)*this.stage.getWidth()*0.2f+5, height);
 			interfaceRenderer.setColor(Helper.colorEnumToColor(ColorEnum.none));
 			interfaceRenderer.filledRect(this.stage.getWidth() * 0.8f, height - (30 * Gdx.graphics.getDensity()), 5, height);
 		interfaceRenderer.end();
@@ -305,7 +334,7 @@ public class GameScreen extends MenuScreen {
 		font.setScale(1);
 		font.draw(batch, "Score: " + FirstWing.stats.getScore(), 10, height -10);
 		font.draw(batch, "Highscore: " + FirstWing.stats.getHighScore(levelPath), this.stage.getWidth() * 0.2f, height -10);
-		float shipHealth = (this.world.getBob().getHealth() / this.world.getBob().getInitialHealth()) * 100;
+		float shipHealth = (this.level.getPlayer().getHealth() / this.level.getPlayer().getInitialHealth()) * 100;
 		font.draw(batch, "Health: " + (int)shipHealth + "%", this.stage.getWidth() * 0.4f, height -10);
 		
 		if(this.currentState == GameState.Begin){
@@ -381,7 +410,7 @@ public class GameScreen extends MenuScreen {
 		float elapsedTime = (System.nanoTime() - timeSinceLastBullet) / 1000000000.0f;
         if(elapsedTime > bulletDelay){
         	timeSinceLastBullet = System.nanoTime();
-        	Bullet temp = new Bullet(this.world.getBob().getBody().getWorldPoint(new Vector2(0.8f,0)), world.getWorld(), filter, FirstWing.stats.currentColor);
+        	Bullet temp = new Bullet(this.level.getPlayer().getBody().getWorldPoint(new Vector2(0.8f,0)), world, filter, FirstWing.stats.currentColor);
         	temp.getBody().setBullet(true);
         	temp.getBody().setLinearVelocity(10,0);
         	bullets.add(temp);
@@ -390,7 +419,7 @@ public class GameScreen extends MenuScreen {
 	}
 	
 	private void createCollisionListener() {
-        world.getWorld().setContactListener(new ContactListener() {
+        world.setContactListener(new ContactListener() {
             @Override
             public void beginContact(Contact contact) {
                 Fixture fixtureA = contact.getFixtureA();
@@ -542,7 +571,7 @@ public class GameScreen extends MenuScreen {
 	
 	public void removeBodies()
 	{
-		if(!world.getWorld().isLocked())
+		if(!world.isLocked())
 		{
 			for(int i = 0; i < this.actorsForRemoval.size; i++){
 				Actor actor = this.actorsForRemoval.pop();
@@ -552,24 +581,24 @@ public class GameScreen extends MenuScreen {
 					filter.categoryBits = 4;
 					filter.groupIndex = -2;
 					Orb toDrop = new Orb(enemy.getPosition(), enemy.getWorld(), ActorMgr.getProperties("orb", new StaticActor()), enemy.getColor(), filter);
-					world.getLevel().getMoveableActors().remove(enemy);
-					world.getLevel().addCollectable(toDrop);
+					level.getMoveableActors().remove(enemy);
+					level.addCollectable(toDrop);
 				} else if(actor instanceof Bullet){
 					Bullet bullet = (Bullet) actor;
 					bullets.removeValue(bullet, true);
 				} else if(actor instanceof Orb){
 					Orb orb = (Orb) actor;
-					world.getLevel().getCollectables().remove(orb);
+					level.getCollectables().remove(orb);
 				} else if(actor instanceof AlienHead){
 					AlienHead alienHead = (AlienHead) actor;
-					world.getLevel().getStaticActors().remove(alienHead);
+					level.getStaticActors().remove(alienHead);
 				} else if(actor instanceof Block){
 					Block block = (Block) actor;
-					world.getLevel().getStaticActors().remove(block);
+					level.getStaticActors().remove(block);
 				}
 				
 				try{
-					this.world.getWorld().destroyBody(actor.getBody());
+					this.world.destroyBody(actor.getBody());
 				} catch (NullPointerException ex){
 					Gdx.app.log("Destroy Body", ex.getMessage());
 					return;
@@ -797,5 +826,9 @@ public class GameScreen extends MenuScreen {
 		this.stage.addActor(this.getPauseWindow());
 		Gdx.input.setInputProcessor(stage);
 		this.currentState = GameState.Paused;
+	}
+
+	public boolean isLoaded() {
+		return loaded;
 	}
 }

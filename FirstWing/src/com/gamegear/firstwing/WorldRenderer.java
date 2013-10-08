@@ -17,17 +17,19 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.gamegear.firstwing.actors.Actor;
 import com.gamegear.firstwing.helper.Helper;
 import com.gamegear.firstwing.levels.json.LevelProperties.ColorEnum;
+import com.gamegear.firstwing.screens.GameScreen;
 import com.gamegear.firstwing.screens.GameScreen.GameState;
 
 public class WorldRenderer {
 	private static final float CAMERA_WIDTH = 10f;
 	private static final float CAMERA_HEIGHT = 7f;
 	
-	private FwWorld world;
+	private GameScreen game;
 	private OrthographicCamera cam;
 	
 	private float timestep;
@@ -79,13 +81,9 @@ public class WorldRenderer {
 	public void setDebug(boolean debug) {
 		this.debug = debug;
 	}
-	
-	public FwWorld getWorld(){
-		return this.world;
-	}
 
-	public WorldRenderer(FwWorld world, boolean debug) {
-		this.world = world;
+	public WorldRenderer(GameScreen game, boolean debug) {
+		this.game = game;
 		this.cam = new OrthographicCamera(CAMERA_WIDTH, CAMERA_HEIGHT);
 		this.cam.setToOrtho(false, CAMERA_WIDTH, CAMERA_HEIGHT);
 		this.cameraX = CAMERA_WIDTH / 2f;
@@ -102,7 +100,7 @@ public class WorldRenderer {
 		prototype.load(Gdx.files.internal("effects/explosion.p"), Gdx.files.internal("effects"));
 		//prototype.setPosition(world.getBob().getBody().getWorldCenter().x, world.getBob().getBody().getWorldCenter().y);
 		
-		behindShip = world.getBob().getBody().getWorldPoint(new Vector2(-0.3f,0));
+		behindShip = game.level.getPlayer().getBody().getWorldPoint(new Vector2(-0.3f,0));
 		
 		activeAfterburner = ColorEnum.none;
 		this.changeAfterBurnerColor(ColorEnum.none);
@@ -141,13 +139,12 @@ public class WorldRenderer {
 		}
 	}
 	
-	public void reset(FwWorld world)
+	public void reset()
 	{
 		this.cameraX = CAMERA_WIDTH / 2f;
 		this.cameraY = CAMERA_HEIGHT / 2f;
 		this.cam.position.set(this.cameraX, this.cameraY, 0);
 		this.currentSpeed = 1;
-		this.world = world;
 	}
 	
 	public void callParticleSystem(float x, float y)
@@ -166,7 +163,7 @@ public class WorldRenderer {
 	public void render(GameState state, SpriteBatch batch) {
 		this.timestep = state == GameState.Running ? Gdx.graphics.getDeltaTime() : 0f;
 		//Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-		moveCamera(world.getBob().getBody().getWorldCenter().x, world.getBob().getBody().getWorldCenter().y, world.level.getSpeed(cameraX));
+		moveCamera(game.level.getPlayer().getBody().getWorldCenter().x, game.level.getPlayer().getBody().getWorldCenter().y, game.level.getSpeed(cameraX));
 		
 		if(this.changeBackgroundColor){
 			this.changeBackgroundColor();
@@ -178,13 +175,13 @@ public class WorldRenderer {
         shapeRenderer.end();
         
         batch.begin();
-			for(Sprite bg : world.level.getBackground()){
+			for(Sprite bg : game.level.getBackground()){
 				if(bg.getX() - cam.position.x < (int)CAMERA_WIDTH && bg.getX() - cam.position.x > -(int)CAMERA_WIDTH){
 					bg.draw(batch);
 				}
 			}
 			
-			tmpBodies = world.world.getBodies();
+			tmpBodies = game.world.getBodies();
 			while(tmpBodies.hasNext()){
 				Body node = tmpBodies.next();
 				
@@ -228,7 +225,7 @@ public class WorldRenderer {
 				}
 			}
 			
-			behindShip = world.getBob().getBody().getWorldPoint(new Vector2(-0.3f,0));
+			behindShip = game.level.getPlayer().getBody().getWorldPoint(new Vector2(-0.3f,0));
 			p.get(activeAfterburner).setPosition(behindShip.x, behindShip.y);
 			p.get(activeAfterburner).update(this.timestep);
 			p.get(activeAfterburner).draw(batch, this.timestep);
@@ -236,7 +233,7 @@ public class WorldRenderer {
 		//debugRenderer.render(world.getWorld(), cam.combined);
 		//Gdx.app.log("Stats", "active: " + effects.size + " | max: " + pool.max);
 		
-		world.world.step(this.timestep, 3, 3);
+		game.world.step(this.timestep, 3, 3);
 	}
 	
 	public void draw(SpriteBatch batch, float parentAlpha){

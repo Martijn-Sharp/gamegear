@@ -43,7 +43,16 @@ public HelpScreen(FirstWing firstwing, int level) {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				if (level != -1) {
-					firstwing.setScreen(new GameScreen(firstwing, level));
+					if(!firstwing.gameScreen.isLoaded())
+					{
+						firstwing.gameScreen.load(Integer.parseInt(event.getListenerActor().getName()));
+						firstwing.setScreen(firstwing.gameScreen);
+					}
+					else
+					{
+						firstwing.gameScreen.loadLevel(Integer.parseInt(event.getListenerActor().getName()));
+						firstwing.setScreen(firstwing.gameScreen);
+					}
 				} else {
 					firstwing.setScreen(new MainMenu(firstwing));
 				}

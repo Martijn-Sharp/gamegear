@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gamegear.firstwing.screens.ExtendedLevelScreen;
+import com.gamegear.firstwing.screens.GameScreen;
 import com.gamegear.firstwing.screens.MainMenu;
 import com.gamegear.firstwing.screens.OptionsScreen;
 import com.gamegear.firstwing.screens.Splash;
@@ -22,6 +23,7 @@ public class FirstWing extends Game {
 	public MainMenu 			mainScreen;
 	public OptionsScreen 		optionsScreen;
 	public UpgradeScreen 		upgradeScreen;
+	public GameScreen			gameScreen;
 	
 	
 	public FirstWing(GoogleInterface aInterface){
@@ -38,14 +40,16 @@ public class FirstWing extends Game {
 		manager = new AssetManager();
 		options = new Options();
 		TextureMgr.initiate();
+		mapper = new ObjectMapper();
 		
 		//Create all screens
 		this.extLevelScreen = new ExtendedLevelScreen(this);
 		this.mainScreen = new MainMenu(this);
 		this.optionsScreen = new OptionsScreen(this);
 		this.upgradeScreen = new UpgradeScreen(this);
+		this.gameScreen = new GameScreen(this, 1);
 		
-		mapper = new ObjectMapper();
+		
 	}
 	
 	@Override

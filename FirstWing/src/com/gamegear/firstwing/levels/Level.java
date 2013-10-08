@@ -7,17 +7,17 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Texture.TextureWrap;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Filter;
-import com.badlogic.gdx.physics.box2d.World;
 import com.gamegear.firstwing.ActorMgr;
 import com.gamegear.firstwing.actors.*;
 import com.gamegear.firstwing.actors.json.StaticActor;
 import com.gamegear.firstwing.levels.json.*;
+import com.gamegear.firstwing.screens.GameScreen;
 
 public class Level {
 
@@ -27,14 +27,13 @@ public class Level {
 	private ArrayList<MoveableActor> dynamicActors;
 	private ArrayList<Spawner> spawners;
 	private ArrayList<Orb> collectables;
-	private AlienHead alienHead;
 	private Queue<SpeedPoint> speed;
-	private World world;
+	private GameScreen game;
 	private int currentSpeed = 5;
-	private String levelPath;
 	private ArrayList<Sprite> background;
 	private Bob playerShip;
 	private LevelProperties properties;
+	private Texture bgTexture;
 
 	public int getWidth() {
 		return width;
@@ -84,20 +83,23 @@ public class Level {
 		this.staticActors = blocks;
 	}
 	
-	public void setAlienHead(AlienHead alienHead){
-		this.alienHead = alienHead;
-	}
-	
 	public Bob getPlayer(){
 		return this.playerShip;
 	}
 
-	public Level(World world, String levelPath) {
-		this.world = world;
-		this.levelPath = levelPath;
+	public Level(GameScreen game, String levelPath) {
+		this.game = game;
+		
+		this.staticActors = new ArrayList<Actor>();
+		this.dynamicActors = new ArrayList<MoveableActor>();
+		this.spawners = new ArrayList<Spawner>();
+		this.collectables = new ArrayList<Orb>();
+		this.speed = new LinkedList<SpeedPoint>();
+		this.background = new ArrayList<Sprite>();
+		
 		try
 		{
-			this.loadLevel();
+			this.loadLevel(levelPath);
 		}
 		catch(Exception ex)
 		{
@@ -137,16 +139,11 @@ public class Level {
 		return this.background;
 	}
 
-	private void loadLevel() {
-		this.staticActors = new ArrayList<Actor>();
-		this.dynamicActors = new ArrayList<MoveableActor>();
-		this.spawners = new ArrayList<Spawner>();
-		this.collectables = new ArrayList<Orb>();
-		this.speed = new LinkedList<SpeedPoint>();
-		this.background = new ArrayList<Sprite>();
+	public void loadLevel(String levelPath) {
 		
 		FileHandle fileHandle;
 		fileHandle = Gdx.files.internal("levels/" + levelPath + ".dat");
+		
 		
 		if(levelPath.isEmpty() || !fileHandle.exists())
 		{
@@ -158,6 +155,12 @@ public class Level {
 			this.properties = new JSONLoader().getLevel(Gdx.files.internal("levels/" + levelPath + ".dat"));
 		}
 		
+//		if(this.tempTx == null)
+//		{
+//			this.tempTx = new Texture(Gdx.files.internal("images/" + this.properties.BackgroundName + ".png"));
+//		}
+		
+		
 		Collections.sort(this.properties.Tiles);
 		Iterator<Tile> tiles = this.properties.Tiles.iterator();
 		Collections.sort(this.properties.Spawners);
@@ -165,7 +168,7 @@ public class Level {
 		Filter filter = new Filter();
 		
 		// PLAYER
-		this.playerShip = new Bob(new Vector2(this.properties.SpawnX, this.properties.SpawnY), this.world, new Filter());
+		this.playerShip = new Bob(new Vector2(this.properties.SpawnX, this.properties.SpawnY), game.world, new Filter());
 		
 		// TILES
 		while(tiles.hasNext()){
@@ -178,9 +181,9 @@ public class Level {
 			}
 			
 			if(tile.Name.contains("alienhead")){
-				staticActors.add(new AlienHead(new Vector2(tile.X, tile.Y), world, ActorMgr.getProperties(tile.Name, new StaticActor()), filter));
+				staticActors.add(new AlienHead(new Vector2(tile.X, tile.Y), game.world, ActorMgr.getProperties(tile.Name, new StaticActor()), filter));
 			} else {
-				staticActors.add(new Block(new Vector2(tile.X, tile.Y), world, ActorMgr.getProperties(tile.Name, new StaticActor()), tile, filter, this.properties.LevelColor));
+				staticActors.add(new Block(new Vector2(tile.X, tile.Y), game.world, ActorMgr.getProperties(tile.Name, new StaticActor()), tile, filter, this.properties.LevelColor));
 			}
 			
 			tiles.remove();
@@ -189,20 +192,35 @@ public class Level {
 		// SPAWNERS
 		while(spawnerIt.hasNext()){
 			com.gamegear.firstwing.levels.json.Spawner spawner = spawnerIt.next();
-			this.spawners.add(new Spawner(spawner, this.world, this));
+			this.spawners.add(new Spawner(spawner, game.world, this));
 			spawnerIt.remove();
 		}
+		
+		if(bgTexture == null)
+		{
+			bgTexture = new Texture(Gdx.files.internal("images/" + this.properties.BackgroundName + ".png"));
+			bgTexture.setWrap(TextureWrap.Repeat, TextureWrap.Repeat);
+		}
+		
 		
 		// BACKGROUND
 		for(int x = 0; x < Math.ceil(this.properties.FinishX / 4); x++){
 			for(int y = 0; y < 3; y++){
-				Sprite tempBg = new Sprite(new Texture(Gdx.files.internal("images/" + this.properties.BackgroundName + ".png")));
+				//Texture tempTx = new Texture(Gdx.files.internal("images/" + this.properties.BackgroundName + ".png"));
+				Sprite tempBg = new Sprite(bgTexture);
 				tempBg.setSize(4f, 4f);
 				tempBg.setScale(1f);
 				tempBg.setPosition(x * 4f - 0.5f, y * 4f - 0.5f);
 				this.background.add(tempBg);
+				//tempTx.dispose();
 			}
 		}
+		
+		
+//		Sprite bgSprite = new Sprite(bgTexture,0,0,bgTexture.getWidth(),bgTexture.getHeight());
+//		bgSprite.setSize(4f, 4f);
+//		bgSprite.setScale(1f);
+//		this.background.add(bgSprite);
 		
 		// SPEED
 		speed.add(new SpeedPoint(0, 1));
@@ -218,14 +236,11 @@ public class Level {
 	{
 		staticActors.clear();
 		dynamicActors.clear();
+		properties = null;
 		
 		spawners.clear();
 		collectables.clear();
-		alienHead = null;
 		speed.clear();
-		world.dispose();
-		background.clear();
 		playerShip = null;
-		properties = null;
 	}
 }
