@@ -17,6 +17,15 @@ public class MainMenu extends MenuScreen{
     @Override
     public void show() {
         super.show();
+        
+        if(firstWing.platformInterface.getSignedIn())
+        {
+        	FirstWing.options.setPlayServices(true);
+        }
+        else
+        {
+        	FirstWing.options.setPlayServices(false);
+        }
     }
     
     public void load()
@@ -59,7 +68,15 @@ public class MainMenu extends MenuScreen{
 		leaderButton.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
 				Gdx.app.log("Menu", "Clicked leaderboards");
-				firstWing.platformInterface.getLeaderboard();
+				if(!FirstWing.options.getPlayServices())
+				{
+					firstWing.platformInterface.Login();
+					FirstWing.options.setPlayServices(true);
+				}
+				else
+				{
+					firstWing.platformInterface.getLeaderboard();
+				}
 			}
 		});
 

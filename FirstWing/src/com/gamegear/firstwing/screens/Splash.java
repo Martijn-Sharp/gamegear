@@ -76,5 +76,7 @@ public class Splash implements Screen
 		public void dispose() {
 			spriteBatch.dispose();
 			splash.dispose();
+			title.dispose();
+			start.dispose();
 		}
 }
