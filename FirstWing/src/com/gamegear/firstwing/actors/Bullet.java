@@ -57,6 +57,10 @@ public class Bullet extends MoveableActor {
 
 	@Override
 	protected void draw() {
-		this.setTexture(bullet);
+		if(this.getState() == ActorState.DYING){
+			this.setState(ActorState.DEAD, false);
+		} else {
+			this.setTexture(bullet);
+		}
 	}
 }

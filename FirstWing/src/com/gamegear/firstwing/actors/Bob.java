@@ -65,6 +65,10 @@ public class Bob extends MoveableActor {
 
 	@Override
 	protected void draw() {
-		this.setTexture(bobShipRight);
+		if(this.getState() == ActorState.DYING){
+			this.setState(ActorState.DEAD, false);
+		} else {
+			this.setTexture(bobShipRight);
+		}
 	}
 }

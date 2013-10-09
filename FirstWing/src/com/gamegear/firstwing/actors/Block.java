@@ -70,12 +70,12 @@ public class Block extends Actor {
 
 	@Override
 	protected void draw() {
-		if(this.getState() == ActorState.DIEING){
+		if(this.getState() == ActorState.DYING){
 			switch(((StaticActor)this.getProperties()).Type){
 			case Breakable:
 				this.setTexture(this.deathAnimation.getKeyFrame(this.stateTime, false));
 				if(this.deathAnimation.isAnimationFinished(this.stateTime)){
-					this.setState(ActorState.DEAD);
+					this.setState(ActorState.DEAD, false);
 				}
 				
 				break;
@@ -83,7 +83,7 @@ public class Block extends Actor {
 			case Finish:
 			case Tile:
 			default:
-				this.setState(ActorState.DEAD);
+				this.setState(ActorState.DEAD, false);
 				break;
 			}
 		} else {

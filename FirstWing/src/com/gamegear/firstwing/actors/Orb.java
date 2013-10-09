@@ -36,6 +36,10 @@ public class Orb extends Actor {
 
 	@Override
 	protected void draw() {
-		this.setTexture(this.orbTexture);
+		if(this.getState() == ActorState.DYING){
+			this.setState(ActorState.DEAD, false);
+		} else {
+			this.setTexture(this.orbTexture);
+		}
 	}
 }

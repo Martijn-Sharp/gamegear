@@ -33,7 +33,11 @@ public class Enemy extends MoveableActor {
 
 	@Override
 	protected void draw() {
-		this.setTexture(this.drone);
+		if(this.getState() == ActorState.DYING){
+			this.setState(ActorState.DEAD, false);
+		} else {
+			this.setTexture(this.drone);
+		}
 	}
 
 	public float getHealth() {

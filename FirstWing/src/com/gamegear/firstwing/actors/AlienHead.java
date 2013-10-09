@@ -23,6 +23,10 @@ public class AlienHead extends Actor {
 
 	@Override
 	protected void draw() {
-		this.setTexture(this.alienHeadTexture);
+		if(this.getState() == ActorState.DYING){
+			this.setState(ActorState.DEAD, false);
+		} else {
+			this.setTexture(this.alienHeadTexture);
+		}
 	}
 }

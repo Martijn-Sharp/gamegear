@@ -125,7 +125,11 @@ public abstract class Actor {
 		return this.actor;
 	}
 	
-	public void setState(ActorState state){
+	public void setState(ActorState state, boolean resetStateTime){
+		if(resetStateTime){
+			this.stateTime = 0;
+		}
+		
 		this.state = state;
 	}
 	

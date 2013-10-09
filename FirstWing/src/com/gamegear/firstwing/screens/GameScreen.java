@@ -39,6 +39,7 @@ import com.gamegear.firstwing.BobController;
 import com.gamegear.firstwing.FirstWing;
 import com.gamegear.firstwing.WorldRenderer;
 import com.gamegear.firstwing.actors.*;
+import com.gamegear.firstwing.actors.Actor.ActorState;
 import com.gamegear.firstwing.actors.json.StaticActor;
 import com.gamegear.firstwing.helper.Helper;
 import com.gamegear.firstwing.levels.Level;
@@ -404,6 +405,7 @@ public class GameScreen extends MenuScreen {
         	if(b.getBody().getWorldCenter().x > renderer.cameraX + (renderer.getCam().viewportWidth / 2))
         	{
         		this.actorsForRemoval.add(b);
+        		b.setState(ActorState.DYING, true);
         		bullets.removeValue(b, true);
         	}
         }
@@ -489,6 +491,7 @@ public class GameScreen extends MenuScreen {
                     			renderer.callParticleSystem(collisionEnemy.getBody().getWorldCenter().x, collisionEnemy.getBody().getWorldCenter().y);
                     			FirstWing.audio.sounds.get("explosion").play(FirstWing.options.getVolume());
                     			FirstWing.stats.addScore(10f);
+                    			collisionEnemy.setState(ActorState.DYING, true);
                     			actorsForRemoval.add(collisionEnemy);
                         	}
                     	}
@@ -497,6 +500,7 @@ public class GameScreen extends MenuScreen {
                 		if(collisionBlock.getHealth() <= 0){
                     		if(!actorsForRemoval.contains(collisionBlock, true))
                         	{
+                    			collisionBlock.setState(ActorState.DYING, true);
                     			actorsForRemoval.add(collisionBlock);
                     			FirstWing.audio.sounds.get("explosion").play(FirstWing.options.getVolume());
                         	}
@@ -505,6 +509,7 @@ public class GameScreen extends MenuScreen {
                 	
                 	if(!actorsForRemoval.contains(collisionBullet, true))
                 	{
+                		collisionBullet.setState(ActorState.DYING, true);
                 		actorsForRemoval.add(collisionBullet);
                 	}
                 }
@@ -540,6 +545,7 @@ public class GameScreen extends MenuScreen {
                 		}
                 		
                 		if(!actorsForRemoval.contains(collisionOrb, true)){
+                			collisionOrb.setState(ActorState.DYING, true);
                     		actorsForRemoval.add(collisionOrb);
                     	}
                 	} else if(collisionOrb == null && collisionBullet == null && collisionAlienHead == null && timeSinceDamage + 1000 < System.currentTimeMillis()){
@@ -548,6 +554,7 @@ public class GameScreen extends MenuScreen {
                 	} else if(collisionAlienHead != null){
                 		FirstWing.stats.setTrophy(true);
                 		if(!actorsForRemoval.contains(collisionAlienHead, true)){
+                			collisionAlienHead.setState(ActorState.DYING, true);
                 			actorsForRemoval.add(collisionAlienHead);
                 		}
                 	}
@@ -583,33 +590,37 @@ public class GameScreen extends MenuScreen {
 		{
 			for(int i = 0; i < this.actorsForRemoval.size; i++){
 				Actor actor = this.actorsForRemoval.pop();
-				if(actor instanceof Enemy){
-					Enemy enemy = (Enemy) actor;
-					Filter filter = new Filter();
-					filter.categoryBits = 4;
-					filter.groupIndex = -2;
-					Orb toDrop = new Orb(enemy.getPosition(), enemy.getWorld(), ActorMgr.getProperties("orb", new StaticActor()), enemy.getColor(), filter);
-					level.getMoveableActors().remove(enemy);
-					level.addCollectable(toDrop);
-				} else if(actor instanceof Bullet){
-					Bullet bullet = (Bullet) actor;
-					bullets.removeValue(bullet, true);
-				} else if(actor instanceof Orb){
-					Orb orb = (Orb) actor;
-					level.getCollectables().remove(orb);
-				} else if(actor instanceof AlienHead){
-					AlienHead alienHead = (AlienHead) actor;
-					level.getStaticActors().remove(alienHead);
-				} else if(actor instanceof Block){
-					Block block = (Block) actor;
-					level.getStaticActors().remove(block);
-				}
-				
-				try{
-					this.world.destroyBody(actor.getBody());
-				} catch (NullPointerException ex){
-					Gdx.app.log("Destroy Body", ex.getMessage());
-					return;
+				if(actor.getState() == ActorState.DEAD){
+					if(actor instanceof Enemy){
+						Enemy enemy = (Enemy) actor;
+						Filter filter = new Filter();
+						filter.categoryBits = 4;
+						filter.groupIndex = -2;
+						Orb toDrop = new Orb(enemy.getPosition(), enemy.getWorld(), ActorMgr.getProperties("orb", new StaticActor()), enemy.getColor(), filter);
+						level.getMoveableActors().remove(enemy);
+						level.addCollectable(toDrop);
+					} else if(actor instanceof Bullet){
+						Bullet bullet = (Bullet) actor;
+						bullets.removeValue(bullet, true);
+					} else if(actor instanceof Orb){
+						Orb orb = (Orb) actor;
+						level.getCollectables().remove(orb);
+					} else if(actor instanceof AlienHead){
+						AlienHead alienHead = (AlienHead) actor;
+						level.getStaticActors().remove(alienHead);
+					} else if(actor instanceof Block){
+						Block block = (Block) actor;
+						level.getStaticActors().remove(block);
+					}
+					
+					try{
+						this.world.destroyBody(actor.getBody());
+					} catch (NullPointerException ex){
+						Gdx.app.log("Destroy Body", ex.getMessage());
+						return;
+					}
+				} else {
+					this.actorsForRemoval.add(actor);
 				}
 			}
 		}
