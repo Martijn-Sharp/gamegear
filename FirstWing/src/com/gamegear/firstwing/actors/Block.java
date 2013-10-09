@@ -24,6 +24,10 @@ public class Block extends Actor {
 	public Block(Vector2 position, World world, StaticActor actor, Tile tile, Filter filter, ColorEnum color) {
 		super(actor, BodyType.StaticBody, position, world, filter);
 		this.tile = tile;
+		if(tile.Health == 0){
+			tile.Health = 5;
+		}
+		
 		this.health = tile.Health;
 		this.blockColor = color;
 		this.loadTextures();
@@ -54,7 +58,7 @@ public class Block extends Actor {
 					deathFrames[i] = TextureMgr.getTexture(tile.Name + "-" + tile.AssignedColor.toString() + "-death" + i, true);
 				}
 				
-				this.deathAnimation = new Animation(1f, deathFrames);
+				this.deathAnimation = new Animation(0.33f, deathFrames);
 				break;
 			case Tile:
 				this.blockTexture = TextureMgr.getTexture(tile.Name + "-" + this.blockColor.toString(), true);

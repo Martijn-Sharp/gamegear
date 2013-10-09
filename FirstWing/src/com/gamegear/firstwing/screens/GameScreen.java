@@ -405,7 +405,7 @@ public class GameScreen extends MenuScreen {
         	if(b.getBody().getWorldCenter().x > renderer.cameraX + (renderer.getCam().viewportWidth / 2))
         	{
         		this.actorsForRemoval.add(b);
-        		b.setState(ActorState.DYING, true);
+        		b.setState(ActorState.DEAD, false);
         		bullets.removeValue(b, true);
         	}
         }
@@ -509,7 +509,7 @@ public class GameScreen extends MenuScreen {
                 	
                 	if(!actorsForRemoval.contains(collisionBullet, true))
                 	{
-                		collisionBullet.setState(ActorState.DYING, true);
+                		collisionBullet.setState(ActorState.DEAD, false);
                 		actorsForRemoval.add(collisionBullet);
                 	}
                 }

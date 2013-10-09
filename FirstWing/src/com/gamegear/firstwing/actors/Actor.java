@@ -54,6 +54,7 @@ public abstract class Actor {
 		this.bodyDef.type = bodyType;
 		this.bodyDef.position.set(position);
 		this.filter = filter;
+		this.state = ActorState.ALIVE;
 	}
 	
 	protected void setShape(Shape shape, float density)
