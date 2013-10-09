@@ -18,7 +18,7 @@ import com.gamegear.firstwing.actors.json.Polygon;
 public abstract class Actor {
 	public enum ActorState{
 		ALIVE,
-		DIEING,
+		DYING,
 		DEAD
 	}
 	

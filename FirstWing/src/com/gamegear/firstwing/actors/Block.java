@@ -9,7 +9,6 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.gamegear.firstwing.TextureMgr;
 import com.gamegear.firstwing.actors.Actor;
 import com.gamegear.firstwing.actors.json.StaticActor;
-import com.gamegear.firstwing.actors.json.StaticActor.StaticType;
 import com.gamegear.firstwing.levels.json.LevelProperties.ColorEnum;
 import com.gamegear.firstwing.levels.json.Tile;
 
