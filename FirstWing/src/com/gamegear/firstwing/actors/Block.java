@@ -58,7 +58,7 @@ public class Block extends Actor {
 					deathFrames[i] = TextureMgr.getTexture(tile.Name + "-" + tile.AssignedColor.toString() + "-death" + i, true);
 				}
 				
-				this.deathAnimation = new Animation(0.15f, deathFrames);
+				this.deathAnimation = new Animation(0.10f, deathFrames);
 				break;
 			case Tile:
 				this.blockTexture = TextureMgr.getTexture(tile.Name + "-" + this.blockColor.toString(), true);

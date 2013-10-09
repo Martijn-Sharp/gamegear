@@ -36,7 +36,7 @@ public class Enemy extends MoveableActor {
 			deathFrames[i] = TextureMgr.getTexture(this.type + "-death" + i, false);
 		}
 		
-		this.deathAnimation = new Animation(0.1f, deathFrames);
+		this.deathAnimation = new Animation(0.05f, deathFrames);
 	}
 
 	@Override
