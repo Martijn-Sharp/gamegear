@@ -241,6 +241,5 @@ public class Level {
 		spawners.clear();
 		collectables.clear();
 		speed.clear();
-		playerShip = null;
 	}
 }

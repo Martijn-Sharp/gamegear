@@ -114,6 +114,8 @@ public class GameScreen extends MenuScreen {
 	{
 		Gdx.app.log("GameLoad", "Started to load");
 		this.currentState = GameState.Begin;
+		this.levelPath = levelPath;
+		FirstWing.stats.levelID = levelPath;
 		// Bullet array
 		bullets = new Array<Bullet>();
 		bullets.ensureCapacity(20);
@@ -145,6 +147,7 @@ public class GameScreen extends MenuScreen {
 	public void loadLevel(int levelPath)
 	{
 		this.levelPath = levelPath;
+		FirstWing.stats.levelID = levelPath;
 		this.currentState = GameState.Begin;
 		
 		// Bullet array
@@ -159,7 +162,7 @@ public class GameScreen extends MenuScreen {
 		}
 		catch(Exception ex)
 		{
-			//TODO Fix this ugly ass solution
+			Gdx.app.log("From game", ex.getMessage());
 			firstWing.setScreen(firstWing.extLevelScreen);
 		}
 		renderer.reset();
@@ -177,8 +180,9 @@ public class GameScreen extends MenuScreen {
 			this.world = new World(new Vector2(0, 0), true);
 			this.level = new Level(this, levelPath);
 		} else {
-			clearWorld();
+			//clearWorld();
 			this.level.dispose();
+			world.setContactListener(null);
 			this.world.dispose();
 			this.world = new World(new Vector2(0, 0), true);
 			this.level.loadLevel(levelPath);
@@ -202,6 +206,7 @@ public class GameScreen extends MenuScreen {
 				b.setUserData(null);
 			world.destroyBody(b);
 		}
+		world.setContactListener(null);
 	}
 	
 	public GameState getCurrentState(){
@@ -735,6 +740,7 @@ public class GameScreen extends MenuScreen {
 		if(stars < 1)
 		{
 			window.add(new Label("Ouch, not enough points!", this.getSkin())).colspan(3);
+			window.row();
 			window.add(new Label("Try to get orbs of the same color", this.getSkin())).colspan(3);
 		}
 		else

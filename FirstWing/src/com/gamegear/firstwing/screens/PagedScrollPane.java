@@ -72,7 +72,7 @@ public class PagedScrollPane extends ScrollPane {
 	public void setWidth (float width) {
 		super.setWidth(width);
 		if (content != null) {
-			for (Cell cell : content.getCells()) {
+			for (Cell<?> cell : content.getCells()) {
 				cell.width(width);
 			}
 			content.invalidate();
@@ -82,7 +82,7 @@ public class PagedScrollPane extends ScrollPane {
 	public void setPageSpacing (float pageSpacing) {
 		if (content != null) {
 			content.defaults().space(pageSpacing);
-			for (Cell cell : content.getCells()) {
+			for (Cell<?> cell : content.getCells()) {
 				cell.space(pageSpacing);
 			}
 			content.invalidate();
@@ -90,6 +90,7 @@ public class PagedScrollPane extends ScrollPane {
 	}
 
 	private void scrollToPage () {
+		@SuppressWarnings("unused")
 		final float width = getWidth();
 		final float scrollX = getScrollX();
 		final float maxX = getMaxX();
