@@ -85,6 +85,7 @@ public class GameScreen extends MenuScreen {
 	
 	private int width, height;
 	private boolean finished;
+	private boolean finishedWindow;
 	private GameState currentState;
 	
 	public GameScreen(FirstWing game, int levelPath)
@@ -120,6 +121,8 @@ public class GameScreen extends MenuScreen {
 		// Bullet array
 		bullets = new Array<Bullet>();
 		bullets.ensureCapacity(20);
+		
+		finishedWindow = false;
 
 		// Rendering
 		createWorld(String.valueOf(levelPath));
@@ -142,6 +145,7 @@ public class GameScreen extends MenuScreen {
 		createCollisionListener();
 		this.actorsForRemoval = new Array<Actor>();
 		loaded = true;
+		
 		Gdx.app.log("GameLoad", "Finished loading");
 	}
 	
@@ -523,6 +527,7 @@ public class GameScreen extends MenuScreen {
 								break;
 							case Finish:
 								finished = true;
+								finishedWindow = true;
 								break;
 							case Tile:
 								if(timeSinceDamage + 100 < System.currentTimeMillis()){
@@ -651,14 +656,17 @@ public class GameScreen extends MenuScreen {
 	@Override
 	public void pause() {
 		super.pause();
+		
 		currentState = GameState.Paused;
 	}
 
 	@Override
 	public void resume() {
 		super.resume();
-		getWindow();
-		
+		if(!finishedWindow)
+		{
+			getWindow();
+		}
 	}
 
 	@Override
@@ -712,7 +720,7 @@ public class GameScreen extends MenuScreen {
 			}
 		});
 		
-		TextButton btnMenu = new TextButton("Back to menu", this.getSkin());
+		TextButton btnMenu = new TextButton("Menu", this.getSkin());
 		btnMenu.addListener(new ClickListener(){
 			@Override
 			public void clicked(InputEvent event, float x, float y){
@@ -735,6 +743,21 @@ public class GameScreen extends MenuScreen {
 			}
 		});
 		
+		TextButton btnScores = new TextButton("Scores", this.getSkin());
+		btnScores.addListener(new ClickListener(){
+			@Override
+			public void clicked(InputEvent event, float x, float y){
+				if(firstWing.platformInterface.getSignedIn())
+				{
+					firstWing.platformInterface.getLeaderboard(FirstWing.stats.getLeaderboardID(levelPath));
+				}
+				else
+				{
+					setNotification("Not logged in", 2);
+				}
+			}
+		});
+		
 		int stars = FirstWing.stats.getStars(levelPath);
 		Table starTable = new Table();
 		starTable.defaults().pad(5);
@@ -750,31 +773,32 @@ public class GameScreen extends MenuScreen {
 		
 		if(stars < 1)
 		{
-			window.add(new Label("Ouch, not enough points!", this.getSkin())).colspan(3);
+			window.add(new Label("Ouch, not enough points!", this.getSkin())).colspan(4);
 			window.row();
-			window.add(new Label("Try to get orbs of the same color", this.getSkin())).colspan(3);
+			window.add(new Label("Try to get orbs of the same color", this.getSkin())).colspan(4);
 		}
 		else
 		{
-			window.add(new Label("Congratulations!", this.getSkin())).colspan(3);
+			window.add(new Label("Congratulations!", this.getSkin())).colspan(4);
 		}
 		
 		window.row();
-		window.add(new Label("You scored: " + FirstWing.stats.getScore(), this.getSkin())).colspan(3);
+		window.add(new Label("You scored: " + FirstWing.stats.getScore(), this.getSkin())).colspan(4);
 		window.row();
 		if(FirstWing.stats.getTrophy())
 		{
-			window.add(new Label("You got the trophy!", this.getSkin())).colspan(3);
+			window.add(new Label("You got the trophy!", this.getSkin())).colspan(4);
 		}
 		else
 		{
-			window.add(new Label("You didn't get the trophy!", this.getSkin())).colspan(3);
+			window.add(new Label("You didn't get the trophy!", this.getSkin())).colspan(4);
 		}
 		window.row();
-		window.add(starTable).height(30).colspan(3);
+		window.add(starTable).height(30).colspan(4);
 		window.row();
 		window.add(btnReplay);
 		window.add(btnMenu);
+		window.add(btnScores);
 		if(stars > 0 || FirstWing.stats.getUnlockedLevels() > levelPath)
 		{
 			window.add(btnNextLevel);

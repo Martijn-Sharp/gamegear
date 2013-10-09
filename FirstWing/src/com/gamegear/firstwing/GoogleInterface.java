@@ -22,4 +22,5 @@ public interface GoogleInterface {
 	public void incrementAchievement(String achievement, int steps);
 	
 	public void getLeaderboard();
+	public void getLeaderboard(String leaderboard);
 }

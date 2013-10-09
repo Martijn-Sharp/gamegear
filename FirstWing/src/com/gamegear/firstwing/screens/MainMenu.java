@@ -73,7 +73,7 @@ public class MainMenu extends MenuScreen{
 					firstWing.platformInterface.Login();
 					FirstWing.options.setPlayServices(true);
 				}
-				else
+				else if(firstWing.platformInterface.getSignedIn())
 				{
 					firstWing.platformInterface.getLeaderboard();
 				}

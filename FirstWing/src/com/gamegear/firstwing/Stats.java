@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.gamegear.firstwing.actors.Enemy;
 import com.gamegear.firstwing.levels.json.LevelProperties.ColorEnum;
 
 public class Stats {
@@ -17,6 +18,7 @@ public class Stats {
 	public ColorEnum currentColor;
 	public long comboOrbs;
 	public float modifier;
+	public long totalKilled;
 	
 	public long upgradeWeapon = 0;
 	public long upgradeHealth = 0;
@@ -48,6 +50,7 @@ public class Stats {
 		{
 			 collectedOrbsColor.put(en.name(), prefs.getLong(en.name(), 0l));
 		}
+		totalKilled = prefs.getLong("enemies.total", 0l);
 	}
 	
 	public boolean addScore(ColorEnum colorEnum, float enemyScore)
@@ -88,6 +91,13 @@ public class Stats {
 			this.collectedOrbsColor.put(colorEnum.name(), 1l);
 		}
 		
+		totalKilled ++;
+		if(totalKilled >= 10000)
+		{
+			firstwing.platformInterface.unlockAchievement("CgkIhpLNkp8BEAIQAw");
+		}
+		
+		
 		this.currentScore += enemyScore * this.modifier;
 		
 		return changed;
@@ -105,17 +115,21 @@ public class Stats {
 	
 	public void resetScore(boolean checkHighscore)
 	{
-		if(getHighScore(levelID) < currentScore && checkHighscore)
+		if(checkHighscore)
 		{
-			setHighScore(levelID, currentScore);
+			if(getHighScore(levelID) < currentScore)
+			{
+				setHighScore(levelID, currentScore);
 			
-			Iterator<Entry<String, Long>> it = collectedOrbsColor.entrySet().iterator();
-		    while (it.hasNext()) {
-		        Map.Entry<String, Long> pairs = (Entry<String, Long>)it.next();
-		        prefs.putLong(pairs.getKey(), prefs.getLong(pairs.getKey()) + pairs.getValue());
-		        System.out.println(pairs.getKey() + " = " + prefs.getLong(pairs.getKey()));
-		        it.remove();
-		    }
+				Iterator<Entry<String, Long>> it = collectedOrbsColor.entrySet().iterator();
+				while (it.hasNext()) {
+					Map.Entry<String, Long> pairs = (Entry<String, Long>)it.next();
+					prefs.putLong(pairs.getKey(), prefs.getLong(pairs.getKey()) + pairs.getValue());
+					System.out.println(pairs.getKey() + " = " + prefs.getLong(pairs.getKey()));
+					it.remove();
+				}
+			}
+			prefs.putLong("enemies.total", totalKilled);
 		    prefs.flush();
 		}
 	    currentColor = ColorEnum.none;
@@ -167,7 +181,6 @@ public class Stats {
 	
 	public void changeLevel(int levelID)
 	{
-		resetScore(true);
 		this.levelID = levelID;
 	}
 
@@ -182,37 +195,11 @@ public class Stats {
 		
 		if(firstwing.platformInterface.getSignedIn())
 		{
+			//Submit total
 			firstwing.platformInterface.submitScore(highScore);
-			switch(levelID)
-			{
-				case 1:		
-					firstwing.platformInterface.submitScore("CgkIhpLNkp8BEAIQCg" ,highScore);
-					break;
-				case 2:		
-					firstwing.platformInterface.submitScore("CgkIhpLNkp8BEAIQCw" ,highScore);
-					break;
-				case 3:		
-					firstwing.platformInterface.submitScore("CgkIhpLNkp8BEAIQDA" ,highScore);
-					break;
-				case 4:  
-					firstwing.platformInterface.submitScore("CgkIhpLNkp8BEAIQDQ" ,highScore);
-			     	break;
-				case 5:  
-					firstwing.platformInterface.submitScore("CgkIhpLNkp8BEAIQDg" ,highScore);
-			     	break;
-				case 6:  
-					firstwing.platformInterface.submitScore("CgkIhpLNkp8BEAIQDw" ,highScore);
-			     	break;
-				case 7:  
-					firstwing.platformInterface.submitScore("CgkIhpLNkp8BEAIQEA" ,highScore);
-			     	break;
-				case 8:  
-					firstwing.platformInterface.submitScore("CgkIhpLNkp8BEAIQEQ" ,highScore);
-			     	break;
-				case 9:  
-					firstwing.platformInterface.submitScore("CgkIhpLNkp8BEAIQEg" ,highScore);
-			     	break;
-			}
+			
+			//Submit level
+			firstwing.platformInterface.submitScore(getLeaderboardID(levelID) ,highScore);
 		}
 	}
 	
@@ -261,6 +248,32 @@ public class Stats {
 		{
 			prefs.putLong("unlocked", unlocked);
 			prefs.flush();
+		}
+	}
+	
+	public String getLeaderboardID(int level)
+	{
+		switch (level) {
+		case 1:
+			return "CgkIhpLNkp8BEAIQCg";
+		case 2:
+			return "CgkIhpLNkp8BEAIQCw";
+		case 3:
+			return "CgkIhpLNkp8BEAIQDA";
+		case 4:
+			return "CgkIhpLNkp8BEAIQDQ";
+		case 5:
+			return "CgkIhpLNkp8BEAIQDg";
+		case 6:
+			return "CgkIhpLNkp8BEAIQDw";
+		case 7:
+			return "CgkIhpLNkp8BEAIQEA";
+		case 8:
+			return "CgkIhpLNkp8BEAIQEQ";
+		case 9:
+			return "CgkIhpLNkp8BEAIQEg";
+		default:
+			return "CgkIhpLNkp8BEAIQAQ";
 		}
 	}
 }

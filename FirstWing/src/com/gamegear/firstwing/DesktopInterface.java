@@ -53,4 +53,9 @@ public class DesktopInterface implements GoogleInterface {
 	public void getLeaderboard() {
 		System.out.println("Desktop: Should have shown leaderboards");		
 	}
+	
+	@Override
+	public void getLeaderboard(String leaderboard) {
+		System.out.println("Desktop: Should have shown leaderboard: " + leaderboard);
+	}
 }
