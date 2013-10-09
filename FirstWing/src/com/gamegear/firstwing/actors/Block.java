@@ -53,12 +53,12 @@ public class Block extends Actor {
 		switch(((StaticActor)this.getProperties()).Type){
 			case Breakable:
 				this.blockTexture = TextureMgr.getTexture(tile.Name + "-" + tile.AssignedColor.toString(), true);
-				TextureRegion[] deathFrames = new TextureRegion[3];
-				for(int i = 0; i < 3; i++){
+				TextureRegion[] deathFrames = new TextureRegion[4];
+				for(int i = 0; i < 4; i++){
 					deathFrames[i] = TextureMgr.getTexture(tile.Name + "-" + tile.AssignedColor.toString() + "-death" + i, true);
 				}
 				
-				this.deathAnimation = new Animation(0.33f, deathFrames);
+				this.deathAnimation = new Animation(0.15f, deathFrames);
 				break;
 			case Tile:
 				this.blockTexture = TextureMgr.getTexture(tile.Name + "-" + this.blockColor.toString(), true);

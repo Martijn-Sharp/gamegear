@@ -8,7 +8,6 @@ import com.gamegear.firstwing.actors.json.DynamicActor;
 
 public abstract class MoveableActor extends Actor {
 	private float speed;
-	private float stateTime = 0;
 	
 	/** @param Speed
 	 * @param Scale
@@ -26,19 +25,6 @@ public abstract class MoveableActor extends Actor {
 	
 	public void setSpeed(float speed){
 		this.speed = speed;
-	}
-	
-	public float getStateTime(){
-		return stateTime;
-	}
-	
-	public void setStateTime(float stateTime) {
-		this.stateTime = stateTime;
-	}
-	
-	public void update(float delta) {
-		stateTime += delta;
-		//position.add(velocity.tmp().mul(delta)); 
 	}
 	
 	@Override

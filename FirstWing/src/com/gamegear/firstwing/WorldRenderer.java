@@ -208,7 +208,7 @@ public class WorldRenderer {
 								rotationAngle,
 								false);
 						} catch (NullPointerException ex){
-							Gdx.app.log("Rendering", actor.getProperties().Name + ex.getMessage());
+							Gdx.app.log("Rendering", "Name: " + actor.getProperties().Name + " || " + ex.getMessage());
 						}
 					}
 					
