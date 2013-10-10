@@ -9,7 +9,6 @@ import java.util.Queue;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.Texture.TextureWrap;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Filter;
@@ -191,7 +190,6 @@ public class Level {
 		if(bgTexture == null)
 		{
 			bgTexture = new Texture(Gdx.files.internal("images/" + this.properties.BackgroundName + ".png"));
-			//bgTexture.setWrap(TextureWrap.Repeat, TextureWrap.Repeat);
 		}
 		
 		// BACKGROUND
@@ -208,6 +206,7 @@ public class Level {
 		}
 		
 		// SPEED
+		Collections.sort(this.properties.SpeedPoints);
 		speed.add(new SpeedPoint(0, 1));
 		if(this.properties.SpeedPoints != null){
 			for(SpeedPoint sp : this.properties.SpeedPoints){
