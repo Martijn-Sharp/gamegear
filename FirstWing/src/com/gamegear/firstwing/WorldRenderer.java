@@ -107,7 +107,7 @@ public class WorldRenderer {
 		pool = new ParticleEffectPool(prototype, 2, 20);
 		effects = new Array<PooledEffect>();
 		
-		this.currentBgColor = Helper.darkenColor(Helper.colorEnumToColor(ColorEnum.blue), 0.65f);
+		this.currentBgColor = Helper.darkenColor(Helper.colorEnumToColor(ColorEnum.blue), 0.5f);
 	}
 	
 	public void changeAfterBurnerColor(ColorEnum color)
@@ -279,12 +279,12 @@ public class WorldRenderer {
 	}
 	
 	private Color getColor(int speed){
-		if(speed == 3){
-			return Helper.darkenColor(Helper.colorEnumToColor(ColorEnum.red), 0.65f);
-		} else if(speed == 2) {
-			return Helper.darkenColor(Helper.colorEnumToColor(ColorEnum.orange), 0.65f);
+		if(speed > 2.5f){
+			return Helper.darkenColor(Helper.colorEnumToColor(ColorEnum.red), 0.5f);
+		} else if(speed > 1.5f) {
+			return Helper.darkenColor(Helper.colorEnumToColor(ColorEnum.orange), 0.5f);
 		} else{
-			return Helper.darkenColor(Helper.colorEnumToColor(ColorEnum.blue), 0.65f);
+			return Helper.darkenColor(Helper.colorEnumToColor(ColorEnum.blue), 0.5f);
 		}
 	}
 	

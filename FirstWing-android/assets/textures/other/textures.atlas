@@ -1,0 +1,68 @@
+
+textures.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+alienhead
+  rotate: false
+  xy: 1, 103
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+finish
+  rotate: false
+  xy: 131, 103
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+orb-blue
+  rotate: false
+  xy: 1, 69
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+orb-green
+  rotate: false
+  xy: 261, 199
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+orb-lightblue
+  rotate: false
+  xy: 1, 35
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+orb-orange
+  rotate: false
+  xy: 35, 69
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+orb-purple
+  rotate: false
+  xy: 261, 165
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+orb-red
+  rotate: false
+  xy: 295, 199
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+orb-yellow
+  rotate: false
+  xy: 1, 1
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1

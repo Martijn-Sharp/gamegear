@@ -52,16 +52,16 @@ public class Block extends Actor {
 	protected void loadTextures() {
 		switch(((StaticActor)this.getProperties()).Type){
 			case Breakable:
-				this.blockTexture = TextureMgr.getTexture(tile.Name + "-" + tile.AssignedColor.toString(), true);
+				this.blockTexture = TextureMgr.getStaticTexture(tile.Name + "-" + tile.AssignedColor.toString());
 				TextureRegion[] deathFrames = new TextureRegion[4];
 				for(int i = 0; i < 4; i++){
-					deathFrames[i] = TextureMgr.getTexture(tile.Name + "-" + tile.AssignedColor.toString() + "-death" + i, true);
+					deathFrames[i] = TextureMgr.getStaticTexture(tile.Name + "-" + tile.AssignedColor.toString() + "-death" + i);
 				}
 				
 				this.deathAnimation = new Animation(0.10f, deathFrames);
 				break;
 			case Tile:
-				this.blockTexture = TextureMgr.getTexture(tile.Name + "-" + this.blockColor.toString(), true);
+				this.blockTexture = TextureMgr.getStaticTexture(tile.Name + "-" + this.blockColor.toString());
 				break;
 			case Collectable:
 			case Finish:

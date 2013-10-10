@@ -37,6 +37,7 @@ import com.badlogic.gdx.utils.Timer.Task;
 import com.gamegear.firstwing.ActorMgr;
 import com.gamegear.firstwing.BobController;
 import com.gamegear.firstwing.FirstWing;
+import com.gamegear.firstwing.TextureMgr;
 import com.gamegear.firstwing.WorldRenderer;
 import com.gamegear.firstwing.actors.*;
 import com.gamegear.firstwing.actors.Actor.ActorState;
@@ -126,6 +127,7 @@ public class GameScreen extends MenuScreen {
 		finishedWindow = false;
 
 		// Rendering
+		TextureMgr.clearTextures();
 		createWorld(String.valueOf(levelPath));
 		//firstWing.setScreen(firstWing.extLevelScreen);
 
@@ -163,6 +165,7 @@ public class GameScreen extends MenuScreen {
 
 		// Rendering
 		//world.dispose();
+		TextureMgr.clearTextures();
 		try{
 			createWorld(String.valueOf(levelPath));
 			Gdx.input.setInputProcessor(this.im);
@@ -522,7 +525,7 @@ public class GameScreen extends MenuScreen {
                 
                 // Als het schip in aanraking komt
                 if(collisionBob != null){
-                	if(collisionBlock != null){
+                	if(collisionBlock != null && collisionBlock.getState() == ActorState.ALIVE){
                 		switch(((StaticActor)collisionBlock.getProperties()).Type){
 							case Breakable:
 								collisionBob.setHealth(0f);
@@ -561,11 +564,9 @@ public class GameScreen extends MenuScreen {
                 			collisionAlienHead.setState(ActorState.DYING, true);
                 			actorsForRemoval.add(collisionAlienHead);
                 		}
-                	} else if(collisionEnemy != null && timeSinceDamage + 1000 < System.currentTimeMillis()){
-                		if(collisionEnemy.getState() == ActorState.ALIVE){
-	                		timeSinceDamage = System.currentTimeMillis();
-	                		collisionBob.setHealth(collisionBob.getHealth() - 5);
-                		}
+                	} else if(collisionEnemy != null && collisionEnemy.getState() == ActorState.ALIVE && timeSinceDamage + 1000 < System.currentTimeMillis()){
+                		timeSinceDamage = System.currentTimeMillis();
+                		collisionBob.setHealth(collisionBob.getHealth() - 5);
                 	}
                 	
                 	if(collisionBob.getHealth() <= 0){

@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.gamegear.firstwing.ActorMgr;
+import com.gamegear.firstwing.TextureMgr;
 import com.gamegear.firstwing.actors.*;
 import com.gamegear.firstwing.actors.json.StaticActor;
 import com.gamegear.firstwing.levels.json.*;
@@ -166,6 +167,7 @@ public class Level {
 		Collections.sort(this.properties.Spawners);
 		Iterator<com.gamegear.firstwing.levels.json.Spawner> spawnerIt = this.properties.Spawners.iterator();
 		Filter filter = new Filter();
+		TextureMgr.initiateAtlas(this.properties.LevelColor);
 		
 		// PLAYER
 		this.playerShip = new Bob(new Vector2(this.properties.SpawnX, this.properties.SpawnY), game.world, new Filter());
