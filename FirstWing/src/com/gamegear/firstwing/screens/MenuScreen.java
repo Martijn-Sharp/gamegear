@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
@@ -37,7 +38,7 @@ public abstract class MenuScreen implements Screen {
 
     public MenuScreen(FirstWing firstWing) {
         this.firstWing = firstWing;
-        stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true) {
+        stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true, new SpriteBatch(1000, 100)) {
             @Override
             public boolean keyDown(int keyCode) {
             	if(keyCode == Keys.BACK || keyCode == Keys.ESCAPE){
@@ -109,9 +110,9 @@ public abstract class MenuScreen implements Screen {
 
     protected Skin getSkin() {
         if (skin == null) {
-                FirstWing.manager.load("ui/uiskin.json", Skin.class);
+                FirstWing.manager.load("ui/ui.json", Skin.class);
                 FirstWing.manager.finishLoading();
-                skin = FirstWing.manager.get("ui/uiskin.json");
+                skin = FirstWing.manager.get("ui/ui.json");
                 skin.add("top", skin.newDrawable("default-round", Color.BLUE), Drawable.class);
                 skin.add("button-disabled", skin.newDrawable("default-round", Color.DARK_GRAY), Drawable.class);
                 skin.add("star-filled", skin.newDrawable("white", Color.YELLOW), Drawable.class);
