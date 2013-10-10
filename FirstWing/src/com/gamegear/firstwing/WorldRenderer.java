@@ -171,7 +171,7 @@ public class WorldRenderer {
         
         batch.begin();
 			for(Sprite bg : game.level.getBackground()){
-				if(bg.getX() - cam.position.x < (int)CAMERA_WIDTH + 1 && bg.getX() - cam.position.x > -(int)CAMERA_WIDTH - 1){
+				if((bg.getX() - cam.position.x) < ((int)CAMERA_WIDTH + 1) && (bg.getX() - cam.position.x) > (-(int)CAMERA_WIDTH - 1)){
 					bg.draw(batch);
 				}
 			}
@@ -268,9 +268,9 @@ public class WorldRenderer {
 	}
 	
 	private Color getColor(int speed){
-		if(speed > 2.5f){
+		if(speed >= 2.5f){
 			return Helper.darkenColor(Helper.colorEnumToColor(ColorEnum.red), 0.5f);
-		} else if(speed > 1.5f) {
+		} else if(speed >= 1.5f) {
 			return Helper.darkenColor(Helper.colorEnumToColor(ColorEnum.orange), 0.5f);
 		} else{
 			return Helper.darkenColor(Helper.colorEnumToColor(ColorEnum.blue), 0.5f);

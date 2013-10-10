@@ -191,15 +191,18 @@ public class Level {
 		if(bgTexture == null)
 		{
 			bgTexture = new Texture(Gdx.files.internal("images/" + this.properties.BackgroundName + ".png"));
-			bgTexture.setWrap(TextureWrap.Repeat, TextureWrap.Repeat);
+			//bgTexture.setWrap(TextureWrap.Repeat, TextureWrap.Repeat);
 		}
 		
 		// BACKGROUND
-		for(int x = 0; x < Math.ceil(this.properties.FinishX / 6); x++){
-			for(int y = 0; y < 2; y++){
+		float bgSize = 4f;
+		int xCeiling = (int) Math.ceil(this.properties.FinishX / (int)bgSize);
+		int yCeiling = 12 / (int)bgSize;
+		for(int x = 0; x < xCeiling; x++){
+			for(int y = 0; y < yCeiling; y++){
 				Sprite tempBg = new Sprite(bgTexture);
-				tempBg.setSize(6f, 6f);
-				tempBg.setPosition(x * 6f - 0.5f, y * 6f - 0.5f);
+				tempBg.setSize(bgSize, bgSize);
+				tempBg.setPosition((x * bgSize) - 0.5f, (y * bgSize) - 0.5f);
 				this.background.add(tempBg);
 			}
 		}
@@ -226,5 +229,6 @@ public class Level {
 		spawners.clear();
 		collectables.clear();
 		speed.clear();
+		background.clear();
 	}
 }
