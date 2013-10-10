@@ -3,63 +3,63 @@ textures.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-breakable-wall-lightblue-death0
+tron-bottom-lightblue
   rotate: false
   xy: 1, 261
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-breakable-wall-lightblue-death1
+tron-empty-bottom-left-lightblue
   rotate: false
   xy: 1, 131
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-breakable-wall-lightblue-death2
+tron-empty-bottom-lightblue
   rotate: false
   xy: 131, 261
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-breakable-wall-lightblue-death3
+tron-empty-bottom-right-lightblue
   rotate: false
   xy: 1, 1
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-breakable-wall-lightblue
+tron-empty-left-lightblue
   rotate: false
   xy: 131, 131
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-bottom-lightblue
+tron-empty-left-top-lightblue
   rotate: false
   xy: 261, 261
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-empty-bottom-left-lightblue
+tron-empty-lightblue
   rotate: false
   xy: 131, 1
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-empty-bottom-lightblue
+tron-empty-right-lightblue
   rotate: false
   xy: 261, 131
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-empty-bottom-right-lightblue
+tron-empty-top-lightblue
   rotate: false
   xy: 261, 1
   size: 128, 128
@@ -71,63 +71,63 @@ textures2.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-tron-empty-left-lightblue
+tron-empty-top-right-lightblue
   rotate: false
   xy: 1, 261
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-empty-left-top-lightblue
+tron-full-lightblue
   rotate: false
   xy: 1, 131
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-empty-lightblue
+tron-full-middle-lightblue
   rotate: false
   xy: 131, 261
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-empty-right-lightblue
+tron-left-bottom-lightblue
   rotate: false
   xy: 1, 1
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-empty-top-lightblue
+tron-left-lightblue
   rotate: false
   xy: 131, 131
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-empty-top-right-lightblue
+tron-left-top-lightblue
   rotate: false
   xy: 261, 261
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-full-lightblue
+tron-right-bottom-lightblue
   rotate: false
   xy: 131, 1
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-full-middle-lightblue
+tron-right-lightblue
   rotate: false
   xy: 261, 131
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-left-bottom-lightblue
+tron-right-top-lightblue
   rotate: false
   xy: 261, 1
   size: 128, 128
@@ -139,44 +139,9 @@ textures3.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-tron-left-lightblue
-  rotate: false
-  xy: 1, 261
-  size: 128, 128
-  orig: 128, 128
-  offset: 0, 0
-  index: -1
-tron-left-top-lightblue
-  rotate: false
-  xy: 1, 131
-  size: 128, 128
-  orig: 128, 128
-  offset: 0, 0
-  index: -1
-tron-right-bottom-lightblue
-  rotate: false
-  xy: 131, 261
-  size: 128, 128
-  orig: 128, 128
-  offset: 0, 0
-  index: -1
-tron-right-lightblue
-  rotate: false
-  xy: 1, 1
-  size: 128, 128
-  orig: 128, 128
-  offset: 0, 0
-  index: -1
-tron-right-top-lightblue
-  rotate: false
-  xy: 131, 131
-  size: 128, 128
-  orig: 128, 128
-  offset: 0, 0
-  index: -1
 tron-top-lightblue
   rotate: false
-  xy: 261, 261
+  xy: 1, 1
   size: 128, 128
   orig: 128, 128
   offset: 0, 0

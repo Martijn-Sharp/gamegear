@@ -119,8 +119,8 @@ public abstract class MenuScreen implements Screen {
                 skin = FirstWing.manager.get("ui/ui.json");
                 skin.add("top", skin.newDrawable("default-round", Color.BLUE), Drawable.class);
                 skin.add("button-disabled", skin.newDrawable("default-round", Color.DARK_GRAY), Drawable.class);
-                skin.add("star-filled", skin.newDrawable("white", Color.YELLOW), Drawable.class);
-                skin.add("star-unfilled", skin.newDrawable("white", Color.GRAY), Drawable.class);
+                /*skin.add("star-filled", skin.newDrawable("white", Color.YELLOW), Drawable.class);
+                skin.add("star-unfilled", skin.newDrawable("white", Color.GRAY), Drawable.class);*/
         }
         return skin;
     }

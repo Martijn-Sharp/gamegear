@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
@@ -100,6 +101,9 @@ public class GameScreen extends MenuScreen {
 	private Window pauseWindow;
 	private Window deathWindow;
 	private Window victoryWindow;
+	
+	private TextureRegion starFilled;
+	private TextureRegion starUnfilled;
 	
 	public GameScreen(FirstWing game, int levelPath)
 	{
@@ -792,14 +796,21 @@ public class GameScreen extends MenuScreen {
 		});
 		
 		int stars = FirstWing.stats.getStars(levelPath);
+		if(this.starFilled == null){
+			this.starFilled = this.getSkin().getRegion("star-filled");
+		}
+		
+		if(this.starUnfilled == null){
+			this.starUnfilled = this.getSkin().getRegion("star-unfilled");
+		}
 		Table starTable = new Table();
 		starTable.defaults().pad(5);
 		if (stars >= 0) {
 			for (int star = 0; star < 3; star++) {
 				if (stars > star) {
-					starTable.add(new Image(getSkin().getDrawable("star-filled"))).width(20).height(20);
+					starTable.add(new Image(this.starFilled)).width(20).height(20);
 				} else {
-					starTable.add(new Image(getSkin().getDrawable("star-unfilled"))).width(20).height(20);
+					starTable.add(new Image(this.starUnfilled)).width(20).height(20);
 				}
 			}			
 		}

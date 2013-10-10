@@ -10,7 +10,7 @@ public class TextureSetup {
 		settings.maxHeight = 512;
 
 		TexturePacker2.process(settings, "../FirstWing-images/dynamic", "D:/FirstWing/FirstWing-android/assets/textures", "dyntextures.atlas");
-		TexturePacker2.process(settings, "../FirstWing-images/ui", "D:/FirstWing/FirstWing-android/assets/ui", "uiskin.atlas");
+		TexturePacker2.process(settings, "../FirstWing-images/ui", "D:/FirstWing/FirstWing-android/assets/ui", "ui.atlas");
 		TexturePacker2.process(settings, "../FirstWing-images/static/blue", "../FirstWing-android/assets/textures/blue", "textures.atlas");
 		TexturePacker2.process(settings, "../FirstWing-images/static/green", "../FirstWing-android/assets/textures/green", "textures.atlas");
 		TexturePacker2.process(settings, "../FirstWing-images/static/lightblue", "../FirstWing-android/assets/textures/lightblue", "textures.atlas");

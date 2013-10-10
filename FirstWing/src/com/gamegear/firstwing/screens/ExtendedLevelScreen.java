@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
@@ -20,6 +21,8 @@ import com.gamegear.firstwing.FirstWing;
 public class ExtendedLevelScreen extends MenuScreen {
 	
 	FirstWing firstwing;
+	TextureRegion starFilled;
+	TextureRegion starUnfilled;
 	
 	public ExtendedLevelScreen(FirstWing firstwing) {
 		super(firstwing);
@@ -126,14 +129,21 @@ public class ExtendedLevelScreen extends MenuScreen {
 
 		// Get stars earned
 		int stars = FirstWing.stats.getStars(Integer.parseInt(level));
+		if(this.starFilled == null){
+			this.starFilled = this.getSkin().getRegion("star-filled");
+		}
+		
+		if(this.starUnfilled == null){
+			this.starUnfilled = this.getSkin().getRegion("star-unfilled");
+		}
 		Table starTable = new Table();
 		starTable.defaults().pad(5);
 		if (stars >= 0) {
 			for (int star = 0; star < 3; star++) {
 				if (stars > star) {
-					starTable.add(new Image(getSkin().getDrawable("star-filled"))).width(20).height(20);
+					starTable.add(new Image(this.starFilled)).width(20).height(20);
 				} else {
-					starTable.add(new Image(getSkin().getDrawable("star-unfilled"))).width(20).height(20);
+					starTable.add(new Image(this.starUnfilled)).width(20).height(20);
 				}
 			}			
 		}
