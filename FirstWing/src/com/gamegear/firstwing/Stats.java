@@ -271,6 +271,14 @@ public class Stats {
 			return "CgkIhpLNkp8BEAIQEQ";
 		case 9:
 			return "CgkIhpLNkp8BEAIQEg";
+		case 10:
+			return "CgkIhpLNkp8BEAIQEw";
+		case 11:
+			return "CgkIhpLNkp8BEAIQFA";
+		case 12:
+			return "CgkIhpLNkp8BEAIQFQ";
+		case 13:
+			return "CgkIhpLNkp8BEAIQFg";
 		default:
 			return "CgkIhpLNkp8BEAIQAQ";
 		}

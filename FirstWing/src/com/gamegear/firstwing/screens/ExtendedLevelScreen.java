@@ -46,10 +46,10 @@ public class ExtendedLevelScreen extends MenuScreen {
 			dirHandle = Gdx.files.internal("./bin/levels");
 		}
 
-		LinkedList<String> fileDirectory = new LinkedList<String>();
+		LinkedList<Integer> fileDirectory = new LinkedList<Integer>();
 
 		for (FileHandle entry : dirHandle.list()) {
-			fileDirectory.add(entry.nameWithoutExtension());
+			fileDirectory.add(Integer.parseInt(entry.nameWithoutExtension()));
 		}
 
 		Collections.sort(fileDirectory);
@@ -77,7 +77,7 @@ public class ExtendedLevelScreen extends MenuScreen {
 						finished = true;
 						break;
 					}
-					levels.add(getLevelButton(fileDirectory.get(c - 1)))
+					levels.add(getLevelButton(String.valueOf(fileDirectory.get(c - 1))))
 							.expand().fill();
 					c++;
 				}

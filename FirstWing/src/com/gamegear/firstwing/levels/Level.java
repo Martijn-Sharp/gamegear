@@ -206,7 +206,10 @@ public class Level {
 		}
 		
 		// SPEED
-		Collections.sort(this.properties.SpeedPoints);
+		if(this.properties.SpeedPoints != null)
+		{
+			Collections.sort(this.properties.SpeedPoints);
+		}
 		speed.add(new SpeedPoint(0, 1));
 		if(this.properties.SpeedPoints != null){
 			for(SpeedPoint sp : this.properties.SpeedPoints){
