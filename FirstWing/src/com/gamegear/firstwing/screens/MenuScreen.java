@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
@@ -30,6 +31,7 @@ public abstract class MenuScreen implements Screen {
     private FreeTypeFontGenerator gen = new FreeTypeFontGenerator(Gdx.files.internal("ui/TiresiasScreenfont.ttf"));
     protected BitmapFont font;
     private NinePatchDrawable background;
+    private int glMask;
     
     //Styles
     LabelStyle labelStyle;
@@ -68,15 +70,16 @@ public abstract class MenuScreen implements Screen {
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
+        this.glMask = Gdx.graphics.isGL20Available() ? GL20.GL_COLOR_BUFFER_BIT : GL10.GL_COLOR_BUFFER_BIT;
     }
 
     @Override
     public void render(float delta) {
         stage.act(delta);
 
-        Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+    	Gdx.gl.glClear(this.glMask);
         Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-
+      
         stage.draw();
     }
 
@@ -96,6 +99,7 @@ public abstract class MenuScreen implements Screen {
     @Override
     public void dispose() {
     	stage.dispose();
+    	gen.dispose();
     }
 
     protected Table getTable() {

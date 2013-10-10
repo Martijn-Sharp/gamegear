@@ -145,7 +145,6 @@ public class Level {
 		FileHandle fileHandle;
 		fileHandle = Gdx.files.internal("levels/" + levelPath + ".dat");
 		
-		
 		if(levelPath.isEmpty() || !fileHandle.exists())
 		{
 			this.properties = new JSONLoader().getLevel(Gdx.files.internal("levels/1.dat"));
@@ -156,21 +155,12 @@ public class Level {
 			this.properties = new JSONLoader().getLevel(Gdx.files.internal("levels/" + levelPath + ".dat"));
 		}
 		
-//		if(this.tempTx == null)
-//		{
-//			this.tempTx = new Texture(Gdx.files.internal("images/" + this.properties.BackgroundName + ".png"));
-//		}
-		
-		
 		Collections.sort(this.properties.Tiles);
 		Iterator<Tile> tiles = this.properties.Tiles.iterator();
 		Collections.sort(this.properties.Spawners);
 		Iterator<com.gamegear.firstwing.levels.json.Spawner> spawnerIt = this.properties.Spawners.iterator();
 		Filter filter = new Filter();
 		TextureMgr.initiateAtlas(this.properties.LevelColor);
-		
-		// PLAYER
-		this.playerShip = new Bob(new Vector2(this.properties.SpawnX, this.properties.SpawnY), game.world, new Filter());
 		
 		// TILES
 		while(tiles.hasNext()){
@@ -204,25 +194,15 @@ public class Level {
 			bgTexture.setWrap(TextureWrap.Repeat, TextureWrap.Repeat);
 		}
 		
-		
 		// BACKGROUND
-		for(int x = 0; x < Math.ceil(this.properties.FinishX / 4); x++){
-			for(int y = 0; y < 3; y++){
-				//Texture tempTx = new Texture(Gdx.files.internal("images/" + this.properties.BackgroundName + ".png"));
+		for(int x = 0; x < Math.ceil(this.properties.FinishX / 6); x++){
+			for(int y = 0; y < 2; y++){
 				Sprite tempBg = new Sprite(bgTexture);
-				tempBg.setSize(4f, 4f);
-				tempBg.setScale(1f);
-				tempBg.setPosition(x * 4f - 0.5f, y * 4f - 0.5f);
+				tempBg.setSize(6f, 6f);
+				tempBg.setPosition(x * 6f - 0.5f, y * 6f - 0.5f);
 				this.background.add(tempBg);
-				//tempTx.dispose();
 			}
 		}
-		
-		
-//		Sprite bgSprite = new Sprite(bgTexture,0,0,bgTexture.getWidth(),bgTexture.getHeight());
-//		bgSprite.setSize(4f, 4f);
-//		bgSprite.setScale(1f);
-//		this.background.add(bgSprite);
 		
 		// SPEED
 		speed.add(new SpeedPoint(0, 1));
@@ -232,6 +212,9 @@ public class Level {
 			}
 		}
 		speed.add(new SpeedPoint(this.properties.FinishX - 6f, 0));
+		
+		// PLAYER
+		this.playerShip = new Bob(new Vector2(this.properties.SpawnX, this.properties.SpawnY), game.world, new Filter());
 	}
 	
 	public void dispose()

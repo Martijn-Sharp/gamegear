@@ -23,6 +23,7 @@ public abstract class Actor {
 	}
 	
 	protected float stateTime = 0;
+	protected boolean animationEnabled = false;
 	
 	private Body body;
 	private BodyDef bodyDef;
@@ -136,6 +137,10 @@ public abstract class Actor {
 	
 	public ActorState getState(){
 		return this.state;
+	}
+	
+	public boolean isAnimation(){
+		return animationEnabled;
 	}
 	
 	protected void setTexture(TextureRegion texture){

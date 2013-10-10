@@ -131,7 +131,7 @@ public class OptionsScreen extends MenuScreen {
         table.add("Controls").spaceBottom(15.0f).colspan(2).align(Align.left);
         table.row();
         table.add(invertLabel).uniform().align(Align.left).padLeft(20);
-        table.add(invert).align(Align.left).fill();
+        table.add(invert).align(Align.left).fillY();
         table.row();
         table.add(sensLabel).uniform().align(Align.left).padLeft(20);
         table.add(sensitivity).align(Align.left).fill().height(Value.maxHeight);
@@ -141,16 +141,16 @@ public class OptionsScreen extends MenuScreen {
         table.add("Audio").spaceBottom(15.0f).colspan(2).align(Align.left);
         table.row();
         table.add(musicLabel).uniform().align(Align.left).padLeft(20);
-        table.add(music).align(Align.left).fill();
+        table.add(music).align(Align.left).fillY();
         table.row();
         table.add(sfxLabel).uniform().align(Align.left).padLeft(20);
-        table.add(sfx).align(Align.left).fill();
+        table.add(sfx).align(Align.left).fillY();
         table.row();
         table.add(volumeLabel).uniform().align(Align.left).padLeft(20);
-        table.add(volume).align(Align.left).fill().expand();
+        table.add(volume).align(Align.left).fill().expandX();
         table.row();
-        table.add(back).uniform().left().spaceTop(25).pad(5);
-        table.add(apply).uniform().right().spaceTop(25).pad(5);
+        table.add(back).uniform().left().pad(5);
+        table.add(apply).uniform().right().pad(5);
     }
 
     @Override

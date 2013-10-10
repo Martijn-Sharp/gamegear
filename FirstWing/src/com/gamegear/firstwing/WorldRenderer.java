@@ -112,6 +112,7 @@ public class WorldRenderer {
 	
 	public void changeAfterBurnerColor(ColorEnum color)
 	{
+		behindShip = game.level.getPlayer().getBody().getWorldPoint(new Vector2(-0.3f,0));
 		if(p == null)
 		{
 			p = new HashMap<ColorEnum, ParticleEffect>();
@@ -153,15 +154,10 @@ public class WorldRenderer {
 		effect.update(this.timestep);
 		
 		effects.add(effect);
-//		prototype.reset();
-//		prototype.setPosition(x,y);
-//		prototype.start();
-//		System.out.println("Effect restarting");
 	}
 	
 	public void render(GameState state, SpriteBatch batch) {
 		this.timestep = state == GameState.Running ? Gdx.graphics.getDeltaTime() : 0f;
-		//Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		moveCamera(game.level.getPlayer().getBody().getWorldCenter().x, game.level.getPlayer().getBody().getWorldCenter().y, game.level.getSpeed(cameraX));
 		
 		if(this.changeBackgroundColor){
@@ -175,7 +171,7 @@ public class WorldRenderer {
         
         batch.begin();
 			for(Sprite bg : game.level.getBackground()){
-				if(bg.getX() - cam.position.x < (int)CAMERA_WIDTH && bg.getX() - cam.position.x > -(int)CAMERA_WIDTH){
+				if(bg.getX() - cam.position.x < (int)CAMERA_WIDTH + 1 && bg.getX() - cam.position.x > -(int)CAMERA_WIDTH - 1){
 					bg.draw(batch);
 				}
 			}
@@ -192,8 +188,11 @@ public class WorldRenderer {
 					float width = actor.getWidth();
 					float height = actor.getHeight();
 					float scale = actor.getScale();
-					
-					if(position.x - cam.position.x < (int)CAMERA_WIDTH && position.x - cam.position.x > -(int)CAMERA_WIDTH){
+					if (position.x - cam.position.x < (int) CAMERA_WIDTH / 2 + 1
+						&& position.x - cam.position.x > -(int) CAMERA_WIDTH / 2 - 1
+						&& position.y - cam.position.y < (int) CAMERA_HEIGHT /2 + 1
+						&& position.y - cam.position.y > -(int) CAMERA_HEIGHT / 2 - 1
+						) {
 						try{
 							batch.draw(
 								actor.getTexture(),
@@ -212,7 +211,10 @@ public class WorldRenderer {
 						}
 					}
 					
-					actor.update(Gdx.graphics.getDeltaTime());
+					if(actor.isAnimation())
+					{
+						actor.update(Gdx.graphics.getDeltaTime());
+					}
 				}
 			}
 			
@@ -232,14 +234,8 @@ public class WorldRenderer {
 			p.get(activeAfterburner).draw(batch, this.timestep);
 		batch.end();
 		//debugRenderer.render(world.getWorld(), cam.combined);
-		//Gdx.app.log("Stats", "active: " + effects.size + " | max: " + pool.max);
 		
 		game.world.step(this.timestep, 3, 3);
-	}
-	
-	public void draw(SpriteBatch batch, float parentAlpha){
-		//prototype.draw(batch);
-		p.get(activeAfterburner).draw(batch);
 	}
 	
 	public void moveCamera(float x,float y, float speed){
@@ -247,7 +243,6 @@ public class WorldRenderer {
 			this.sourceBgColor = this.currentBgColor;
 			this.targetBgColor = this.getColor((int)speed);
 			this.changeBackgroundColor = true;
-			//this.changeAfterBurnerColor((int)speed);
 		}
 		
 		this.currentSpeed = speed;
@@ -257,16 +252,10 @@ public class WorldRenderer {
 		else if(y - 3 < 0) { cameraY = 3f; }
 		else { cameraY = y; }
 		
-		//Cap camera at the sides
-//		if(x + 5 > world.level.getWidth()){cameraX = world.level.getWidth() - 5;}
-//		else if(x - 5 < 0) {cameraX = 5;}
-//		else{cameraX = x;}
-		
 		//Move camera with speed
 		cameraX += this.timestep * currentSpeed;
 		
-		//Gdx.app.log("Camera", "X:" + cameraX + "," + x + " Y:" + cameraY + "," + y);
-		if(speed >= 3)
+		if(speed > 2.5f)
 		{
 			cam.position.set(cameraX + (float)(Math.random() - 0.5)/25, cameraY + (float)(Math.random() - 0.5)/25, 0);
 		}
@@ -299,12 +288,9 @@ public class WorldRenderer {
 	    this.step += this.timestep;
 	    float percentComplete = this.step / this.maxtime;
 	    float percentGone = 1 - percentComplete;
-	    float red = this.sourceBgColor.r * percentGone + this.targetBgColor.r * percentComplete;
-	    float green = this.sourceBgColor.g * percentGone + this.targetBgColor.g * percentComplete;
-	    float blue = this.sourceBgColor.b * percentGone + this.targetBgColor.b * percentComplete;
-	    float alpha = this.sourceBgColor.a * percentGone + this.targetBgColor.a * percentComplete;
-	    
-	    this.currentBgColor = new Color(red, green, blue, alpha);
+	    currentBgColor.r = this.sourceBgColor.r * percentGone + this.targetBgColor.r * percentComplete;
+	    currentBgColor.g = this.sourceBgColor.g * percentGone + this.targetBgColor.g * percentComplete;
+	    currentBgColor.b = this.sourceBgColor.b * percentGone + this.targetBgColor.b * percentComplete;
 	}
 	
 	public OrthographicCamera getCam() {

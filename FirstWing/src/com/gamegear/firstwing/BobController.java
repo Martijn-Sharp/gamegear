@@ -80,21 +80,6 @@ public class BobController implements GestureListener, InputProcessor {
 
 	@Override
 	public boolean fling(float velocityX, float velocityY, int button) {
-		// TODO Auto-generated method stub
-//		if(velocityX > 1000 || velocityY > 1000)
-//		{
-//			Gdx.app.log("GestureDetectorTest", "Fling x: " + velocityX + " y:" + velocityY);
-//			System.out.println("GestureDetectorTest");
-//			bob.getBody().setAngularVelocity(-10);
-//			return true;
-//		}
-//		else if(velocityX < -1000 || velocityY < -1000)
-//		{
-//			Gdx.app.log("GestureDetectorTest", "Fling x: " + velocityX + " y:" + velocityY);
-//			System.out.println("GestureDetectorTest");
-//			bob.getBody().setAngularVelocity(10);
-//			return true;
-//		}
 		return false;
 	}
 
@@ -207,80 +192,78 @@ public class BobController implements GestureListener, InputProcessor {
 
 	@Override
 	public boolean touchDragged(int x, int y, int pointer) {
-		if(getPointerCount() >= 2)
-		{
-			//CURRENTLY SUPPORTS 2 FINGERS
-			int gesturePointer;
-			if(dpadPointer == 0)
-			{
-				gesturePointer = 1;
-			}
-			else
-			{
-				gesturePointer = 0;
-			}
-			
-			int secondX = Gdx.input.getX(gesturePointer);
-			int secondY = Gdx.input.getY(gesturePointer);
-			if(!gestureTracking && Gdx.input.isTouched(gesturePointer))
-			{
-				tracker.start(secondX, secondY, Gdx.input.getCurrentEventTime());
-				Gdx.app.log("Fling", "Fling start x:" + secondX + " y:" + secondY);
-				gestureTracking = true;
-				return false;
-			}
-			else if (gestureTracking && Gdx.input.isTouched(gesturePointer) && Gdx.input.getCurrentEventTime() - tracker.lastTime <= flingDelay)
-			{
-				tracker.update(secondX, secondY, Gdx.input.getCurrentEventTime());
-				//Gdx.app.log("Fling", "Fling update  x:" + secondX + " y:" + secondY);
-				
-				//Check collisions with all Actors
-				//checkCollision(x, y, false);
-				
-				return false;
-			}
-			else if (gestureTracking && Gdx.input.isTouched(gesturePointer) && Gdx.input.getCurrentEventTime() - tracker.lastTime > flingDelay)
-			{
-				//tracker.update(secondX, secondY, Gdx.input.getCurrentEventTime());
-				gestureTracking = false;
-				//Gdx.app.log("Fling", "Fling end  xvel:" + tracker.getVelocityX() + " yvel:" + tracker.getVelocityY());
-				fling(tracker.getVelocityX(), tracker.getVelocityY(), 0);
-				
-				return false;
-			}
-			
-		}
+//		if(getPointerCount() >= 2)
+//		{
+//			//CURRENTLY SUPPORTS 2 FINGERS
+//			int gesturePointer;
+//			if(dpadPointer == 0)
+//			{
+//				gesturePointer = 1;
+//			}
+//			else
+//			{
+//				gesturePointer = 0;
+//			}
+//			
+//			int secondX = Gdx.input.getX(gesturePointer);
+//			int secondY = Gdx.input.getY(gesturePointer);
+//			if(!gestureTracking && Gdx.input.isTouched(gesturePointer))
+//			{
+//				tracker.start(secondX, secondY, Gdx.input.getCurrentEventTime());
+//				Gdx.app.log("Fling", "Fling start x:" + secondX + " y:" + secondY);
+//				gestureTracking = true;
+//				return false;
+//			}
+//			else if (gestureTracking && Gdx.input.isTouched(gesturePointer) && Gdx.input.getCurrentEventTime() - tracker.lastTime <= flingDelay)
+//			{
+//				tracker.update(secondX, secondY, Gdx.input.getCurrentEventTime());
+//				//Gdx.app.log("Fling", "Fling update  x:" + secondX + " y:" + secondY);
+//				
+//				//Check collisions with all Actors
+//				//checkCollision(x, y, false);
+//				
+//				return false;
+//			}
+//			else if (gestureTracking && Gdx.input.isTouched(gesturePointer) && Gdx.input.getCurrentEventTime() - tracker.lastTime > flingDelay)
+//			{
+//				//tracker.update(secondX, secondY, Gdx.input.getCurrentEventTime());
+//				gestureTracking = false;
+//				//Gdx.app.log("Fling", "Fling end  xvel:" + tracker.getVelocityX() + " yvel:" + tracker.getVelocityY());
+//				fling(tracker.getVelocityX(), tracker.getVelocityY(), 0);
+//				
+//				return false;
+//			}
+//			
+//		}
 		
-		dpadX = x; 
-		dpadY = y;
-			
-		linImpulseY = Gdx.graphics.getDeltaTime() * ((dpadCenterY - y) * (1 * (FirstWing.options.getSensitivity() + 1)));
-			
-		//Check if going out of map
-		if(screen.renderer.cameraX - 4f <= screen.level.getPlayer().getPosition().x || -(dpadCenterX - x) > 0)
+		if(dpadPointer == pointer)
 		{
-			//linImpulseX = Gdx.graphics.getDeltaTime() * (-(dpadCenterX - x) * dpadSpeed);
+			dpadX = x;
+			dpadY = y;
+
+			linImpulseY = Gdx.graphics.getDeltaTime()
+					* ((dpadCenterY - y) * (1 * (FirstWing.options
+							.getSensitivity() + 1)));
+
+			// Check if going out of map
+			if (screen.renderer.cameraX - 4f <= screen.level.getPlayer()
+					.getPosition().x || -(dpadCenterX - x) > 0) {
+			} else {
+				linImpulseX = 0;
+				return false;
+			}
+			if (screen.renderer.cameraX + 4f >= screen.level.getPlayer()
+					.getPosition().x || -(dpadCenterX - x) < 0) {
+			} else {
+				linImpulseX = 0;
+				return false;
+			}
+
+			linImpulseX = Gdx.graphics.getDeltaTime()
+					* (-(dpadCenterX - x) * (1 * (FirstWing.options
+							.getSensitivity() + 1)));
+
 		}
-		else
-		{
-			linImpulseX = 0;
-			//bob.getBody().setTransform(screen.renderer.cameraX - 4.5f, bob.getBody().getPosition().y, bob.getBody().getAngle());
-			//Gdx.app.log("Edge detection", "Edge left x: " + (screen.renderer.cameraX-5) + " Bob x:" + bob.getPosition().x);
-			return false;
-		}
-		if(screen.renderer.cameraX + 4f >= screen.level.getPlayer().getPosition().x || -(dpadCenterX - x) < 0)
-		{
-			//linImpulseX = Gdx.graphics.getDeltaTime() * (-(dpadCenterX - x) * dpadSpeed);
-		}
-		else
-		{
-			linImpulseX = 0;
-			//bob.getBody().setTransform(screen.renderer.cameraX + 4.5f, bob.getBody().getPosition().y, bob.getBody().getAngle());
-			//Gdx.app.log("Edge detection", "Edge right x: " + (screen.renderer.cameraX+5) + " Bob x:" + bob.getPosition().x);
-			return false;
-		}
-			
-		linImpulseX = Gdx.graphics.getDeltaTime() * (-(dpadCenterX - x) * (1 * (FirstWing.options.getSensitivity() + 1)));
 		return false;
 	}
 

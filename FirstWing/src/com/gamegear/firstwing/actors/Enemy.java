@@ -31,12 +31,8 @@ public class Enemy extends MoveableActor {
 	@Override
 	protected void loadTextures() {
 		this.drone = TextureMgr.getTexture(this.type, false);
-		TextureRegion[] deathFrames = new TextureRegion[6];
-		for(int i = 0; i < 6; i++){
-			deathFrames[i] = TextureMgr.getTexture(this.type + "-death" + i, false);
-		}
-		
-		this.deathAnimation = new Animation(0.05f, deathFrames);
+		this.deathAnimation = TextureMgr.getAnimation(this.type, 6, 0.05f, false);
+		this.animationEnabled = true;
 	}
 
 	@Override

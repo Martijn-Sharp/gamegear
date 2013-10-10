@@ -3,63 +3,63 @@ textures.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-breakable-wall-orange-death0
+tron-bottom-orange
   rotate: false
   xy: 1, 261
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-breakable-wall-orange-death1
+tron-empty-bottom-left-orange
   rotate: false
   xy: 1, 131
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-breakable-wall-orange-death2
+tron-empty-bottom-orange
   rotate: false
   xy: 131, 261
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-breakable-wall-orange-death3
+tron-empty-bottom-right-orange
   rotate: false
   xy: 1, 1
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-breakable-wall-orange
+tron-empty-left-orange
   rotate: false
   xy: 131, 131
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-bottom-orange
+tron-empty-left-top-orange
   rotate: false
   xy: 261, 261
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-empty-bottom-left-orange
+tron-empty-orange
   rotate: false
   xy: 131, 1
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-empty-bottom-orange
+tron-empty-right-orange
   rotate: false
   xy: 261, 131
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-empty-bottom-right-orange
+tron-empty-top-orange
   rotate: false
   xy: 261, 1
   size: 128, 128
@@ -71,63 +71,63 @@ textures2.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-tron-empty-left-orange
+tron-empty-top-right-orange
   rotate: false
   xy: 1, 261
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-empty-left-top-orange
+tron-full-middle-orange
   rotate: false
   xy: 1, 131
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-empty-orange
+tron-full-orange
   rotate: false
   xy: 131, 261
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-empty-right-orange
+tron-left-bottom-orange
   rotate: false
   xy: 1, 1
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-empty-top-orange
+tron-left-orange
   rotate: false
   xy: 131, 131
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-empty-top-right-orange
+tron-left-top-orange
   rotate: false
   xy: 261, 261
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-full-middle-orange
+tron-right-bottom-orange
   rotate: false
   xy: 131, 1
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-full-orange
+tron-right-orange
   rotate: false
   xy: 261, 131
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
-tron-left-bottom-orange
+tron-right-top-orange
   rotate: false
   xy: 261, 1
   size: 128, 128
@@ -139,44 +139,9 @@ textures3.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-tron-left-orange
-  rotate: false
-  xy: 1, 261
-  size: 128, 128
-  orig: 128, 128
-  offset: 0, 0
-  index: -1
-tron-left-top-orange
-  rotate: false
-  xy: 1, 131
-  size: 128, 128
-  orig: 128, 128
-  offset: 0, 0
-  index: -1
-tron-right-bottom-orange
-  rotate: false
-  xy: 131, 261
-  size: 128, 128
-  orig: 128, 128
-  offset: 0, 0
-  index: -1
-tron-right-orange
-  rotate: false
-  xy: 1, 1
-  size: 128, 128
-  orig: 128, 128
-  offset: 0, 0
-  index: -1
-tron-right-top-orange
-  rotate: false
-  xy: 131, 131
-  size: 128, 128
-  orig: 128, 128
-  offset: 0, 0
-  index: -1
 tron-top-orange
   rotate: false
-  xy: 261, 261
+  xy: 1, 1
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
