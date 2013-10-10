@@ -87,6 +87,7 @@ public class GameScreen extends MenuScreen {
 	private boolean finished;
 	private boolean finishedWindow;
 	private GameState currentState;
+	private Window pauseWindow;
 	
 	public GameScreen(FirstWing game, int levelPath)
 	{
@@ -107,7 +108,7 @@ public class GameScreen extends MenuScreen {
 		im = new InputMultiplexer(controller, gestureDetector);
 		Gdx.input.setInputProcessor(im);
 		
-		if (!FirstWing.audio.isEnabled()) {
+		if (!FirstWing.audio.isMusicEnabled()) {
 			FirstWing.audio.enableMusic();
 		}
 	}
@@ -144,6 +145,7 @@ public class GameScreen extends MenuScreen {
 		// Contact listener
 		createCollisionListener();
 		this.actorsForRemoval = new Array<Actor>();
+		this.pauseWindow = this.getPauseWindow();
 		loaded = true;
 		
 		Gdx.app.log("GameLoad", "Finished loading");
@@ -283,7 +285,7 @@ public class GameScreen extends MenuScreen {
 		//renderFPS();
 		
 		//Handle playlist
-		if(FirstWing.audio.isEnabled())
+		if(FirstWing.audio.isMusicEnabled())
 		{
 			FirstWing.audio.handleMusic();
 		}
@@ -428,7 +430,7 @@ public class GameScreen extends MenuScreen {
         	temp.getBody().setBullet(true);
         	temp.getBody().setLinearVelocity(10,0);
         	bullets.add(temp);
-        	FirstWing.audio.sounds.get("laser").play(FirstWing.options.getVolume());
+        	FirstWing.audio.playSound("laser");
         }
 	}
 	
@@ -493,7 +495,7 @@ public class GameScreen extends MenuScreen {
                     		if(!actorsForRemoval.contains(collisionEnemy, true))
                         	{
                     			renderer.callParticleSystem(collisionEnemy.getBody().getWorldCenter().x, collisionEnemy.getBody().getWorldCenter().y);
-                    			FirstWing.audio.sounds.get("explosion").play(FirstWing.options.getVolume());
+                    			FirstWing.audio.playSound("explosion");
                     			FirstWing.stats.addScore(10f);
                     			collisionEnemy.setState(ActorState.DYING, true);
                     			actorsForRemoval.add(collisionEnemy);
@@ -506,7 +508,7 @@ public class GameScreen extends MenuScreen {
                         	{
                     			collisionBlock.setState(ActorState.DYING, true);
                     			actorsForRemoval.add(collisionBlock);
-                    			FirstWing.audio.sounds.get("explosion").play(FirstWing.options.getVolume());
+                    			FirstWing.audio.playSound("explosion");
                         	}
                     	}
                 	}
@@ -553,20 +555,22 @@ public class GameScreen extends MenuScreen {
                 			collisionOrb.setState(ActorState.DYING, true);
                     		actorsForRemoval.add(collisionOrb);
                     	}
-                	} else if(collisionOrb == null && collisionBullet == null && collisionAlienHead == null && timeSinceDamage + 1000 < System.currentTimeMillis()){
-                		timeSinceDamage = System.currentTimeMillis();
-                		collisionBob.setHealth(collisionBob.getHealth() - 5);
                 	} else if(collisionAlienHead != null){
                 		FirstWing.stats.setTrophy(true);
                 		if(!actorsForRemoval.contains(collisionAlienHead, true)){
                 			collisionAlienHead.setState(ActorState.DYING, true);
                 			actorsForRemoval.add(collisionAlienHead);
                 		}
+                	} else if(collisionEnemy != null && timeSinceDamage + 1000 < System.currentTimeMillis()){
+                		if(collisionEnemy.getState() == ActorState.ALIVE){
+	                		timeSinceDamage = System.currentTimeMillis();
+	                		collisionBob.setHealth(collisionBob.getHealth() - 5);
+                		}
                 	}
                 	
                 	if(collisionBob.getHealth() <= 0){
                 		markedForRestart = true;
-                		FirstWing.audio.sounds.get("explosion").play(FirstWing.options.getVolume());
+                		FirstWing.audio.playSound("explosion");
                 	}
                 }
             }
@@ -709,7 +713,9 @@ public class GameScreen extends MenuScreen {
 	
 	public Window getVictoryWindow(){
 		final Window window = this.getStandardWindow("Victory!");
-		window.setSize(this.stage.getWidth() / 1.5f, this.stage.getHeight() / 1.5f);
+		float width = this.stage.getWidth() / 1.5f < 320f ? 320f : this.stage.getWidth() / 1.5f;
+		float height = this.stage.getHeight() / 1.5f < 200f ? 200f: this.stage.getHeight() / 1.5f;
+		window.setSize(width, height);
 		window.setPosition(this.stage.getWidth() / 2 - window.getWidth() / 2, this.stage.getHeight() / 2 - window.getHeight() / 2);
 		TextButton btnReplay = new TextButton("Replay", this.getSkin());
 		btnReplay.addListener(new ClickListener(){
@@ -808,7 +814,9 @@ public class GameScreen extends MenuScreen {
 	
 	public Window getPauseWindow(){
 		final Window window = this.getStandardWindow("Paused!");
-		window.setSize(this.stage.getWidth() / 1.5f, this.stage.getHeight() / 1.5f);
+		float width = this.stage.getWidth() / 1.5f < 320f ? 320f : this.stage.getWidth() / 1.5f;
+		float height = this.stage.getHeight() / 1.5f < 200f ? 200f: this.stage.getHeight() / 1.5f;
+		window.setSize(width, height);
 		window.setPosition(this.stage.getWidth() / 2 - window.getWidth() / 2, this.stage.getHeight() / 2 - window.getHeight() / 2);
 		TextButton btnReplay = new TextButton("Restart", this.getSkin());
 		btnReplay.addListener(new ClickListener(){
@@ -859,13 +867,34 @@ public class GameScreen extends MenuScreen {
 		windowStyle.titleFont = this.popupFont;
 		window.padTop(this.popupFont.getCapHeight() + 30f);
 		window.setStyle(windowStyle);
-		window.setSize(this.stage.getWidth() / 2f, this.stage.getHeight() / 2.5f);
+		float width = this.stage.getWidth() / 2f < 200f ? 200f : this.stage.getWidth() / 2f;
+		float height = this.stage.getHeight() / 2.5f < 160f ? 160f: this.stage.getHeight() / 2.5f;
+		window.setSize(width, height);
 		window.setPosition(this.stage.getWidth() / 2 - window.getWidth() / 2, this.stage.getHeight() / 2 - window.getHeight() / 2);
 		window.setMovable(false);
 		return window;
 	}
 	
-	public void getWindow()
+	public void handleReturn(){
+		switch(this.currentState){
+			case Begin:
+				break;
+			case Paused:
+				this.stage.getActors().removeValue(this.pauseWindow, true);
+				Gdx.input.setInputProcessor(this.im);
+				this.currentState = GameState.Running;
+				break;
+			case Running:
+				this.stage.addActor(this.pauseWindow);
+				Gdx.input.setInputProcessor(stage);
+				this.currentState = GameState.Paused;
+				break;
+			default:
+				break;
+		}
+	}
+	
+	private void getWindow()
 	{
 		this.stage.addActor(this.getPauseWindow());
 		Gdx.input.setInputProcessor(stage);

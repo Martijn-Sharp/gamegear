@@ -305,7 +305,7 @@ public class BobController implements GestureListener, InputProcessor {
 	@Override
 	public boolean keyDown(int keycode) {
 		if(keycode == Keys.BACK || keycode == Keys.ESCAPE){
-			screen.getWindow();
+			screen.handleReturn();
 	    }
 	    return false;
 	}

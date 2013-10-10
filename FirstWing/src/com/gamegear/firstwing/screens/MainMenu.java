@@ -143,4 +143,9 @@ public class MainMenu extends MenuScreen{
     public void dispose() {
             super.dispose();
     }
+
+	@Override
+	protected void handleReturn() {
+		Gdx.app.exit();
+	}
 }

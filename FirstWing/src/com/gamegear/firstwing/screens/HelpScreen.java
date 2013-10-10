@@ -115,4 +115,22 @@ public HelpScreen(FirstWing firstwing, int level) {
 		helpTexture.dispose();
 	}
 
+	@Override
+	protected void handleReturn() {
+		if (level != -1) {
+			if(!firstwing.gameScreen.isLoaded())
+			{
+				firstwing.gameScreen.load(level);
+				firstwing.setScreen(firstwing.gameScreen);
+			}
+			else
+			{
+				firstwing.gameScreen.loadLevel(level);
+				firstwing.setScreen(firstwing.gameScreen);
+			}
+		} else {
+			firstwing.setScreen(new MainMenu(firstwing));
+		}
+	}
+
 }

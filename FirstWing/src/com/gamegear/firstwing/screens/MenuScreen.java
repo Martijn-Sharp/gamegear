@@ -1,6 +1,7 @@
 package com.gamegear.firstwing.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
@@ -36,7 +37,15 @@ public abstract class MenuScreen implements Screen {
 
     public MenuScreen(FirstWing firstWing) {
         this.firstWing = firstWing;
-        stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
+        stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true) {
+            @Override
+            public boolean keyDown(int keyCode) {
+            	if(keyCode == Keys.BACK || keyCode == Keys.ESCAPE){
+                    handleReturn();
+                }
+                return super.keyDown(keyCode);
+            }
+        };
         
         int adjustedFontSize = (int)(26 * (Gdx.graphics.getDensity()));
         font = gen.generateFont(adjustedFontSize);
@@ -114,4 +123,6 @@ public abstract class MenuScreen implements Screen {
     public FirstWing getGame() {
         return this.firstWing;
     }
+    
+    protected abstract void handleReturn();
 }

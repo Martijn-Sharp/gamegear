@@ -15,7 +15,8 @@ public class AudioManager {
 	public LinkedList<Music> music;
 	
 	public int currentlyPlaying;
-	public boolean enabled = false;
+	public boolean musicEnabled = false;
+	public boolean soundsEnabled = false;
 	
 	public AudioManager()
 	{
@@ -40,31 +41,37 @@ public class AudioManager {
 		music.add(Gdx.audio.newMusic(Gdx.files.internal("sounds/BergsmatarenLever.ogg")));
 	}
 	
+	public void playSound(String name){
+		if(FirstWing.options.sfxEnabled()){
+			this.sounds.get(name).play(FirstWing.options.getVolume());
+		}
+	}
+	
 	public void enableMusic()
 	{
 		if(FirstWing.options.musicEnabled())
 		{
 			music.get(currentlyPlaying).setVolume(FirstWing.options.getVolume());
 			music.get(currentlyPlaying).play();
-			enabled = true;
+			musicEnabled = true;
 		}
 	}
 	
 	public void disableMusic()
 	{
 		music.get(currentlyPlaying).stop();
-		enabled = false;
+		musicEnabled = false;
 	}
 	
-	public boolean isEnabled()
+	public boolean isMusicEnabled()
 	{
-		return enabled;
+		return musicEnabled;
 	}
 	
 	public void handleMusic()
 	{
 		//If song is finished
-		if(!music.get(currentlyPlaying).isPlaying() && FirstWing.options.musicEnabled() && enabled)
+		if(!music.get(currentlyPlaying).isPlaying() && FirstWing.options.musicEnabled() && musicEnabled)
 		{
 			if(music.size() > currentlyPlaying + 1)
 			{

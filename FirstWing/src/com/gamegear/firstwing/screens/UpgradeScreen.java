@@ -18,11 +18,8 @@ import com.gamegear.firstwing.FirstWing;
 import com.gamegear.firstwing.levels.json.LevelProperties.ColorEnum;
 
 public class UpgradeScreen extends MenuScreen{
-	
-	
 	private FirstWing game;
     
-
     public UpgradeScreen(FirstWing game) {
             super(game);
             this.game = game;
@@ -132,6 +129,12 @@ public class UpgradeScreen extends MenuScreen{
             super.dispose();
 
     }
+
+	@Override
+	protected void handleReturn() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 	

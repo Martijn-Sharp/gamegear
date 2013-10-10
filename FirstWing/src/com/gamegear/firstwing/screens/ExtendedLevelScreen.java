@@ -178,4 +178,9 @@ public class ExtendedLevelScreen extends MenuScreen {
     public void resume() {
             super.resume();
     }
+
+	@Override
+	protected void handleReturn() {
+		firstwing.setScreen(firstwing.mainScreen);
+	}
 }

@@ -7,7 +7,6 @@ import java.util.Map.Entry;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
-import com.gamegear.firstwing.actors.Enemy;
 import com.gamegear.firstwing.levels.json.LevelProperties.ColorEnum;
 
 public class Stats {

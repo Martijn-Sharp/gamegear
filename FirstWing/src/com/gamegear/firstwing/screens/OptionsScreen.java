@@ -74,7 +74,21 @@ public class OptionsScreen extends MenuScreen {
                 }
         });
         
-        music.getCells().get(0).size(14*Gdx.graphics.getDensity()*1.5f);
+        music.getCells().get(0).size(14 * Gdx.graphics.getDensity() * 1.5f);
+        
+        final Label sfxLabel = new Label("Sfx:", getSkin());
+        final CheckBox sfx = new CheckBox("", getSkin());
+        sfx.setChecked(FirstWing.options.sfxEnabled());
+        sfx.addListener(new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                        boolean b = sfx.isChecked();
+                        FirstWing.options.setSFX(b);
+                        sfxLabel.setText("Sfx:");
+                }
+        });
+        
+        sfx.getCells().get(0).size(14 * Gdx.graphics.getDensity() * 1.5f);
         
         final Label volumeLabel = new Label("Volume:", getSkin());
         final Slider volume = new Slider( 0f, 1f, 0.01f, false, getSkin(), "default-horizontal");
@@ -129,6 +143,9 @@ public class OptionsScreen extends MenuScreen {
         table.add(musicLabel).uniform().align(Align.left).padLeft(20);
         table.add(music).align(Align.left).fill();
         table.row();
+        table.add(sfxLabel).uniform().align(Align.left).padLeft(20);
+        table.add(sfx).align(Align.left).fill();
+        table.row();
         table.add(volumeLabel).uniform().align(Align.left).padLeft(20);
         table.add(volume).align(Align.left).fill().expand();
         table.row();
@@ -165,5 +182,10 @@ public class OptionsScreen extends MenuScreen {
     public void dispose() {
         super.dispose();
     }
+
+	@Override
+	protected void handleReturn() {
+		game.setScreen(firstWing.mainScreen);
+	}
 
 }

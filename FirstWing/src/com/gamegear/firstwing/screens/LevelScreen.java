@@ -116,4 +116,10 @@ public class LevelScreen extends MenuScreen {
 	public void dispose() {
 		super.dispose();
 	}
+
+	@Override
+	protected void handleReturn() {
+		// TODO Auto-generated method stub
+		
+	}
 }
