@@ -171,7 +171,11 @@ public class WorldRenderer {
         
         batch.begin();
 			for(Sprite bg : game.level.getBackground()){
-				if((bg.getX() - cam.position.x) < ((int)CAMERA_WIDTH + 1) && (bg.getX() - cam.position.x) > (-(int)CAMERA_WIDTH - 1)){
+				if(bg.getX() - cam.position.x < (int)CAMERA_WIDTH - 5
+					&& bg.getX() - cam.position.x > -((int)CAMERA_WIDTH - 1)
+					&& bg.getY() - cam.position.y < (int)CAMERA_HEIGHT - 4
+					&& bg.getY() - cam.position.y > -((int)CAMERA_HEIGHT + 1)
+					){
 					bg.draw(batch);
 				}
 			}

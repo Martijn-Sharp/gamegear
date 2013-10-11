@@ -133,7 +133,7 @@ public class GameScreen extends MenuScreen {
 	public void load(int levelPath)
 	{
 		Gdx.app.log("GameLoad", "Started to load");
-		this.currentState = GameState.Begin;
+		this.changeState(GameState.Begin);
 		this.levelPath = levelPath;
 		FirstWing.stats.levelID = levelPath;
 		// Bullet array
@@ -174,7 +174,7 @@ public class GameScreen extends MenuScreen {
 	{
 		this.levelPath = levelPath;
 		FirstWing.stats.levelID = levelPath;
-		this.currentState = GameState.Begin;
+		this.changeState(GameState.Begin);
 		
 		// Bullet array
 		bullets.clear();
@@ -245,61 +245,15 @@ public class GameScreen extends MenuScreen {
 	}
 	
 	public void setCurrentState(GameState state){
-		this.currentState = state;
+		this.changeState(state);
 	}
 
 	@Override
 	public void render(float delta) {
 		super.render(delta);
 		removeBodies();
-		switch(this.currentState){
-			case Begin:
-				break;
-			case Finished:
-				if(this.firstWing.platformInterface.getSignedIn())
-				{
-					// Completed first level
-					if(this.levelPath == 1)
-					{
-						this.firstWing.platformInterface.unlockAchievement("CgkIhpLNkp8BEAIQBA");
-					}
-					
-					FirstWing.stats.checkColorAchievement();
-				}
-				
-				FirstWing.stats.checkStars(level.getProperties().StarOne, level.getProperties().StarTwo);
-				clearNotification();
-				if(this.victoryWindow == null){
-					this.victoryWindow = this.getVictoryWindow();
-				}				
-				this.stage.addActor(this.victoryWindow);
-				Gdx.input.setInputProcessor(stage);
-				FirstWing.stats.resetScore(true);
-				this.currentState = GameState.Paused;
-				break;
-			case Reset:
-				clearNotification();
-				this.stage.addActor(this.deathWindow);
-				Gdx.input.setInputProcessor(stage);
-				this.currentState = GameState.Paused;
-				break;
-			case Paused:
-				clearNotification();
-				break;
-			case Running:
-				//Update input
-				this.controller.update(delta);
-				this.checkPlayerBounds();
-				
-				//Update Bob speed
-				this.level.getPlayer().getBody().setLinearVelocity(controller.linImpulseX + level.getSpeed(),controller.linImpulseY);
-				
-				//Update bullets
-				this.checkBulletFire();
-				this.moveEnemies();
-				break;
-			default:
-				break;
+		if(this.currentState == GameState.Running){
+			this.onRunning(delta);
 		}
 		
 		// Rendering
@@ -312,6 +266,68 @@ public class GameScreen extends MenuScreen {
 		if(FirstWing.audio.isMusicEnabled())
 		{
 			FirstWing.audio.handleMusic();
+		}
+	}
+	
+	public void onFinished(){
+		this.clearNotification();
+		if(this.firstWing.platformInterface.getSignedIn())
+		{
+			// Completed first level
+			if(this.levelPath == 1)
+			{
+				this.firstWing.platformInterface.unlockAchievement("CgkIhpLNkp8BEAIQBA");
+			}
+			
+			FirstWing.stats.checkColorAchievement();
+		}
+		
+		FirstWing.stats.checkStars(level.getProperties().StarOne, level.getProperties().StarTwo);
+		if(this.victoryWindow == null){
+			this.victoryWindow = this.getVictoryWindow();
+		}				
+		this.stage.addActor(this.victoryWindow);
+		Gdx.input.setInputProcessor(stage);
+		FirstWing.stats.resetScore(true);
+	}
+	
+	public void onDeath(){
+		this.clearNotification();
+		this.stage.addActor(this.deathWindow);
+		Gdx.input.setInputProcessor(stage);
+	}
+	
+	public void onPaused(){
+		this.clearNotification();
+	}
+	
+	public void onRunning(float delta){
+		//Update input
+		this.controller.update(delta);
+		this.checkPlayerBounds();
+		
+		//Update Bob speed
+		this.level.getPlayer().getBody().setLinearVelocity(controller.linImpulseX + level.getSpeed(),controller.linImpulseY);
+		
+		//Update bullets
+		this.checkBulletFire();
+		this.moveEnemies();
+	}
+	
+	public void changeState(GameState state){
+		this.currentState = state;
+		switch(state){
+			case Paused:
+				this.onPaused();
+				break;
+			case Reset:
+				this.onDeath();
+				break;
+			case Finished:
+				this.onFinished();
+				break;
+			default:
+				break;
 		}
 	}
 	
@@ -337,7 +353,7 @@ public class GameScreen extends MenuScreen {
 			controller.linImpulseX = 0;
 		}
 		else if(renderer.cameraX - 5f >= level.getPlayer().getPosition().x){
-			this.currentState = GameState.Reset;
+			this.changeState(GameState.Reset);
 		}
 		else{
 			//controller.linImpulseX = 0;
@@ -346,7 +362,7 @@ public class GameScreen extends MenuScreen {
 			controller.linImpulseX = 0;
 		}
 		else if(renderer.cameraX + 5f <= level.getPlayer().getPosition().x){
-			this.currentState = GameState.Reset;
+			this.changeState(GameState.Reset);
 		}
 		else{
 			//controller.linImpulseX = 0;
@@ -562,7 +578,7 @@ public class GameScreen extends MenuScreen {
 								setNotification("Ouch!", durationOuch);
 								break;
 							case Finish:
-								currentState = GameState.Finished;
+								changeState(GameState.Finished);
 								finishedWindow = true;
 								break;
 							case Tile:
@@ -604,7 +620,7 @@ public class GameScreen extends MenuScreen {
                 	}
                 	
                 	if(collisionBob.getHealth() <= 0){
-                		currentState = GameState.Reset;
+                		changeState(GameState.Reset);
                 		FirstWing.audio.playSound("explosion");
                 	}
                 }
@@ -691,8 +707,7 @@ public class GameScreen extends MenuScreen {
 	@Override
 	public void pause() {
 		super.pause();
-		
-		currentState = GameState.Paused;
+		this.changeState(GameState.Paused);
 	}
 
 	@Override
@@ -745,7 +760,7 @@ public class GameScreen extends MenuScreen {
 	public Window getVictoryWindow(){
 		final Window window = this.getStandardWindow("Victory!");
 		float width = this.stage.getWidth() / 1.5f < 320f ? 320f : this.stage.getWidth() / 1.5f;
-		float height = this.stage.getHeight() / 1.5f < 200f ? 200f: this.stage.getHeight() / 1.5f;
+		float height = this.stage.getHeight() / 1.5f < 240f ? 240f: this.stage.getHeight() / 1.5f;
 		window.setSize(width, height);
 		window.setPosition(this.stage.getWidth() / 2 - window.getWidth() / 2, this.stage.getHeight() / 2 - window.getHeight() / 2);
 		TextButton btnReplay = new TextButton("Replay", this.getSkin());
@@ -803,6 +818,7 @@ public class GameScreen extends MenuScreen {
 		if(this.starUnfilled == null){
 			this.starUnfilled = this.getSkin().getRegion("star-unfilled");
 		}
+		
 		Table starTable = new Table();
 		starTable.defaults().pad(5);
 		if (stars >= 0) {
@@ -817,36 +833,39 @@ public class GameScreen extends MenuScreen {
 		
 		if(stars < 1)
 		{
-			window.add(new Label("Ouch, not enough points!", this.getSkin())).colspan(4);
+			window.add(new Label("Ouch, not enough points!", this.getSkin())).colspan(2);
 			window.row();
-			window.add(new Label("Try to get orbs of the same color", this.getSkin())).colspan(4);
+			window.add(new Label("Try to get orbs of the same color", this.getSkin())).colspan(2);
 		}
 		else
 		{
-			window.add(new Label("Congratulations!", this.getSkin())).colspan(4);
+			window.add(new Label("Congratulations!", this.getSkin())).colspan(2);
 		}
 		
 		window.row();
-		window.add(new Label("You scored: " + FirstWing.stats.getScore(), this.getSkin())).colspan(4);
+		window.add(new Label("You scored: " + FirstWing.stats.getScore(), this.getSkin())).colspan(2);
 		window.row();
 		if(FirstWing.stats.getTrophy())
 		{
-			window.add(new Label("You got the trophy!", this.getSkin())).colspan(4);
+			window.add(new Label("You got the trophy!", this.getSkin())).colspan(2);
 		}
 		else
 		{
-			window.add(new Label("You didn't get the trophy!", this.getSkin())).colspan(4);
+			window.add(new Label("You didn't get the trophy!", this.getSkin())).colspan(2);
 		}
+		
 		window.row();
-		window.add(starTable).height(30).colspan(4);
+		window.add(starTable).height(30).colspan(2);
 		window.row();
 		window.add(btnReplay);
 		window.add(btnMenu);
+		window.row();
 		window.add(btnScores);
 		if(stars > 0 || FirstWing.stats.getUnlockedLevels() > levelPath)
 		{
-			window.add(btnNextLevel);
+			window.add(btnNextLevel.pad(10));
 		}
+		
 		return window;
 	}
 	
@@ -882,7 +901,7 @@ public class GameScreen extends MenuScreen {
 			public void clicked(InputEvent event, float x, float y){
 				stage.getActors().removeValue(window, true);
 				//Resume level
-				currentState = GameState.Running;
+				changeState(GameState.Running);
 				Gdx.input.setInputProcessor(im);
 			}
 		});
@@ -918,7 +937,7 @@ public class GameScreen extends MenuScreen {
 			case Paused:
 				this.stage.getActors().removeValue(this.pauseWindow, true);
 				Gdx.input.setInputProcessor(this.im);
-				this.currentState = GameState.Running;
+				this.changeState(GameState.Running);
 				break;
 			case Running:
 				this.getWindow();
@@ -932,7 +951,7 @@ public class GameScreen extends MenuScreen {
 	{
 		this.stage.addActor(this.pauseWindow);
 		Gdx.input.setInputProcessor(stage);
-		this.currentState = GameState.Paused;
+		this.changeState(GameState.Paused);
 	}
 	
 	public boolean isLoaded() {
