@@ -144,7 +144,7 @@ public class Level {
 		FileHandle fileHandle;
 		fileHandle = Gdx.files.internal("levels/" + levelPath + ".dat");
 		
-		if(levelPath.isEmpty() || !fileHandle.exists())
+		if(levelPath.length() == 0 || !fileHandle.exists())
 		{
 			this.properties = new JSONLoader().getLevel(Gdx.files.internal("levels/1.dat"));
 		}
